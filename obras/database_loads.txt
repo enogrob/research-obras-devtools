@@ -1,0 +1,152 @@
+# Olímpia
+sftp deploy@homologolimpia.inmov.net.br:/data/obras/dbsync/production_database.sql
+
+ 
+
+# Rio Claro
+sftp deploy@homologrioclaro.inmov.net.br:/data/obras/dbsync/production_database.sql
+
+ 
+
+# Suzano
+sftp deploy@homologsuzano.inmov.net.br:/data/obras/dbsync/production_database.sql
+
+ 
+
+# Santo André
+sftp deploy@homologsantoandre.inmov.net.br:/data/obras/dbsync/production_database.sql
+
+[Yesterday 5:22 PM] Leandro Afonso da Silva
+    Eu já testei, mas preciso que você estejam familiarizado com a nova forma de pegar o banco
+​[Yesterday 5:23 PM] Leandro Afonso da Silva
+    Amanhã na daily vou explicar, mas preciso já ir passando alguma informações pro pessoal não fica perdido, tem alguns truques que falo amanhã
+​[Yesterday 5:24 PM] Leandro Afonso da Silva
+    Atualizar - faz um dump do banco de produção para produção
+​[Yesterday 5:24 PM] Leandro Afonso da Silva
+    Carregar - leva o banco de produção para homolog, apaga o banco, criar o banco, carregar o banco e apaga todas as senhas
+​[Yesterday 5:25 PM] Leandro Afonso da Silva
+    Rodar migração e alimentação - roda o migrate e seeds
+​[Yesterday 5:25 PM] Leandro Afonso da Silva
+    As datas tão pegando pela modificação do arquivo no Atualizar e Carregar. Agora todas tão a do carregar, mas eu vou arrumar isso
+​[Yesterday 5:26 PM] Leandro Afonso da Silva
+    Então tanto os desenvolvedores como quem for testar algo precisa clicar nos 3 botões, e quem for baixar o banco roda aquele comando FTP depois de fazer isso
+
+[Yesterday 5:34 PM] Leandro Afonso da Silva
+    Arquivos .sh para facilitar. Se quiserem deixar no PC é só colocar sh dbsync_nome_da_prefeitura.sh. Exemplo: sh dbsync_olimpia.sh
+[dbsync_olimpia.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/dbsync_olimpia.sh)[dbsync_rioclaro.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/dbsync_rioclaro.sh)[dbsync_santoandre.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/dbsync_santoandre.sh)[dbsync_suzano.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/dbsync_suzano.sh)​[Yesterday 5:37 PM] Leandro Afonso da Silva
+    Script para acessar os servidores
+[demo_app_server.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/demo_app_server.sh)[demo_db_server.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/demo_db_server.sh)[homolog_olimpia.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/homolog_olimpia.sh)[homolog_rioclaro.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/homolog_rioclaro.sh)[homolog_santoandre.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/homolog_santoandre.sh)[homolog_suzano.sh] (https://eicontecnogroup-my.sharepoint.com/personal/leandro_afonso_tecnogroup_com_br/Documents/Microsoft Teams Chat Files/homolog_suzano.sh)​[Yesterday 5:38 PM] Leandro Afonso da Silva
+    Só lembrando tudo só vai funcionar se o SSH da sua maquina tiver cadastrado e aplicado no EngineYard
+​[Yesterday 5:44 PM] Leandro Afonso da Silva
+    Os códigos ficaram:
+
+
+# Código de Produção
+
+
+# Fazendo backup do banco
+system("cd /data/obras/dbsync && mysqldump -u root obras > production_database.sql")
+
+
+[Yesterday 5:44 PM] Leandro Afonso da Silva
+    
+# Código de Homolog
+
+
+# Abrindo conexão com servidor de produção e colocando na pasta dbsync e download
+system("cd /data/obras/dbsync && sftp deploy@rioclaro.inmov.net.br:/data/obras/dbsync/production_database.sql")
+
+
+# Apagar, criar, carregar banco e troca senha
+system("cd /data/obras/dbsync && mysql -u root < drop_create_load_db_and_change_password.sql")
+
+
+
+​[Yesterday 5:45 PM] Leandro Afonso da Silva
+    
+# Apagando banco obras 
+DROP DATABASE obras;
+
+
+# Criando banco obras
+CREATE DATABASE obras;
+
+
+# Usar banco obras
+use obras;
+
+
+# Rodando o novo banco
+source production_database.sql;
+
+
+# Rodando apagar senha e tirar envio de email
+source change_password_and_email_notification_zero.sql;
+
+
+
+
+
+​[Yesterday 5:45 PM] Leandro Afonso da Silva
+    
+  # Acontece em produção - Baixar banco de produção
+  def dump
+      if Rails.env.production? || Rails.env.rioclaro? || Rails.env.production_suzano? || Rails.env.production_santoandre?
+      load "/data/obras/dbsync/database_dump.rb"
+    end
+
+
+    redirect_to @url_homolog
+  end
+
+
+  # Acontece em homolog - Rodar banco de produção em homolog
+  def get_and_load
+      if Rails.env.homolog_olimpia? || Rails.env.homolog_rioclaro? || Rails.env.homolog_suzano? || Rails.env.homolog_santoandre?
+        load "/data/obras/dbsync/database_load.rb"
+      end
+
+
+    redirect_to admin_database_loads_path
+  end
+
+
+  # Acontece em homolog - Rodar migração e alimentação do banco
+  def migrate_and_seed
+    if Rails.env.homolog_olimpia? || Rails.env.homolog_rioclaro? || Rails.env.homolog_suzano? || Rails.env.homolog_santoandre?
+      system("bundle exec rake db:migrate db:seed")
+    end
+
+
+    redirect_to admin_database_loads_path
+  end
+
+
+
+
+
+
+​[Yesterday 5:46 PM] Leandro Afonso da Silva
+    Por motivo de segurança o código fica na pasta do servidor. Porque se confundir o banco de homolog e produção apaga o banco todo de produção
+​[Yesterday 5:47 PM] Leandro Afonso da Silva
+    Mesmo que faça deploy não pede o banco sincronizado porque ele não é baixado para pasta do código da aplicação. Ele tem uma pasta separada
+​[Yesterday 6:16 PM] Leandro Afonso da Silva
+    Coloquei em homolog para teste:
+
+
+Correcao@299 erro ao exibir a grid endereços
+!1287 · opened 1 hour ago by Roberto Luiz Martins Nogueira
+
+
+Error@326 correção relatório padrão técnico
+!1286 · opened 7 hours ago by Francisco Rodrigues
+
+
+​[Yesterday 6:17 PM] Leandro Afonso da Silva
+    Não precisa ser testado hoje, pode ficar para amanhã. Meu dia foi corrido para poder conseguir ficar funcional a sincronização do banco
+​[Yesterday 6:19 PM] Leandro Afonso da Silva
+    Vou está trocando a senha amanhã a nova senha será:
+
+Bz324897!
+
+Quando eu trocar eu aviso aqui.
