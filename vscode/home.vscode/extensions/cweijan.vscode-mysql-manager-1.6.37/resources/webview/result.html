@@ -1,0 +1,120 @@
+<html>
+
+<head>
+    <title>result</title>
+    <link rel="stylesheet" href="${webviewPath}/css/element.css">
+    <script src="${webviewPath}/js/vue.js"></script>
+    <script src="${webviewPath}/js/element.js"></script>
+    <style>
+        body {
+            background-color: #F7F7F7;
+            font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+        }
+
+        .hint {
+            padding: 5px;
+            font-size: 17px;
+            color: #444;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .cell {
+            overflow: hidden !important;
+            text-overflow: unset !important;
+            white-space: nowrap !important;
+            user-select: text !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="hint">
+            <el-row style="margin-bottom: 10px;">
+                <el-input type="textarea" autosize v-model="result.sql" style="width: 600px;"></el-input>
+            </el-row>
+            <el-row>
+                <el-cow>
+                    <el-input v-model="search" style="width:200px" placeholder="Type to search" />
+                </el-cow>
+                <el-cow>
+                    <el-button type="danger" @click='execute' >Execute</el-button>
+                </el-cow>
+                <el-cow>
+                    <span>costTime: </span><span v-text="result.costTime"></span>ms,
+                    <span>row: {{result.rows.length}}, Col: {{columnCount}}</span>
+                </el-cow>
+            </el-row>
+        </div>
+        <el-table id="dataTable" v-loading='loading' size='small' highlight-current-row='true'
+            :data="result.rows.filter(data => !search || JSON.stringify(data).toLowerCase().includes(search.toLowerCase()))"
+            style="width: 100%" border @cell-click="celledit">
+            <el-table-column :label="key" v-for="(value,key) in result.rows[0]" :key="key" show-overflow-tooltip
+                align="center">
+                <template slot-scope="scope">
+                    <span v-html='dataformat(scope.row[key])'></span>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+</body>
+
+<script>
+    const vscode = acquireVsCodeApi();
+    const previousState = vscode.getState();
+    const vue = new Vue({
+        el: '#app',
+        data: {
+            result: previousState ? previousState.result : {
+                rows: [],
+                sql: '',
+                costTime: 0
+            },
+            search: '',
+            loading: false
+        },
+        methods: {
+            celledit(row, column, cell, event) {
+                // cell.contentEditable = true;
+                // cell.focus()
+            },
+            execute() {
+                vscode.postMessage({
+                    type: 'execute',
+                    sql: this.result.sql
+                });
+                if (!this.result.sql.match(/^(alter|create|drop|delete|update|insert)/ig)) {
+                    this.loading = true;
+                }
+            },
+            deleteTemplate() {
+                this.result.sql = `DELETE FROM [table] WHERE id= `;
+            },
+            dataformat(origin) {
+                if (origin == undefined || origin == null) {
+                    return "<b>(NULL)</b>";
+                }
+                return origin;
+            }
+        },
+        computed: {
+            columnCount() {
+                if (this.result.rows == undefined || this.result.rows[0] == undefined) return 0;
+                return Object.keys(this.result.rows[0]).length;
+            }
+        }
+    })
+
+    window.addEventListener('message', event => {
+        vue.result.rows = event.data.data
+        vue.result.sql = event.data.sql
+        vue.result.costTime = event.data.costTime
+        vue.loading = false
+        // instead by retainContextWhenHidden=true
+        // vscode.setState({ result: vue.result });
+        document.write(previousState + ":" + count)
+    });
+</script>
+
+</html>

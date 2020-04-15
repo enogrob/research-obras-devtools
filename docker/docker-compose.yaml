@@ -1,0 +1,118 @@
+# (C) 2020 Crafted by Roberto Nogueira
+# email : roberto.nogueira@tecnogrupo.com.br.com
+# trello: robertonogueira17
+
+version: '3'
+
+services:
+  olimpia:
+    container_name: olimpia
+    build: .
+    image: olimpia
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - "3002:3000"
+    tmpfs: /usr/src/app/tmp/pids
+    volumes:
+      - .:/usr/src/app
+      - bundle:/bundle
+    env_file:
+      - .env/development/db
+      - .env/development/olimpia
+    networks:
+      docker:
+        ipv4_address: 172.30.0.2
+
+  rioclaro:
+    container_name: rioclaro
+    build: .
+    image: rioclaro
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - "3003:3000"
+    tmpfs: /usr/src/app/tmp/pids
+    volumes:
+      - .:/usr/src/app
+      - bundle:/bundle
+    env_file:
+      - .env/development/db
+      - .env/development/rioclaro
+    networks:
+      docker:
+        ipv4_address: 172.30.0.3
+
+  suzano:
+    container_name: suzano
+    build: .
+    image: suzano
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - "3004:3000"
+    tmpfs: /usr/src/app/tmp/pids
+    volumes:
+      - .:/usr/src/app
+      - bundle:/bundle
+    env_file:
+      - .env/development/db
+      - .env/development/suzano
+    networks:
+      docker:
+        ipv4_address: 172.30.0.4
+
+  santoandre:
+    container_name: santoandre
+    build: .
+    image: santoandre
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - "3005:3000"
+    tmpfs: /usr/src/app/tmp/pids
+    volumes:
+      - .:/usr/src/app
+      - bundle:/bundle
+    env_file:
+      - .env/development/db
+      - .env/development/santoandre
+    networks:
+      docker:
+        ipv4_address: 172.30.0.5
+
+  demo:
+    container_name: demo
+    build: .
+    image: demo
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - "3013:3000"
+    tmpfs: /usr/src/app/tmp/pids
+    volumes:
+      - .:/usr/src/app
+      - bundle:/bundle
+    env_file:
+      - .env/development/db
+      - .env/development/demo
+    networks:
+      docker:
+        ipv4_address: 172.30.0.13
+
+  db:
+    container_name: db
+    image: mysql:5.7.23
+    env_file:
+      - .env/development/db
+    volumes:
+      - db-data:/var/lib/mysql/
+    networks:
+      docker:
+        ipv4_address: 172.30.0.15
+
+volumes:
+  db-data:
+  bundle:
+
+networks:
+  docker:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/16

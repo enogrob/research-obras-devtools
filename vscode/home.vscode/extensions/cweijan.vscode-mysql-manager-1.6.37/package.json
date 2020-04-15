@@ -1,0 +1,594 @@
+{
+	"name": "vscode-mysql-manager",
+	"displayName": "MySQL",
+	"description": "MySQL management tool",
+	"version": "1.6.37",
+	"publisher": "cweijan",
+	"icon": "logo.png",
+	"engines": {
+		"vscode": "^1.30.0"
+	},
+	"categories": [
+		"Programming Languages",
+		"Keymaps"
+	],
+	"keywords": [
+		"SQL",
+		"MySQL",
+		"Database",
+		"DB",
+		"RDBMS"
+	],
+	"bugs": {
+		"url": "https://github.com/cweijan/vscode-mysql/issues",
+		"email": "cweijan@163.com"
+	},
+	"homepage": "https://github.com/cweijan/vscode-mysql/blob/master/README.md",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cweijan/vscode-mysql.git"
+	},
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension",
+	"contributes": {
+		"grammars": [
+			{
+				"language": "sql",
+				"scopeName": "source.sql",
+				"path": "./syntaxes/mysql.tmLanguage.json"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "github-cweijan-mysql",
+					"title": "Mysql",
+					"icon": "resources/database-container.svg"
+				}
+			]
+		},
+		"views": {
+			"github-cweijan-mysql": [
+				{
+					"id": "github.cweijan.mysql",
+					"name": "MySQL"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "mysql.hisotry.open",
+				"title": "Open History",
+				"category": "MySQL",
+				"icon": "resources/history.svg"
+			},
+			{
+				"command": "mysql.refresh",
+				"title": "Refresh",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command": "mysql.addConnection",
+				"title": "Add Connection",
+				"icon": {
+					"light": "resources/light/add.svg",
+					"dark": "resources/dark/add.svg"
+				},
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.deleteConnection",
+				"title": "Delete Connection",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.addDatabase",
+				"title": "Add Database",
+				"icon": {
+					"light": "resources/light/add.svg",
+					"dark": "resources/dark/add.svg"
+				},
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.deleteDatabase",
+				"title": "Drop Database",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.runQuery",
+				"title": "Run MySQL Query",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/run.png",
+					"dark": "resources/dark/run.png"
+				}
+			},
+			{
+				"command": "mysql.newQuery",
+				"title": "New Query",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/query.svg",
+					"dark": "resources/dark/query.svg"
+				}
+			},
+			{
+				"command": "mysql.template.sql",
+				"title": "Select SQL Template",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.template.delete",
+				"title": "Delete SQL Template",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.data.import",
+				"title": "Import Data",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.data.export",
+				"title": "Export Data",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.copy.insert",
+				"title": "Insert SQL Template",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.copy.update",
+				"title": "Update SQL Template",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.table.truncate",
+				"title": "Clear Table Data",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.table.drop",
+				"title": "Delete table",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.changeTableName",
+				"title": "change table name",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/edit.svg",
+					"dark": "resources/dark/edit.svg"
+				}
+			},
+			{
+				"command": "mysql.index.template",
+				"title": "Index Manage Template",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.changeColumnName",
+				"title": "change column name",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/edit.svg",
+					"dark": "resources/dark/edit.svg"
+				}
+			},
+			{
+				"command": "mysql.column.add",
+				"title": "Add Column Template",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.column.update",
+				"title": "Modify Column Template",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.column.drop",
+				"title": "Drop column Template",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.template.view",
+				"title": "Create New View",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/add.svg",
+					"dark": "resources/dark/add.svg"
+				}
+			},
+			{
+				"command": "mysql.template.procedure",
+				"title": "Create New Procedure",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/add.svg",
+					"dark": "resources/dark/add.svg"
+				}
+			},
+			{
+				"command": "mysql.template.trigger",
+				"title": "Create New Trigger",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/add.svg",
+					"dark": "resources/dark/add.svg"
+				}
+			},
+			{
+				"command": "mysql.template.function",
+				"title": "Create New Function",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/add.svg",
+					"dark": "resources/dark/add.svg"
+				}
+			},
+			{
+				"command": "mysql.template.user",
+				"title": "Create New User",
+				"category": "MySQL",
+				"icon": {
+					"light": "resources/light/add.svg",
+					"dark": "resources/dark/add.svg"
+				}
+			},
+			{
+				"command": "mysql.delete.user",
+				"title": "Drop User",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.change.user",
+				"title": "Change User Password",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.delete.view",
+				"title": "Drop View",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.delete.procedure",
+				"title": "Drop Procedure",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.delete.function",
+				"title": "Drop Function",
+				"category": "MySQL"
+			},
+			{
+				"command": "mysql.delete.trigger",
+				"title": "Drop Trigger",
+				"category": "MySQL"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "mysql.runQuery",
+				"key": "f9",
+				"when": "editorLangId == sql"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "mysql.runQuery",
+					"when": "editorLangId == sql",
+					"group": "navigation"
+				}
+			],
+			"editor/title": [
+				{
+					"command": "mysql.runQuery",
+					"when": "editorLangId == sql",
+					"group": "navigation"
+				}
+			],
+			"view/title": [
+				{
+					"command": "mysql.addConnection",
+					"when": "view == github.cweijan.mysql",
+					"group": "navigation@2"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql",
+					"group": "navigation@1"
+				},
+				{
+					"command": "mysql.hisotry.open",
+					"when": "view == github.cweijan.mysql",
+					"group": "navigation@0"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "mysql.newQuery",
+					"when": "view == github.cweijan.mysql && viewItem == connection",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql && viewItem == connection",
+					"group": "2_mysql@1"
+				},
+				{
+					"command": "mysql.data.import",
+					"when": "view == github.cweijan.mysql && viewItem == connection",
+					"group": "3_mysql@1"
+				},
+				{
+					"command": "mysql.deleteConnection",
+					"when": "view == github.cweijan.mysql && viewItem == connection",
+					"group": "mysql@2"
+				},
+				{
+					"command": "mysql.newQuery",
+					"when": "view == github.cweijan.mysql && viewItem == connection",
+					"group": "inline@1"
+				},
+				{
+					"command": "mysql.addDatabase",
+					"when": "view == github.cweijan.mysql && viewItem == connection",
+					"group": "inline@0"
+				},
+				{
+					"command": "mysql.template.user",
+					"when": "view == github.cweijan.mysql && viewItem == userGroup",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql && viewItem == userGroup",
+					"group": "1_mysql@2"
+				},
+				{
+					"command": "mysql.template.user",
+					"when": "view == github.cweijan.mysql && viewItem == userGroup",
+					"group": "inline"
+				},
+				{
+					"command": "mysql.delete.user",
+					"when": "view == github.cweijan.mysql && viewItem == user",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.change.user",
+					"when": "view == github.cweijan.mysql && viewItem == user",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.newQuery",
+					"when": "view == github.cweijan.mysql && viewItem == database",
+					"group": "inline"
+				},
+				{
+					"command": "mysql.newQuery",
+					"when": "view == github.cweijan.mysql && viewItem == database",
+					"group": "2_mysql@0"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql && viewItem == database",
+					"group": "3_mysql"
+				},
+				{
+					"command": "mysql.deleteDatabase",
+					"when": "view == github.cweijan.mysql && viewItem == database",
+					"group": "4_mysql@5"
+				},
+				{
+					"command": "mysql.data.export",
+					"when": "view == github.cweijan.mysql && viewItem == database",
+					"group": "mysql@5"
+				},
+				{
+					"command": "mysql.data.import",
+					"when": "view == github.cweijan.mysql && viewItem == database",
+					"group": "mysql@6"
+				},
+				{
+					"command": "mysql.template.sql",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "1_mysql@0"
+				},
+				{
+					"command": "mysql.changeTableName",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "1_inline@0"
+				},
+				{
+					"command": "mysql.index.template",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "1_inline@1"
+				},
+				{
+					"command": "mysql.copy.insert",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.template.delete",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "1_mysql@3"
+				},
+				{
+					"command": "mysql.copy.update",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "1_mysql@2"
+				},
+				{
+					"command": "mysql.table.drop",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "2_mysql@4"
+				},
+				{
+					"command": "mysql.table.truncate",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "2_mysql@4"
+				},
+				{
+					"command": "mysql.data.export",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "mysql@5"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql && viewItem == table",
+					"group": "3_mysql@4"
+				},
+				{
+					"command": "mysql.changeColumnName",
+					"when": "view == github.cweijan.mysql && viewItem == column",
+					"group": "inline"
+				},
+				{
+					"command": "mysql.column.add",
+					"when": "view == github.cweijan.mysql && viewItem == column",
+					"group": "1_mysql@0"
+				},
+				{
+					"command": "mysql.column.update",
+					"when": "view == github.cweijan.mysql && viewItem == column",
+					"group": "2_mysql@0"
+				},
+				{
+					"command": "mysql.column.drop",
+					"when": "view == github.cweijan.mysql && viewItem == column",
+					"group": "3_mysql@0"
+				},
+				{
+					"command": "mysql.template.view",
+					"when": "view == github.cweijan.mysql && viewItem == viewGroup",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql && viewItem == viewGroup",
+					"group": "1_mysql@2"
+				},
+				{
+					"command": "mysql.template.view",
+					"when": "view == github.cweijan.mysql && viewItem == viewGroup",
+					"group": "inline"
+				},
+				{
+					"command": "mysql.delete.view",
+					"when": "view == github.cweijan.mysql && viewItem == view",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.template.procedure",
+					"when": "view == github.cweijan.mysql && viewItem == procedureGroup",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql && viewItem == procedureGroup",
+					"group": "1_mysql@2"
+				},
+				{
+					"command": "mysql.template.procedure",
+					"when": "view == github.cweijan.mysql && viewItem == procedureGroup",
+					"group": "inline"
+				},
+				{
+					"command": "mysql.delete.procedure",
+					"when": "view == github.cweijan.mysql && viewItem == procedure",
+					"group": "2_mysql@1"
+				},
+				{
+					"command": "mysql.template.function",
+					"when": "view == github.cweijan.mysql && viewItem == functionGroup",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql && viewItem == functionGroup",
+					"group": "1_mysql@2"
+				},
+				{
+					"command": "mysql.template.function",
+					"when": "view == github.cweijan.mysql && viewItem == functionGroup",
+					"group": "inline"
+				},
+				{
+					"command": "mysql.delete.function",
+					"when": "view == github.cweijan.mysql && viewItem == function",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.template.trigger",
+					"when": "view == github.cweijan.mysql && viewItem == triggerGroup",
+					"group": "1_mysql@1"
+				},
+				{
+					"command": "mysql.refresh",
+					"when": "view == github.cweijan.mysql && viewItem == triggerGroup",
+					"group": "1_mysql@2"
+				},
+				{
+					"command": "mysql.template.trigger",
+					"when": "view == github.cweijan.mysql && viewItem == triggerGroup",
+					"group": "inline"
+				},
+				{
+					"command": "mysql.delete.trigger",
+					"when": "view == github.cweijan.mysql && viewItem == trigger",
+					"group": "1_mysql@1"
+				}
+			]
+		},
+		"configuration": {
+			"type": "object",
+			"title": "MySQL",
+			"properties": {
+				"vscode-mysql.enableTelemetry": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether to enable anonymous usage collection."
+				},
+				"vscode-mysql.maxTableCount": {
+					"type": "integer",
+					"default": 500,
+					"description": "The maximum table count shown in the tree view"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"tslint": "tslint -t verbose src/**/*.ts"
+	},
+	"devDependencies": {
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^7.0.43",
+		"tslint": "^5.8.0",
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.33"
+	},
+	"dependencies": {
+		"mysql": "^2.15.0",
+		"mysqldump": "^2.2.1",
+		"sql-formatter": "^2.3.3"
+	},
+	"__metadata": {
+		"id": "4e6577dd-a0b4-49dd-b5e4-39033438839e",
+		"publisherId": "43004267-e6e4-497f-b826-dda371e4ec49",
+		"publisherDisplayName": "cweijan"
+	}
+}

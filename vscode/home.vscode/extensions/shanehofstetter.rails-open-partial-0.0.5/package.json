@@ -1,0 +1,47 @@
+{
+	"name": "rails-open-partial",
+	"displayName": "Rails Open Partials",
+	"description": "open partial file with go to definition",
+	"version": "0.0.5",
+	"publisher": "shanehofstetter",
+	"license": "SEE LICENSE IN LICENSE.md",
+	"icon": "images/icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/shanehofstetter/rails-open-partial-vscode"
+	},
+	"engines": {
+		"vscode": "^1.15.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:haml",
+		"onLanguage:erb"
+	],
+	"main": "./out/src/extension",
+	"contributes": {
+		"commands": []
+	},
+	"scripts": {
+		"publish": "vsce publish",
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && mocha ./test/extension.test.js"
+	},
+	"devDependencies": {
+		"typescript": "^2.5.2",
+		"vscode": "^1.1.5",
+		"mocha": "^3.5.0",
+		"@types/node": "^7.0.43",
+		"@types/mocha": "^2.2.42"
+	},
+	"__metadata": {
+		"id": "08f336e8-612c-4f78-9166-a622acc38855",
+		"publisherId": "033daa7c-7d5c-4044-8d94-5c21f82477a3",
+		"publisherDisplayName": "Shane Hofstetter"
+	}
+}

@@ -1,0 +1,90 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "demo",
+            "type": "Ruby",
+            "request": "launch",
+            "env": {
+              "MYSQL_DATABASE_DEV": "demo_dev",
+              "MYSQL_DATABASE_TST": "demo_tst"
+            },
+            "preLaunchTask": "rm_server_pid_file",
+            "program": "${workspaceRoot}/bin/rails",
+            "args": [
+                "server",
+                "-p",
+                "3013"
+            ],
+            "debuggerPort": "13013"
+        },
+        {
+            "name": "olimpia",
+            "type": "Ruby",
+            "request": "launch",
+            "env": {
+              "MYSQL_DATABASE_DEV": "olimpia_dev",
+              "MYSQL_DATABASE_TST": "olimpia_tst"
+            },
+            "preLaunchTask": "rm_server_pid_file",
+            "program": "${workspaceRoot}/bin/rails",
+            "args": [
+                "server",
+                "-p",
+                "3002"
+            ],
+            "debuggerPort": "13002"
+        },
+        {
+            "name": "rioclaro",
+            "type": "Ruby",
+            "request": "launch",
+            "env": {
+              "MYSQL_DATABASE_DEV": "rioclaro_dev",
+              "MYSQL_DATABASE_TST": "rioclaro_tst"
+            },
+            "preLaunchTask": "rm_server_pid_file",
+            "program": "${workspaceRoot}/bin/rails",
+            "args": [
+                "server",
+                "-p",
+                "3003"
+            ],
+            "debuggerPort": "13003"
+        },
+        {
+            "name": "suzano",
+            "type": "Ruby",
+            "request": "launch",
+            "env": {
+              "MYSQL_DATABASE_DEV": "suzano_dev",
+              "MYSQL_DATABASE_TST": "suzano_tst"
+            },
+            "preLaunchTask": "rm_server_pid_file",
+            "program": "${workspaceRoot}/bin/rails",
+            "args": [
+                "server",
+                "-p",
+                "3004"
+            ],
+            "debuggerPort": "13004"
+        },
+        {
+            "name": "santoandre",
+            "type": "Ruby",
+            "request": "launch",
+            "env": {
+              "MYSQL_DATABASE_DEV": "santoandre_dev",
+              "MYSQL_DATABASE_TST": "santoandre_tst"
+            },
+            "preLaunchTask": "rm_server_pid_file",
+            "program": "${workspaceRoot}/bin/rails",
+            "args": [
+                "server",
+                "-p",
+                "3005"
+            ],
+            "debuggerPort": "13005"
+        }
+    ]
+}

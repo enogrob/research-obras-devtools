@@ -1,0 +1,23 @@
+{
+    "extends": "tslint:recommended",
+    "linterOptions": {
+        "exclude": [
+            "node_modules/**"
+        ]
+    },
+    "rules": {
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-pascal-case",
+            "allow-leading-underscore"
+        ],
+        "max-line-length": [
+            true,
+            200
+        ],
+        "no-empty": false,
+        "object-literal-sort-keys": false
+    }
+}
