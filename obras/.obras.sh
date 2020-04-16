@@ -309,6 +309,20 @@ function site(){
           export SELENIUM_REMOTE_HOST=yes
           ;;
 
+        env)
+          case $3 in
+            test|development|homolog_olimpia|homolog_rioclaro|homolog_suzano|homolog_santoandre|demo)
+              unset RAILS_ENV
+              export RAILS_ENV=$3
+              ;;
+            *)
+              __pr dang "=> Error: Bad env "$3
+              __pr
+              return 1
+              ;;
+          esac  
+          ;;
+
         *)
           __pr dang "=> Error: Bad site "$2
           __pr
