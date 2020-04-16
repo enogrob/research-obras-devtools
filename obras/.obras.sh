@@ -114,6 +114,14 @@ function title(){
 
 function db(){
   case $1 in
+    help|h|--help|-h)
+      __pr bold "Crafted (c) 2013~2020 by ZoatWorks Software LTDA."
+      __pr bold "::"
+      __pr info "db" "[ls || drop || create || migrate || import [dbfile] || docker [dbfile]]"
+      __pr info "db" "[status || restart || show || socket]"
+      __pr 
+      ;; 
+
     init)
       rake db:drop
       rake db:create
@@ -130,6 +138,18 @@ function db(){
       done
       __pr
       ;;
+
+    drop)
+      rake db:drop
+      ;;
+
+    create)
+      rake db:create
+      ;;
+
+    migrate)
+      rake db:migrate
+      ;;    
 
     import)
       if test -f "$2"; then
@@ -237,6 +257,10 @@ function db(){
       fi
       ;;
 
+    socket)
+      mysql_config --socket
+      ;;  
+
     *)
       DB_DEV=`mysqlshow -uroot  $MYSQL_DATABASE_DEV | grep -v Wildcard | grep -o $MYSQL_DATABASE_DEV`
       if [ "$DB_DEV" == $MYSQL_DATABASE_DEV ]; then
@@ -270,6 +294,14 @@ function db(){
 
 function site(){
   case $1 in
+    help|h|--help|-h)
+      __pr bold "Crafted (c) 2013~2020 by ZoatWorks Software LTDA."
+      __pr bold "::"
+      __pr info "site" "[set sitename || set/unset env]"
+      __pr info "site" "[check/ls || start [sitename || all]]"
+      __pr 
+      ;;
+
     set)
       case $2 in
         olimpia|santoandre|demo)
@@ -351,6 +383,32 @@ function site(){
           return 1
           ;;
       esac
+      ;;
+
+    start)
+      if [ -z "$2" ]; then
+        foreman start $SITE
+      else   
+        case $2 in
+          olimpia|rioclaro|suzano|santoandre|demo)
+            foreman start $2
+            ;;
+
+          all)
+            foreman start all
+            ;;
+
+          *)
+            __pr dang "=> Error: Bad site name "$2
+            __pr
+            return 1
+            ;;
+        esac
+      fi
+      ;;  
+
+    check|ls)
+      foreman check  
       ;;
 
     *)
