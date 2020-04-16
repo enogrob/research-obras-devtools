@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by ZoatWorks Software LTDA.
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA04
-## Date     : 2020-04-14
+## Version  : PA05
+## Date     : 2020-04-16
 ## Project  : project-things-today
 ## Reference: bash
 ##
@@ -26,6 +26,9 @@ export OBRAS_OLD="$HOME/Logbook/obras"
 export RAILS_ENV=development
 export RUBYOPT=-W0
 export SITE=demo
+unset HEADLESS
+unset COVERAGE
+unset SELENIUM_REMOTE_HOST
 
 # aliases development
 alias enogrob='cd $HOME;title enogrob'
@@ -231,18 +234,16 @@ function db(){
     *)
       DB_DEV=`mysqlshow -uroot  $MYSQL_DATABASE_DEV | grep -v Wildcard | grep -o $MYSQL_DATABASE_DEV`
       if [ "$DB_DEV" == $MYSQL_DATABASE_DEV ]; then
-        DB_DEV="\033[36m (exists) \033[0m"
+        __pr succ "db_dev:" $MYSQL_DATABASE_DEV
       else  
-        DB_DEV="\033[31m (no exist) \033[0m"
+        __pr dang "db_dev:" "no exist"
       fi
       DB_TST=`mysqlshow -uroot  $MYSQL_DATABASE_TST | grep -v Wildcard | grep -o $MYSQL_DATABASE_TST`
       if [ "$DB_TST" == $MYSQL_DATABASE_TST ]; then
-        DB_TST="\033[36m (exists) \033[0m"
+        __pr succ "db_tst:" $MYSQL_DATABASE_TST
       else  
-        DB_TST="\033[31m (no exist) \033[0m"
+        __pr dang "db_tst:" "no exist"
       fi
-      echo -e "db_dev: \033[32m$MYSQL_DATABASE_DEV \033[0m $DB_DEV"
-      echo -e "db_tst: \033[32m$MYSQL_DATABASE_TST \033[0m $DB_TST"
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
       echo -e "db_sqls:"
@@ -251,7 +252,7 @@ function db(){
         files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
         for file in ${files_sql[*]}
         do
-          __pr info ' '$file
+          __pr succ ' '$file
         done
       else
         __pr dang " no sql files"
@@ -267,6 +268,9 @@ function site(){
       case $2 in
         olimpia|santoandre|demo)
           export SITE=$2
+          unset HEADLESS
+          unset COVERAGE
+          unset SELENIUM_REMOTE_HOST
           cd "$OBRAS"
           db set $2
           title $2
@@ -275,13 +279,54 @@ function site(){
 
         rioclaro|suzano)
           export SITE=$2
+          unset HEADLESS
+          unset COVERAGE
+          unset SELENIUM_REMOTE_HOST
           cd "$OBRAS_OLD"
           db set $2
           title $2
           site
           ;;
+
+        coverage)
+          unset COVERAGE
+          export COVERAGE=yes
+          ;;
+
+        headless)
+          unset HEADLESS
+          export HEADLESS=yes
+          ;;
+
+        selenium|selenium_remote)
+          unset SELENIUM_REMOTE_HOST
+          export SELENIUM_REMOTE_HOST=yes
+          ;;
+
         *)
           __pr dang "=> Error: Bad site "$2
+          __pr
+          return 1
+          ;;
+      esac
+      ;;
+
+    unset)  
+      case $2 in
+        coverage)
+          unset COVERAGE
+          ;;
+
+        headless)
+          unset HEADLESS
+          ;;
+
+        selenium|selenium_remote)
+          unset SELENIUM_REMOTE_HOST
+          ;;
+
+        *)
+          __pr dang "=> Error: Bad parameter "$2
           __pr
           return 1
           ;;
@@ -291,8 +336,23 @@ function site(){
     *)
       __pr bold "site:" $SITE
       __pr bold "dir :" $PWD
-      __pr dang "rvm :" $(rvm current)
-      __pr warn "env :" $RAILS_ENV
+      __pr info "rvm :" $(rvm current)
+      __pr info "env :" $RAILS_ENV
+      if [ -z "$COVERAGE" ]; then
+        __pr dang "coverage:" "no"
+      else
+        __pr succ "coverage:" $COVERAGE
+      fi
+      if [ -z "$HEADLESS" ]; then
+        __pr dang "headless:" "no"
+      else
+        __pr succ "headless:" $HEADLESS
+      fi
+      if [ -z "$SELENIUM_REMOTE_HOST" ]; then
+        __pr dang "selenium remote:" "no"
+      else
+        __pr succ "selenium remote:" $SELENIUM_REMOTE_HOST
+      fi
       db
       ;;
   esac
