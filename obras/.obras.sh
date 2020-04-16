@@ -68,6 +68,9 @@ __pr(){
             info|blue)
                 echo -e "\033[36m$2 \033[0m"
                 ;;
+            infobold|lightcyan)
+                echo -e "\033[1;96m$2 \033[0m"
+                ;;
             bold|white)
                 echo -e "\033[1;39m$2 \033[0m"
                 ;;
@@ -85,6 +88,9 @@ __pr(){
                 ;;
             info|blue)
                 echo -e "$2 \033[36m$3 \033[0m"
+                ;;
+            infobold|lightcyan)
+                echo -e "$2 \033[1;96m$3 \033[0m"
                 ;;
             bold|white)
                 echo -e "$2 \033[1;39m$3 \033[0m"
@@ -336,7 +342,7 @@ function site(){
     *)
       __pr bold "site:" $SITE
       __pr bold "dir :" $PWD
-      __pr info "rvm :" $(rvm current)
+      __pr infobold "rvm :" $(rvm current)
       __pr info "env :" $RAILS_ENV
       if [ -z "$COVERAGE" ]; then
         __pr dang "coverage:" "no"
