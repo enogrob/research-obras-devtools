@@ -112,13 +112,60 @@ function title(){
   export PROMPT_COMMAND='echo -ne "\033]0;${SITE##*/}\007"'
 }
 
+__db(){
+  if [ "$RAILS_ENV" == 'development' ]; then
+    echo $MYSQL_DATABASE_DEV
+  else
+    echo $MYSQL_DATABASE_TST
+  fi 
+}      
+
+__has_database(){
+  db=`mysqlshow -uroot  $1 | grep -v Wildcard | grep -o $1`
+  if [ "$db" == $1 ]; then
+    echo 'yes'
+  else
+    echo 'no'  
+  fi
+}
+
+__has_tables(){
+  tables=$(__tables $1)
+  if [ ! "$tables" == '0' ] && [ ! -z $tables ]; then
+    echo 'yes'
+  else
+    echo 'no'  
+  fi
+}
+
+__has_records(){
+  records=$(__records $1)
+  if [ ! "$records" == '' ] && [ ! -z $records ]; then
+    echo 'yes'
+  else
+    echo 'no'  
+  fi
+}
+
+__records(){
+      s=`mysql -u root -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
+      RECORDS=$(echo $s | sed 's/[^0-9]*//g')
+      echo $RECORDS
+} 
+
+__tables(){
+      s=`mysql -u root -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
+      TABLES=$(echo $s | sed 's/[^0-9]*//g')
+      echo $TABLES
+}
+
 function db(){
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "db" "[ls || preptest || drop || create || migrate || import [dbfile] || docker [dbfile]]"
-      __pr info "db" "[status || restart || show || socket]"
+      __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || docker [dbfile]]"
+      __pr info "db" "[status || start || stop || restart || show || socket]"
       __pr 
       ;; 
 
@@ -152,15 +199,85 @@ function db(){
       ;;
 
     drop)
-      rake db:drop
+      if [ "$RAILS_ENV" == 'development' ]; then
+        if [ "$(__has_database $MYSQL_DATABASE_DEV)" == 'yes' ]; then
+          rake db:drop
+        else  
+          __pr dang "=> Error: file "$MYSQL_DATABASE_DEV" does not exists"
+        fi
+      else
+        if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'yes' ]; then
+          rake db:drop
+        else  
+          __pr dang "=> Error: file "$MYSQL_DATABASE_TST" does not exists"
+        fi
+      fi
       ;;
 
     create)
-      rake db:create
+      if [ "$RAILS_ENV" == 'development' ]; then
+        if [ "$(__has_database $MYSQL_DATABASE_DEV)" == 'no' ]; then
+          rake db:create
+        else  
+          __pr dang "=> Error: file "$MYSQL_DATABASE_DEV" already exists"
+        fi
+      else
+        if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'no' ]; then
+          rake db:create
+        else  
+          __pr dang "=> Error: file "$MYSQL_DATABASE_TST" already exists"
+        fi
+      fi
       ;;
 
     migrate)
-      rake db:migrate
+      db=$(__db)
+      tables=$(__has_tables $db)
+      if [ "$(__has_database $db)" == 'yes' ] && [ "$tables" == 'no' ]; then
+        rake db:migrate
+      else  
+        if [ "$(__has_database $db)" == 'no' ]; then
+          __pr dang "=> Error: file "$db" does not exist"
+        fi
+        if [ "$tables" == 'yes' ]; then
+          __pr dang "=> Error: $db has tables"
+        fi 
+      fi
+      ;;    
+
+    seed)
+      if [ $RAILS_ENV == 'development' ];then
+        TABLES=$(__tables $MYSQL_DATABASE_DEV)
+        RECORDS=$(__records $MYSQL_DATABASE_DEV)
+        DB=$MYSQL_DATABASE_DEV
+      else
+        TABLES=$(__tables $MYSQL_DATABASE_TST)
+        RECORDS=$(__records $MYSQL_DATABASE_TST)
+        DB=$MYSQL_DATABASE_TST
+      fi;
+      if [ '$(__has_database $DB)' == 'yes' ] && [ ! $TABLES == '0' ] && [ ! -z $TABLES ] && [ -z $RECORDS ]; then
+        RAILS_VERSION=`rails --version`
+        if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+          __pr info "Seeding:" "db/seeds.production.rb"
+          rails runner "require Rails.root.join('db/seeds.production.rb')"
+          __pr info "Seeding:" "db/seeds.development.rb"
+          rails runner "require Rails.root.join('db/seeds.development.rb')"
+        else
+          __pr info "Seeding:" "db/seeds.rb"
+          rake db:seed
+        fi
+      else   
+        if [ '$(__has_database $DB)' == 'yes' ]; then
+          __pr dang "=> Error: file "$DB" does not exist"
+        fi
+        if [ $TABLES == '0' ] || [ -z $TABLES ]; then
+          __pr dang "=> Error: $DB has no tables"
+        fi 
+        if [ ! -z $RECORDS ]; then
+          __pr dang "=> Error: $DB has records"
+        fi
+      fi   
+      __pr
       ;;    
 
     import)
@@ -257,6 +374,22 @@ function db(){
       fi
       ;;
 
+    start)
+      if [ $OS == 'Darwin' ]; then
+        brew services start mysql@5.7
+      else
+        service mysql start
+      fi
+      ;;
+
+    stop)
+      if [ $OS == 'Darwin' ]; then
+        brew services stop mysql@5.7
+      else
+        service mysql stop
+      fi
+      ;;
+
     restart)
       if [ $OS == 'Darwin' ]; then
         FILE=$HOME/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
@@ -299,28 +432,18 @@ function db(){
       fi
       ;;
 
-    show)
-      if [ $RAILS_ENV == "development" ]; then
-        mysqlshow -uroot  $MYSQL_DATABASE_DEV | head
-      else
-        mysqlshow -uroot  $MYSQL_DATABASE_TST | head
-      fi
-      ;;
-
     socket)
       mysql_config --socket
-      ;;  
+      ;; 
 
     *)
-      DB_DEV=`mysqlshow -uroot  $MYSQL_DATABASE_DEV | grep -v Wildcard | grep -o $MYSQL_DATABASE_DEV`
-      if [ "$DB_DEV" == $MYSQL_DATABASE_DEV ]; then
-        __pr succ "db_dev:" $MYSQL_DATABASE_DEV
+      if [ "$(__has_database $MYSQL_DATABASE_DEV)" == 'yes' ]; then
+        __pr succ "db_dev:" $MYSQL_DATABASE_DEV' '$(__tables $MYSQL_DATABASE_DEV)' '$(__records $MYSQL_DATABASE_DEV)
       else  
         __pr dang "db_dev:" "no exist"
       fi
-      DB_TST=`mysqlshow -uroot  $MYSQL_DATABASE_TST | grep -v Wildcard | grep -o $MYSQL_DATABASE_TST`
-      if [ "$DB_TST" == $MYSQL_DATABASE_TST ]; then
-        __pr succ "db_tst:" $MYSQL_DATABASE_TST
+      if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'yes' ]; then
+        __pr succ "db_tst:" $MYSQL_DATABASE_TST' '$(__tables $MYSQL_DATABASE_TST)' '$(__records $MYSQL_DATABASE_TST)
       else  
         __pr dang "db_tst:" "no exist"
       fi
