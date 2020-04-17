@@ -199,34 +199,20 @@ function db(){
       ;;
 
     drop)
-      if [ "$RAILS_ENV" == 'development' ]; then
-        if [ "$(__has_database $MYSQL_DATABASE_DEV)" == 'yes' ]; then
-          rake db:drop
-        else  
-          __pr dang "=> Error: file "$MYSQL_DATABASE_DEV" does not exists"
-        fi
-      else
-        if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'yes' ]; then
-          rake db:drop
-        else  
-          __pr dang "=> Error: file "$MYSQL_DATABASE_TST" does not exists"
-        fi
+      db=$(__db)
+      if [ "$(__has_database $db)" == 'yes' ]; then
+        rake db:drop
+      else  
+        __pr dang "=> Error: file "$db" does not exists"
       fi
       ;;
 
-    create)
-      if [ "$RAILS_ENV" == 'development' ]; then
-        if [ "$(__has_database $MYSQL_DATABASE_DEV)" == 'no' ]; then
-          rake db:create
-        else  
-          __pr dang "=> Error: file "$MYSQL_DATABASE_DEV" already exists"
-        fi
-      else
-        if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'no' ]; then
-          rake db:create
-        else  
-          __pr dang "=> Error: file "$MYSQL_DATABASE_TST" already exists"
-        fi
+    create)  
+      db=$(__db)
+      if [ "$(__has_database $db)" == 'no' ]; then
+        rake db:create
+      else  
+        __pr dang "=> Error: file "$db" already exists"
       fi
       ;;
 
@@ -246,18 +232,11 @@ function db(){
       ;;    
 
     seed)
-      if [ $RAILS_ENV == 'development' ];then
-        TABLES=$(__tables $MYSQL_DATABASE_DEV)
-        RECORDS=$(__records $MYSQL_DATABASE_DEV)
-        DB=$MYSQL_DATABASE_DEV
-      else
-        TABLES=$(__tables $MYSQL_DATABASE_TST)
-        RECORDS=$(__records $MYSQL_DATABASE_TST)
-        DB=$MYSQL_DATABASE_TST
-      fi;
-      if [ '$(__has_database $DB)' == 'yes' ] && [ ! $TABLES == '0' ] && [ ! -z $TABLES ] && [ -z $RECORDS ]; then
-        RAILS_VERSION=`rails --version`
-        if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+      db=$(__db)
+      tables=$(__tables $db)
+      if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
+        rails=`rails --version`
+        if [ $rails == 'Rails 6.0.2.1' ]; then
           __pr info "Seeding:" "db/seeds.production.rb"
           rails runner "require Rails.root.join('db/seeds.production.rb')"
           __pr info "Seeding:" "db/seeds.development.rb"
@@ -267,23 +246,20 @@ function db(){
           rake db:seed
         fi
       else   
-        if [ '$(__has_database $DB)' == 'yes' ]; then
-          __pr dang "=> Error: file "$DB" does not exist"
+        if [ '$(__has_database $db)' == 'yes' ]; then
+          __pr dang "=> Error: file "$db" does not exist"
         fi
-        if [ $TABLES == '0' ] || [ -z $TABLES ]; then
-          __pr dang "=> Error: $DB has no tables"
+        if [ $tables == 'no' ]; then
+          __pr dang "=> Error: $db has no tables"
         fi 
-        if [ ! -z $RECORDS ]; then
-          __pr dang "=> Error: $DB has records"
-        fi
       fi   
       __pr
       ;;    
 
     import)
-      RAILS_VERSION=`rails --version`
+      rails=`rails --version`
       if test -f "$2"; then
-        if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+        if [ $rails == 'Rails 6.0.2.1' ]; then
           rails db:environment:set RAILS_ENV=development
           rails db:drop
           rails db:create
@@ -302,20 +278,20 @@ function db(){
         if [ ! -z "$files_sql" ]; then
           IFS=$'\n'
           files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-          FILE=${files_sql[0]}
-          if test -f "$FILE"; then
-            if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+          file=${files_sql[0]}
+          if test -f "$file"; then
+            if [ $rails == 'Rails 6.0.2.1' ]; then
               rails db:environment:set RAILS_ENV=development
               rails db:drop
               rails db:create
-              __pr info "file: " $(basename $FILE)
-              pv $FILE | mysql -u root $MYSQL_DATABASE_DEV 
+              __pr info "file: " $(basename $file)
+              pv $file | mysql -u root $MYSQL_DATABASE_DEV 
               rails db:migrate
             else
               rake db:drop
               rake db:create
-              __pr info "file: " $(basename $FILE)
-              pv $FILE | mysql -u root $MYSQL_DATABASE_DEV 
+              __pr info "file: " $(basename $file)
+              pv $file | mysql -u root $MYSQL_DATABASE_DEV 
               rake db:migrate
             fi
           else   
@@ -328,9 +304,9 @@ function db(){
       ;;
 
     docker)
-      RAILS_VERSION=`rails --version`
+      rails=`rails --version`
       if test -f "$2"; then
-        if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+        if [ $rails == 'Rails 6.0.2.1' ]; then
           rails db:environment:set RAILS_ENV=development
           docker-compose exec $SITE rails db:drop
           docker-compose exec $SITE rails db:create
@@ -349,20 +325,20 @@ function db(){
         if [ ! -z "$files_sql" ]; then
           IFS=$'\n'
           files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-          FILE=${files_sql[0]}
-          if test -f "$FILE"; then
-            if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+          file=${files_sql[0]}
+          if test -f "$file"; then
+            if [ $rails == 'Rails 6.0.2.1' ]; then
               rails db:environment:set RAILS_ENV=development
               docker-compose exec $SITE rails db:drop
               docker-compose exec $SITE rails db:create
-              __pr info "file: " $(basename $FILE)
-              pv $FILE | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+              __pr info "file: " $(basename $file)
+              pv $file | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
               docker-compose exec $SITE rails db:migrate
             else  
               docker-compose exec $SITE rake db:drop
               docker-compose exec $SITE rake db:create
-              __pr info "file: " $(basename $FILE)
-              pv $FILE | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV
+              __pr info "file: " $(basename $file)
+              pv $file | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV
               docker-compose exec $SITE rake db:migrate
             fi
           else
