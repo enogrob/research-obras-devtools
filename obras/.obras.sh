@@ -6,7 +6,7 @@
 ## Date     : 2020-04-16
 ## Project  : project-things-today
 ## Reference: bash
-##
+## Depends  : foreman, pv
 ## Purpose  : Develop bash routines in order to help Rails development
 ##            projects.
 
@@ -115,18 +115,30 @@ function title(){
 function db(){
   case $1 in
     help|h|--help|-h)
-      __pr bold "Crafted (c) 2013~2020 by ZoatWorks Software LTDA."
+      __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "db" "[ls || drop || create || migrate || import [dbfile] || docker [dbfile]]"
+      __pr info "db" "[ls || preptest || drop || create || migrate || import [dbfile] || docker [dbfile]]"
       __pr info "db" "[status || restart || show || socket]"
       __pr 
       ;; 
 
-    init)
-      rake db:drop
-      rake db:create
-      rake db:migrate
-      rake db:seed
+    preptest)
+      RAILS_VERSION=`rails --version`
+      if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+        rails db:drop
+        rails db:create
+        rails db:migrate
+        __pr info "Seeding:" "db/seeds.production.rb"
+        rails runner "require Rails.root.join('db/seeds.production.rb')"
+        __pr info "Seeding:" "db/seeds.development.rb"
+        rails runner "require Rails.root.join('db/seeds.development.rb')"
+      else
+        rake db:drop
+        rake db:create
+        rake db:migrate
+        __pr info "Seeding:" "db/seeds.rb"
+        rake db:seed
+      fi 
       ;;
 
     ls)
@@ -152,12 +164,22 @@ function db(){
       ;;    
 
     import)
+      RAILS_VERSION=`rails --version`
       if test -f "$2"; then
-        rake db:drop
-        rake db:create
-        __pr info "file: " $2
-        mysql -u root -p $MYSQL_DATABASE_DEV < $2
-        rake db:migrate
+        if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+          rails db:environment:set RAILS_ENV=development
+          rails db:drop
+          rails db:create
+          __pr info "file: " $2
+          pv $2 | mysql -u root -p $MYSQL_DATABASE_DEV 
+          rails db:migrate
+        else
+          rake db:drop
+          rake db:create
+          __pr info "file: " $2
+          pv $2 | mysql -u root -p $MYSQL_DATABASE_DEV 
+          rake db:migrate
+        fi  
       else
         files_sql=(`ls *$SITE.sql`)
         if [ ! -z "$files_sql" ]; then
@@ -165,12 +187,21 @@ function db(){
           files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
           FILE=${files_sql[0]}
           if test -f "$FILE"; then
-            rake db:drop
-            rake db:create
-            __pr info "file: " $(basename $FILE)
-            mysql -u root -p $MYSQL_DATABASE_DEV < $FILE
-            rake db:migrate
-          else
+            if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+              rails db:environment:set RAILS_ENV=development
+              rails db:drop
+              rails db:create
+              __pr info "file: " $(basename $FILE)
+              pv $FILE | mysql -u root -p $MYSQL_DATABASE_DEV 
+              rails db:migrate
+            else
+              rake db:drop
+              rake db:create
+              __pr info "file: " $(basename $FILE)
+              pv $FILE | mysql -u root -p $MYSQL_DATABASE_DEV 
+              rake db:migrate
+            fi
+          else   
             __pr dang "=> Error: Bad file "$2
             __pr
             return 1
@@ -180,12 +211,22 @@ function db(){
       ;;
 
     docker)
+      RAILS_VERSION=`rails --version`
       if test -f "$2"; then
-        docker-compose exec $SITE rake db:drop
-        docker-compose exec $SITE rake db:create
-        __pr info "file: " $2
-        docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $2
-        docker-compose exec $SITE rake db:migrate
+        if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+          rails db:environment:set RAILS_ENV=development
+          docker-compose exec $SITE rails db:drop
+          docker-compose exec $SITE rails db:create
+          __pr info "file: " $2
+          docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $2
+          docker-compose exec $SITE rails db:migrate
+        else  
+          docker-compose exec $SITE rake db:drop
+          docker-compose exec $SITE raake db:create
+          __pr info "file: " $2
+          docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $2
+          docker-compose exec $SITE rake db:migrate
+        fi
       else
         files_sql=(`ls *$SITE.sql`)
         if [ ! -z "$files_sql" ]; then
@@ -193,11 +234,20 @@ function db(){
           files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
           FILE=${files_sql[0]}
           if test -f "$FILE"; then
-            docker-compose exec $SITE rake db:drop
-            docker-compose exec $SITE rake db:create
-            __pr info "file: " $(basename $FILE)
-            docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $FILE
-            docker-compose exec $SITE rake db:migrate
+            if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+              rails db:environment:set RAILS_ENV=development
+              docker-compose exec $SITE rails db:drop
+              docker-compose exec $SITE rails db:create
+              __pr info "file: " $(basename $FILE)
+              docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $FILE
+              docker-compose exec $SITE rails db:migrate
+            else  
+              docker-compose exec $SITE rake db:drop
+              docker-compose exec $SITE rake db:create
+              __pr info "file: " $(basename $FILE)
+              docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $FILE
+              docker-compose exec $SITE rake db:migrate
+            fi
           else
             __pr dang "=> Error: Bad file "$FILE
             __pr
@@ -295,7 +345,7 @@ function db(){
 function site(){
   case $1 in
     help|h|--help|-h)
-      __pr bold "Crafted (c) 2013~2020 by ZoatWorks Software LTDA."
+      __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
       __pr info "site" "[set sitename || set/unset env]"
       __pr info "site" "[check/ls || start [sitename || all]]"
