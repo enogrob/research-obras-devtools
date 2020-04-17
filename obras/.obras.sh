@@ -2,11 +2,11 @@
 ## Crafted (c) 2013~2020 by ZoatWorks Software LTDA.
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA05
-## Date     : 2020-04-16
+## Version  : PA06
+## Date     : 2020-04-17
 ## Project  : project-things-today
 ## Reference: bash
-## Depends  : foreman, pv
+## Depends  : foreman, pipe viewer
 ## Purpose  : Develop bash routines in order to help Rails development
 ##            projects.
 
@@ -171,13 +171,13 @@ function db(){
           rails db:drop
           rails db:create
           __pr info "file: " $2
-          pv $2 | mysql -u root -p $MYSQL_DATABASE_DEV 
+          pv $2 | mysql -u root $MYSQL_DATABASE_DEV 
           rails db:migrate
         else
           rake db:drop
           rake db:create
           __pr info "file: " $2
-          pv $2 | mysql -u root -p $MYSQL_DATABASE_DEV 
+          pv $2 | mysql -u root $MYSQL_DATABASE_DEV 
           rake db:migrate
         fi  
       else
@@ -192,13 +192,13 @@ function db(){
               rails db:drop
               rails db:create
               __pr info "file: " $(basename $FILE)
-              pv $FILE | mysql -u root -p $MYSQL_DATABASE_DEV 
+              pv $FILE | mysql -u root $MYSQL_DATABASE_DEV 
               rails db:migrate
             else
               rake db:drop
               rake db:create
               __pr info "file: " $(basename $FILE)
-              pv $FILE | mysql -u root -p $MYSQL_DATABASE_DEV 
+              pv $FILE | mysql -u root $MYSQL_DATABASE_DEV 
               rake db:migrate
             fi
           else   
@@ -218,13 +218,13 @@ function db(){
           docker-compose exec $SITE rails db:drop
           docker-compose exec $SITE rails db:create
           __pr info "file: " $2
-          docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $2
+          pv $2 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
           docker-compose exec $SITE rails db:migrate
         else  
           docker-compose exec $SITE rake db:drop
           docker-compose exec $SITE raake db:create
           __pr info "file: " $2
-          docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $2
+          pv $2 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
           docker-compose exec $SITE rake db:migrate
         fi
       else
@@ -239,13 +239,13 @@ function db(){
               docker-compose exec $SITE rails db:drop
               docker-compose exec $SITE rails db:create
               __pr info "file: " $(basename $FILE)
-              docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $FILE
+              pv $FILE | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
               docker-compose exec $SITE rails db:migrate
             else  
               docker-compose exec $SITE rake db:drop
               docker-compose exec $SITE rake db:create
               __pr info "file: " $(basename $FILE)
-              docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV < $FILE
+              pv $FILE | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV
               docker-compose exec $SITE rake db:migrate
             fi
           else
