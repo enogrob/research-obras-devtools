@@ -23,8 +23,9 @@ This in order to improve the Obras Development Process, developing utilities and
 obras_utils.sh
 [x] Function db in Obras Utils
 [x] Funtion site in Obras Utils
-[_] Integration of Ansi library
-[_] Improve use of colors
+[x] Integration of Ansi library
+[x] Improve use of colors
+[x] Add db tables and databases sub commands
 install.sh
 [_] Installation support for Obras Utils
 [_] Installation support for Foreman
