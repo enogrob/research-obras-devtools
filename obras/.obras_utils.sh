@@ -2,11 +2,12 @@
 ## Crafted (c) 2013~2020 by ZoatWorks Software LTDA.
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA06
-## Date     : 2020-04-17
+## Version  : PA07
+## Date     : 2020-04-18
 ## Project  : project-things-today
 ## Reference: bash
 ## Depends  : foreman, pipe viewer
+
 ## Purpose  : Develop bash routines in order to help Rails development
 ##            projects.
 
@@ -51,6 +52,30 @@ alias dki='docker image'
 alias dkis='docker images'
 
 # functions
+install_obras_utils(){
+  __pr bold "=> Installing..." "obras-utils"  
+  if [ ! test -s $HOME/.obras_utils.sh ]; then
+    cp ./obras_utils.sh $HOME
+    echo 'source $HOME/obras_utils.sh' >> $HOME/.bashrc
+  fi  
+
+  __pr info "=> Installing..." "pipe viewer"  
+  if [ ! test -s /usr/local/bin/pv ]; then
+    if [ "$OS" == 'Darwin' ]; then
+      brew install pv
+    else  
+      sudo apt-get install pv 
+    fi
+  fi
+
+  __pr info "=> Installing..." "ansi"  
+  if [ ! test -s /usr/local/bin/ansi ]; then
+    curl -OL git.io/ansi
+    chmod 755 ansi
+    sudo mv ansi /usr/local/bin/
+  fi 
+}
+
 __pr(){
     if [ $# -eq 0 ]; then
         echo -e ""
@@ -170,8 +195,8 @@ function db(){
       ;; 
 
     preptest)
-      RAILS_VERSION=`rails --version`
-      if [ $RAILS_VERSION == 'Rails 6.0.2.1' ]; then
+      rails=`rails --version`
+      if [ $rails == 'Rails 6.0.2.1' ]; then
         rails db:drop
         rails db:create
         rails db:migrate
