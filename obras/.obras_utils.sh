@@ -164,7 +164,7 @@ db(){
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
       __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || docker [dbfile]]"
-      __pr info "db" "[status || start || stop || restart || show || socket]"
+      __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
       __pr 
       ;; 
 
@@ -411,16 +411,25 @@ db(){
       mysql_config --socket
       ;; 
 
+    tables)
+      db=$(__db)
+      mysqlshow -uroot $db | more
+      ;;
+
+    databases)
+      mysqlshow -uroot | more
+      ;;
+
     *)
       if [ "$(__has_database $MYSQL_DATABASE_DEV)" == 'yes' ]; then
-        __pr succ "db_dev:" $MYSQL_DATABASE_DEV' '$(__tables $MYSQL_DATABASE_DEV)' '$(__records $MYSQL_DATABASE_DEV)
+        ansi --no-newline "db_dev: "; ansi --no-newline --green $MYSQL_DATABASE_DEV' '; ansi --no-newline $(__tables $MYSQL_DATABASE_DEV)' '; ansi $(__records $MYSQL_DATABASE_DEV)
       else  
-        __pr dang "db_dev:" "no exist"
+        ansi --no-new-line "db_dev: "; ansi --no-new-line --red "no exist"
       fi
       if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'yes' ]; then
-        __pr succ "db_tst:" $MYSQL_DATABASE_TST' '$(__tables $MYSQL_DATABASE_TST)' '$(__records $MYSQL_DATABASE_TST)
+        ansi --no-newline "db_tst: "; ansi --no-newline --green $MYSQL_DATABASE_TST' '; ansi --no-newline $(__tables $MYSQL_DATABASE_TST)' '; ansi $(__records $MYSQL_DATABASE_TST)
       else  
-        __pr dang "db_tst:" "no exist"
+        ansi --no-newline "db_tst: "; ansi --no-newline --red "no exist"
       fi
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
@@ -561,7 +570,7 @@ site(){
 
     *)
       __pr bold "site:" $SITE
-      __pr bold "dir :" $PWD
+      __pr bold "home:" $PWD
       __pr infobold "rvm :" $(rvm current)
       __pr info "env :" $RAILS_ENV
       if [ -z "$COVERAGE" ]; then
