@@ -1,13 +1,12 @@
 #!/bin/bash
-## Crafted (c) 2013~2020 by ZoatWorks Software LTDA.
+## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
 ## Version  : PA07
 ## Date     : 2020-04-18
-## Project  : project-things-today
+## Project  : project-obras-devtools
 ## Reference: bash
-## Depends  : foreman, pipe viewer
-
+## Depends  : foreman, pipe viewer, ansi
 ## Purpose  : Develop bash routines in order to help Rails development
 ##            projects.
 
@@ -52,29 +51,6 @@ alias dki='docker image'
 alias dkis='docker images'
 
 # functions
-install_obras_utils(){
-  __pr bold "=> Installing..." "obras-utils"  
-  if [ ! test -s $HOME/.obras_utils.sh ]; then
-    cp ./obras_utils.sh $HOME
-    echo 'source $HOME/obras_utils.sh' >> $HOME/.bashrc
-  fi  
-
-  __pr info "=> Installing..." "pipe viewer"  
-  if [ ! test -s /usr/local/bin/pv ]; then
-    if [ "$OS" == 'Darwin' ]; then
-      brew install pv
-    else  
-      sudo apt-get install pv 
-    fi
-  fi
-
-  __pr info "=> Installing..." "ansi"  
-  if [ ! test -s /usr/local/bin/ansi ]; then
-    curl -OL git.io/ansi
-    chmod 755 ansi
-    sudo mv ansi /usr/local/bin/
-  fi 
-}
 
 __pr(){
     if [ $# -eq 0 ]; then
@@ -128,11 +104,11 @@ __pr(){
     fi
 }
 
-function dash(){
+dash(){
   open dash://$1:$2
 }
 
-function title(){
+title(){
   SITE=$1
   export PROMPT_COMMAND='echo -ne "\033]0;${SITE##*/}\007"'
 }
@@ -173,18 +149,16 @@ __has_records(){
 }
 
 __records(){
-      s=`mysql -u root -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-      RECORDS=$(echo $s | sed 's/[^0-9]*//g')
-      echo $RECORDS
+  s=`mysql -u root -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
+  echo $(echo $s | sed 's/[^0-9]*//g')
 } 
 
 __tables(){
-      s=`mysql -u root -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-      TABLES=$(echo $s | sed 's/[^0-9]*//g')
-      echo $TABLES
+  s=`mysql -u root -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
+  echo $(echo $s | sed 's/[^0-9]*//g')
 }
 
-function db(){
+db(){
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
@@ -466,7 +440,7 @@ function db(){
   esac
 }
 
-function site(){
+site(){
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
