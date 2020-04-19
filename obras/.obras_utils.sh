@@ -113,6 +113,27 @@ title(){
   export PROMPT_COMMAND='echo -ne "\033]0;${SITE##*/}\007"'
 }
 
+__wr_env(){
+  name=$1
+  value=$2
+  if [ -z "$2" ]; then
+    ansi --no-newline "$name"; ansi --no-newline --red "no";ansi --no-newline ", "
+  else
+    ansi --no-newline "$name"; ansi --no-newline --green $value;ansi --no-newline ", "
+  fi
+}      
+
+__pr_env(){
+  name=$1
+  value=$2
+  nonewline=$3
+  if [ -z "$2" ]; then
+    ansi --no-newline "$name"; ansi --red "no "
+  else
+    ansi --no-newline "$name"; ansi --green $value" "
+  fi
+}      
+
 __db(){
   if [ "$RAILS_ENV" == 'development' ]; then
     echo $MYSQL_DATABASE_DEV
@@ -454,8 +475,9 @@ site(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "site" "[set sitename || set/unset env]"
+      __pr info "site" "[set sitename || envs || set/unset env]"
       __pr info "site" "[check/ls || start [sitename || all]]"
+      __pr info "site" "[ngrok || mailcatcher start/stop]"
       __pr 
       ;;
 
@@ -568,26 +590,46 @@ site(){
       foreman check  
       ;;
 
+    mailcatcher) 
+      case $2 in
+        start)
+          mailcatcher& 2>&1 > /dev/null
+          ;;
+
+        stop)
+          running=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
+          kill -9 $running 2>&1 > /dev/null
+          ;;
+
+        status)
+          lsof -i :1080
+          ;;  
+
+        *)
+          running=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
+          __pr_env "mailcatcher: " $running
+          ;;
+      esac    
+      ;;
+
+    ngrok) 
+      port=$(cat Procfile | grep -i $SITE | awk '{print $7}')
+      ngrok http $port 
+      ;;
+
+    envs) 
+      __wr_env "coverage: " $COVERAGE 
+      __wr_env "headless: " $HEADLESS 
+      __pr_env  "selenium remote: " $SELENIUM_REMOTE_HOST
+      ;;
+
     *)
       __pr bold "site:" $SITE
       __pr bold "home:" $PWD
       __pr infobold "rvm :" $(rvm current)
       __pr info "env :" $RAILS_ENV
-      if [ -z "$COVERAGE" ]; then
-        __pr dang "coverage:" "no"
-      else
-        __pr succ "coverage:" $COVERAGE
-      fi
-      if [ -z "$HEADLESS" ]; then
-        __pr dang "headless:" "no"
-      else
-        __pr succ "headless:" $HEADLESS
-      fi
-      if [ -z "$SELENIUM_REMOTE_HOST" ]; then
-        __pr dang "selenium remote:" "no"
-      else
-        __pr succ "selenium remote:" $SELENIUM_REMOTE_HOST
-      fi
+      site envs
+      site mailcatcher
       db
       ;;
   esac
