@@ -199,6 +199,8 @@ db(){
         rails runner "require Rails.root.join('db/seeds.production.rb')"
         __pr info "Seeding:" "db/seeds.development.rb"
         rails runner "require Rails.root.join('db/seeds.development.rb')"
+        __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+        rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
       else
         rake db:drop
         rake db:create
@@ -261,6 +263,8 @@ db(){
           rails runner "require Rails.root.join('db/seeds.production.rb')"
           __pr info "Seeding:" "db/seeds.development.rb"
           rails runner "require Rails.root.join('db/seeds.development.rb')"
+          __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+          rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
         else
           __pr info "Seeding:" "db/seeds.rb"
           rake db:seed
