@@ -627,7 +627,11 @@ site(){
       __pr bold "site:" $SITE
       __pr bold "home:" $PWD
       __pr infobold "rvm :" $(rvm current)
-      __pr info "env :" $RAILS_ENV
+      if [ $RAILS_ENV == 'development' ]; then 
+        ansi --no-newline "env : ";ansi --cyan --underline $RAILS_ENV
+      else
+        ansi --no-newline "env : ";ansi --yellow --underline $RAILS_ENV
+      fi
       site envs
       site mailcatcher
       db
