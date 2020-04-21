@@ -627,6 +627,11 @@ site(){
       __pr_env  "selenium remote: " $SELENIUM_REMOTE_HOST
       ;;
 
+    db)
+      shift
+      db $*
+      ;;  
+
     *)
       __pr bold "site:" $SITE
       __pr bold "home:" $PWD
