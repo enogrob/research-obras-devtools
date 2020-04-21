@@ -36,7 +36,7 @@ install.sh
 [x] Implement site db import all
 [x] Implement site db import docker all
 [x] Test implementation import all
-[ ] Test implementation import docker all
+[x] Test implementation import docker all
 [ ] Implement site db dowload all
 [ ] Update README.md
 ```
