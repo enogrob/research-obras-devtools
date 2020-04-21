@@ -179,6 +179,55 @@ __tables(){
   echo $(echo $s | sed 's/[^0-9]*//g')
 }
 
+__import(){
+  rails=`rails --version`
+  if [ $rails == 'Rails 6.0.2.1' ]; then
+    rails db:environment:set RAILS_ENV=development
+    rails db:drop
+    rails db:create
+    __pr info "file: " $1
+    pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
+    rails db:migrate
+  else
+    rake db:drop
+    rake db:create
+    __pr info "file: " $1
+    pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
+    rake db:migrate
+  fi
+} 
+
+__import_docker(){
+  rails=`rails --version`
+  if [ $rails == 'Rails 6.0.2.1' ]; then
+    rails db:environment:set RAILS_ENV=development
+    docker-compose exec $SITE rails db:drop
+    docker-compose exec $SITE rails db:create
+    __pr info "file: " $1
+    pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+    docker-compose exec $SITE rails db:migrate
+  else
+    docker-compose exec $SITE rake db:drop
+    docker-compose exec $SITE raake db:create
+    __pr info "file: " $1
+    pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+    docker-compose exec $SITE rake db:migrate
+  fi
+} 
+
+__contains() {
+  local n=$#
+  local value=${!n}
+  for ((i=1;i < $#;i++)) {
+      if [[ ${!i} == *"${value}"* ]]; then
+          echo "y"
+          return 0
+      fi
+  }
+  echo "n"
+  return 1
+}
+
 db(){
   case $1 in
     help|h|--help|-h)
@@ -281,97 +330,78 @@ db(){
       ;;    
 
     import)
-      rails=`rails --version`
-      if test -f "$2"; then
-        if [ $rails == 'Rails 6.0.2.1' ]; then
-          rails db:environment:set RAILS_ENV=development
-          rails db:drop
-          rails db:create
-          __pr info "file: " $2
-          pv $2 | mysql -u root $MYSQL_DATABASE_DEV 
-          rails db:migrate
-        else
-          rake db:drop
-          rake db:create
-          __pr info "file: " $2
-          pv $2 | mysql -u root $MYSQL_DATABASE_DEV 
-          rake db:migrate
-        fi  
-      else
-        files_sql=(`ls *$SITE.sql`)
-        if [ ! -z "$files_sql" ]; then
-          IFS=$'\n'
-          files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-          file=${files_sql[0]}
-          if test -f "$file"; then
-            if [ $rails == 'Rails 6.0.2.1' ]; then
-              rails db:environment:set RAILS_ENV=development
-              rails db:drop
-              rails db:create
-              __pr info "file: " $(basename $file)
-              pv $file | mysql -u root $MYSQL_DATABASE_DEV 
-              rails db:migrate
-            else
-              rake db:drop
-              rake db:create
-              __pr info "file: " $(basename $file)
-              pv $file | mysql -u root $MYSQL_DATABASE_DEV 
-              rake db:migrate
-            fi
-          else   
-            __pr dang "=> Error: Bad file "$2
-            __pr
-            return 1
-          fi
-        fi
-      fi
-      ;;
-
-    docker)
-      rails=`rails --version`
-      if test -f "$2"; then
-        if [ $rails == 'Rails 6.0.2.1' ]; then
-          rails db:environment:set RAILS_ENV=development
-          docker-compose exec $SITE rails db:drop
-          docker-compose exec $SITE rails db:create
-          __pr info "file: " $2
-          pv $2 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
-          docker-compose exec $SITE rails db:migrate
-        else  
-          docker-compose exec $SITE rake db:drop
-          docker-compose exec $SITE raake db:create
-          __pr info "file: " $2
-          pv $2 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
-          docker-compose exec $SITE rake db:migrate
-        fi
-      else
-        files_sql=(`ls *$SITE.sql`)
-        if [ ! -z "$files_sql" ]; then
-          IFS=$'\n'
-          files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-          file=${files_sql[0]}
-          if test -f "$file"; then
-            if [ $rails == 'Rails 6.0.2.1' ]; then
-              rails db:environment:set RAILS_ENV=development
-              docker-compose exec $SITE rails db:drop
-              docker-compose exec $SITE rails db:create
-              __pr info "file: " $(basename $file)
-              pv $file | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
-              docker-compose exec $SITE rails db:migrate
-            else  
-              docker-compose exec $SITE rake db:drop
-              docker-compose exec $SITE rake db:create
-              __pr info "file: " $(basename $file)
-              pv $file | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV
-              docker-compose exec $SITE rake db:migrate
-            fi
+      case $2 in
+        docker)
+          if test -f "$3"; then
+            __import_docker $3
           else
-            __pr dang "=> Error: Bad file "$FILE
+            files_sql=(`ls *$SITE.sql`)
+            if [ ! -z "$files_sql" ]; then
+              IFS=$'\n'
+              files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+              file=${files_sql[0]}
+              __import_docker $(basename $file)
+            else
+              __pr dang "=> Error: No sql files"
+              __pr
+              return 1
+            fi
+          fi
+          ;;
+
+        all)
+          files_sql=(`ls *.sql`)
+          if [ ! -z "$files_sql" ]; then
+            IFS=$'\n'
+            files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+            for file in "${files_sql[@]}"
+            do
+              if [ $(__contains "$file" "olimpia") == "y" ]; then
+                site set olimpia
+                __import $(basename $file)
+              fi
+              if [ $(__contains "$file" "rioclaro") == "y" ]; then
+                site set rioclaro
+                __import $(basename $file)
+              fi
+              if [ $(__contains "$file" "suzano") == "y" ]; then
+                site set suzano
+                __import $(basename $file)
+              fi
+              if [ $(__contains "$file" "santoandre") == "y" ]; then
+                site set santoandre
+                __import $(basename $file)
+              fi
+              if [ $(__contains "$file" "demo") == "y" ]; then
+                site set demo
+                __import $(basename $file)
+              fi
+            done
+          else   
+            __pr dang "=> Error: No sql files"
             __pr
             return 1
           fi
-        fi
-      fi
+          ;;
+
+        *)
+          if test -f "$2"; then
+            __import $2
+          else
+            files_sql=(`ls *$SITE.sql`)
+            if [ ! -z "$files_sql" ]; then
+              IFS=$'\n'
+              files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+              file=${files_sql[0]}
+              __import $(basename $file)
+            else   
+              __pr dang "=> Error: No sql files"
+              __pr
+              return 1
+            fi
+          fi
+          ;;
+      esac
       ;;
 
     start)
@@ -454,7 +484,7 @@ db(){
       if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'yes' ]; then
         ansi --no-newline "db_tst: "; ansi --no-newline --green $MYSQL_DATABASE_TST' '; ansi --no-newline $(__tables $MYSQL_DATABASE_TST)' '; ansi $(__records $MYSQL_DATABASE_TST)
       else  
-        ansi --no-newline "db_tst: "; ansi --no-newline --red "no exist"
+        ansi --no-newline "db_tst: "; ansi --red "no exist"
       fi
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
