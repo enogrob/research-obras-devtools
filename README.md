@@ -34,7 +34,7 @@ install.sh
 [x] Installation support for Rubymine
 [x] Unify db into site command
 [x] Implement site db import all
-[ ] Implement site db import docker all
+[x] Implement site db import docker all
 [x] Test implementation import all
 [ ] Test implementation import docker all
 [ ] Implement site db dowload all
