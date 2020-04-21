@@ -26,17 +26,17 @@ obras_utils.sh
 [x] Integration of Ansi library
 [x] Improve use of colors
 [x] Add db tables and databases sub commands
-install.sh
-[_] Installation support for Obras Utils
-[x] Installation support for Foreman
-[x] Installation support for Docker
-[x] Installation support for VsCode
-[x] Installation support for Rubymine
 [x] Unify db into site command
 [x] Implement site db import all
 [x] Implement site db import docker all
 [x] Test implementation import all
 [x] Test implementation import docker all
 [ ] Implement site db dowload all
+install.sh
+[_] Installation support for Obras Utils
+[x] Installation support for Foreman
+[x] Installation support for Docker
+[x] Installation support for VsCode
+[x] Installation support for Rubymine
 [ ] Update README.md
 ```
