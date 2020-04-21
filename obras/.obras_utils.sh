@@ -31,7 +31,7 @@ unset COVERAGE
 unset SELENIUM_REMOTE_HOST
 
 # aliases development
-alias enogrob='cd $HOME;title enogrob'
+alias home='cd $HOME;title home'
 alias downloads='cd $HOME/Downloads;title downloads'
 alias code='code --disable-gpu .&'
 alias mysql='mysql -u root'
@@ -565,7 +565,6 @@ site(){
           cd "$OBRAS"
           db set $2
           title $2
-          site
           ;;
 
         rioclaro|suzano)
@@ -576,7 +575,6 @@ site(){
           cd "$OBRAS_OLD"
           db set $2
           title $2
-          site
           ;;
 
         coverage)
