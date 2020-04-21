@@ -22,14 +22,14 @@ This in order to improve the Obras Development Process, developing utilities and
 ```
 obras_utils.sh
 [x] Function db in Obras Utils
-[x] Funtion site in Obras Utils
+[x] Function site in Obras Utils
 [x] Integration of Ansi library
 [x] Improve use of colors
 [x] Add db tables and databases sub commands
 install.sh
 [_] Installation support for Obras Utils
-[_] Installation support for Foreman
-[_] Installation support for Docker
-[_] Installation support for VsCode
-[_] Installation support for Rubymine
+[x] Installation support for Foreman
+[x] Installation support for Docker
+[x] Installation support for VsCode
+[x] Installation support for Rubymine
 ```
