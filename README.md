@@ -32,5 +32,8 @@ install.sh
 [x] Installation support for Docker
 [x] Installation support for VsCode
 [x] Installation support for Rubymine
+[ ] Unify db into site command
+[ ] Implement site db import all
+[ ] Implement site db dowload all
 [ ] Update README.md
 ```
