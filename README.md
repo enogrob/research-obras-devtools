@@ -32,6 +32,7 @@ obras_utils.sh
 [x] Test implementation import all
 [x] Test implementation import docker all
 [ ] Implement site db dowload all
+[ ] Change demo to the default site (port 3000) when site is not defined
 install.sh
 [_] Installation support for Obras Utils
 [x] Installation support for Foreman

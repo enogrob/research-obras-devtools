@@ -171,10 +171,10 @@ case $1 in
   *)
     echo -e "\033[1;39mCrafted (c) 2013~2020 by InMov - Intelligence in Movement \033[0m"
     echo "::"
-    echo -e "1. \033[36minstall.sh" " [env <obras || obras_old>] \033[0m"
+    echo -e "1. \033[36minstall.sh" " [env <obras value> || <obras_old value> || <install_dir value>] \033[0m"
     echo -e "2. \033[36minstall.sh" " [obras || docker || vscode || rubymine] \033[0m"
     echo "::"
-    echo -e '\033[1;39m=> dir envs\033[0m'
+    echo -e '\033[1;39m=> envs\033[0m'
     echo -e " \033[36m INSTALL_DIR: $INSTALL_DIR\033[0m"
     echo ""
     echo -e " \033[36m OBRAS      : $OBRAS\033[0m"

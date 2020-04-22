@@ -19,13 +19,13 @@ if [ $OS == 'Darwin' ]; then
 fi
 
 export MAILCATCHER_ENV=LOCALHOST
-export MYSQL_DATABASE_DEV=demo_dev
-export MYSQL_DATABASE_TST=demo_tst
 export OBRAS="$HOME/Projects/obras"
 export OBRAS_OLD="$HOME/Logbook/obras"
 export RAILS_ENV=development
 export RUBYOPT=-W0
-export SITE=demo
+unset SITE
+unset MYSQL_DATABASE_DEV
+unset MYSQL_DATABASE_TST
 unset HEADLESS
 unset COVERAGE
 unset SELENIUM_REMOTE_HOST
@@ -484,6 +484,15 @@ db(){
           set -o allexport
           . ./.env/development/$2
           set +o allexport
+          ;;
+
+        default) 
+          current_rails_env=$RAILS_ENV
+          export RAILS_ENV=development
+          export MYSQL_DATABASE_DEV=$(rails r "puts Rails.configuration.database_configuration[Rails.env]['database']")
+          export RAILS_ENV=test
+          export MYSQL_DATABASE_TST=$(rails r "puts Rails.configuration.database_configuration[Rails.env]['database']")
+          export RAILS_ENV=$current_rails_env
           ;;
 
         *)
