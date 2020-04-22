@@ -23,9 +23,10 @@ export OBRAS="$HOME/Projects/obras"
 export OBRAS_OLD="$HOME/Logbook/obras"
 export RAILS_ENV=development
 export RUBYOPT=-W0
-unset SITE
-unset MYSQL_DATABASE_DEV
-unset MYSQL_DATABASE_TST
+export SITE=default
+export PORT=3000
+export MYSQL_DATABASE_DEV=obrasdev
+export MYSQL_DATABASE_TST=obrastst
 unset HEADLESS
 unset COVERAGE
 unset SELENIUM_REMOTE_HOST
@@ -40,6 +41,8 @@ alias rioclaro='site set rioclaro'
 alias suzano='site set suzano'
 alias santoandre='site set santoandre'
 alias demo='site set demo'
+alias downloads='cd $HOME/Downloads;title downloads'
+alias default='site set default'
 alias rc='rvm current'
 alias window='tput cols;tput lines'
 
@@ -143,7 +146,7 @@ __db(){
 }      
 
 __has_database(){
-  db=`mysqlshow -uroot  $1 | grep -v Wildcard | grep -o $1`
+  db=`mysqlshow -uroot | grep -o $1`
   if [ "$db" == $1 ]; then
     echo 'yes'
   else
@@ -487,12 +490,8 @@ db(){
           ;;
 
         default) 
-          current_rails_env=$RAILS_ENV
-          export RAILS_ENV=development
-          export MYSQL_DATABASE_DEV=$(rails r "puts Rails.configuration.database_configuration[Rails.env]['database']")
-          export RAILS_ENV=test
-          export MYSQL_DATABASE_TST=$(rails r "puts Rails.configuration.database_configuration[Rails.env]['database']")
-          export RAILS_ENV=$current_rails_env
+          export MYSQL_DATABASE_DEV=obrasdev
+          export MYSQL_DATABASE_TST=obrastst
           ;;
 
         *)
@@ -528,12 +527,12 @@ db(){
       if [ "$(__has_database $MYSQL_DATABASE_DEV)" == 'yes' ]; then
         ansi --no-newline "db_dev: "; ansi --no-newline --green $MYSQL_DATABASE_DEV' '; ansi --no-newline $(__tables $MYSQL_DATABASE_DEV)' '; ansi $(__records $MYSQL_DATABASE_DEV)
       else  
-        ansi --no-new-line "db_dev: "; ansi --no-new-line --red "no exist"
+        ansi --no-newline "db_dev: "; ansi --no-newline --red $MYSQL_DATABASE_DEV' '; ansi  --red "no exist"
       fi
       if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'yes' ]; then
         ansi --no-newline "db_tst: "; ansi --no-newline --green $MYSQL_DATABASE_TST' '; ansi --no-newline $(__tables $MYSQL_DATABASE_TST)' '; ansi $(__records $MYSQL_DATABASE_TST)
       else  
-        ansi --no-newline "db_tst: "; ansi --red "no exist"
+        ansi --no-newline "db_tst: "; ansi --no-newline --red $MYSQL_DATABASE_TST' '; ansi --red "no exist"
       fi
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
@@ -582,6 +581,16 @@ site(){
           unset COVERAGE
           unset SELENIUM_REMOTE_HOST
           cd "$OBRAS_OLD"
+          db set $2
+          title $2
+          ;;
+
+        default)
+          export SITE=$2
+          unset HEADLESS
+          unset COVERAGE
+          unset SELENIUM_REMOTE_HOST
+          cd "$OBRAS"
           db set $2
           title $2
           ;;
