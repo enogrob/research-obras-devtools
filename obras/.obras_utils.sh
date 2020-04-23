@@ -278,7 +278,7 @@ __pr_db(){
   fi
 }
 
-__url(){
+__port(){
   site=$1
   case $1 in
     default)
@@ -300,7 +300,29 @@ __url(){
       port=3013
       ;;  
   esac
-  echo http://localhost:$port
+  echo $port
+}  
+
+__url(){
+  site=$1
+  echo http://localhost:$(__port $site)
+}
+
+__pid(){
+  site=$1
+  port=$(__port $site)
+  pid=$(lsof -i :$port | grep -i ruby | awk {'print $2'} | uniq)
+  echo $pid
+} 
+
+__status(){
+  site=$1
+  pid=$(__pid $site)
+  if [ -z $pid ]; then
+    ansi --red stopped 
+  else
+    ansi --no-newline --green running; ansi ' '$pid
+  fi
 }
 
 db(){
@@ -784,7 +806,9 @@ site(){
 
     *)
       __pr bold "site:" $SITE
-      ansi --no-newline "url : ";ansi --underline --white-intense $(__url $SITE)
+      ansi --no-newline "url : ";ansi --no-newline --underline --white-intense $(__url $SITE)
+      ansi --no-newline ' '
+      __status $SITE
       __pr infobold "rvm :" $(rvm current)
       if [ $RAILS_ENV == 'development' ]; then 
         ansi --no-newline "env : ";ansi --cyan $RAILS_ENV
