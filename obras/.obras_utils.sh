@@ -784,7 +784,7 @@ site(){
 
     *)
       __pr bold "site:" $SITE
-      ansi --no-newline "url :";ansi --underline --white-intense $(__url $SITE)
+      ansi --no-newline "url : ";ansi --underline --white-intense $(__url $SITE)
       __pr infobold "rvm :" $(rvm current)
       if [ $RAILS_ENV == 'development' ]; then 
         ansi --no-newline "env : ";ansi --cyan $RAILS_ENV
