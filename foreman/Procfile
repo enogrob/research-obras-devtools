@@ -1,7 +1,7 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 
-default: env MYSQL_DATABASE_DEV=obrasdev rails server -p 3000
+default: rails server -p 3000
 olimpia: env MYSQL_DATABASE_DEV=olimpia_dev rails server -p 3002
 rioclaro: env MYSQL_DATABASE_DEV=rioclaro_dev rails server -p 3003
 suzano: env MYSQL_DATABASE_DEV=suzano_dev rails server -p 3004

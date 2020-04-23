@@ -25,14 +25,15 @@ export RAILS_ENV=development
 export RUBYOPT=-W0
 export SITE=default
 export PORT=3000
-export MYSQL_DATABASE_DEV=obrasdev
-export MYSQL_DATABASE_TST=obrastst
+unset MYSQL_DATABASE_DEV
+unset MYSQL_DATABASE_TST
 unset HEADLESS
 unset COVERAGE
 unset SELENIUM_REMOTE_HOST
 
 # aliases development
 alias home='cd $HOME;title home'
+alias obras='cd $OBRAS;title obras'
 alias downloads='cd $HOME/Downloads;title downloads'
 alias code='code --disable-gpu .&'
 alias mysql='mysql -u root'
@@ -112,8 +113,8 @@ dash(){
 }
 
 title(){
-  SITE=$1
-  export PROMPT_COMMAND='echo -ne "\033]0;${SITE##*/}\007"'
+  title=$1
+  export PROMPT_COMMAND='echo -ne "\033]0;${title##*/}\007"'
 }
 
 __wr_env(){
@@ -139,9 +140,17 @@ __pr_env(){
 
 __db(){
   if [ "$RAILS_ENV" == 'development' ]; then
-    echo $MYSQL_DATABASE_DEV
+    if [ -z $MYSQL_DATABASE_DEV ]; then
+      echo obrasdev
+    else
+      echo $MYSQL_DATABASE_DEV
+    fi  
   else
-    echo $MYSQL_DATABASE_TST
+    if [ -z $MYSQL_DATABASE_TST ]; then
+      echo obrastst
+    else
+      echo $MYSQL_DATABASE_TST
+    fi  
   fi 
 }      
 
@@ -189,13 +198,21 @@ __import(){
     rails db:drop
     rails db:create
     __pr info "file: " $1
-    pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
+    if [ -z $MYSQL_DATABASE_DEV ]; then
+      pv $1 | mysql -u root obrasdev 
+    else
+      pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
+    fi  
     rails db:migrate
   else
     rake db:drop
     rake db:create
     __pr info "file: " $1
-    pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
+    if [ -z $MYSQL_DATABASE_DEV ]; then
+      pv $1 | mysql -u root obrasdev 
+    else
+      pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
+    fi  
     rake db:migrate
   fi
 } 
@@ -207,13 +224,21 @@ __import_docker(){
     docker-compose exec $SITE rails db:drop
     docker-compose exec $SITE rails db:create
     __pr info "file: " $1
-    pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+    if [ -z $MYSQL_DATABASE_DEV ]; then
+      pv $1 | docker exec -i db mysql -uroot -proot obrasdev
+    else
+      pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+    fi  
     docker-compose exec $SITE rails db:migrate
   else
     docker-compose exec $SITE rake db:drop
     docker-compose exec $SITE raake db:create
     __pr info "file: " $1
-    pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+    if [ -z $MYSQL_DATABASE_DEV ]; then
+      pv $1 | docker exec -i db mysql -uroot -proot obrasdev
+    else
+      pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+    fi  
     docker-compose exec $SITE rake db:migrate
   fi
 } 
@@ -229,6 +254,53 @@ __contains() {
   }
   echo "n"
   return 1
+}
+
+__pr_db(){
+  env=$1
+  if [ $env == "dev" ]; then
+    if [ -z $MYSQL_DATABASE_DEV ]; then
+      db=obrasdev
+    else  
+      db=$MYSQL_DATABASE_DEV
+    fi
+  else  
+    if [ -z $MYSQL_DATABASE_TST ]; then
+      db=obrastst
+    else  
+      db=$MYSQL_DATABASE_TST
+    fi
+  fi
+  if [ "$(__has_database $db)" == 'yes' ]; then
+    ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --no-newline $(__tables $db)' '; ansi $(__records $db)
+  else  
+    ansi --no-newline "db_"$env": "; ansi --no-newline --red $db' '; ansi --red "no exist"
+  fi
+}
+
+__url(){
+  site=$1
+  case $1 in
+    default)
+      port=3000
+      ;;
+    olimpia)
+      port=3002
+      ;;  
+    rioclaro)
+      port=3003
+      ;;  
+    suzano)
+      port=3004
+      ;;  
+    santoandre)
+      port=3005
+      ;;  
+    demo)
+      port=3013
+      ;;  
+  esac
+  echo http://localhost:$port
 }
 
 db(){
@@ -490,8 +562,8 @@ db(){
           ;;
 
         default) 
-          export MYSQL_DATABASE_DEV=obrasdev
-          export MYSQL_DATABASE_TST=obrastst
+          unset MYSQL_DATABASE_DEV
+          unset MYSQL_DATABASE_TST
           ;;
 
         *)
@@ -524,16 +596,8 @@ db(){
       ;;
 
     *)
-      if [ "$(__has_database $MYSQL_DATABASE_DEV)" == 'yes' ]; then
-        ansi --no-newline "db_dev: "; ansi --no-newline --green $MYSQL_DATABASE_DEV' '; ansi --no-newline $(__tables $MYSQL_DATABASE_DEV)' '; ansi $(__records $MYSQL_DATABASE_DEV)
-      else  
-        ansi --no-newline "db_dev: "; ansi --no-newline --red $MYSQL_DATABASE_DEV' '; ansi  --red "no exist"
-      fi
-      if [ "$(__has_database $MYSQL_DATABASE_TST)" == 'yes' ]; then
-        ansi --no-newline "db_tst: "; ansi --no-newline --green $MYSQL_DATABASE_TST' '; ansi --no-newline $(__tables $MYSQL_DATABASE_TST)' '; ansi $(__records $MYSQL_DATABASE_TST)
-      else  
-        ansi --no-newline "db_tst: "; ansi --no-newline --red $MYSQL_DATABASE_TST' '; ansi --red "no exist"
-      fi
+      __pr_db dev
+      __pr_db tst
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
       echo -e "db_sqls:"
@@ -720,12 +784,12 @@ site(){
 
     *)
       __pr bold "site:" $SITE
-      __pr bold "home:" $PWD
+      ansi --no-newline "url :";ansi --underline --white-intense $(__url $SITE)
       __pr infobold "rvm :" $(rvm current)
       if [ $RAILS_ENV == 'development' ]; then 
-        ansi --no-newline "env : ";ansi --cyan --underline $RAILS_ENV
+        ansi --no-newline "env : ";ansi --cyan $RAILS_ENV
       else
-        ansi --no-newline "env : ";ansi --yellow --underline $RAILS_ENV
+        ansi --no-newline "env : ";ansi --yellow $RAILS_ENV
       fi
       site envs
       site mailcatcher
