@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA08
-## Date     : 2020-04-22
+## Version  : PA09
+## Date     : 2020-04-23
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -304,18 +304,16 @@ __port(){
 }  
 
 __pid(){
-  site=$1
-  port=$(__port $site)
+  port=$1
   pid=$(lsof -i :$port | grep -i ruby | awk {'print $2'} | uniq)
   echo $pid
 } 
 
 __url(){
-  site=$1
-  port=$(__port $site)
-  pid=$(__pid $site)
+  port=$1
+  pid=$(__pid $port)
   if [ -z $pid ]; then
-    ansi --red http://localhost:$(__port $site)
+    ansi --red http://localhost:$port
   else
     ansi --no-newline --underline --green http://localhost:$port; ansi ' '$pid
   fi
@@ -778,8 +776,7 @@ site(){
           ;;  
 
         *)
-          running=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
-          __pr_env "mailcatcher: " $running
+          ansi --no-newline "mailcatcher : ";__url "1080"
           ;;
       esac    
       ;;
@@ -802,15 +799,15 @@ site(){
 
     *)
       __pr bold "site:" $SITE
-      ansi --no-newline "url : ";__url $SITE
       __pr infobold "rvm :" $(rvm current)
       if [ $RAILS_ENV == 'development' ]; then 
         ansi --no-newline "env : ";ansi --cyan $RAILS_ENV
       else
         ansi --no-newline "env : ";ansi --yellow $RAILS_ENV
       fi
-      site envs
+      ansi --no-newline "rails server: ";__url $(__port $SITE)
       site mailcatcher
+      site envs
       db
       ;;
   esac
