@@ -274,7 +274,7 @@ __pr_db(){
   if [ "$(__has_database $db)" == 'yes' ]; then
     ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --no-newline $(__tables $db)' '; ansi $(__records $db)
   else  
-    ansi --no-newline "db_"$env": "; ansi --no-newline --red $db' '; ansi --red "no exist"
+    ansi --no-newline "db_"$env": "; ansi --red $db
   fi
 }
 
@@ -303,11 +303,6 @@ __port(){
   echo $port
 }  
 
-__url(){
-  site=$1
-  echo http://localhost:$(__port $site)
-}
-
 __pid(){
   site=$1
   port=$(__port $site)
@@ -315,13 +310,14 @@ __pid(){
   echo $pid
 } 
 
-__status(){
+__url(){
   site=$1
+  port=$(__port $site)
   pid=$(__pid $site)
   if [ -z $pid ]; then
-    ansi --red stopped 
+    ansi --red http://localhost:$(__port $site)
   else
-    ansi --no-newline --green running; ansi ' '$pid
+    ansi --no-newline --underline --green http://localhost:$port; ansi ' '$pid
   fi
 }
 
@@ -806,9 +802,7 @@ site(){
 
     *)
       __pr bold "site:" $SITE
-      ansi --no-newline "url : ";ansi --no-newline --underline --white-intense $(__url $SITE)
-      ansi --no-newline ' '
-      __status $SITE
+      ansi --no-newline "url : ";__url $SITE
       __pr infobold "rvm :" $(rvm current)
       if [ $RAILS_ENV == 'development' ]; then 
         ansi --no-newline "env : ";ansi --cyan $RAILS_ENV
