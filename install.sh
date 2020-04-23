@@ -132,7 +132,7 @@ case $1 in
         else  
           echo -e "\033[1;39m=> Updating..... 'rubymine.idea' \033[0m"  
         fi
-        cp -r vscode/.idea $INSTALL_DIR/.idea
+        cp -r rubymine/.idea $INSTALL_DIR/.idea
       fi  
       ;;
 
