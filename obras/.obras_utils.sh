@@ -798,7 +798,7 @@ site(){
       ;;  
 
     download)
-      files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-94-241-84.sa-east-1.compute.amazonaws.com | tail -2 | grep gz 2>&1 > /dev/null)
+      files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-94-241-84.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
       IFS=' '
       read -ra file <<< "$files"
       __pr info "Listing:" "${file[0]}"
