@@ -31,7 +31,7 @@ obras_utils.sh
 [x] Implement site db import docker all
 [x] Test implementation import all
 [x] Test implementation import docker all
-[ ] Implement site db dowload all
+[x] Implement site db dowload all
 [x] Change demo to the default site (port 3000) when site is not defined
 install.sh
 [_] Installation support for Obras Utils
