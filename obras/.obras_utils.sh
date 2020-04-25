@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA09
-## Date     : 2020-04-23
+## Version  : PA10
+## Date     : 2020-04-25
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -183,12 +183,12 @@ __has_records(){
 
 __records(){
   s=`mysql -u root -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-  echo $(echo $s | sed 's/[^0-9]*//g')
+  echo $(echo -n $s | sed 's/[^0-9]*//g')
 } 
 
 __tables(){
   s=`mysql -u root -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-  echo $(echo $s | sed 's/[^0-9]*//g')
+  echo $(echo -n $s | sed 's/[^0-9]*//g')
 }
 
 __import(){
@@ -796,6 +796,16 @@ site(){
       shift
       db $*
       ;;  
+
+    download)
+      files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-94-241-84.sa-east-1.compute.amazonaws.com | tail -2 | grep gz 2>&1 > /dev/null)
+      IFS=' '
+      read -ra file <<< "$files"
+      __pr info "Listing:" "${file[0]}"
+      echo 'sudo -i eybackup -e mysql -d 199:obras' | ssh -t deploy@ec2-54-94-241-84.sa-east-1.compute.amazonaws.com 
+      __pr info "Downloading:" "${file[1]}"
+      scp deploy@ec2-54-94-241-84.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+    ;;
 
     *)
       __pr bold "site:" $SITE
