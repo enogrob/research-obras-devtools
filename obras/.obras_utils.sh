@@ -147,7 +147,7 @@ __db(){
     fi  
   else
     if [ -z $MYSQL_DATABASE_TST ]; then
-      echo obrastst
+      echo obrastest
     else
       echo $MYSQL_DATABASE_TST
     fi  
@@ -266,7 +266,7 @@ __pr_db(){
     fi
   else  
     if [ -z $MYSQL_DATABASE_TST ]; then
-      db=obrastst
+      db=obrastest
     else  
       db=$MYSQL_DATABASE_TST
     fi
@@ -305,7 +305,7 @@ __port(){
 
 __pid(){
   port=$1
-  pid=$(lsof -i :$port | grep -i ruby | awk {'print $2'} | uniq)
+  pid=$(lsof -i :$port | grep -e ruby -e docke | awk {'print $2'} | uniq)
   echo $pid
 } 
 
