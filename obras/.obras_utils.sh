@@ -553,7 +553,7 @@ db(){
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
-          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         rioclaro)
@@ -572,7 +572,7 @@ db(){
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
-          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         suzano)  
@@ -591,7 +591,7 @@ db(){
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
-          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         santoandre)  
@@ -610,7 +610,7 @@ db(){
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
-          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         demo)
@@ -629,7 +629,7 @@ db(){
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
-          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         *)
