@@ -809,7 +809,13 @@ site(){
           scp deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
+          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          rm -rf "${sitefile[0]}_$SITE.sql~"
+          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql"
           ;;
         rioclaro)
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
@@ -821,7 +827,13 @@ site(){
           scp deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
+          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          rm -rf "${sitefile[0]}_$SITE.sql~"
+          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql"
           ;;
         suzano)  
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
@@ -833,7 +845,13 @@ site(){
           scp deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
+          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          rm -rf "${sitefile[0]}_$SITE.sql~"
+          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql"
           ;;
         santoandre)  
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
@@ -845,7 +863,13 @@ site(){
           scp deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
+          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          rm -rf "${sitefile[0]}_$SITE.sql~"
+          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql"
           ;;
         demo)
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
@@ -857,7 +881,13 @@ site(){
           scp deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
+          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          rm -rf "${sitefile[0]}_$SITE.sql~"
+          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          sed -n '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql"
           ;;
 
         *)
