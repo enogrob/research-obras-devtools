@@ -798,14 +798,75 @@ site(){
       ;;  
 
     download)
-      files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-94-241-84.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
-      IFS=' '
-      read -ra file <<< "$files"
-      __pr info "Listing:" "${file[0]}"
-      echo 'sudo -i eybackup -e mysql -d 199:obras' | ssh -t deploy@ec2-54-94-241-84.sa-east-1.compute.amazonaws.com 
-      __pr info "Downloading:" "${file[1]}"
-      scp deploy@ec2-54-94-241-84.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
-    ;;
+      case $SITE in 
+        olimpia)
+          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          IFS=' '
+          read -ra file <<< "$files"
+          __pr info "Listing:" "${file[0]}"
+          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com 
+          __pr info "Downloading:" "${file[1]}"
+          scp deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          IFS='T'
+          read -ra sitefile <<< "${file[1]}"
+          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          ;;
+        rioclaro)
+          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          IFS=' '
+          read -ra file <<< "$files"
+          __pr info "Listing:" "${file[0]}"
+          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com 
+          __pr info "Downloading:" "${file[1]}"
+          scp deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          IFS='T'
+          read -ra sitefile <<< "${file[1]}"
+          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          ;;
+        suzano)  
+          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          IFS=' '
+          read -ra file <<< "$files"
+          __pr info "Listing:" "${file[0]}"
+          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com 
+          __pr info "Downloading:" "${file[1]}"
+          scp deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          IFS='T'
+          read -ra sitefile <<< "${file[1]}"
+          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          ;;
+        santoandre)  
+          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          IFS=' '
+          read -ra file <<< "$files"
+          __pr info "Listing:" "${file[0]}"
+          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com 
+          __pr info "Downloading:" "${file[1]}"
+          scp deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          IFS='T'
+          read -ra sitefile <<< "${file[1]}"
+          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          ;;
+        demo)
+          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          IFS=' '
+          read -ra file <<< "$files"
+          __pr info "Listing:" "${file[0]}"
+          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com 
+          __pr info "Downloading:" "${file[1]}"
+          scp deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          IFS='T'
+          read -ra sitefile <<< "${file[1]}"
+          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
+          ;;
+
+        *)
+          __pr dang "=> Error: Bad site "$SITE
+          __pr
+          return 1
+          ;;
+      esac     
+      ;;
 
     *)
       __pr bold "site:" $SITE
