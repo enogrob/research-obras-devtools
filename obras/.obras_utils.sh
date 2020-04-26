@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA10
-## Date     : 2020-04-25
+## Version  : PA11
+## Date     : 2020-04-26
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -27,7 +27,7 @@ export SITE=default
 export PORT=3000
 unset MYSQL_DATABASE_DEV
 unset MYSQL_DATABASE_TST
-unset HEADLESS
+HEADLESS=true
 unset COVERAGE
 unset SELENIUM_REMOTE_HOST
 
@@ -121,7 +121,7 @@ __wr_env(){
   name=$1
   value=$2
   if [ -z "$2" ]; then
-    ansi --no-newline "$name"; ansi --no-newline --red "no";ansi --no-newline ", "
+    ansi --no-newline "$name"; ansi --no-newline --red "false";ansi --no-newline ", "
   else
     ansi --no-newline "$name"; ansi --no-newline --green $value;ansi --no-newline ", "
   fi
@@ -132,7 +132,7 @@ __pr_env(){
   value=$2
   nonewline=$3
   if [ -z "$2" ]; then
-    ansi --no-newline "$name"; ansi --red "no "
+    ansi --no-newline "$name"; ansi --red "false "
   else
     ansi --no-newline "$name"; ansi --green $value" "
   fi
@@ -752,7 +752,7 @@ site(){
       case $2 in
         olimpia|santoandre|demo)
           export SITE=$2
-          unset HEADLESS
+          HEADLESS=true
           unset COVERAGE
           unset SELENIUM_REMOTE_HOST
           cd "$OBRAS"
@@ -762,7 +762,7 @@ site(){
 
         rioclaro|suzano)
           export SITE=$2
-          unset HEADLESS
+          HEADLESS=true
           unset COVERAGE
           unset SELENIUM_REMOTE_HOST
           cd "$OBRAS_OLD"
@@ -782,17 +782,17 @@ site(){
 
         coverage)
           unset COVERAGE
-          export COVERAGE=yes
+          export COVERAGE=true
           ;;
 
         headless)
           unset HEADLESS
-          export HEADLESS=yes
+          export HEADLESS=true
           ;;
 
         selenium|selenium_remote)
           unset SELENIUM_REMOTE_HOST
-          export SELENIUM_REMOTE_HOST=yes
+          export SELENIUM_REMOTE_HOST=true
           ;;
 
         env)
