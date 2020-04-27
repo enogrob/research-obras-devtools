@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA11
-## Date     : 2020-04-26
+## Version  : PA12
+## Date     : 2020-04-27
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -194,9 +194,9 @@ __tables(){
 __import(){
   rails=`rails --version`
   if [ $rails == 'Rails 6.0.2.1' ]; then
-    rails db:environment:set RAILS_ENV=development
     rails db:drop
     rails db:create
+    rails db:environment:set RAILS_ENV=development
     __pr info "file: " $1
     if [ -z $MYSQL_DATABASE_DEV ]; then
       pv $1 | mysql -u root obrasdev 
@@ -220,9 +220,9 @@ __import(){
 __import_docker(){
   rails=`rails --version`
   if [ $rails == 'Rails 6.0.2.1' ]; then
-    rails db:environment:set RAILS_ENV=development
     docker-compose exec $SITE rails db:drop
     docker-compose exec $SITE rails db:create
+    rails db:environment:set RAILS_ENV=development
     __pr info "file: " $1
     if [ -z $MYSQL_DATABASE_DEV ]; then
       pv $1 | docker exec -i db mysql -uroot -proot obrasdev
