@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA12
-## Date     : 2020-04-27
+## Version  : PA13
+## Date     : 2020-04-29
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -29,6 +29,7 @@ unset MYSQL_DATABASE_DEV
 unset MYSQL_DATABASE_TST
 HEADLESS=true
 unset COVERAGE
+unset DOCKER
 unset SELENIUM_REMOTE_HOST
 
 # aliases development
@@ -132,9 +133,9 @@ __pr_env(){
   value=$2
   nonewline=$3
   if [ -z "$2" ]; then
-    ansi --no-newline "$name"; ansi --red "false "
+    ansi --no-newline "$name"; ansi --no-newline --red "false"
   else
-    ansi --no-newline "$name"; ansi --green $value" "
+    ansi --no-newline "$name"; ansi --no-newline --green $value
   fi
 }      
 
@@ -790,6 +791,19 @@ site(){
           export HEADLESS=true
           ;;
 
+        docker)
+          docker info > /dev/null 2>&1
+          status=$?
+          if $(exit $status); then
+            docker-compose up -d db > /dev/null 2>&1
+            status=$?
+            if $(exit $status); then
+              unset DOCKER
+              export DOCKER=true
+            fi  
+          fi
+          ;;
+          
         selenium|selenium_remote)
           unset SELENIUM_REMOTE_HOST
           export SELENIUM_REMOTE_HOST=true
@@ -825,6 +839,14 @@ site(){
 
         headless)
           unset HEADLESS
+          ;;
+
+        docker)
+          docker-compose down > /dev/null 2>&1
+          status=$?
+          if $(exit $status); then
+            unset DOCKER
+          fi
           ;;
 
         selenium|selenium_remote)
@@ -892,9 +914,16 @@ site(){
       ;;
 
     envs) 
+     ansi --no-newline "test  : {"
       __wr_env "coverage: " $COVERAGE 
-      __wr_env "headless: " $HEADLESS 
-      __pr_env  "selenium remote: " $SELENIUM_REMOTE_HOST
+      __pr_env "headless: " $HEADLESS
+     ansi "}"
+      if [ ! -z $DOCKER ]; then
+        ansi --no-newline "docker: {"
+        __wr_env  "status: " $DOCKER
+        __pr_env  "selenium remote: " $SELENIUM_REMOTE_HOST
+        ansi "}"
+      fi 
       ;;
 
     db)
