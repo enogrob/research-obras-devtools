@@ -24,7 +24,6 @@ export OBRAS_OLD="$HOME/Logbook/obras"
 export RAILS_ENV=development
 export RUBYOPT=-W0
 export SITE=default
-export PORT=3000
 unset MYSQL_DATABASE_DEV
 unset MYSQL_DATABASE_TST
 HEADLESS=true
@@ -424,61 +423,67 @@ db(){
     import)
       case $2 in
         docker)
-          case $3 in
-            all)
-              files_sql=(`ls *.sql`)
-              if [ ! -z "$files_sql" ]; then
-                IFS=$'\n'
-                files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-                for file in "${files_sql[@]}"
-                do
-                  if [ $(__contains "$file" "olimpia") == "y" ]; then
-                    site set olimpia
-                    __import_docker $(basename $file)
-                  fi
-                  if [ $(__contains "$file" "rioclaro") == "y" ]; then
-                    site set rioclaro
-                    __import_docker $(basename $file)
-                  fi
-                  if [ $(__contains "$file" "suzano") == "y" ]; then
-                    site set suzano
-                    __import_docker $(basename $file)
-                  fi
-                  if [ $(__contains "$file" "santoandre") == "y" ]; then
-                    site set santoandre
-                    __import_docker $(basename $file)
-                  fi
-                  if [ $(__contains "$file" "demo") == "y" ]; then
-                    site set demo
-                    __import_docker $(basename $file)
-                  fi
-                done
-              else   
-                __pr dang "=> Error: No sql files"
-                __pr
-                return 1
-              fi
-              ;;
-
-            *)
-              if test -f "$3"; then
-                __import_docker $3
-              else
-                files_sql=(`ls *$SITE.sql`)
+          if [ -z "$DOCKER" ]; then
+            __pr dang "=> Error: Docker not started"
+            __pr
+            return 1
+          else
+            case $3 in
+              all)
+                files_sql=(`ls *.sql`)
                 if [ ! -z "$files_sql" ]; then
                   IFS=$'\n'
                   files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-                  file=${files_sql[0]}
-                  __import_docker $(basename $file)
-                else
+                  for file in "${files_sql[@]}"
+                  do
+                    if [ $(__contains "$file" "olimpia") == "y" ]; then
+                      site set olimpia
+                      __import_docker $(basename $file)
+                    fi
+                    if [ $(__contains "$file" "rioclaro") == "y" ]; then
+                      site set rioclaro
+                      __import_docker $(basename $file)
+                    fi
+                    if [ $(__contains "$file" "suzano") == "y" ]; then
+                      site set suzano
+                      __import_docker $(basename $file)
+                    fi
+                    if [ $(__contains "$file" "santoandre") == "y" ]; then
+                      site set santoandre
+                      __import_docker $(basename $file)
+                    fi
+                    if [ $(__contains "$file" "demo") == "y" ]; then
+                      site set demo
+                      __import_docker $(basename $file)
+                    fi
+                  done
+                else   
                   __pr dang "=> Error: No sql files"
                   __pr
                   return 1
                 fi
-              fi
-              ;;
+                ;;
 
-          esac
+              *)
+                if test -f "$3"; then
+                  __import_docker $3
+                else
+                  files_sql=(`ls *$SITE.sql`)
+                  if [ ! -z "$files_sql" ]; then
+                    IFS=$'\n'
+                    files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+                    file=${files_sql[0]}
+                    __import_docker $(basename $file)
+                  else
+                    __pr dang "=> Error: No sql files"
+                    __pr
+                    return 1
+                  fi
+                fi
+                ;;
+
+            esac
+          fi
           ;;
 
         all)
@@ -642,36 +647,48 @@ db(){
       ;;
     
     start)
-      if [ $OS == 'Darwin' ]; then
-        brew services start mysql@5.7
+      if [ -z "$DOCKER" ]; then
+        if [ $OS == 'Darwin' ]; then
+          brew services start mysql@5.7
+        else
+          service mysql start
+        fi
       else
-        service mysql start
+        docker-compose up -d db
       fi
       ;;
 
     stop)
-      if [ $OS == 'Darwin' ]; then
-        brew services stop mysql@5.7
+      if [ -z "$DOCKER" ]; then
+        if [ $OS == 'Darwin' ]; then
+          brew services stop mysql@5.7
+        else
+          service mysql stop
+        fi
       else
-        service mysql stop
+        docker-compose stop db
       fi
       ;;
 
     restart)
-      if [ $OS == 'Darwin' ]; then
-        FILE=$HOME/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
-        if test -f "$FILE"; then
-          launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
-          rm ~/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
-          brew services start mysql@5.7
+      if [ -z "$DOCKER" ]; then
+        if [ $OS == 'Darwin' ]; then
+          FILE=$HOME/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
+          if test -f "$FILE"; then
+            launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
+            rm ~/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
+            brew services start mysql@5.7
+          else
+            brew services stop mysql@5.7
+            brew services start mysql@5.7
+          fi
+          brew services list
         else
-          brew services stop mysql@5.7
-          brew services start mysql@5.7
+          service mysql restart
+          service mysql status
         fi
-        brew services list
       else
-        service mysql restart
-        service mysql status
+        docker-compose restart db
       fi
       ;;
 
@@ -697,10 +714,14 @@ db(){
       ;;
 
     status)
-      if [ $OS == 'Darwin' ]; then
-        brew services list
-      else  
-        service mysql status
+      if [ -z "$DOCKER" ]; then
+        if [ $OS == 'Darwin' ]; then
+          brew services list
+        else  
+          service mysql status
+        fi
+      else
+        docker-compose ps db
       fi
       ;;
 
@@ -795,13 +816,13 @@ site(){
           docker info > /dev/null 2>&1
           status=$?
           if $(exit $status); then
-            docker-compose up -d db > /dev/null 2>&1
+            docker-compose up -d db $SITE > /dev/null 2>&1
             status=$?
             if $(exit $status); then
               unset DOCKER
               export DOCKER=true
-            fi  
-          fi
+            fi
+          fi  
           ;;
           
         selenium|selenium_remote)
@@ -862,26 +883,56 @@ site(){
       ;;
 
     start)
-      if [ -z "$2" ]; then
-        foreman start $SITE
-      else   
-        case $2 in
-          olimpia|rioclaro|suzano|santoandre|demo)
-            foreman start $2
-            ;;
+      if [ -z "$DOCKER" ]; then
+        if [ -z "$2" ]; then
+          foreman start $SITE
+        else   
+          case $2 in
+            olimpia|rioclaro|suzano|santoandre|demo)
+              foreman start $2
+              ;;
 
-          all)
-            foreman start all
-            ;;
+            all)
+              foreman start all
+              ;;
 
-          *)
-            __pr dang "=> Error: Bad site name "$2
-            __pr
-            return 1
-            ;;
-        esac
+            *)
+              __pr dang "=> Error: Bad site name "$2
+              __pr
+              return 1
+              ;;
+          esac
+        fi
+      else
+        if [ -z "$2" ]; then
+          docker-compose up -d $SITE
+        else   
+          case $2 in
+            olimpia|rioclaro|suzano|santoandre|demo)
+              docker-compose up -d $2
+              ;;
+
+            all)
+              docker-compose up -d 
+              ;;
+
+            *)
+              __pr dang "=> Error: Bad site name "$2
+              __pr
+              return 1
+              ;;
+          esac
+        fi
       fi
       ;;  
+
+    console)
+      if [ -z "$DOCKER" ]; then
+        rails console
+      else
+        docker-compose exec $SITE rails console
+      fi
+      ;;
 
     check|ls)
       foreman check  
