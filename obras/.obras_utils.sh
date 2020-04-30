@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA13
-## Date     : 2020-04-29
+## Version  : PA14
+## Date     : 2020-04-30
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -343,30 +343,51 @@ db(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || download || docker [dbfile]]"
+      __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || download"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
       __pr 
       ;; 
 
     preptest)
-      rails=`rails --version`
-      if [ $rails == 'Rails 6.0.2.1' ]; then
-        rails db:drop
-        rails db:create
-        rails db:migrate
-        __pr info "Seeding:" "db/seeds.production.rb"
-        rails runner "require Rails.root.join('db/seeds.production.rb')"
-        __pr info "Seeding:" "db/seeds.development.rb"
-        rails runner "require Rails.root.join('db/seeds.development.rb')"
-        __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
-        rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
-      else
-        rake db:drop
-        rake db:create
-        rake db:migrate
-        __pr info "Seeding:" "db/seeds.rb"
-        rake db:seed
-      fi 
+      if [ -z "$DOCKER" ]; then
+        rails=`rails --version`
+        if [ $rails == 'Rails 6.0.2.1' ]; then
+          rails db:drop
+          rails db:create
+          rails db:migrate
+          __pr info "Seeding:" "db/seeds.production.rb"
+          rails runner "require Rails.root.join('db/seeds.production.rb')"
+          __pr info "Seeding:" "db/seeds.development.rb"
+          rails runner "require Rails.root.join('db/seeds.development.rb')"
+          __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+          rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
+        else
+          rake db:drop
+          rake db:create
+          rake db:migrate
+          __pr info "Seeding:" "db/seeds.rb"
+          rake db:seed
+        fi
+      else 
+        rails=`rails --version`
+        if [ $rails == 'Rails 6.0.2.1' ]; then
+          docker-compose exec $SITE rails db:drop
+          docker-compose exec $SITE rails db:create
+          docker-compose exec $SITE rails db:migrate
+          __pr info "Seeding:" "db/seeds.production.rb"
+          docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
+          __pr info "Seeding:" "db/seeds.development.rb"
+          docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
+          __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+          docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
+        else
+          docker-compose exec $SITE rake db:drop
+          docker-compose exec $SITE rake db:create
+          docker-compose exec $SITE rake db:migrate
+          __pr info "Seeding:" "db/seeds.rb"
+          docker-compose exec $SITE rake db:seed
+        fi
+      fi
       ;;
 
     ls)
@@ -380,62 +401,121 @@ db(){
       ;;
 
     drop)
-      db=$(__db)
-      if [ "$(__has_database $db)" == 'yes' ]; then
-        rake db:drop
-      else  
-        __pr dang "=> Error: file "$db" does not exists"
+      if [ -z "$DOCKER" ]; then
+        db=$(__db)
+        if [ "$(__has_database $db)" == 'yes' ]; then
+          rake db:drop
+        else  
+          __pr dang "=> Error: file "$db" does not exists"
+        fi
+      else
+        db=$(__db)
+        if [ "$(__has_database $db)" == 'yes' ]; then
+          docker-compose exec $SITE rake db:drop
+        else  
+          __pr dang "=> Error: file "$db" does not exists"
+        fi
       fi
       ;;
 
     create)  
-      db=$(__db)
-      if [ "$(__has_database $db)" == 'no' ]; then
-        rake db:create
-      else  
-        __pr dang "=> Error: file "$db" already exists"
+      if [ -z "$DOCKER" ]; then
+        db=$(__db)
+        if [ "$(__has_database $db)" == 'no' ]; then
+          rake db:create
+        else  
+          __pr dang "=> Error: file "$db" already exists"
+        fi
+      else
+        db=$(__db)
+        if [ "$(__has_database $db)" == 'no' ]; then
+          docker-compose exec $SITE rake db:create
+        else  
+          __pr dang "=> Error: file "$db" already exists"
+        fi
       fi
       ;;
 
     migrate)
-      db=$(__db)
-      tables=$(__has_tables $db)
-      if [ "$(__has_database $db)" == 'yes' ] && [ "$tables" == 'no' ]; then
-        rake db:migrate
-      else  
-        if [ "$(__has_database $db)" == 'no' ]; then
-          __pr dang "=> Error: file "$db" does not exist"
+      if [ -z "$DOCKER" ]; then
+        db=$(__db)
+        tables=$(__has_tables $db)
+        if [ "$(__has_database $db)" == 'yes' ] && [ "$tables" == 'no' ]; then
+          rake db:migrate
+        else  
+          if [ "$(__has_database $db)" == 'no' ]; then
+            __pr dang "=> Error: file "$db" does not exist"
+          fi
+          if [ "$tables" == 'yes' ]; then
+            __pr dang "=> Error: $db has tables"
+          fi 
         fi
-        if [ "$tables" == 'yes' ]; then
-          __pr dang "=> Error: $db has tables"
-        fi 
+      else
+        db=$(__db)
+        tables=$(__has_tables $db)
+        if [ "$(__has_database $db)" == 'yes' ] && [ "$tables" == 'no' ]; then
+          docker-compose exec $SITE rake db:migrate
+        else  
+          if [ "$(__has_database $db)" == 'no' ]; then
+            __pr dang "=> Error: file "$db" does not exist"
+          fi
+          if [ "$tables" == 'yes' ]; then
+            __pr dang "=> Error: $db has tables"
+          fi 
+        fi
       fi
       ;;    
 
     seed)
-      db=$(__db)
-      tables=$(__tables $db)
-      if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
-        rails=`rails --version`
-        if [ $rails == 'Rails 6.0.2.1' ]; then
-          __pr info "Seeding:" "db/seeds.production.rb"
-          rails runner "require Rails.root.join('db/seeds.production.rb')"
-          __pr info "Seeding:" "db/seeds.development.rb"
-          rails runner "require Rails.root.join('db/seeds.development.rb')"
-          __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
-          rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
-        else
-          __pr info "Seeding:" "db/seeds.rb"
-          rake db:seed
-        fi
-      else   
-        if [ '$(__has_database $db)' == 'yes' ]; then
-          __pr dang "=> Error: file "$db" does not exist"
-        fi
-        if [ $tables == 'no' ]; then
-          __pr dang "=> Error: $db has no tables"
-        fi 
-      fi   
+      if [ -z "$DOCKER" ]; then
+        db=$(__db)
+        tables=$(__tables $db)
+        if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
+          rails=`rails --version`
+          if [ $rails == 'Rails 6.0.2.1' ]; then
+            __pr info "Seeding:" "db/seeds.production.rb"
+            rails runner "require Rails.root.join('db/seeds.production.rb')"
+            __pr info "Seeding:" "db/seeds.development.rb"
+            rails runner "require Rails.root.join('db/seeds.development.rb')"
+            __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+            rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
+          else
+            __pr info "Seeding:" "db/seeds.rb"
+            rake db:seed
+          fi
+        else   
+          if [ '$(__has_database $db)' == 'yes' ]; then
+            __pr dang "=> Error: file "$db" does not exist"
+          fi
+          if [ $tables == 'no' ]; then
+            __pr dang "=> Error: $db has no tables"
+          fi 
+        fi   
+      else
+        db=$(__db)
+        tables=$(__tables $db)
+        if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
+          rails=`rails --version`
+          if [ $rails == 'Rails 6.0.2.1' ]; then
+            __pr info "Seeding:" "db/seeds.production.rb"
+            docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
+            __pr info "Seeding:" "db/seeds.development.rb"
+            docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
+            __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+            docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
+          else
+            __pr info "Seeding:" "db/seeds.rb"
+            docker-compose exec $SITE rake db:seed
+          fi
+        else   
+          if [ '$(__has_database $db)' == 'yes' ]; then
+            __pr dang "=> Error: file "$db" does not exist"
+          fi
+          if [ $tables == 'no' ]; then
+            __pr dang "=> Error: $db has no tables"
+          fi 
+        fi   
+      fi
       __pr
       ;;    
 
@@ -734,16 +814,29 @@ db(){
       ;;
 
     socket)
-      mysql_config --socket
+      if [ -z "$DOCKER" ]; then
+        mysql_config --socket
+      else
+        docker compose exec db mysql_config --socket
+      fi
       ;; 
 
     tables)
-      db=$(__db)
-      mysqlshow -uroot $db | more
+      if [ -z "$DOCKER" ]; then
+        db=$(__db)
+        mysqlshow -uroot $db | more
+      else
+        db=$(__db)
+        docker compose exexc db mysqlshow -uroot $db | more
+      fi
       ;;
 
     databases)
-      mysqlshow -uroot | more
+      if [ -z "$DOCKER" ]; then
+        mysqlshow -uroot | more
+      else
+        docker compose exec db mysqlshow -uroot | more
+      fi
       ;;
 
     *)

@@ -4,6 +4,8 @@
 
 #### Docker Development Flux with `Obras - DevTools`
 
+##### Installation and Configuation
+
 Important Characteristics:
 
 * Development Flux with `Docker` without interference with the usual. 
@@ -71,59 +73,31 @@ $ docker volume ls
 $ docker network ls
 ```
 
-In order to start services e.g. `olimpia` and `santoandre`
+#### Develoment Flux with Docker
+
+Is the same as the Regular except that you have to setup an env variable `DOCKER` in the beginning and unset at the end, e.g.:
 ```shell
-$ docker-compose up -d db olimpia santoandre
+$ site set docker
 :
-
-$ docker-compose ps
-   Name                 Command               State           Ports
-----------------------------------------------------------------------------
-db           docker-entrypoint.sh mysqld      Up      3306/tcp, 33060/tcp
-olimpia      ./docker-entrypoint.sh bun ...   Up      0.0.0.0:3002->3000/tcp
-santoandre   ./docker-entrypoint.sh bun ...   Up      0.0.0.0:3005->3000/tcp
-```
-
-In order to import the database services e.g. `olimpia` and `santoandre`
-```shell
-$ site db ls
-db_sqls:
- obras.2020-04-22_olimpia.sql
- obras.2020-04-25_santoandre.sql
-
-$ site db import docker all 
-```
-
-Now you can access both sites from the Browser:
-```
-$ olimpia
+:
 $ site
-site: olimpia
+site: santoandre
 rvm : ruby-2.6.5@rails-6.0.2.1
 env : development
-rails server: http://localhost:3002 19614
+rails server: http://localhost:3005 25380
 mailcatcher : http://localhost:1080
-coverage: false, headless: true, selenium remote: false
-db_dev: olimpia_dev 586 3880773
-db_tst: olimpia_tst 0
+test  : {coverage: false, headless: true}
+docker: {status: true, selenium remote: false}
+db_dev: santoandre_dev 584 805657
+db_tst: santoandre_tst 0
 db_sqls:
- obras.2020-04-22_olimpia.sql
-
- $ santoandre
- $ site
- site: santoandre
- rvm : ruby-2.6.5@rails-6.0.2.1
- env : development
- rails server: http://localhost:3005 19614
- mailcatcher : http://localhost:1080
- coverage: false, headless: true, selenium remote: false
- db_dev: santoandre_dev 583 804261
- db_tst: santoandre_tst 0
- db_sqls:
-  obras.2020-04-25_santoandre.sql
+ obras.2020-04-27_santoandre.sql
+:
+:
+$ site unset docker
 ```
 
-#### Regular Development Flux with `Obras - DevTools`
+##### Regular Development Flux with `Obras - DevTools`
 
 In order to setup the site for development you just have to setup the db:
 ```
@@ -179,14 +153,14 @@ In order to run `RSpec` or `Minitest` tests, the site db has to be prepared i.e.
 $ default
 
 $ site
- site: default
+ site: demo
  rvm : ruby-2.6.5@rails-6.0.2.1
  env : development
- rails server: http://localhost:3000
+ rails server: http://localhost:3013
  mailcatcher : http://localhost:1080
  coverage: false, headless: true, selenium remote: false
- db_dev: obrasdev
- db_tst: obrastest
+ db_dev: demo_dev
+ db_tst: demo_test
  db_sqls:
   no sql files
 
@@ -196,14 +170,14 @@ $ site
  $ site set env development
 
  $ site
- site: default
+ site: demo
  rvm : ruby-2.6.5@rails-6.0.2.1
  env : development
- rails server: http://localhost:3000
+ rails server: http://localhost:3013
  mailcatcher : http://localhost:1080
  coverage: false, headless: true, selenium remote: false
- db_dev: obrasdev 583 21549
- db_tst: obrastest 583 21552
+ db_dev: demo_dev 583 21549
+ db_tst: demo_tst 583 21552
  db_sqls:
   no sql files
 ```
@@ -284,14 +258,14 @@ $ site unset env headless
 $ site set env coverage
 
 $ site
-site: default
+site: demo
 rvm : ruby-2.6.5@rails-6.0.2.1
 env : development
-rails server: http://localhost:3000
+rails server: http://localhost:3013
 mailcatcher : http://localhost:1080
 coverage: true, headless: false, selenium remote: no
-db_dev: obrasdev 583 21502
-db_tst: obrastest 583 1142
+db_dev: demo_dev 583 21502
+db_tst: demo_tst 583 1142
 db_sqls:
  no sql files
 ```
