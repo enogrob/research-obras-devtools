@@ -216,7 +216,7 @@ __import(){
     rails db:drop
     rails db:create
     rails db:environment:set RAILS_ENV=development
-    __pr info "file: " $1
+    ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
       pv $1 | mysql -u root obrasdev 
     else
@@ -226,7 +226,7 @@ __import(){
   else
     rake db:drop
     rake db:create
-    __pr info "file: " $1
+    ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
       pv $1 | mysql -u root obrasdev 
     else
@@ -242,7 +242,7 @@ __import_docker(){
     docker-compose exec $SITE rails db:drop
     docker-compose exec $SITE rails db:create
     rails db:environment:set RAILS_ENV=development
-    __pr info "file: " $1
+    ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
       pv $1 | docker exec -i db mysql -uroot -proot obrasdev
     else
@@ -252,7 +252,7 @@ __import_docker(){
   else
     docker-compose exec $SITE rake db:drop
     docker-compose exec $SITE raake db:create
-    __pr info "file: " $1
+    ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
       pv $1 | docker exec -i db mysql -uroot -proot obrasdev
     else
@@ -355,17 +355,17 @@ db(){
           rails db:drop
           rails db:create
           rails db:migrate
-          __pr info "Seeding:" "db/seeds.production.rb"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
           rails runner "require Rails.root.join('db/seeds.production.rb')"
-          __pr info "Seeding:" "db/seeds.development.rb"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
           rails runner "require Rails.root.join('db/seeds.development.rb')"
-          __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
           rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
         else
           rake db:drop
           rake db:create
           rake db:migrate
-          __pr info "Seeding:" "db/seeds.rb"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.rb"
           rake db:seed
         fi
       else 
@@ -374,17 +374,17 @@ db(){
           docker-compose exec $SITE rails db:drop
           docker-compose exec $SITE rails db:create
           docker-compose exec $SITE rails db:migrate
-          __pr info "Seeding:" "db/seeds.production.rb"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
           docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
-          __pr info "Seeding:" "db/seeds.development.rb"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
           docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
-          __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
           docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
         else
           docker-compose exec $SITE rake db:drop
           docker-compose exec $SITE rake db:create
           docker-compose exec $SITE rake db:migrate
-          __pr info "Seeding:" "db/seeds.rb"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.rb"
           docker-compose exec $SITE rake db:seed
         fi
       fi
@@ -406,14 +406,14 @@ db(){
         if [ "$(__has_database $db)" == 'yes' ]; then
           rake db:drop
         else  
-          __pr dang "=> Error: file "$db" does not exists"
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
         fi
       else
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
           docker-compose exec $SITE rake db:drop
         else  
-          __pr dang "=> Error: file "$db" does not exists"
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
         fi
       fi
       ;;
@@ -424,14 +424,14 @@ db(){
         if [ "$(__has_database $db)" == 'no' ]; then
           rake db:create
         else  
-          __pr dang "=> Error: file "$db" already exists"
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" already exists"
         fi
       else
         db=$(__db)
         if [ "$(__has_database $db)" == 'no' ]; then
           docker-compose exec $SITE rake db:create
         else  
-          __pr dang "=> Error: file "$db" already exists"
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" already exists"
         fi
       fi
       ;;
@@ -444,10 +444,10 @@ db(){
           rake db:migrate
         else  
           if [ "$(__has_database $db)" == 'no' ]; then
-            __pr dang "=> Error: file "$db" does not exist"
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
           fi
           if [ "$tables" == 'yes' ]; then
-            __pr dang "=> Error: $db has tables"
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" has tables"
           fi 
         fi
       else
@@ -457,10 +457,10 @@ db(){
           docker-compose exec $SITE rake db:migrate
         else  
           if [ "$(__has_database $db)" == 'no' ]; then
-            __pr dang "=> Error: file "$db" does not exist"
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
           fi
           if [ "$tables" == 'yes' ]; then
-            __pr dang "=> Error: $db has tables"
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" has tables"
           fi 
         fi
       fi
@@ -473,22 +473,22 @@ db(){
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
-            __pr info "Seeding:" "db/seeds.production.rb"
+            ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
             rails runner "require Rails.root.join('db/seeds.production.rb')"
-            __pr info "Seeding:" "db/seeds.development.rb"
+            ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
             rails runner "require Rails.root.join('db/seeds.development.rb')"
-            __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+            ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
             rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
           else
-            __pr info "Seeding:" "db/seeds.rb"
+            ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.rb"
             rake db:seed
           fi
         else   
           if [ '$(__has_database $db)' == 'yes' ]; then
-            __pr dang "=> Error: file "$db" does not exist"
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
           fi
           if [ $tables == 'no' ]; then
-            __pr dang "=> Error: $db has no tables"
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" has tables"
           fi 
         fi   
       else
@@ -497,22 +497,22 @@ db(){
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
-            __pr info "Seeding:" "db/seeds.production.rb"
+            ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
             docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
-            __pr info "Seeding:" "db/seeds.development.rb"
+            ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
             docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
-            __pr info "Seeding:" "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
+            ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
             docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
           else
-            __pr info "Seeding:" "db/seeds.rb"
+            ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.rb"
             docker-compose exec $SITE rake db:seed
           fi
         else   
           if [ '$(__has_database $db)' == 'yes' ]; then
-            __pr dang "=> Error: file "$db" does not exist"
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
           fi
           if [ $tables == 'no' ]; then
-            __pr dang "=> Error: $db has no tables"
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" has tables"
           fi 
         fi   
       fi
@@ -635,18 +635,18 @@ db(){
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
           IFS=' '
           read -ra file <<< "$files"
-          __pr info "Listing:" "${file[0]}"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
           echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com 
-          __pr info "Downloading:" "${file[1]}"
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
           scp deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
-          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
-          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
@@ -654,18 +654,18 @@ db(){
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
           IFS=' '
           read -ra file <<< "$files"
-          __pr info "Listing:" "${file[0]}"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
           echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com 
-          __pr info "Downloading:" "${file[1]}"
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
           scp deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
-          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
-          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
@@ -673,18 +673,18 @@ db(){
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
           IFS=' '
           read -ra file <<< "$files"
-          __pr info "Listing:" "${file[0]}"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
           echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com 
-          __pr info "Downloading:" "${file[1]}"
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
           scp deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
-          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
-          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
@@ -692,18 +692,18 @@ db(){
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
           IFS=' '
           read -ra file <<< "$files"
-          __pr info "Listing:" "${file[0]}"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
           echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com 
-          __pr info "Downloading:" "${file[1]}"
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
           scp deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
-          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
-          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
@@ -711,18 +711,18 @@ db(){
           files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
           IFS=' '
           read -ra file <<< "$files"
-          __pr info "Listing:" "${file[0]}"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
           echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com 
-          __pr info "Downloading:" "${file[1]}"
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
           scp deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
-          __pr info "Renaming to:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          __pr info "Ungzipping:" "${sitefile[0]}_$SITE.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           gunzip "${sitefile[0]}_$SITE.sql.gz"
           rm -rf "${sitefile[0]}_$SITE.sql~"
-          __pr info "Cleaning:" "${sitefile[0]}_$SITE.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
