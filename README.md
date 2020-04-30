@@ -36,6 +36,7 @@ obras_utils.sh
 [x] Change site envs default
 [x] Integrate Docker into Obras Utils
 [x] Integrate Docker Test into Obras Utils
+[x] Implement db update
 install.sh
 [ ] Installation support for Obras Utils
 [x] Installation support for Foreman
