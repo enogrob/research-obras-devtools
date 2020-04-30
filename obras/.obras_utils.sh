@@ -422,119 +422,108 @@ db(){
 
     import)
       case $2 in
-        docker)
-          if [ -z "$DOCKER" ]; then
-            __pr dang "=> Error: Docker not started"
-            __pr
-            return 1
-          else
-            case $3 in
-              all)
-                files_sql=(`ls *.sql`)
-                if [ ! -z "$files_sql" ]; then
-                  IFS=$'\n'
-                  files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-                  for file in "${files_sql[@]}"
-                  do
-                    if [ $(__contains "$file" "olimpia") == "y" ]; then
-                      site set olimpia
-                      __import_docker $(basename $file)
-                    fi
-                    if [ $(__contains "$file" "rioclaro") == "y" ]; then
-                      site set rioclaro
-                      __import_docker $(basename $file)
-                    fi
-                    if [ $(__contains "$file" "suzano") == "y" ]; then
-                      site set suzano
-                      __import_docker $(basename $file)
-                    fi
-                    if [ $(__contains "$file" "santoandre") == "y" ]; then
-                      site set santoandre
-                      __import_docker $(basename $file)
-                    fi
-                    if [ $(__contains "$file" "demo") == "y" ]; then
-                      site set demo
-                      __import_docker $(basename $file)
-                    fi
-                  done
-                else   
-                  __pr dang "=> Error: No sql files"
-                  __pr
-                  return 1
-                fi
-                ;;
-
-              *)
-                if test -f "$3"; then
-                  __import_docker $3
-                else
-                  files_sql=(`ls *$SITE.sql`)
-                  if [ ! -z "$files_sql" ]; then
-                    IFS=$'\n'
-                    files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-                    file=${files_sql[0]}
-                    __import_docker $(basename $file)
-                  else
-                    __pr dang "=> Error: No sql files"
-                    __pr
-                    return 1
-                  fi
-                fi
-                ;;
-
-            esac
-          fi
-          ;;
-
         all)
-          files_sql=(`ls *.sql`)
-          if [ ! -z "$files_sql" ]; then
-            IFS=$'\n'
-            files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-            for file in "${files_sql[@]}"
-            do
-              if [ $(__contains "$file" "olimpia") == "y" ]; then
-                site set olimpia
-                __import $(basename $file)
-              fi
-              if [ $(__contains "$file" "rioclaro") == "y" ]; then
-                site set rioclaro
-                __import $(basename $file)
-              fi
-              if [ $(__contains "$file" "suzano") == "y" ]; then
-                site set suzano
-                __import $(basename $file)
-              fi
-              if [ $(__contains "$file" "santoandre") == "y" ]; then
-                site set santoandre
-                __import $(basename $file)
-              fi
-              if [ $(__contains "$file" "demo") == "y" ]; then
-                site set demo
-                __import $(basename $file)
-              fi
-            done
-          else   
-            __pr dang "=> Error: No sql files"
-            __pr
-            return 1
-          fi
-          ;;
-
-        *)
-          if test -f "$2"; then
-            __import $2
-          else
-            files_sql=(`ls *$SITE.sql`)
+          if [ -z "$DOCKER" ]; then
+            files_sql=(`ls *.sql`)
             if [ ! -z "$files_sql" ]; then
               IFS=$'\n'
               files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-              file=${files_sql[0]}
-              __import $(basename $file)
+              for file in "${files_sql[@]}"
+              do
+                if [ $(__contains "$file" "olimpia") == "y" ]; then
+                  site set olimpia
+                  __import $(basename $file)
+                fi
+                if [ $(__contains "$file" "rioclaro") == "y" ]; then
+                  site set rioclaro
+                  __import $(basename $file)
+                fi
+                if [ $(__contains "$file" "suzano") == "y" ]; then
+                  site set suzano
+                  __import $(basename $file)
+                fi
+                if [ $(__contains "$file" "santoandre") == "y" ]; then
+                  site set santoandre
+                  __import $(basename $file)
+                fi
+                if [ $(__contains "$file" "demo") == "y" ]; then
+                  site set demo
+                  __import $(basename $file)
+                fi
+              done
             else   
               __pr dang "=> Error: No sql files"
               __pr
               return 1
+            fi
+          else
+            files_sql=(`ls *.sql`)
+            if [ ! -z "$files_sql" ]; then
+              IFS=$'\n'
+              files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+              for file in "${files_sql[@]}"
+              do
+                if [ $(__contains "$file" "olimpia") == "y" ]; then
+                  site set olimpia
+                  __import_docker $(basename $file)
+                fi
+                if [ $(__contains "$file" "rioclaro") == "y" ]; then
+                  site set rioclaro
+                  __import_docker $(basename $file)
+                fi
+                if [ $(__contains "$file" "suzano") == "y" ]; then
+                  site set suzano
+                  __import_docker $(basename $file)
+                fi
+                if [ $(__contains "$file" "santoandre") == "y" ]; then
+                  site set santoandre
+                  __import_docker $(basename $file)
+                fi
+                if [ $(__contains "$file" "demo") == "y" ]; then
+                  site set demo
+                  __import_docker $(basename $file)
+                fi
+              done
+            else   
+              __pr dang "=> Error: No sql files"
+              __pr
+              return 1
+            fi
+          fi
+          ;;
+
+        *)
+          if [ -z "$DOCKER" ]; then
+            if test -f "$2"; then
+              __import $2
+            else
+              files_sql=(`ls *$SITE.sql`)
+              if [ ! -z "$files_sql" ]; then
+                IFS=$'\n'
+                files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+                file=${files_sql[0]}
+                __import $(basename $file)
+              else   
+                __pr dang "=> Error: No sql files"
+                __pr
+                return 1
+              fi
+            fi
+          else  
+            if test -f "$2"; then
+              __import_docker $2
+            else
+              files_sql=(`ls *$SITE.sql`)
+              if [ ! -z "$files_sql" ]; then
+                IFS=$'\n'
+                files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+                file=${files_sql[0]}
+                __import_docker $(basename $file)
+              else
+                __pr dang "=> Error: No sql files"
+                __pr
+                return 1
+              fi
             fi
           fi
           ;;
