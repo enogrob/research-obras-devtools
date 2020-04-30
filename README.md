@@ -34,7 +34,7 @@ obras_utils.sh
 [x] Implement site db dowload all
 [x] Change demo to the default site (port 3000) when site is not defined
 [x] Change site envs default
-[ ] Integrate Docker into Obras Utils
+[x] Integrate Docker into Obras Utils
 install.sh
 [ ] Installation support for Obras Utils
 [x] Installation support for Foreman
