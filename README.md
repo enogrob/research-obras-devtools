@@ -41,5 +41,5 @@ install.sh
 [x] Installation support for Docker
 [x] Installation support for VsCode
 [x] Installation support for Rubymine
-[ ] Update README.md
+[x] Update README.md
 ```
