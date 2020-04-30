@@ -866,7 +866,7 @@ site(){
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
       __pr info "site" "[set sitename || envs || set/unset env]"
-      __pr info "site" "[check/ls || start [sitename || all]]"
+      __pr info "site" "[check/ls || start [sitename || all] || test || rspec]"
       __pr info "site" "[ngrok || mailcatcher start/stop]"
       __pr 
       ;;
@@ -1082,6 +1082,30 @@ site(){
       shift
       db $*
       ;;  
+
+    test)
+      if [ -z $DOCKER ]; then
+        rails test $*
+      else
+        docker-compose exec $SITE test $*
+      fi
+      ;;
+
+    test:system)
+      if [ -z $DOCKER ]; then
+        rails test:system $*
+      else
+        docker-compose exec $SITE test:system $*
+      fi
+      ;;
+
+    rspec)
+      if [ -z $DOCKER ]; then
+        rspec $*
+      else
+        docker-compose exec $SITE rspec $*
+      fi
+      ;;
 
     *)
       __pr bold "site:" $SITE

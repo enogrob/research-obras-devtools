@@ -184,7 +184,7 @@ $ site
 
 Running `Unit` tests:
 ```shell
-$ rails test
+$ site test
 Started with run options --seed 65307
 
 BuildingPurposeInProjectCreationTest
@@ -204,7 +204,7 @@ Finished in 3.16327s
 
 Running `System` tests:
 ```
-$ rails test:system
+$ site test:system
 Started with run options --seed 43391
 
 BuildingPurposeInProjectCreationsTest
@@ -254,18 +254,18 @@ Finished in 199.26141s
 
 If you want to debug you have to set env `headless`. The same if you want run with coverage, you have to set env `coverage`.
 ```
-$ site unset env headless
-$ site set env coverage
+$ site unset headless
+$ site set coverage
 
 $ site
 site: demo
 rvm : ruby-2.6.5@rails-6.0.2.1
 env : development
-rails server: http://localhost:3013
+rails server: http://localhost:3013 25380
 mailcatcher : http://localhost:1080
-coverage: true, headless: false, selenium remote: no
-db_dev: demo_dev 583 21502
-db_tst: demo_tst 583 1142
+test  : {coverage: true, headless: false}
+db_dev: demo_dev 583 21027
+db_tst: demo_tst 583 21455
 db_sqls:
  no sql files
 ```
