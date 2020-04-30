@@ -155,11 +155,20 @@ __db(){
 }      
 
 __has_database(){
-  db=`mysqlshow -uroot | grep -o $1`
-  if [ "$db" == $1 ]; then
-    echo 'yes'
+  if [ -z "$DOCKER" ]; then
+    db=`mysqlshow -uroot | grep -o $1`
+    if [ "$db" == $1 ]; then
+      echo 'yes'
+    else
+      echo 'no'  
+    fi
   else
-    echo 'no'  
+    db=`docker-compose exec db mysqlshow -uroot -proot | grep -o $1`
+    if [ "$db" == $1 ]; then
+      echo 'yes'
+    else
+      echo 'no'  
+    fi
   fi
 }
 
@@ -182,13 +191,23 @@ __has_records(){
 }
 
 __records(){
-  s=`mysql -u root -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-  echo $(echo -n $s | sed 's/[^0-9]*//g')
+  if [ -z "$DOCKER" ]; then
+    s=`mysql -u root -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
+    echo $(echo -n $s | sed 's/[^0-9]*//g')
+  else
+    s=`docker-compose exec db mysql -uroot -proot -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
+    echo $(echo -n $s | sed 's/[^0-9]*//g')
+  fi
 } 
 
 __tables(){
-  s=`mysql -u root -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-  echo $(echo -n $s | sed 's/[^0-9]*//g')
+  if [ -z "$DOCKER" ]; then
+    s=`mysql -u root -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
+    echo $(echo -n $s | sed 's/[^0-9]*//g')
+  else
+    s=`docker-compose exec db mysql -uroot -proot -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
+    echo $(echo -n $s | sed 's/[^0-9]*//g')
+  fi
 }
 
 __import(){
