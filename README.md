@@ -37,10 +37,11 @@ obras_utils.sh
 [x] Integrate Docker into Obras Utils
 [x] Integrate Docker Test into Obras Utils
 [x] Implement db update
-[ ] Integrate Spinners
+[x] Integrate Spinners
 [ ] Testing on Docker
 install.sh
 [ ] Installation support for Obras Utils
+[ ] Installation support for Spinners
 [x] Installation support for Foreman
 [x] Installation support for Docker
 [x] Installation support for VsCode
