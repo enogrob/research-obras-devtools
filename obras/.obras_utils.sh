@@ -55,6 +55,35 @@ alias dki='docker image'
 alias dkis='docker images'
 
 # functions
+__db_drop(){
+  if [ -z "$DOCKER" ]; then
+    db=$(__db)
+    if [ "$(__has_database $db)" == 'yes' ]; then
+      rails=`rails --version`
+      if [ $rails == 'Rails 6.0.2.1' ]; then
+        __start_spinner 
+        rails db:drop > /dev/null 2>&1
+        __stop_spinner $?
+      else
+        rake db:drop
+      fi
+    else  
+      ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
+    fi
+  else
+    db=$(__db)
+    if [ "$(__has_database $db)" == 'yes' ]; then
+      rails=`rails --version`
+      if [ $rails == 'Rails 6.0.2.1' ]; then
+        docker-compose exec $SITE rails db:drop
+      else
+        docker-compose exec $SITE rake db:drop
+      fi
+    else  
+      ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
+    fi
+  fi
+}
 
 __pr(){
     if [ $# -eq 0 ]; then
