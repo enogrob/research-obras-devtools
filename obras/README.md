@@ -116,8 +116,7 @@ db_tst: santoandre_tst
 db_sqls:
  no sql files
 
-$ site db download
-$ site db import
+$ site db update
 
 $ site 
 site: santoandre
