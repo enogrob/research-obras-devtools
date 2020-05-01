@@ -3,8 +3,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : install.sh
-## Version  : PA02
-## Date     : 2020-04-21
+## Version  : PA03
+## Date     : 2020-05-01
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -20,7 +20,7 @@ case $1 in
           unset OBRAS
           export OBRAS="$3"
         else  
-          echo -e " \033[33m Directory $3 does not exist\033[0m"
+          echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$3\" does not exist \033[0m"
           echo ""
         fi  
         ;;
@@ -30,7 +30,7 @@ case $1 in
           unset OBRAS_OLD
           export OBRAS_OLD="$3"
         else  
-          echo -e " \033[33m Directory $3 does not exist\033[0m"
+          echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$3\" does not exist \033[0m"
           echo ""
         fi  
         ;;
@@ -42,7 +42,7 @@ case $1 in
               unset INSTALL_DIR
               export INSTALL_DIR="$OBRAS"
             else
-              echo -e " \033[33m Env OBRAS has not been defined\033[0m"
+              echo -e "\033[1;31m==> \033[0m\033[1;39mEnv \"OBRAS\" has not been defined \033[0m"
               echo ""
             fi  
             ;;
@@ -52,20 +52,20 @@ case $1 in
               unset INSTALL_DIR
               export INSTALL_DIR="$OBRAS_OLD"
             else
-              echo -e " \033[33m Env OBRAS_OLD has not been defined\033[0m"
+              echo -e "\033[1;31m==> \033[0m\033[1;39mEnv \"OBRAS_OLD\" has not been defined \033[0m"
               echo ""
             fi  
             ;;
 
           *)
-            echo -e " \033[33m Parameter $3 not valid\033[0m"
+            echo -e "\033[1;31m==> \033[0m\033[1;39mParameter \"$3\" not valid \033[0m"
             echo ""
             ;;
         esac
         ;;      
 
       *)
-        echo -e '\033[1;39m=> dir envs\033[0m'
+        echo -e '\033[1;39m==> dir envs\033[0m'
         echo -e '\033[1;36mOBRAS    : \033[0m'$OBRAS  
         echo -e '\033[1;36mOBRAS_OLD: \033[0m'$OBRAS_OLD  
         echo ""
@@ -74,16 +74,16 @@ case $1 in
     
   obras)  
     if ! test -f $HOME/.obras_utils.sh; then
-      echo -e "\033[1;39m=> Installing... 'obras utils' \033[0m"  
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"obras utils\" \033[0m"
       echo 'source $HOME/obras_utils.sh' >> $HOME/.bashrc
     else  
-      echo -e "\033[1;39m=> Updating..... 'obras utils' \033[0m"  
+      echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"obras utils\" \033[0m"
     fi  
     cp obras/.obras_utils.sh $HOME
     source $HOME/.obras_utils.sh 
 
     if ! test -f /usr/local/bin/pv; then
-      __pr info "=> Installing..." "pipe viewer"  
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"pipe viewer\" \033[0m"
       if [ "$OS" == 'Darwin' ]; then
         brew install pv
       else  
@@ -92,7 +92,7 @@ case $1 in
     fi
 
     if ! test -f /usr/local/bin/ansi; then
-      __pr info "=> Installing..." "ansi"  
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"ansi\" \033[0m"
       curl -OL git.io/ansi
       chmod 755 ansi
       sudo mv ansi /usr/local/bin/
@@ -104,19 +104,19 @@ case $1 in
 
   vscode)
       if [ -z "$INSTALL_DIR"]; then
-        echo -e " \033[33m INSTALL_DIR has not been defined\033[0m"
+        echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
         if ! test -d $HOME/.vscode; then
-          echo -e "\033[1;39m=> Installing... 'home.vscode' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"home.vscode\" \033[0m"
         else  
-          echo -e "\033[1;39m=> Updating..... 'home.vscode' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"home.vscode\" \033[0m"
         fi
         cp -r vscode/home.vscode $HOME/.vscode
         if ! test -d $INSTALL_DIR/.vscode; then
-          echo -e "\033[1;39m=> Installing... 'obras.vscode' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"obras.vscode\" \033[0m"
         else  
-          echo -e "\033[1;39m=> Updating..... 'obras.vscode' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"obras.vscode\" \033[0m"
         fi
         cp -r vscode/obras.vscode $INSTALL_DIR/.vscode
       fi
@@ -124,13 +124,13 @@ case $1 in
 
   rubymine)
       if [ -z "$INSTALL_DIR"]; then
-        echo -e " \033[33m INSTALL_DIR has not been defined\033[0m"
+        echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
         if ! test -d $INSTALL_DIR/.idea; then
-          echo -e "\033[1;39m=> Installing... 'rubymine.idea' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"rubymine.idea\" \033[0m"
         else  
-          echo -e "\033[1;39m=> Updating..... 'rubymine.idea' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"rubymine.idea\" \033[0m"
         fi
         cp -r rubymine/.idea $INSTALL_DIR/.idea
       fi  
@@ -138,13 +138,13 @@ case $1 in
 
   foreman)
       if [ -z "$INSTALL_DIR"]; then
-        echo -e " \033[33m INSTALL_DIR has not been defined\033[0m"
+        echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
         if ! test -f $INSTALL_DIR/Procfile; then
-          echo -e "\033[1;39m=> Installing... 'foreman.Procfile' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"foreman.Profile\" \033[0m"
         else  
-          echo -e "\033[1;39m=> Updating..... 'foreman.Procfile' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"foreman.Procfile\" \033[0m"
         fi
         cp foreman/Procfile $INSTALL_DIR/.idea
       fi  
@@ -152,13 +152,13 @@ case $1 in
 
   docker)
       if [ -z "$INSTALL_DIR"]; then
-        echo -e " \033[33m INSTALL_DIR has not been defined\033[0m"
+        echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
         if ! test -f $INSTALL_DIR/Dockerfile; then
-          echo -e "\033[1;39m=> Installing... 'docker' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"docker\" \033[0m"
         else  
-          echo -e "\033[1;39m=> Updating..... 'docker' \033[0m"  
+          echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"docker\" \033[0m"
         fi
         cp docker/Dockerfile $INSTALL_DIR
         cp docker/.dockerignore $INSTALL_DIR
