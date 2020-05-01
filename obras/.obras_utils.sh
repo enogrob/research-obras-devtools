@@ -3,7 +3,7 @@
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
 ## Version  : PA15
-## Date     : 2020-04-30
+## Date     : 2020-05-01
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -650,7 +650,7 @@ db(){
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
@@ -669,7 +669,7 @@ db(){
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
@@ -688,7 +688,7 @@ db(){
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
@@ -707,7 +707,7 @@ db(){
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
@@ -726,7 +726,7 @@ db(){
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          gunzip "${sitefile[0]}_$SITE.sql.gz"
+          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
           sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
