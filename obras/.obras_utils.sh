@@ -102,7 +102,7 @@ __pr(){
                 ;;
         esac
     else
-        __pr red "=> Error: Bad number of arguments."
+        ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad number of arguments "
         __pr
         return 1
     fi
@@ -557,7 +557,7 @@ db(){
                 fi
               done
             else   
-              __pr dang "=> Error: No sql files"
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
               __pr
               return 1
             fi
@@ -590,7 +590,7 @@ db(){
                 fi
               done
             else   
-              __pr dang "=> Error: No sql files"
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
               __pr
               return 1
             fi
@@ -609,7 +609,7 @@ db(){
                 file=${files_sql[0]}
                 __import $(basename $file)
               else   
-                __pr dang "=> Error: No sql files"
+                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
                 __pr
                 return 1
               fi
@@ -625,7 +625,7 @@ db(){
                 file=${files_sql[0]}
                 __import_docker $(basename $file)
               else
-                __pr dang "=> Error: No sql files"
+                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
                 __pr
                 return 1
               fi
@@ -733,7 +733,7 @@ db(){
           ;;
 
         *)
-          __pr dang "=> Error: Bad site "$SITE
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$SITE
           __pr
           return 1
           ;;
@@ -805,7 +805,7 @@ db(){
           ;;
 
         *)
-          __pr dang "=> Error: Bad site "$2
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$2
           __pr
           return 1
           ;;
@@ -952,7 +952,7 @@ site(){
               export RAILS_ENV=$3
               ;;
             *)
-              __pr dang "=> Error: Bad env "$3
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad env "$3
               __pr
               return 1
               ;;
@@ -960,7 +960,7 @@ site(){
           ;;
 
         *)
-          __pr dang "=> Error: Bad site "$2
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$2
           __pr
           return 1
           ;;
@@ -990,7 +990,7 @@ site(){
           ;;
 
         *)
-          __pr dang "=> Error: Bad parameter "$2
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad parameter "$2
           __pr
           return 1
           ;;
@@ -1012,7 +1012,7 @@ site(){
               ;;
 
             *)
-              __pr dang "=> Error: Bad site name "$2
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
               __pr
               return 1
               ;;
@@ -1032,7 +1032,7 @@ site(){
               ;;
 
             *)
-              __pr dang "=> Error: Bad site name "$2
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
               __pr
               return 1
               ;;
