@@ -653,7 +653,7 @@ db(){
           pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         rioclaro)
@@ -672,7 +672,7 @@ db(){
           pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         suzano)  
@@ -691,7 +691,7 @@ db(){
           pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         santoandre)  
@@ -710,7 +710,7 @@ db(){
           pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         demo)
@@ -729,7 +729,7 @@ db(){
           pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
           rm -rf "${sitefile[0]}_$SITE.sql~"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          sed '/^\/\*\!50112/d' "${sitefile[0]}_$SITE.sql" > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
+          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ;;
 
         *)
