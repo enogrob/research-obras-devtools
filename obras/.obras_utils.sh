@@ -37,13 +37,13 @@ alias obras='cd $OBRAS;title obras'
 alias downloads='cd $HOME/Downloads;title downloads'
 alias code='code --disable-gpu .&'
 alias mysql='mysql -u root'
-alias olimpia='site set olimpia'
-alias rioclaro='site set rioclaro'
-alias suzano='site set suzano'
-alias santoandre='site set santoandre'
-alias demo='site set demo'
+alias olimpia='cd $OBRAS;site set olimpia'
+alias rioclaro='cd $OBRAS;site set rioclaro'
+alias suzano='cd $OBRAS;site set suzano'
+alias santoandre='cd $OBRAS;site set santoandre'
+alias demo='cd $OBRAS;site set demo'
 alias downloads='cd $HOME/Downloads;title downloads'
-alias default='site set default'
+alias default='cd $OBRAS;site set default'
 alias rc='rvm current'
 alias window='tput cols;tput lines'
 
@@ -338,7 +338,13 @@ __url(){
   fi
 }
 
+__is_obras(){
+  [[ $PWD == $OBRAS || $PWD == $OBRAS_OLD ]]
+}
+
 db(){
+  __is_obras
+  if [ $? -eq 0 ]; then
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
@@ -863,9 +869,12 @@ db(){
       __pr
       ;;
   esac
+  fi
 }
 
 site(){
+  __is_obras
+  if [ $? -eq 0 ]; then
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
@@ -1126,4 +1135,5 @@ site(){
       db
       ;;
   esac
+  fi
 }
