@@ -3,8 +3,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : install.sh
-## Version  : PA03
-## Date     : 2020-05-01
+## Version  : PA04
+## Date     : 2020-05-02
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -13,65 +13,63 @@
 # set -x
 
 case $1 in 
-  env)
-    case $2 in 
-      obras)
-        if test -d "$3"; then
-          unset OBRAS
-          export OBRAS="$3"
-        else  
-          echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$3\" does not exist \033[0m"
-          echo ""
-        fi  
-        ;;
+  obras_dir)
+    if test -d "$2"; then
+      unset INSTALL_DIR
+      export INSTALL_DIR="obras_dir"
+      unset OBRAS
+      export OBRAS="$2"
+    else  
+      echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$2\" does not exist \033[0m"
+      echo ""
+    fi  
+    if test -d "$3"; then
+      unset OBRAS_OLD
+      export OBRAS_OLD="$3"
+    else  
+      echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$3\" does not exist \033[0m"
+      echo ""
+    fi  
+    test -f obras/temp && rm -rf obras/temp*
+    sed 's@\$OBRASTMP@'"$1"'@' obras/.obras_utils.sh > obras/temp
+    sed 's@\$OBRASOLDTMP@'"$2"'@' obras/temp > obras/temp1 
+    source obras/temp1 
+    echo -e '\033[1;39m=> envs\033[0m'
+    echo -e " \033[36m INSTALL_DIR: $INSTALL_DIR\033[0m"
+    echo ""
+    echo -e " \033[36m OBRAS      : $OBRAS\033[0m"
+    echo -e " \033[36m OBRAS_OLD  : $OBRAS_OLD\033[0m"
+    ;;
 
-      obras_old)  
-        if test -d "$3"; then
-          unset OBRAS_OLD
-          export OBRAS_OLD="$3"
-        else  
-          echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$3\" does not exist \033[0m"
-          echo ""
-        fi  
-        ;;
+  obras_old_dir)  
+    if test -d "$2"; then
+      unset INSTALL_DIR
+      export INSTALL_DIR="obras_old_dir"
+      unset OBRAS
+      export OBRAS="$2"
+    else  
+      echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$2\" does not exist \033[0m"
+      echo ""
+    fi  
+    if test -d "$3"; then
+      unset OBRAS_OLD
+      export OBRAS_OLD="$3"
+    else  
+      echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$3\" does not exist \033[0m"
+      echo ""
+    fi  
+    test -f obras/temp && rm -rf obras/temp*
+    sed 's@\$OBRASTMP@'"$1"'@' obras/.obras_utils.sh > obras/temp
+    sed 's@\$OBRASOLDTMP@'"$2"'@' obras/temp > obras/temp1 
+    source obras/temp1 
+    echo -e '\033[1;39m=> envs\033[0m'
+    echo -e " \033[36m INSTALL_DIR: $INSTALL_DIR\033[0m"
+    echo ""
+    echo -e " \033[36m OBRAS      : $OBRAS\033[0m"
+    echo -e " \033[36m OBRAS_OLD  : $OBRAS_OLD\033[0m"
+    ;;
 
-      install_dir) 
-        case $3 in 
-          obras)
-            if [ ! -z "$OBRAS" ]; then
-              unset INSTALL_DIR
-              export INSTALL_DIR="$OBRAS"
-            else
-              echo -e "\033[1;31m==> \033[0m\033[1;39mEnv \"OBRAS\" has not been defined \033[0m"
-              echo ""
-            fi  
-            ;;
 
-          obras_old)
-            if [ ! -z "$OBRAS_OLD" ]; then
-              unset INSTALL_DIR
-              export INSTALL_DIR="$OBRAS_OLD"
-            else
-              echo -e "\033[1;31m==> \033[0m\033[1;39mEnv \"OBRAS_OLD\" has not been defined \033[0m"
-              echo ""
-            fi  
-            ;;
-
-          *)
-            echo -e "\033[1;31m==> \033[0m\033[1;39mParameter \"$3\" not valid \033[0m"
-            echo ""
-            ;;
-        esac
-        ;;      
-
-      *)
-        echo -e '\033[1;39m==> dir envs\033[0m'
-        echo -e '\033[1;36mOBRAS    : \033[0m'$OBRAS  
-        echo -e '\033[1;36mOBRAS_OLD: \033[0m'$OBRAS_OLD  
-        echo ""
-    esac 
-    ;;   
-    
   obras)  
     if ! test -f $HOME/.obras_utils.sh; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"obras utils\" \033[0m"
@@ -79,7 +77,10 @@ case $1 in
     else  
       echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"obras utils\" \033[0m"
     fi  
-    cp obras/.obras_utils.sh $HOME
+    if ! test -f obras/temp1 then
+      exit 1
+    end  
+    cp obras/temp1 $HOME/.obras_utils.sh
     source $HOME/.obras_utils.sh 
 
     if ! test -f /usr/local/bin/pv; then
@@ -183,7 +184,7 @@ case $1 in
   *)
     echo -e "\033[1;39mCrafted (c) 2013~2020 by InMov - Intelligence in Movement \033[0m"
     echo "::"
-    echo -e "1. \033[36minstall.sh" " [env <obras value> || <obras_old value> || <install_dir value>] \033[0m"
+    echo -e "1. \033[36minstall.sh" " [install_dir [obras || obras_old] obras_dir obras_old_dir] \033[0m"
     echo -e "2. \033[36minstall.sh" " [obras || docker || vscode || rubymine] \033[0m"
     echo "::"
     echo -e '\033[1;39m=> envs\033[0m'

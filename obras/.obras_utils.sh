@@ -19,8 +19,10 @@ if [ $OS == 'Darwin' ]; then
 fi
 
 export MAILCATCHER_ENV=LOCALHOST
-export OBRAS="$HOME/Projects/obras"
-export OBRAS_OLD="$HOME/Logbook/obras"
+export OBRASTMP="$HOME/Projects/obras"
+export OBRASOLDTMP="$HOME/Logbook/obras"
+export OBRAS=$OBRASTMP
+export OBRAS_OLD=$OBRASOLDTMP
 export RAILS_ENV=development
 export RUBYOPT=-W0
 export SITE=default
