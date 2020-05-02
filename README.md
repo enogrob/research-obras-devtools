@@ -11,11 +11,22 @@ Solution Integrator Experienced - Certified by Ericsson
 
 This in order to improve the Obras Development Process, developing utilities and support for `Foreman`, `Docker` and  editors `VsCode` and `Rubymine`. 
 
+**Advantages:**
+
+* Development Flux and Environment seamlessly Integrated with **Docker**
+* Automatic **db** update
+* Live **db, servers, testing** information
+* **Progress bars** and **spinners** for long tasks duration
+* Supports **NGrok** and **Foreman**
+* Extends use of [https://trello.com/c/sIcQXzig/116-chromeapps-for-eicon](https://trello.com/c/sIcQXzig/116-chromeapps-for-eicon)
+* Configurations support for **Rubymine** and **Vscode**
+
 **Refs:**
 
 * [1] [**Project Obras Devtools** in Github](https://github.com/enogrob/project-obras-devtools)
 * [2] [**Pipe Viewer**](http://www.ivarch.com/programs/pv.shtml)
 * [3] [**Library Ansi**](https://github.com/fidian/ansi)
+* [4] [**Revolver**](https://github.com/molovo/revolver)
 
 ## Activities
 
@@ -41,7 +52,7 @@ obras_utils.sh
 [ ] Testing on Docker
 install.sh
 [ ] Installation support for Obras Utils
-[ ] Installation support for Spinners
+[x] Installation support for Spinners
 [x] Installation support for Foreman
 [x] Installation support for Docker
 [x] Installation support for VsCode

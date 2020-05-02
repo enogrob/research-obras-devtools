@@ -98,6 +98,18 @@ case $1 in
       sudo mv ansi /usr/local/bin/
     fi 
 
+    if ! test -f /usr/local/bin/revolver; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"revolver\" \033[0m"
+      if [ "$OS" == 'Darwin' ]; then
+        brew install molovo/revolver/revolver
+      else  
+        git clone https://github.com/molovo/revolver revolver
+        chmod u+x revolver/revolver
+        sudo mv revolver/revolver /usr/local/bin
+        rm -rf revolver
+      fi
+    fi
+
     __pr
     exec bash
     ;;
