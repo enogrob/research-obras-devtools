@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA16
-## Date     : 2020-05-02
+## Version  : PA15
+## Date     : 2020-05-01
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -21,7 +21,7 @@ fi
 export MAILCATCHER_ENV=LOCALHOST
 export OBRASTMP="$HOME/Projects/obras"
 export OBRASOLDTMP="$HOME/Logbook/obras"
-export OBRAS=$OBRASTMP
+export OBRAS=/Users/enogrob/Projects/obras
 export OBRAS_OLD=$OBRASOLDTMP
 export RAILS_ENV=development
 export RUBYOPT=-W0

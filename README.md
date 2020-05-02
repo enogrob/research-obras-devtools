@@ -17,6 +17,7 @@ This in order to improve the Obras Development Process, developing utilities and
 * Automatic **db** update
 * Live **db, servers, testing** information
 * **Progress bars** and **spinners** for long tasks duration
+* Supports for OSX and Linux
 * Supports **NGrok** and **Foreman**
 * Extends use of [https://trello.com/c/sIcQXzig/116-chromeapps-for-eicon](https://trello.com/c/sIcQXzig/116-chromeapps-for-eicon)
 * Configurations support for **Rubymine** and **Vscode**
@@ -49,9 +50,8 @@ obras_utils.sh
 [x] Integrate Docker Test into Obras Utils
 [x] Implement db update
 [x] Integrate Spinners
-[ ] Testing on Docker
 install.sh
-[ ] Installation support for Obras Utils
+[x] Installation support for Obras Utils
 [x] Installation support for Spinners
 [x] Installation support for Foreman
 [x] Installation support for Docker

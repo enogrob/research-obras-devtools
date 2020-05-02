@@ -22,6 +22,7 @@ case $1 in
     else  
       echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$2\" does not exist \033[0m"
       echo ""
+      exit 1
     fi  
     if test -d "$3"; then
       unset OBRAS_OLD
@@ -29,10 +30,12 @@ case $1 in
     else  
       echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$3\" does not exist \033[0m"
       echo ""
+      exit 1
     fi  
+    echo -e "\033[1;92m==> \033[0m\033[1;39mConfiguring \"obras utils\" \033[0m"
     test -f obras/temp && rm -rf obras/temp*
-    sed 's@\$OBRASTMP@'"$1"'@' obras/.obras_utils.sh > obras/temp
-    sed 's@\$OBRASOLDTMP@'"$2"'@' obras/temp > obras/temp1 
+    sed 's@\$OBRASTMP@'"$2"'@' obras/.obras_utils.sh > obras/temp
+    sed 's@\$OBRASOLDTMP@'"$3"'@' obras/temp > obras/temp1 
     source obras/temp1 
     echo -e '\033[1;39m=> envs\033[0m'
     echo -e " \033[36m INSTALL_DIR: $INSTALL_DIR\033[0m"
@@ -50,6 +53,7 @@ case $1 in
     else  
       echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$2\" does not exist \033[0m"
       echo ""
+      exit 1
     fi  
     if test -d "$3"; then
       unset OBRAS_OLD
@@ -57,7 +61,9 @@ case $1 in
     else  
       echo -e "\033[1;31m==> \033[0m\033[1;39mDirectory \"$3\" does not exist \033[0m"
       echo ""
+      exit 1
     fi  
+    echo -e "\033[1;92m==> \033[0m\033[1;39mConfiguring \"obras utils\" \033[0m"
     test -f obras/temp && rm -rf obras/temp*
     sed 's@\$OBRASTMP@'"$1"'@' obras/.obras_utils.sh > obras/temp
     sed 's@\$OBRASOLDTMP@'"$2"'@' obras/temp > obras/temp1 
@@ -71,15 +77,17 @@ case $1 in
 
 
   obras)  
+    if ! test -f obras/temp1; then
+      echo -e "\033[1;31m==> \033[0m\033[1;39mInstallation not configured \033[0m"
+      echo ""
+      exit 1
+    fi
     if ! test -f $HOME/.obras_utils.sh; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"obras utils\" \033[0m"
       echo 'source $HOME/obras_utils.sh' >> $HOME/.bashrc
     else  
       echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"obras utils\" \033[0m"
     fi  
-    if ! test -f obras/temp1 then
-      exit 1
-    end  
     cp obras/temp1 $HOME/.obras_utils.sh
     source $HOME/.obras_utils.sh 
 
@@ -120,6 +128,13 @@ case $1 in
         echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
+        if [ $INSTALL_DIR == "obras_dir" ];then
+          unset INSTALL_DIR
+          export INSTALL_DIR=$OBRAS
+        else
+          unset INSTALL_DIR
+          export INSTALL_DIR=$OBRAS_OLD
+        fi
         if ! test -d $HOME/.vscode; then
           echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"home.vscode\" \033[0m"
         else  
@@ -140,6 +155,13 @@ case $1 in
         echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
+        if [ $INSTALL_DIR == "obras_dir" ];then
+          unset INSTALL_DIR
+          export INSTALL_DIR=$OBRAS
+        else
+          unset INSTALL_DIR
+          export INSTALL_DIR=$OBRAS_OLD
+        fi
         if ! test -d $INSTALL_DIR/.idea; then
           echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"rubymine.idea\" \033[0m"
         else  
@@ -154,6 +176,13 @@ case $1 in
         echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
+        if [ $INSTALL_DIR == "obras_dir" ];then
+          unset INSTALL_DIR
+          export INSTALL_DIR=$OBRAS
+        else
+          unset INSTALL_DIR
+          export INSTALL_DIR=$OBRAS_OLD
+        fi
         if ! test -f $INSTALL_DIR/Procfile; then
           echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"foreman.Profile\" \033[0m"
         else  
@@ -168,6 +197,13 @@ case $1 in
         echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
+        if [ $INSTALL_DIR == "obras_dir" ];then
+          unset INSTALL_DIR
+          export INSTALL_DIR=$OBRAS
+        else
+          unset INSTALL_DIR
+          export INSTALL_DIR=$OBRAS_OLD
+        fi
         if ! test -f $INSTALL_DIR/Dockerfile; then
           echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"docker\" \033[0m"
         else  
