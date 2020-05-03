@@ -21,8 +21,10 @@ fi
 export MAILCATCHER_ENV=LOCALHOST
 export OBRASTMP="$HOME/Projects/obras"
 export OBRASOLDTMP="$HOME/Logbook/obras"
+export INSTALLDIRTMP=obras_dir
 export OBRAS=$OBRASTMP
 export OBRAS_OLD=$OBRASOLDTMP
+export INSTALL_DIR=$INSTALLDIRTMP
 export RAILS_ENV=development
 export RUBYOPT=-W0
 export SITE=default
