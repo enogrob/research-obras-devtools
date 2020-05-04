@@ -1,0 +1,1544 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7a8b4dd5-4197-4d06-b791-48e1f1bec52d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/schema.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/seeds.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/seeds.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.bundle/" />
+    <ignored path="$PROJECT_DIR$/components/" />
+    <ignored path="$PROJECT_DIR$/log/" />
+    <ignored path="$PROJECT_DIR$/public/system/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <ignored path="$PROJECT_DIR$/vendor/bundle/" />
+    <ignored path="$PROJECT_DIR$/vendor/cache/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/obras@Rails_console__obras.rcov" NAME="santoandre-console Coverage Results" MODIFIED="1586555803290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
+    <SUITE FILE_PATH="coverage/obras@All_tests_in_test__obras.rcov" NAME="All tests in test: obras Coverage Results" MODIFIED="1587293868811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
+    <SUITE FILE_PATH="coverage/obras@olimpia.rcov" NAME="olimpia Coverage Results" MODIFIED="1588071191709" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
+    <SUITE FILE_PATH="coverage/obras@santoandre.rcov" NAME="santoandre Coverage Results" MODIFIED="1588182679585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="santoandre_dev: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>hidden_field</find>
+      <find>services-lo</find>
+      <find>inconveniences</find>
+      <find>final_document_name</find>
+      <find>show_fields_true</find>
+      <find>render</find>
+      <find>RAILS.env</find>
+      <find>MAILCATCH</find>
+      <find>Pedido de Ar</find>
+      <find>Commitmentterm</find>
+      <find>commitment_term_by</find>
+      <find>data_vali</find>
+      <find>service_type_confirmation_text</find>
+      <find>HeaderField</find>
+      <find>service_type_confirmation</find>
+      <find>send_confirmation</find>
+      <find>select_tasks_confirm</find>
+      <find>commitment_term_confirm</find>
+      <find>services-loaded</find>
+      <find>chosen</find>
+      <find>chosen_agency_and_service</find>
+      <find>Report.new</find>
+      <find>show_project_report</find>
+      <find>ProjectReportSector.cr</find>
+      <find>yesArchive</find>
+      <find>archiving_option</find>
+      <find>get-buil</find>
+      <find>services-norm</find>
+      <find>get-building</find>
+      <find>trigger</find>
+    </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/config/environments/development.rb" />
+        <option value="$PROJECT_DIR$/config/application.rb" />
+        <option value="$PROJECT_DIR$/test/system/user_accesses_test.rb" />
+        <option value="$PROJECT_DIR$/app/views/application/modal/_modal_request_project_archiving.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/select_tasks.js" />
+        <option value="$PROJECT_DIR$/app/views/admin/commitment_terms/_index.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/admin/admin.js" />
+        <option value="$PROJECT_DIR$/app/controllers/reports_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/projects/shared_show/_solo_subdivision.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/reports/_show_report_timeline.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/reports/show_report/_requested_archival_approval.html.erb" />
+        <option value="$PROJECT_DIR$/db/seeds.rb" />
+        <option value="$PROJECT_DIR$/db/seeds.development.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/select_tasks_controller.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/admin/archiving_option_authorizations_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/reports/show_report/_archived.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/projects.js" />
+        <option value="$PROJECT_DIR$/docker-compose.yaml" />
+        <option value="$PROJECT_DIR$/app/views/users/shared/_user_grids.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/projects_controller.rb" />
+      </list>
+    </option>
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="49" />
+    <option name="y" value="23" />
+    <option name="width" value="1386" />
+    <option name="height" value="614" />
+  </component>
+  <component name="ProjectId" id="1akr4dYnlLxr8pG2rHBbDTWubdg" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="RailsProjectView" />
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="database.console.LAST_STATE" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.ruby.settings.RubyActiveModuleSdkConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/views/reports/show_report" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Rails.santoandre">
+    <configuration name="demo-console" type="IrbRunConfigurationType" factoryName="IRB console">
+      <module name="obras" />
+      <IRB_RUN_CONFIG NAME="RUBY_ARGS" VALUE="" />
+      <IRB_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <IRB_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+      <IRB_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+      <IRB_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="demo_dev" />
+        <env name="MYSQL_DATABASE_TST" value="demo_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <IRB_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/bin/rails" />
+      <IRB_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="console -- --prompt simple" />
+      <IRB_RUN_CONFIG NAME="IS_RAILS_CONSOLE" VALUE="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="olimpia-console" type="IrbRunConfigurationType" factoryName="IRB console">
+      <module name="obras" />
+      <IRB_RUN_CONFIG NAME="RUBY_ARGS" VALUE="" />
+      <IRB_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <IRB_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+      <IRB_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+      <IRB_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="olimpia_dev" />
+        <env name="MYSQL_DATABASE_TST" value="olimpia_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <IRB_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/bin/rails" />
+      <IRB_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="console -- --prompt simple" />
+      <IRB_RUN_CONFIG NAME="IS_RAILS_CONSOLE" VALUE="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rioclaro-console" type="IrbRunConfigurationType" factoryName="IRB console">
+      <module name="obras" />
+      <IRB_RUN_CONFIG NAME="RUBY_ARGS" VALUE="" />
+      <IRB_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <IRB_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+      <IRB_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+      <IRB_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="rioclaro_dev" />
+        <env name="MYSQL_DATABASE_TST" value="rioclaro_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <IRB_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/bin/rails" />
+      <IRB_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="console -- --prompt simple" />
+      <IRB_RUN_CONFIG NAME="IS_RAILS_CONSOLE" VALUE="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="santoandre-console" type="IrbRunConfigurationType" factoryName="IRB console" temporary="true">
+      <module name="obras" />
+      <IRB_RUN_CONFIG NAME="RUBY_ARGS" VALUE="" />
+      <IRB_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <IRB_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+      <IRB_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+      <IRB_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="santoandre_dev" />
+        <env name="MYSQL_DATABASE_TST" value="santoandre_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <IRB_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/bin/rails" />
+      <IRB_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="console -- --prompt simple" />
+      <IRB_RUN_CONFIG NAME="IS_RAILS_CONSOLE" VALUE="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="suzano-console" type="IrbRunConfigurationType" factoryName="IRB console">
+      <module name="obras" />
+      <IRB_RUN_CONFIG NAME="RUBY_ARGS" VALUE="" />
+      <IRB_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <IRB_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+      <IRB_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+      <IRB_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="suzano_dev" />
+        <env name="MYSQL_DATABASE_TST" value="suzano_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <IRB_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/bin/rails" />
+      <IRB_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="console -- --prompt simple" />
+      <IRB_RUN_CONFIG NAME="IS_RAILS_CONSOLE" VALUE="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Development: obras" type="RailsRunConfigurationType" factoryName="Rails">
+      <module name="obras" />
+      <predefined_log_file enabled="true" id="RUBY_RAILS_SERVER" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3000" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="Default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Production: obras" type="RailsRunConfigurationType" factoryName="Rails">
+      <module name="obras" />
+      <predefined_log_file enabled="true" id="RUBY_RAILS_SERVER" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3000" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="Default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="production" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="demo" type="RailsRunConfigurationType" factoryName="Rails">
+      <module name="obras" />
+      <predefined_log_file enabled="true" id="RUBY_RAILS_SERVER" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="demo_dev" />
+        <env name="MYSQL_DATABASE_TST" value="demo_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3013" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="olimpia" type="RailsRunConfigurationType" factoryName="Rails">
+      <module name="obras" />
+      <predefined_log_file enabled="true" id="RUBY_RAILS_SERVER" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="olimpia_dev" />
+        <env name="MYSQL_DATABASE_TST" value="olimpia_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3002" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rioclaro" type="RailsRunConfigurationType" factoryName="Rails">
+      <module name="obras" />
+      <predefined_log_file enabled="true" id="RUBY_RAILS_SERVER" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="rioclaro_dev" />
+        <env name="MYSQL_DATABASE_TST" value="rioclaro_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3003" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="santoandre" type="RailsRunConfigurationType" factoryName="Rails">
+      <module name="obras" />
+      <predefined_log_file enabled="true" id="RUBY_RAILS_SERVER" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="santoandre_dev" />
+        <env name="MYSQL_DATABASE_TST" value="santoandre_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3005" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="suzano" type="RailsRunConfigurationType" factoryName="Rails">
+      <module name="obras" />
+      <predefined_log_file enabled="true" id="RUBY_RAILS_SERVER" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="MYSQL_DATABASE_DEV" value="suzano_dev" />
+        <env name="MYSQL_DATABASE_TST" value="suzano_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3004" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="spec: obras" type="RakeRunConfigurationType" factoryName="Rake">
+      <module name="obras" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_NAME" VALUE="spec" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ARGS" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ATTACHED_TEST_FRAMEWORKS" VALUE=":rspec " />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_TRACE" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_DRYRUN" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_PREREQS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test: obras" type="RakeRunConfigurationType" factoryName="Rake">
+      <module name="obras" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="RAILS_ENV" value="test" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_NAME" VALUE="test" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ARGS" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ATTACHED_TEST_FRAMEWORKS" VALUE=":test_unit " />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_TRACE" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_DRYRUN" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_PREREQS" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="All tests in test: obras" type="TestUnitRunConfigurationType" factoryName="Test::Unit/Shoulda/Minitest" temporary="true">
+      <module name="obras" />
+      <predefined_log_file enabled="true" id="RUBY_TESTUNIT" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-Itest" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="RAILS_ENV" value="test" />
+        <env name="JRUBY_OPTS" value="-X+O" />
+        <env name="MYSQL_DATABASE_TST" value="demo_tst" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="true" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="$MODULE_DIR$/test" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/{*_test,test_*,*_spec}.rb" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TEST_METHOD_NAME" VALUE="" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="ALL_IN_FOLDER" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
+      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_OPTIONS" VALUE="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="buildCliOptions" value="" />
+          <option name="buildOnly" value="true" />
+          <option name="command" value="" />
+          <option name="containerName" value="" />
+          <option name="entrypoint" value="" />
+          <option name="imageTag" value="" />
+          <option name="commandLineOptions" value="" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.Dockerfile" />
+      <item itemvalue="IRB console.olimpia-console" />
+      <item itemvalue="IRB console.rioclaro-console" />
+      <item itemvalue="IRB console.suzano-console" />
+      <item itemvalue="IRB console.demo-console" />
+      <item itemvalue="IRB console.santoandre-console" />
+      <item itemvalue="Rails.Development: obras" />
+      <item itemvalue="Rails.santoandre" />
+      <item itemvalue="Rails.olimpia" />
+      <item itemvalue="Rails.rioclaro" />
+      <item itemvalue="Rails.suzano" />
+      <item itemvalue="Rails.demo" />
+      <item itemvalue="Rails.Production: obras" />
+      <item itemvalue="Rake.spec: obras" />
+      <item itemvalue="Rake.test: obras" />
+      <item itemvalue="Test::Unit/Shoulda/Minitest.All tests in test: obras" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Test::Unit/Shoulda/Minitest.All tests in test: obras" />
+        <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="IRB console.santoandre-console" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpringUtil" SPRING_PRE_LOADER_OPTION="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7a8b4dd5-4197-4d06-b791-48e1f1bec52d" name="Default Changelist" comment="" />
+      <created>1586482228803</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586482228803</updated>
+      <workItem from="1586482239521" duration="893000" />
+      <workItem from="1586483184526" duration="78000" />
+      <workItem from="1586551169931" duration="856000" />
+      <workItem from="1586552181160" duration="25000" />
+      <workItem from="1586552265741" duration="3245000" />
+      <workItem from="1586775855511" duration="17326000" />
+      <workItem from="1586860411986" duration="3137000" />
+      <workItem from="1586872074358" duration="2350000" />
+      <workItem from="1586885769978" duration="5770000" />
+      <workItem from="1586903895530" duration="332000" />
+      <workItem from="1586945730081" duration="2325000" />
+      <workItem from="1586967396645" duration="1272000" />
+      <workItem from="1586997660851" duration="529000" />
+      <workItem from="1586999175899" duration="2293000" />
+      <workItem from="1587005434269" duration="2016000" />
+      <workItem from="1587008411917" duration="1168000" />
+      <workItem from="1587027736645" duration="127000" />
+      <workItem from="1587032606937" duration="7380000" />
+      <workItem from="1587049764540" duration="123000" />
+      <workItem from="1587078282873" duration="1504000" />
+      <workItem from="1587181188098" duration="792000" />
+      <workItem from="1587290252392" duration="807000" />
+      <workItem from="1587291111499" duration="2471000" />
+      <workItem from="1587293747689" duration="635000" />
+      <workItem from="1587301748157" duration="557000" />
+      <workItem from="1587372651570" duration="46000" />
+      <workItem from="1587372740011" duration="8374000" />
+      <workItem from="1587396977895" duration="970000" />
+      <workItem from="1587545616439" duration="4241000" />
+      <workItem from="1587769840408" duration="766000" />
+      <workItem from="1587851100156" duration="25000" />
+      <workItem from="1587888048358" duration="618000" />
+      <workItem from="1587985851539" duration="13394000" />
+      <workItem from="1588069211895" duration="2582000" />
+      <workItem from="1588090809529" duration="1763000" />
+      <workItem from="1588135308753" duration="393000" />
+      <workItem from="1588156386566" duration="5275000" />
+    </task>
+    <task id="LOCAL-00001" summary="Revert &quot;Revert &quot;Merge branch 'melhoria@266-colocar-o-texto-do-modal-como-dinâmico' into 'master'&quot;&quot;&#10;&#10;This reverts commit 7ea00100">
+      <created>1587986429464</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587986429464</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="All_tests_in_test__obras - 2020.04.19 at 08h 01m 18s.xml">
+      <configuration name="All tests in test: obras" configurationId="TestUnitRunConfigurationType" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="39639000" />
+  </component>
+  <component name="TodoView" selected-index="3">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="49" y="23" width="1386" height="614" extended-state="0" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47686118" visible="true" weight="0.2953869" />
+      <window_info id="Structure" order="1" sideWeight="0.5231388" side_tool="true" weight="0.2953869" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.7263582" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5895372" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.52112675" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Tail" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.7645875" />
+      <window_info anchor="bottom" id="Database Changes" order="10" weight="0.3279678" />
+      <window_info anchor="bottom" x="218" y="640" width="1034" height="259" id="Terminal" order="11" weight="0.5070422" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.3296131" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48289737" visible="true" weight="0.2827381" />
+      <window_info id="Structure" order="1" sideWeight="0.5171026" side_tool="true" visible="true" weight="0.2827381" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.7263582" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5895372" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Tail" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.7645875" />
+      <window_info anchor="bottom" id="Database Changes" order="10" weight="0.3279678" />
+      <window_info anchor="bottom" x="218" y="640" width="1034" height="259" id="Terminal" order="11" weight="0.5070422" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="text">
+                    <value>
+                      <list>
+                        <option value="" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="user">
+                    <value>
+                      <list>
+                        <option value="me" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="pesquisa@testing-in-docker" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="me" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Revert &quot;Revert &quot;Merge branch 'melhoria@266-colocar-o-texto-do-modal-como-dinâmico' into 'master'&quot;&quot;&#10;&#10;This reverts commit 7ea00100" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Revert &quot;Merge branch 'melhoria@266-colocar-o-texto-do-modal-como-dinâmico' into 'master'&quot;&quot;&#10;&#10;This reverts commit 7ea00100" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="439" y="67" key="#All_tests_in_test:_obras" timestamp="1587291860595">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state x="439" y="67" key="#All_tests_in_test:_obras/44.23.1396.877@44.23.1396.877" timestamp="1587291860595" />
+    <state x="342" y="127" key="#Docker" timestamp="1587291421853">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state x="342" y="127" key="#Docker/44.23.1396.877@44.23.1396.877" timestamp="1587291421853" />
+    <state x="439" y="23" key="#Dockerfile" timestamp="1587291427315">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state x="439" y="23" key="#Dockerfile/44.23.1396.877@44.23.1396.877" timestamp="1587291427315" />
+    <state width="1344" height="366" key="GridCell.Tab.0.bottom" timestamp="1587293688408">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1344" height="366" key="GridCell.Tab.0.bottom/44.23.1396.877@44.23.1396.877" timestamp="1587293688408" />
+    <state width="1344" height="366" key="GridCell.Tab.0.center" timestamp="1587293688407">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1344" height="366" key="GridCell.Tab.0.center/44.23.1396.877@44.23.1396.877" timestamp="1587293688407" />
+    <state width="1344" height="366" key="GridCell.Tab.0.left" timestamp="1587293688406">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1344" height="366" key="GridCell.Tab.0.left/44.23.1396.877@44.23.1396.877" timestamp="1587293688406" />
+    <state width="1344" height="366" key="GridCell.Tab.0.right" timestamp="1587293688407">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1344" height="366" key="GridCell.Tab.0.right/44.23.1396.877@44.23.1396.877" timestamp="1587293688407" />
+    <state width="1344" height="366" key="GridCell.Tab.1.bottom" timestamp="1587293688410">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1344" height="366" key="GridCell.Tab.1.bottom/44.23.1396.877@44.23.1396.877" timestamp="1587293688410" />
+    <state width="1344" height="366" key="GridCell.Tab.1.center" timestamp="1587293688409">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1344" height="366" key="GridCell.Tab.1.center/44.23.1396.877@44.23.1396.877" timestamp="1587293688409" />
+    <state width="1344" height="366" key="GridCell.Tab.1.left" timestamp="1587293688408">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1344" height="366" key="GridCell.Tab.1.left/44.23.1396.877@44.23.1396.877" timestamp="1587293688408" />
+    <state width="1344" height="366" key="GridCell.Tab.1.right" timestamp="1587293688409">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state width="1344" height="366" key="GridCell.Tab.1.right/44.23.1396.877@44.23.1396.877" timestamp="1587293688409" />
+    <state x="330" y="211" key="IDE.errors.dialog" timestamp="1587291015456">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state x="330" y="211" key="IDE.errors.dialog/44.23.1396.877@44.23.1396.877" timestamp="1587291015456" />
+    <state x="251" y="100" key="SettingsEditor" timestamp="1587291735302">
+      <screen x="44" y="23" width="1396" height="877" />
+    </state>
+    <state x="251" y="100" key="SettingsEditor/44.23.1396.877@44.23.1396.877" timestamp="1587291735302" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="ruby-line">
+          <url>file://$PROJECT_DIR$/app/views/projects/_address_fields.html.erb</url>
+          <line>5</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint type="ruby-line">
+          <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
+          <line>943</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint type="ruby-line">
+          <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
+          <line>939</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/obras@All_tests_in_test__obras.rcov" NAME="All tests in test: obras Coverage Results" MODIFIED="1587293167276" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>@module_user_grids.count</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>@address_kind</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>@address_kind.nil?</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>@address_kind.present?</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>present_and_include?(@address_kind, :tipo_de_endereco)</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>@projects.project_process_identifier.process_type_id</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>@projects.project_process_identifier.year</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>@projects.project_process_identifier.blank?</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>@projects.project_process_identifier.nil?</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/models/header_field.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/system/user_accesses_test.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="143" column="29" selection-start-line="143" selection-start-column="29" selection-end-line="143" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/uploads.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/select_tasks/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-199" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/commitment_terms/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-225" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/commitment_terms/_form.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="37" column="7" selection-start-line="37" selection-start-column="7" selection-end-line="37" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/commitment_terms/_index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="42" column="96" selection-start-line="42" selection-start-column="96" selection-end-line="42" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/commitment_terms/index.js.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/admin/commitment_terms_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-26" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/application/modal/_modal_request_project_archiving.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/commitment_terms/model.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/projects/edit_documents_pdf.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/commitment_term.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-72">
+          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/projects/shared_show/_solo_subdivision.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="12" column="112" selection-start-line="12" selection-start-column="112" selection-end-line="12" selection-end-column="112" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/proprietaries.coffee">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/projects/shared_save_default/_service_menu_service_page.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="496" column="18" selection-start-line="496" selection-start-column="18" selection-end-line="496" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/database.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test_helper.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/application_system_test_case.rb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/support/capybara.rb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/select_tasks.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="77" column="21" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/report.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-670">
+          <caret line="4" column="75" selection-start-line="4" selection-start-column="75" selection-end-line="4" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/show_report/_technical_referee.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/show_report/_deferment.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/application/_timeline_creation_requeriment.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1457" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/show_report/_final_analysis.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/show_report/_initial_analysis.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/reports_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5115">
+          <caret line="690" selection-start-line="690" selection-end-line="690" />
+          <folding>
+            <element signature="e#500#537#0" />
+            <element signature="e#541#2177#0" />
+            <element signature="e#594#777#0" />
+            <element signature="e#853#942#0" />
+            <element signature="e#1094#2085#0" />
+            <element signature="e#1306#1720#0" />
+            <element signature="e#1390#1555#1" />
+            <element signature="e#1575#1710#1" />
+            <element signature="e#2091#2171#0" />
+            <element signature="e#2181#2463#0" />
+            <element signature="e#2203#2365#0" />
+            <element signature="e#2467#2810#0" />
+            <element signature="e#2587#2739#0" />
+            <element signature="e#2846#3237#0" />
+            <element signature="e#3299#3314#0" />
+            <element signature="e#3559#3788#0" />
+            <element signature="e#3931#4066#0" />
+            <element signature="e#4074#4207#0" />
+            <element signature="e#4296#4584#0" />
+            <element signature="e#4324#4574#2" />
+            <element signature="e#5294#5346#0" />
+            <element signature="e#5780#5897#0" />
+            <element signature="e#5868#5887#0" />
+            <element signature="e#6138#6293#0" />
+            <element signature="e#6321#6370#0" />
+            <element signature="e#6516#6651#0" />
+            <element signature="e#7827#7971#0" />
+            <element signature="e#8144#8888#0" />
+            <element signature="e#8247#8878#0" />
+            <element signature="e#8265#8866#2" />
+            <element signature="e#8932#8967#0" />
+            <element signature="e#9064#9099#0" />
+            <element signature="e#9142#9368#0" />
+            <element signature="e#9291#9358#0" />
+            <element signature="e#9554#9766#0" />
+            <element signature="e#9663#9758#0" />
+            <element signature="e#9934#10035#0" />
+            <element signature="e#13503#13616#0" />
+            <element signature="e#14035#14126#0" />
+            <element signature="e#14406#14806#0" />
+            <element signature="e#14683#14796#0" />
+            <element signature="e#17829#18551#0" />
+            <element signature="e#18627#18827#0" />
+            <element signature="e#18656#18817#2" />
+            <element signature="e#18878#18891#0" />
+            <element signature="e#19937#20224#0" />
+            <element signature="e#20056#20216#0" />
+            <element signature="e#20333#20726#0" />
+            <element signature="e#20489#20625#0" />
+            <element signature="e#20510#20615#2" />
+            <element signature="e#20731#21215#0" />
+            <element signature="e#20965#21207#0" />
+            <element signature="e#21384#21485#0" />
+            <element signature="e#21491#21889#0" />
+            <element signature="e#21546#21595#0" />
+            <element signature="e#21603#21759#0" />
+            <element signature="e#21775#21881#1" />
+            <element signature="e#22091#22253#0" />
+            <element signature="e#22424#24205#0" />
+            <element signature="e#22468#24145#0" />
+            <element signature="e#22662#24135#0" />
+            <element signature="e#22742#24125#0" />
+            <element signature="e#23582#24113#0" />
+            <element signature="e#24209#30043#0" />
+            <element signature="e#24302#25310#0" />
+            <element signature="e#24492#25302#0" />
+            <element signature="e#24593#25003#0" />
+            <element signature="e#24873#24991#0" />
+            <element signature="e#25317#29986#0" />
+            <element signature="e#25371#28927#0" />
+            <element signature="e#25575#28916#0" />
+            <element signature="e#25822#26559#0" />
+            <element signature="e#25955#26545#0" />
+            <element signature="e#26024#26529#0" />
+            <element signature="e#26059#26319#0" />
+            <element signature="e#26701#28904#0" />
+            <element signature="e#26892#27016#0" />
+            <element signature="e#26946#26999#0" />
+            <element signature="e#27030#27788#0" />
+            <element signature="e#27167#27771#0" />
+            <element signature="e#27242#27752#0" />
+            <element signature="e#27279#27545#0" />
+            <element signature="e#27990#28110#0" />
+            <element signature="e#28043#28094#0" />
+            <element signature="e#28123#28889#0" />
+            <element signature="e#28259#28873#0" />
+            <element signature="e#28332#28855#0" />
+            <element signature="e#28369#28635#0" />
+            <element signature="e#28934#29978#0" />
+            <element signature="e#29330#29968#0" />
+            <element signature="e#30234#30359#0" />
+            <element signature="e#30602#30687#0" />
+            <element signature="e#30732#31808#0" />
+            <element signature="e#30930#31796#0" />
+            <element signature="e#31039#31473#0" />
+            <element signature="e#31331#31457#0" />
+            <element signature="e#32331#32744#0" />
+            <element signature="e#32467#32728#0" />
+            <element signature="e#32504#32710#2" />
+            <element signature="e#32891#34437#0" />
+            <element signature="e#33084#33212#0" />
+            <element signature="e#33139#33194#0" />
+            <element signature="e#33227#33641#0" />
+            <element signature="e#33365#33623#0" />
+            <element signature="e#33403#33603#2" />
+            <element signature="e#33848#33976#0" />
+            <element signature="e#33903#33958#0" />
+            <element signature="e#33991#34421#0" />
+            <element signature="e#34129#34403#0" />
+            <element signature="e#34168#34383#2" />
+            <element signature="e#34489#34678#0" />
+            <element signature="e#34686#35416#0" />
+            <element signature="e#34710#34868#0" />
+            <element signature="e#34878#35137#0" />
+            <element signature="e#34948#35125#0" />
+            <element signature="e#35147#35406#0" />
+            <element signature="e#35217#35394#0" />
+            <element signature="e#35755#36282#0" />
+            <element signature="e#35832#36272#0" />
+            <element signature="e#36434#41400#0" />
+            <element signature="e#36537#41390#1" />
+            <element signature="e#36579#36690#0" />
+            <element signature="e#36702#37284#0" />
+            <element signature="e#36893#37270#0" />
+            <element signature="e#37296#37973#0" />
+            <element signature="e#37564#37959#0" />
+            <element signature="e#38119#38235#0" />
+            <element signature="e#38339#38470#0" />
+            <element signature="e#38482#38586#0" />
+            <element signature="e#38598#38841#0" />
+            <element signature="e#39054#41377#0" />
+            <element signature="e#39101#39212#0" />
+            <element signature="e#39224#39806#0" />
+            <element signature="e#39415#39792#0" />
+            <element signature="e#39818#40495#0" />
+            <element signature="e#40086#40481#0" />
+            <element signature="e#40641#40757#0" />
+            <element signature="e#40861#40992#0" />
+            <element signature="e#41004#41108#0" />
+            <element signature="e#41120#41363#0" />
+            <element signature="e#41505#41705#0" />
+            <element signature="e#41776#42340#0" />
+            <element signature="e#41815#42334#2" />
+            <element signature="e#41959#42326#0" />
+            <element signature="e#42344#44166#0" />
+            <element signature="e#42384#44106#0" />
+            <element signature="e#42444#43871#0" />
+            <element signature="e#42503#42983#1" />
+            <element signature="e#43003#43861#1" />
+            <element signature="e#43108#43760#1" />
+            <element signature="e#44170#44668#0" />
+            <element signature="e#44203#44662#2" />
+            <element signature="e#44641#44653#0" />
+            <element signature="e#44671#45150#0" />
+            <element signature="e#45154#45937#0" />
+            <element signature="e#45261#45832#0" />
+            <element signature="e#45273#45679#1" />
+            <element signature="e#45941#47888#0" />
+            <element signature="e#46043#47790#0" />
+            <element signature="e#46055#47637#1" />
+            <element signature="e#46199#47627#0" />
+            <element signature="e#46322#46650#0" />
+            <element signature="e#47903#48990#0" />
+            <element signature="e#47935#48984#2" />
+            <element signature="e#47998#48976#1" />
+            <element signature="e#48196#48339#0" />
+            <element signature="e#48307#48327#0" />
+            <element signature="e#48348#48590#0" />
+            <element signature="e#48524#48577#0" />
+            <element signature="e#48994#49043#0" />
+            <element signature="e#49047#49097#0" />
+            <element signature="e#49101#49141#0" />
+            <element signature="e#49145#51109#0" />
+            <element signature="e#49168#51103#2" />
+            <element signature="e#49338#49450#0" />
+            <element signature="e#49457#51095#0" />
+            <element signature="e#49546#50623#1" />
+            <element signature="e#50643#51085#1" />
+            <element signature="e#51113#51911#0" />
+            <element signature="e#51136#51905#2" />
+            <element signature="e#51308#51420#0" />
+            <element signature="e#51427#51897#0" />
+            <element signature="e#51517#51887#1" />
+            <element signature="e#51915#52332#0" />
+            <element signature="e#51958#52326#2" />
+            <element signature="e#52336#52406#0" />
+            <element signature="e#52410#52471#0" />
+            <element signature="e#52475#52588#0" />
+            <element signature="e#52592#55739#0" />
+            <element signature="e#52970#53223#0" />
+            <element signature="e#53141#53215#0" />
+            <element signature="e#53263#53591#0" />
+            <element signature="e#53492#53583#0" />
+            <element signature="e#53642#53869#0" />
+            <element signature="e#53914#54219#0" />
+            <element signature="e#54265#54367#0" />
+            <element signature="e#54406#54669#0" />
+            <element signature="e#54569#54661#0" />
+            <element signature="e#54710#54823#0" />
+            <element signature="e#54872#55052#0" />
+            <element signature="e#55100#55254#0" />
+            <element signature="e#55308#55725#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/_show_project_report_sector_timeline.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1140">
+          <caret line="76" selection-start-line="76" selection-end-line="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/seeds.development.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/seeds.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/admin/alerts_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-221">
+          <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
+          <folding>
+            <element signature="e#438#689#0" />
+            <element signature="e#1307#1631#0" />
+            <element signature="e#1869#3736#0" />
+            <element signature="e#2770#2954#0" />
+            <element signature="e#3141#3243#0" />
+            <element signature="e#3317#3683#0" />
+            <element signature="e#3824#3917#0" />
+            <element signature="e#3923#4650#0" />
+            <element signature="e#5121#5133#0" />
+            <element signature="e#5248#7170#0" />
+            <element signature="e#5345#7160#0" />
+            <element signature="e#5451#7150#0" />
+            <element signature="e#5522#5705#0" />
+            <element signature="e#5716#6566#0" />
+            <element signature="e#5779#6552#1" />
+            <element signature="e#5955#6225#1" />
+            <element signature="e#6257#6534#1" />
+            <element signature="e#6577#6852#0" />
+            <element signature="e#6863#7055#0" />
+            <element signature="e#7067#7138#0" />
+            <element signature="e#7175#7625#0" />
+            <element signature="e#7630#7965#0" />
+            <element signature="e#9421#18934#0" />
+            <element signature="e#10401#10650#0" />
+            <element signature="e#10655#14210#0" />
+            <element signature="e#10685#11006#0" />
+            <element signature="e#11167#12997#0" />
+            <element signature="e#12097#12215#0" />
+            <element signature="e#12448#12550#0" />
+            <element signature="e#12627#12989#0" />
+            <element signature="e#13002#13721#0" />
+            <element signature="e#14186#14198#0" />
+            <element signature="e#14319#16199#0" />
+            <element signature="e#14383#16189#0" />
+            <element signature="e#14489#16179#0" />
+            <element signature="e#14560#14743#0" />
+            <element signature="e#14754#15604#0" />
+            <element signature="e#14817#15590#1" />
+            <element signature="e#14993#15263#1" />
+            <element signature="e#15295#15572#1" />
+            <element signature="e#15615#15890#0" />
+            <element signature="e#15901#16093#0" />
+            <element signature="e#16105#16167#0" />
+            <element signature="e#16204#16645#0" />
+            <element signature="e#16650#17008#0" />
+            <element signature="e#17956#18444#0" />
+            <element signature="e#18130#18432#0" />
+            <element signature="e#18937#19865#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/show_report/_requested_archival_approval.html.erb" />
+    <entry file="file://$PROJECT_DIR$/app/views/reports/show_report/_archived.html.erb" />
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/admin/admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="933" column="8" selection-start-line="933" selection-start-column="8" selection-end-line="933" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/archiving_option_authorizations/_modal_archiving.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="49" selection-start-line="6" selection-start-column="49" selection-end-line="6" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/admin/archiving_option_authorizations_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="15" column="44" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/archiving_option_authorizations/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-379" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/support/_duration_time_task.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/_show_report_timeline.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="24" column="55" selection-start-line="24" selection-start-column="55" selection-end-line="24" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/select_tasks_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="378" selection-start-line="378" selection-end-line="378" />
+          <folding>
+            <element signature="e#114#578#0" />
+            <element signature="e#1009#1226#0" />
+            <element signature="e#1231#3395#0" />
+            <element signature="e#1376#1513#0" />
+            <element signature="e#1697#1925#0" />
+            <element signature="e#1812#1915#0" />
+            <element signature="e#2004#2097#0" />
+            <element signature="e#2124#2529#0" />
+            <element signature="e#2661#3387#0" />
+            <element signature="e#3103#3311#0" />
+            <element signature="e#3134#3299#2" />
+            <element signature="e#3364#3377#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environment.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="729">
+          <caret line="101" column="14" selection-start-line="101" selection-start-column="14" selection-end-line="101" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/users/shared/_user_register.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/users/_form.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="30" selection-start-line="2" selection-start-column="30" selection-end-line="2" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/users/edit.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="14" lean-forward="true" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/admin/users_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="85" selection-start-line="41" selection-start-column="85" selection-end-line="41" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/users/shared/_user_grids.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="21" selection-start-column="21" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/projects_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="952" selection-start-line="952" selection-end-line="952" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/projects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-166">
+          <caret line="8476" column="70" selection-start-line="8476" selection-start-column="70" selection-end-line="8476" selection-end-column="70" />
+          <folding>
+            <element signature="n#style#0;n#b#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#2;n#tr#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="e#182#188#0" expanded="true" />
+            <element signature="e#188#194#0" expanded="true" />
+            <element signature="e#194#200#0" expanded="true" />
+            <element signature="e#200#206#0" expanded="true" />
+            <element signature="e#206#212#0" expanded="true" />
+            <element signature="e#212#218#0" expanded="true" />
+            <element signature="e#218#224#0" expanded="true" />
+            <element signature="e#224#230#0" expanded="true" />
+            <element signature="e#241#247#0" expanded="true" />
+            <element signature="e#247#253#0" expanded="true" />
+            <element signature="e#253#259#0" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="e#53#59#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="e#26#32#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#0;n#!!top" expanded="true" />
+            <element signature="e#27#33#0" expanded="true" />
+            <element signature="e#31#37#0" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="e#51#57#1" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
