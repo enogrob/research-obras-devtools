@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras.sh
-## Version  : PA16
-## Date     : 2020-05-02
+## Version  : PA17
+## Date     : 2020-05-04
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -540,8 +540,7 @@ db(){
     migrate)
       if [ -z "$DOCKER" ]; then
         db=$(__db)
-        tables=$(__has_tables $db)
-        if [ "$(__has_database $db)" == 'yes' ] && [ "$tables" == 'no' ]; then
+        if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
@@ -551,17 +550,11 @@ db(){
             rake db:migrate
           fi
         else  
-          if [ "$(__has_database $db)" == 'no' ]; then
-            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
-          fi
-          if [ "$tables" == 'yes' ]; then
-            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" has tables"
-          fi 
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
         fi
       else
         db=$(__db)
-        tables=$(__has_tables $db)
-        if [ "$(__has_database $db)" == 'yes' ] && [ "$tables" == 'no' ]; then
+        if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`docker-compose exec rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
@@ -571,12 +564,7 @@ db(){
             docker-compose exec $SITE rake db:migrate
           fi  
         else  
-          if [ "$(__has_database $db)" == 'no' ]; then
-            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
-          fi
-          if [ "$tables" == 'yes' ]; then
-            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" has tables"
-          fi 
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
         fi
       fi
       __pr
