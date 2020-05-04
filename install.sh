@@ -3,8 +3,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : install.sh
-## Version  : PA05
-## Date     : 2020-05-03
+## Version  : PA06
+## Date     : 2020-05-04
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -107,8 +107,8 @@ case $1 in
             export INSTALL_DIR="obras_old_dir"
             echo -e "\033[1;92m==> \033[0m\033[1;39mConfiguring \"obras utils\" \033[0m"
             test -f obras/temp && rm -rf obras/temp*
-            sed 's@\$OBRASTMP@'"$1"'@' obras/.obras_utils.sh > obras/temp
-            sed 's@\$OBRASOLDTMP@'"$2"'@' obras/temp > obras/temp1 
+            sed 's@\$OBRASTMP@'"$2"'@' obras/.obras_utils.sh > obras/temp
+            sed 's@\$OBRASOLDTMP@'"$3"'@' obras/temp > obras/temp1 
             sed 's@\$INSTALLDIRTMP@'"obras_old_dir"'@' obras/temp1 > obras/temp2 
             source obras/temp2
             echo -e '\033[1;39m=> envs\033[0m'
