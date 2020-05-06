@@ -1,12 +1,12 @@
 #!/bin/bash
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
-## File     : .obras.sh
-## Version  : PA17
-## Date     : 2020-05-04
+## File     : .obras_utils.sh
+## Version  : PA18
+## Date     : 2020-05-06
 ## Project  : project-obras-devtools
 ## Reference: bash
-## Depends  : foreman, pipe viewer, ansi
+## Depends  : foreman, pipe viewer, ansi, revolver
 ## Purpose  : Develop bash routines in order to help Rails development
 ##            projects.
 
@@ -1149,8 +1149,10 @@ site(){
 
     console)
       if [ -z "$DOCKER" ]; then
+        spring stop
         rails console
       else
+        docker-compose exec $SITE spring stop
         docker-compose exec $SITE rails console
       fi
       ;;
