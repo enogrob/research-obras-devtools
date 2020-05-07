@@ -2,7 +2,7 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA20
+## Version  : PA21
 ## Date     : 2020-05-07
 ## Project  : project-obras-devtools
 ## Reference: bash
@@ -1150,8 +1150,10 @@ site(){
 
     console)
       if [ -z "$DOCKER" ]; then
+        spring stop 
         rails console
       else
+        docker-compose exec $SITE spring stop
         docker-compose exec $SITE rails console
       fi
       ;;
