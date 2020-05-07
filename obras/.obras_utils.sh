@@ -2,7 +2,7 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA18
+## Version  : PA19
 ## Date     : 2020-05-06
 ## Project  : project-obras-devtools
 ## Reference: bash
@@ -900,6 +900,7 @@ db(){
     set)
       case $2 in
         olimpia|rioclaro|suzano|santoandre|demo)
+          spring stop
           set -o allexport
           . ./.env/development/$2
           set +o allexport
