@@ -1186,6 +1186,14 @@ site(){
               kill -9 $(__pid $(__port $2))
               ;;
 
+            all)
+            sites=(olimpia rioclaro suzano santoandre default)
+            for site in "${sites[@]}"
+            do
+              kill -9 $(__pid $(__port $site))
+            done
+            ;;
+
             *)
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
               __pr
