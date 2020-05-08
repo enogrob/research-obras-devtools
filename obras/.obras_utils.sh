@@ -1182,7 +1182,7 @@ site(){
           kill -9 $(__pid $(__port $SITE))
         else   
           case $2 in
-            olimpia|rioclaro|suzano|santoandre||default)
+            olimpia|rioclaro|suzano|santoandre|default)
               kill -9 $(__pid $(__port $2))
               ;;
 
