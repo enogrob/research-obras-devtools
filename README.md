@@ -50,6 +50,9 @@ obras_utils.sh
 [x] Integrate Docker Test into Obras Utils
 [x] Implement db update
 [x] Integrate Spinners
+[x] Integrate Spinners into db import
+[ ] Implement site stop
+[ ] Implement site update all
 install.sh
 [x] Installation support for Obras Utils
 [x] Installation support for Spinners

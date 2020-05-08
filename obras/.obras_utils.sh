@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA21
-## Date     : 2020-05-07
+## Version  : PA22
+## Date     : 2020-05-08
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -228,8 +228,14 @@ __tables(){
 __import(){
   rails=`rails --version`
   if [ $rails == 'Rails 6.0.2.1' ]; then
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+    revolver --style 'simpleDotsScrolling' start 
     rails db:drop
+    revolver stop
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
+    revolver --style 'simpleDotsScrolling' start 
     rails db:create
+    revolver stop
     rails db:environment:set RAILS_ENV=development
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
@@ -237,16 +243,24 @@ __import(){
     else
       pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
     fi  
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     rails db:migrate
   else
-    rake db:drop
-    rake db:create
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+    revolver --style 'simpleDotsScrolling' start 
+    rails db:drop
+    revolver stop
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
+    revolver --style 'simpleDotsScrolling' start 
+    rails db:create
+    revolver stop
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
       pv $1 | mysql -u root obrasdev 
     else
       pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
     fi  
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     rake db:migrate
   fi
 } 
@@ -254,8 +268,14 @@ __import(){
 __import_docker(){
   rails=`rails --version`
   if [ $rails == 'Rails 6.0.2.1' ]; then
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+    revolver --style 'simpleDotsScrolling' start 
     docker-compose exec $SITE rails db:drop
+    revolver stop
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
+    revolver --style 'simpleDotsScrolling' start 
     docker-compose exec $SITE rails db:create
+    revolver stop
     rails db:environment:set RAILS_ENV=development
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
@@ -263,16 +283,24 @@ __import_docker(){
     else
       pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
     fi  
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     docker-compose exec $SITE rails db:migrate
   else
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+    revolver --style 'simpleDotsScrolling' start 
     docker-compose exec $SITE rake db:drop
+    revolver stop
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
+    revolver --style 'simpleDotsScrolling' start 
     docker-compose exec $SITE raake db:create
+    revolver stop
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
       pv $1 | docker exec -i db mysql -uroot -proot obrasdev
     else
       pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
     fi  
+    ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     docker-compose exec $SITE rake db:migrate
   fi
 } 
@@ -1110,7 +1138,7 @@ site(){
           foreman start $SITE
         else   
           case $2 in
-            olimpia|rioclaro|suzano|santoandre|demo)
+            olimpia|rioclaro|suzano|santoandre|demo|default)
               foreman start $2
               ;;
 
@@ -1147,6 +1175,46 @@ site(){
         fi
       fi
       ;;  
+
+    stop)
+      if [ -z "$DOCKER" ]; then
+        if [ -z "$2" ]; then
+          kill -9 $(__pid $(__port $SITE))
+        else   
+          case $2 in
+            olimpia|rioclaro|suzano|santoandre||default)
+              kill -9 $(__pid $(__port $2))
+              ;;
+
+            *)
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+              __pr
+              return 1
+              ;;
+          esac
+        fi
+      else
+        if [ -z "$2" ]; then
+          docker-compose stop -d $SITE
+        else   
+          case $2 in
+            olimpia|rioclaro|suzano|santoandre|demo)
+              docker-compose stop -d $2
+              ;;
+
+            all)
+              docker-compose down
+              ;;
+
+            *)
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+              __pr
+              return 1
+              ;;
+          esac
+        fi
+      fi
+      ;;
 
     console)
       if [ -z "$DOCKER" ]; then
