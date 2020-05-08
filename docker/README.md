@@ -1,5 +1,6 @@
 ```
-(C) 2020 Crafted by InMov - Intelligence in Movement
+Crafted (c) 2013~2020 by InMov - Intelligence in Movement
+Prepared : Roberto Nogueira
 ```
 
 #### Docker Development Flux with `Obras - DevTools`
