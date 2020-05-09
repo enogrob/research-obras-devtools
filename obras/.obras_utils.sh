@@ -248,11 +248,11 @@ __import(){
   else
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
     revolver --style 'simpleDotsScrolling' start 
-    rails db:drop
+    rake db:drop
     revolver stop
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
     revolver --style 'simpleDotsScrolling' start 
-    rails db:create
+    rake db:create
     revolver stop
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
@@ -292,7 +292,7 @@ __import_docker(){
     revolver stop
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
     revolver --style 'simpleDotsScrolling' start 
-    docker-compose exec $SITE raake db:create
+    docker-compose exec $SITE rake db:create
     revolver stop
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ -z $MYSQL_DATABASE_DEV ]; then
