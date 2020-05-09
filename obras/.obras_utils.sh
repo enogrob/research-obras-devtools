@@ -1158,6 +1158,7 @@ site(){
               ;;
 
             all)
+              test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
               foreman start all
               ;;
 
