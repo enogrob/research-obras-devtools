@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA22
-## Date     : 2020-05-08
+## Version  : PA23
+## Date     : 2020-05-09
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -1203,11 +1203,11 @@ site(){
         fi
       else
         if [ -z "$2" ]; then
-          docker-compose stop -d $SITE
+          docker-compose stop $SITE
         else   
           case $2 in
             olimpia|rioclaro|suzano|santoandre|demo)
-              docker-compose stop -d $2
+              docker-compose stop $2
               ;;
 
             all)
