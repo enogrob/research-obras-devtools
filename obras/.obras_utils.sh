@@ -385,6 +385,19 @@ __is_obras(){
   [[ $PWD == $OBRAS || $PWD == $OBRAS_OLD ]]
 }
 
+__docker(){
+  if [ ! -z "$DOCKER" ]; then
+    db=$(docker-compose ps db | grep -o Up)
+    if [ -z $db ]; then
+      docker-compose up -d db
+    fi
+    site=$(docker-compose ps $SITE | grep -o Up)
+    if [ -z $site ]; then
+      docker-compose up -d $SITE
+    fi
+  fi  
+}
+
 db(){
   __is_obras
   if [ $? -eq 0 ]; then
@@ -1212,6 +1225,7 @@ site(){
 
             all)
               docker-compose down
+              unset DOCKER
               ;;
 
             *)
@@ -1307,6 +1321,7 @@ site(){
       ;;
 
     *)
+      __docker
       __pr bold "site:" $SITE
       __pr infobold "rvm :" $(rvm current)
       if [ $RAILS_ENV == 'development' ]; then 
