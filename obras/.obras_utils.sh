@@ -405,7 +405,7 @@ db(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update]"
+      __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
       __pr 
       ;; 
@@ -888,10 +888,25 @@ db(){
       ;;
 
     update)
-      db download
-      db import  
+      case $2 in
+        all)
+          sites=(olimpia rioclaro suzano santoandre demo)
+          for site in "${sites[@]}"
+          do
+            site set $site
+            db download 
+            db import 
+          done
+          site set $SITE
+          ;;
+
+        *)
+          db download
+          db import  
+          ;;
+      esac
       ;;
-    
+
     start)
       if [ -z "$DOCKER" ]; then
         if [ $OS == 'Darwin' ]; then
