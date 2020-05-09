@@ -876,7 +876,7 @@ db(){
           ;;
 
         demo)
-          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
           IFS=' '
           read -ra file <<< "$files"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
