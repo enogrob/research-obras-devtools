@@ -882,7 +882,7 @@ db(){
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
           echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com 
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
-          scp deploy@ec2-54-232-226-188.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          scp deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
           read -ra sitefile <<< "${file[1]}"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
