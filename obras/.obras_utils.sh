@@ -497,12 +497,19 @@ db(){
       ;;
 
     ls)
-      files_sql=$(ls *.sql)
+      IFS=$'\n'
+      files_sql=(`ls *.sql 2>/dev/null`)
       echo -e "db_sqls:"
-      for file in ${files_sql[*]}
-      do
-        __pr info ' '$file
-      done
+      if [ ! -z "$files_sql" ]; then
+        IFS=$'\n'
+        files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+        for file in ${files_sql[*]}
+        do
+          __pr succ ' '$file
+        done
+      else
+        __pr dang " no sql files"
+      fi
       __pr
       ;;
 
