@@ -1148,10 +1148,12 @@ site(){
     start)
       if [ -z "$DOCKER" ]; then
         if [ -z "$2" ]; then
+          test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
           foreman start $SITE
         else   
           case $2 in
             olimpia|rioclaro|suzano|santoandre|demo|default)
+              test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
               foreman start $2
               ;;
 
@@ -1203,7 +1205,10 @@ site(){
             sites=(olimpia rioclaro suzano santoandre default)
             for site in "${sites[@]}"
             do
-              kill -9 $(__pid $(__port $site))
+              pid=$(__pid $(__port $site))
+              if [ ! -z $pid ]; then
+                kill -9 $pid
+              fi  
             done
             ;;
 
