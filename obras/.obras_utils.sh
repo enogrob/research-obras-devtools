@@ -564,11 +564,13 @@ db(){
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
-            revolver --style 'simpleDotsScrolling' start "Dropping db"
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+            revolver --style 'simpleDotsScrolling' start
             rails db:drop
             revolver stop
           else
-            revolver --style 'simpleDotsScrolling' start "Dropping db"
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+            revolver --style 'simpleDotsScrolling' start 
             rake db:drop
             revolver stop
           fi
@@ -580,11 +582,13 @@ db(){
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
-            revolver --style 'simpleDotsScrolling' start "Dropping db"
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+            revolver --style 'simpleDotsScrolling' start 
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:drop
             revolver stop
           else  
-            revolver --style 'simpleDotsScrolling' start "Dropping db"
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+            revolver --style 'simpleDotsScrolling' start 
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:drop
             revolver stop
           fi
@@ -600,11 +604,13 @@ db(){
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
-            revolver --style 'simpleDotsScrolling' start "Creating db"
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
+            revolver --style 'simpleDotsScrolling' start 
             rails db:create
             revolver stop
           else
-            revolver --style 'simpleDotsScrolling' start "Creating db"
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
+            revolver --style 'simpleDotsScrolling' start
             rake db:create
             revolver stop
           fi  
@@ -616,11 +622,13 @@ db(){
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`docker-compose exec rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
-            revolver --style 'simpleDotsScrolling' start "Dropping db"
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
+            revolver --style 'simpleDotsScrolling' start 
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:create
             revolver stop
           else
-            revolver --style 'simpleDotsScrolling' start "Dropping db"
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
+            revolver --style 'simpleDotsScrolling' start 
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:create
             revolver stop
           fi
