@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA23
-## Date     : 2020-05-09
+## Version  : PA24
+## Date     : 2020-05-10
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -235,14 +235,23 @@ __import(){
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
     revolver --style 'simpleDotsScrolling' start 
     rails db:create
-    revolver stop
-    rails db:environment:set RAILS_ENV=development
+    revolver 
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
-    if [ -z $MYSQL_DATABASE_DEV ]; then
-      pv $1 | mysql -u root obrasdev 
+    if [ $RAILS_ENV == "development" ]; then
+      rails db:environment:set RAILS_ENV=development
+      if [ -z $MYSQL_DATABASE_DEV ]; then
+        pv $1 | mysql -u root obrasdev 
+      else
+        pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
+      fi
     else
-      pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
-    fi  
+      rails db:environment:set RAILS_ENV=test
+      if [ -z $MYSQL_DATABASE_TST ]; then
+        pv $1 | mysql -u root obrastest
+      else
+        pv $1 | mysql -u root $MYSQL_DATABASE_TST 
+      fi
+    fi    
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     rails db:migrate
   else
@@ -255,11 +264,19 @@ __import(){
     rake db:create
     revolver stop
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
-    if [ -z $MYSQL_DATABASE_DEV ]; then
-      pv $1 | mysql -u root obrasdev 
+    if [ $RAILS_ENV == "development" ]; then
+      if [ -z $MYSQL_DATABASE_DEV ]; then
+        pv $1 | mysql -u root obrasdev 
+      else
+        pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
+      fi 
     else
-      pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
-    fi  
+      if [ -z $MYSQL_DATABASE_TST ]; then
+        pv $1 | mysql -u root obrastest
+      else
+        pv $1 | mysql -u root $MYSQL_DATABASE_TST
+      fi 
+    fi   
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     rake db:migrate
   fi
@@ -276,13 +293,22 @@ __import_docker(){
     revolver --style 'simpleDotsScrolling' start 
     docker-compose exec $SITE rails db:create
     revolver stop
-    rails db:environment:set RAILS_ENV=development
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
-    if [ -z $MYSQL_DATABASE_DEV ]; then
-      pv $1 | docker exec -i db mysql -uroot -proot obrasdev
+    if [ $RAILS_ENV == "development" ]; then 
+      rails db:environment:set RAILS_ENV=development
+      if [ -z $MYSQL_DATABASE_DEV ]; then
+        pv $1 | docker exec -i db mysql -uroot -proot obrasdev
+      else
+        pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+      fi  
     else
-      pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
-    fi  
+      rails db:environment:set RAILS_ENV=test
+      if [ -z $MYSQL_DATABASE_TST ]; then
+        pv $1 | docker exec -i db mysql -uroot -proot obrastest
+      else
+        pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_TST 
+      fi  
+    fi
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     docker-compose exec $SITE rails db:migrate
   else
@@ -295,11 +321,19 @@ __import_docker(){
     docker-compose exec $SITE rake db:create
     revolver stop
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
-    if [ -z $MYSQL_DATABASE_DEV ]; then
-      pv $1 | docker exec -i db mysql -uroot -proot obrasdev
+    if [ $RAILS_ENV == "development" ]; then 
+      if [ -z $MYSQL_DATABASE_DEV ]; then
+        pv $1 | docker exec -i db mysql -uroot -proot obrasdev
+      else
+        pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
+      fi  
     else
-      pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV 
-    fi  
+      if [ -z $MYSQL_DATABASE_TST ]; then
+        pv $1 | docker exec -i db mysql -uroot -proot obrastest
+      else
+        pv $1 | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_TST
+      fi  
+    fi
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     docker-compose exec $SITE rake db:migrate
   fi
@@ -411,12 +445,12 @@ db(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
+      __pr info "db" "[ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
       __pr 
       ;; 
 
-    preptest)
+    preptest|init)
       if [ -z "$DOCKER" ]; then
         rails=`rails --version`
         if [ $rails == 'Rails 6.0.2.1' ]; then
