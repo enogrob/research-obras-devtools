@@ -386,6 +386,12 @@ __is_obras(){
 }
 
 __docker(){
+  port=$(__port $SITE)
+  pid=$(lsof -i :$port | grep -e docke | awk {'print $2'} | uniq)
+  if [[ ! -z "$pid" && -z "$DOCKER" ]]; then
+    unset DOCKER
+    export DOCKER=true
+  fi
   if [ ! -z "$DOCKER" ]; then
     db=$(docker-compose ps db | grep -o Up)
     if [ -z $db ]; then
