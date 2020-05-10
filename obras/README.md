@@ -1,5 +1,6 @@
 ```
-(C) 2020 Crafted by InMov - Intelligence in Movement
+Crafted (c) 2013~2020 by InMov - Intelligence in Movement
+Prepared : Roberto Nogueira
 ```
 
 #### Docker Development Flux with `Obras - DevTools`
@@ -147,7 +148,7 @@ db_sqls:
 
 #### Tests
 
-In order to run `RSpec` or `Minitest` tests, the site db has to be prepared i.e. for `default` site:
+In order to run `RSpec` or `Minitest` tests, the site db has to be prepared i.e. for `demo` site:
 ```shell
 $ default
 

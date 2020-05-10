@@ -1116,7 +1116,15 @@ site(){
             if $(exit $status); then
               unset DOCKER
               export DOCKER=true
+            else  
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker services up"
+              __pr
+              return 1
             fi
+          else  
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot connect to the Docker daemon"
+            __pr
+            return 1
           fi  
           ;;
           
