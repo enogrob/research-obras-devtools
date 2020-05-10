@@ -30,7 +30,7 @@ export RUBYOPT=-W0
 export SITE=default
 unset MYSQL_DATABASE_DEV
 unset MYSQL_DATABASE_TST
-HEADLESS=true
+export HEADLESS=true
 unset COVERAGE
 unset DOCKER
 unset SELENIUM_REMOTE_HOST
@@ -424,11 +424,17 @@ __docker(){
   if [[ ! -z "$pid" && -z "$DOCKER" ]]; then
     unset DOCKER
     export DOCKER=true
+    unset SELENIUM_REMOTE_HOST
+    export SELENIUM_REMOTE_HOST=true
   fi
   if [ ! -z "$DOCKER" ]; then
     db=$(docker-compose ps db | grep -o Up)
     if [ -z $db ]; then
       docker-compose up -d db
+    fi
+    selenium=$(docker-compose ps selenium | grep -o Up)
+    if [ -z $selenium ]; then
+      docker-compose up -d selenium
     fi
     site=$(docker-compose ps $SITE | grep -o Up)
     if [ -z $site ]; then
@@ -449,7 +455,7 @@ db(){
       __pr 
       ;; 
 
-    preptest)
+    preptest|init)
       if [ -z "$DOCKER" ]; then
         rails=`rails --version`
         if [ $rails == 'Rails 6.0.2.1' ]; then
@@ -1108,7 +1114,7 @@ site(){
       case $2 in
         olimpia|santoandre|demo)
           export SITE=$2
-          HEADLESS=true
+          export HEADLESS=true
           unset COVERAGE
           unset SELENIUM_REMOTE_HOST
           cd "$OBRAS"
@@ -1118,7 +1124,7 @@ site(){
 
         rioclaro|suzano)
           export SITE=$2
-          HEADLESS=true
+          export HEADLESS=true
           unset COVERAGE
           unset SELENIUM_REMOTE_HOST
           cd "$OBRAS_OLD"
@@ -1128,7 +1134,7 @@ site(){
 
         default)
           export SITE=$2
-          unset HEADLESS
+          export HEADLESS=true
           unset COVERAGE
           unset SELENIUM_REMOTE_HOST
           cd "$OBRAS"
@@ -1150,11 +1156,13 @@ site(){
           docker info > /dev/null 2>&1
           status=$?
           if $(exit $status); then
-            docker-compose up -d db $SITE > /dev/null 2>&1
+            docker-compose up -d db selenium $SITE > /dev/null 2>&1
             status=$?
             if $(exit $status); then
               unset DOCKER
               export DOCKER=true
+              unset SELENIUM_REMOTE_HOST
+              export SELENIUM_REMOTE_HOST=true
             else  
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker services up"
               __pr
