@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA23
-## Date     : 2020-05-09
+## Version  : PA24
+## Date     : 2020-05-10
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
