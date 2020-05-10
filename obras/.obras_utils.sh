@@ -2,7 +2,7 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA24
+## Version  : PA25
 ## Date     : 2020-05-10
 ## Project  : project-obras-devtools
 ## Reference: bash
@@ -41,13 +41,13 @@ alias obras='cd $OBRAS;title obras'
 alias downloads='cd $HOME/Downloads;title downloads'
 alias code='code --disable-gpu .&'
 alias mysql='mysql -u root'
-alias olimpia='cd $OBRAS;site set olimpia'
-alias rioclaro='cd $OBRAS;site set rioclaro'
-alias suzano='cd $OBRAS;site set suzano'
-alias santoandre='cd $OBRAS;site set santoandre'
-alias demo='cd $OBRAS;site set demo'
+alias olimpia='cd $OBRAS;site olimpia'
+alias rioclaro='cd $OBRAS;site rioclaro'
+alias suzano='cd $OBRAS;site suzano'
+alias santoandre='cd $OBRAS;site santoandre'
+alias demo='cd $OBRAS;site demo'
 alias downloads='cd $HOME/Downloads;title downloads'
-alias default='cd $OBRAS;site set default'
+alias default='cd $OBRAS;site default'
 alias rc='rvm current'
 alias window='tput cols;tput lines'
 
@@ -1112,44 +1112,44 @@ site(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "site" "[set sitename || envs || set/unset env]"
+      __pr info "site" "[sitename || envs || set/unset env]"
       __pr info "site" "[check/ls || start/stop [sitename || all] || test || rspec]"
       __pr info "site" "[ngrok || mailcatcher start/stop]"
       __pr 
       ;;
 
+    olimpia|santoandre|demo)
+      export SITE=$1
+      export HEADLESS=true
+      unset COVERAGE
+      unset SELENIUM_REMOTE_HOST
+      cd "$OBRAS"
+      db set $1
+      title $1
+      ;;
+
+    rioclaro|suzano)
+      export SITE=$1
+      export HEADLESS=true
+      unset COVERAGE
+      unset SELENIUM_REMOTE_HOST
+      cd "$OBRAS_OLD"
+      db set $1
+      title $1
+      ;;
+
+    default)
+      export SITE=$1
+      export HEADLESS=true
+      unset COVERAGE
+      unset SELENIUM_REMOTE_HOST
+      cd "$OBRAS"
+      db set $1
+      title $1
+      ;;
+
     set)
       case $2 in
-        olimpia|santoandre|demo)
-          export SITE=$2
-          export HEADLESS=true
-          unset COVERAGE
-          unset SELENIUM_REMOTE_HOST
-          cd "$OBRAS"
-          db set $2
-          title $2
-          ;;
-
-        rioclaro|suzano)
-          export SITE=$2
-          export HEADLESS=true
-          unset COVERAGE
-          unset SELENIUM_REMOTE_HOST
-          cd "$OBRAS_OLD"
-          db set $2
-          title $2
-          ;;
-
-        default)
-          export SITE=$2
-          export HEADLESS=true
-          unset COVERAGE
-          unset SELENIUM_REMOTE_HOST
-          cd "$OBRAS"
-          db set $2
-          title $2
-          ;;
-
         coverage)
           unset COVERAGE
           export COVERAGE=true
@@ -1345,7 +1345,7 @@ site(){
         rails console
       else
         docker-compose exec $SITE spring stop
-        docker-compose exec $SITE rails console
+        docker-compose exec -e $RAILS_ENV $SITE rails console
       fi
       ;;
 
@@ -1379,12 +1379,13 @@ site(){
       ngrok http $port 
       ;;
 
-    envs) 
-     ansi --no-newline "envs  : "
+    flags) 
+     ansi --no-newline "flags : "
       __wr_env "coverage" $COVERAGE 
       __wr_env "headless" $HEADLESS
       __wr_env  "docker" $DOCKER
       __pr_env  "selenium_remote" $SELENIUM_REMOTE_HOST
+      __pr
       ;;
 
     db)
@@ -1427,7 +1428,7 @@ site(){
       fi
       ansi --no-newline "rails server: ";__url $(__port $SITE)
       site mailcatcher
-      site envs
+      site flags
       db
       ;;
   esac
