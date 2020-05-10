@@ -450,7 +450,7 @@ db(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
+      __pr info "db" "[set sitename || ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
       __pr 
       ;; 
@@ -1112,8 +1112,8 @@ site(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "site" "[sitename || envs || set/unset env]"
-      __pr info "site" "[check/ls || start/stop [sitename || all] || test || rspec]"
+      __pr info "site" "[sitename || flags || set/unset flag/env development/test]"
+      __pr info "site" "[check/ls || start/stop [sitename/all] || test || rspec]"
       __pr info "site" "[ngrok || mailcatcher start/stop]"
       __pr 
       ;;
@@ -1428,7 +1428,11 @@ site(){
       fi
       ansi --no-newline "rails server: ";__url $(__port $SITE)
       site mailcatcher
-      site flags
+      ansi --no-newline "flags : "
+      __wr_env "coverage" $COVERAGE 
+      __wr_env "headless" $HEADLESS
+      __wr_env  "docker" $DOCKER
+      __pr_env  "selenium_remote" $SELENIUM_REMOTE_HOST
       db
       ;;
   esac
