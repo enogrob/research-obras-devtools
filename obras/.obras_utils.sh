@@ -1413,9 +1413,9 @@ site(){
       __pr bold "site:" $SITE
       __pr infobold "rvm :" $(rvm current)
       if [ $RAILS_ENV == 'development' ]; then 
-        ansi --no-newline "env : ";ansi --cyan $RAILS_ENV
+        ansi --no-newline "env : ";ansi --magenta-intense $RAILS_ENV
       else
-        ansi --no-newline "env : ";ansi --yellow $RAILS_ENV
+        ansi --no-newline "env : ";ansi --yellow-intense $RAILS_ENV
       fi
       ansi --no-newline "rails server: ";__url $(__port $SITE)
       site mailcatcher
