@@ -502,40 +502,40 @@ db(){
         if [ $rails == 'Rails 6.0.2.1' ]; then
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
           revolver --style 'simpleDotsScrolling' start 
-          docker-compose exec $SITE rails db:drop
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:drop
           revolver stop
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
           revolver --style 'simpleDotsScrolling' start 
-          docker-compose exec $SITE rails db:create
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:create
           revolver stop
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
-          docker-compose exec $SITE rails db:migrate
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:migrate
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
           revolver --style 'simpleDotsScrolling' start 
-          docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
           revolver stop
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
           revolver --style 'simpleDotsScrolling' start
-          docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
           revolver stop
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
           revolver --style 'simpleDotsScrolling' start 
-          docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
           revolver stop
         else
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
           revolver --style 'simpleDotsScrolling' start
-          docker-compose exec $SITE rake db:drop
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:drop
           revolver stop
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db "
           revolver --style 'simpleDotsScrolling' start 
-          docker-compose exec $SITE rake db:create
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:create
           revolver stop
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
-          docker-compose exec $SITE rake db:migrate
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:migrate
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.rb"
           revolver --style 'simpleDotsScrolling' start 
-          docker-compose exec $SITE rake db:seed
+          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:seed
           revolver stop
         fi
       fi
@@ -578,14 +578,14 @@ db(){
       else
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
-          rails=`docker-compose exec rails --version`
+          rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
             revolver --style 'simpleDotsScrolling' start "Dropping db"
-            docker-compose exec $SITE rails db:drop
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:drop
             revolver stop
           else  
             revolver --style 'simpleDotsScrolling' start "Dropping db"
-            docker-compose exec $SITE rake db:drop
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:drop
             revolver stop
           fi
         else  
@@ -617,11 +617,11 @@ db(){
           rails=`docker-compose exec rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
             revolver --style 'simpleDotsScrolling' start "Dropping db"
-            docker-compose exec $SITE rails db:create
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:create
             revolver stop
           else
             revolver --style 'simpleDotsScrolling' start "Dropping db"
-            docker-compose exec $SITE rake db:create
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:create
             revolver stop
           fi
         else  
@@ -651,10 +651,10 @@ db(){
           rails=`docker-compose exec rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
-            docker-compose exec $SITE rails db:migrate
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:migrate
           else
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
-            docker-compose exec $SITE rake db:migrate
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:migrate
           fi  
         else  
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
@@ -703,14 +703,14 @@ db(){
           rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
-            docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
-            docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
-            docker-compose exec $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
           else
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.rb"
-            docker-compose exec $SITE rake db:seed
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:seed
           fi
         else   
           if [ '$(__has_database $db)' == 'yes' ]; then
