@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA24
-## Date     : 2020-05-10
+## Version  : PA23
+## Date     : 2020-05-09
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -123,21 +123,20 @@ title(){
 __wr_env(){
   name=$1
   value=$2
-  if [ -z "$2" ]; then
-    ansi --no-newline "$name"; ansi --no-newline --red "false";ansi --no-newline ", "
+  if [ -z "$value" ]; then
+    ansi --no-newline --red $name;ansi --no-newline ", "
   else
-    ansi --no-newline "$name"; ansi --no-newline --green $value;ansi --no-newline ", "
+    ansi --no-newline --green $name;ansi --no-newline ", "
   fi
 }      
 
 __pr_env(){
   name=$1
   value=$2
-  nonewline=$3
-  if [ -z "$2" ]; then
-    ansi --no-newline "$name"; ansi --no-newline --red "false"
+  if [ -z "$value" ]; then
+    ansi --red $name
   else
-    ansi --no-newline "$name"; ansi --no-newline --green $value
+    ansi --green $name
   fi
 }      
 
@@ -235,7 +234,7 @@ __import(){
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
     revolver --style 'simpleDotsScrolling' start 
     rails db:create
-    revolver 
+    revolver stop
     ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --white-intense "$1"
     if [ $RAILS_ENV == "development" ]; then
       rails db:environment:set RAILS_ENV=development
@@ -271,10 +270,10 @@ __import(){
         pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
       fi 
     else
-      if [ -z $MYSQL_DATABASE_TST ]; then
-        pv $1 | mysql -u root obrastest
+      if [ -z $MYSQL_DATABASE_DEV ]; then
+        pv $1 | mysql -u root obrasdev 
       else
-        pv $1 | mysql -u root $MYSQL_DATABASE_TST
+        pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
       fi 
     fi   
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
@@ -445,12 +444,12 @@ db(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "db" "[ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
+      __pr info "db" "[ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
       __pr 
       ;; 
 
-    preptest|init)
+    preptest)
       if [ -z "$DOCKER" ]; then
         rails=`rails --version`
         if [ $rails == 'Rails 6.0.2.1' ]; then
@@ -1365,16 +1364,11 @@ site(){
       ;;
 
     envs) 
-     ansi --no-newline "test  : {"
-      __wr_env "coverage: " $COVERAGE 
-      __pr_env "headless: " $HEADLESS
-     ansi "}"
-      if [ ! -z $DOCKER ]; then
-        ansi --no-newline "docker: {"
-        __wr_env  "status: " $DOCKER
-        __pr_env  "selenium remote: " $SELENIUM_REMOTE_HOST
-        ansi "}"
-      fi 
+     ansi --no-newline "envs  : "
+      __wr_env "coverage" $COVERAGE 
+      __wr_env "headless" $HEADLESS
+      __wr_env  "docker" $DOCKER
+      __pr_env  "selenium_remote" $SELENIUM_REMOTE_HOST
       ;;
 
     db)
