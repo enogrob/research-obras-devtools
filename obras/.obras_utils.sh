@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA25
-## Date     : 2020-05-10
+## Version  : PA26
+## Date     : 2020-05-11
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -1190,9 +1190,13 @@ site(){
 
         env)
           case $3 in
-            test|development|homolog_olimpia|homolog_rioclaro|homolog_suzano|homolog_santoandre|demo)
+            development|dev)
               unset RAILS_ENV
-              export RAILS_ENV=$3
+              export RAILS_ENV=development
+              ;;
+            test|tst)
+              unset RAILS_ENV
+              export RAILS_ENV=test
               ;;
             *)
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad env "$3
@@ -1421,10 +1425,17 @@ site(){
       __docker
       __pr bold "site:" $SITE
       __pr infobold "rvm :" $(rvm current)
+      ansi --no-newline "env : "
       if [ $RAILS_ENV == 'development' ]; then 
-        ansi --no-newline "env : ";ansi --magenta-intense $RAILS_ENV
+        ansi --no-newline --green "development"
       else
-        ansi --no-newline "env : ";ansi --yellow-intense $RAILS_ENV
+        ansi --no-newline --red "development"
+      fi
+      ansi --no-newline ", "
+      if [ $RAILS_ENV == 'test' ]; then 
+        ansi --green "test"
+      else
+        ansi --red "test"
       fi
       ansi --no-newline "rails server: ";__url $(__port $SITE)
       site mailcatcher
