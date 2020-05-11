@@ -31,6 +31,12 @@ services:
     env_file:
       - .env/development/db
       - .env/development/olimpia
+    environment:
+      - RAILS_ENV=development
+      - HEADLESS=true
+      - COVERAGE
+      - MAILCATCHER_ENV=LOCALHOST
+      - SELENIUM_REMOTE_HOST
     networks:
       docker:
         ipv4_address: 172.30.0.2
@@ -49,6 +55,12 @@ services:
     env_file:
       - .env/development/db
       - .env/development/rioclaro
+    environment:
+      - RAILS_ENV=development
+      - HEADLESS=true
+      - COVERAGE
+      - MAILCATCHER_ENV=LOCALHOST
+      - SELENIUM_REMOTE_HOST
     networks:
       docker:
         ipv4_address: 172.30.0.3
@@ -67,6 +79,12 @@ services:
     env_file:
       - .env/development/db
       - .env/development/suzano
+    environment:
+      - RAILS_ENV=development
+      - HEADLESS=true
+      - COVERAGE
+      - MAILCATCHER_ENV=LOCALHOST
+      - SELENIUM_REMOTE_HOST
     networks:
       docker:
         ipv4_address: 172.30.0.4
@@ -85,6 +103,12 @@ services:
     env_file:
       - .env/development/db
       - .env/development/santoandre
+    environment:
+      - RAILS_ENV=development
+      - HEADLESS=true
+      - COVERAGE
+      - MAILCATCHER_ENV=LOCALHOST
+      - SELENIUM_REMOTE_HOST
     networks:
       docker:
         ipv4_address: 172.30.0.5
@@ -103,6 +127,12 @@ services:
     env_file:
       - .env/development/db
       - .env/development/demo
+    environment:
+      - RAILS_ENV=development
+      - HEADLESS=true
+      - COVERAGE
+      - MAILCATCHER_ENV=LOCALHOST
+      - SELENIUM_REMOTE_HOST
     networks:
       docker:
         ipv4_address: 172.30.0.13
@@ -120,9 +150,15 @@ services:
       - bundle:/bundle
     env_file:
       - .env/development/db
+    environment:
+      - RAILS_ENV=development
+      - HEADLESS=true
+      - COVERAGE
+      - MAILCATCHER_ENV=LOCALHOST
+      - SELENIUM_REMOTE_HOST
     networks:
       docker:
-        ipv4_address: 172.30.0.13
+        ipv4_address: 172.30.0.14
 
   db:
     container_name: db
