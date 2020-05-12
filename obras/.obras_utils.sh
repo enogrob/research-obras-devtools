@@ -1402,7 +1402,7 @@ site(){
       if [ -z $DOCKER ]; then
         rails test $*
       else
-        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST $SITE test $*
+        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST $SITE rails test $*
       fi
       ;;
 
@@ -1410,7 +1410,7 @@ site(){
       if [ -z $DOCKER ]; then
         rails test:system $*
       else
-        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST $SITE test:system $*
+        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST $SITE rails test:system $*
       fi
       ;;
 
