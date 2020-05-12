@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA26
-## Date     : 2020-05-11
+## Version  : PA27
+## Date     : 2020-05-12
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -1112,8 +1112,8 @@ site(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "site" "[sitename || flags || set/unset flag/env development/test]"
-      __pr info "site" "[check/ls || start/stop [sitename/all] || test || rspec]"
+      __pr info "site" "[sitename || flags || set/unset flag|| env development/test]"
+      __pr info "site" "[check/ls || start/stop [sitename/all] || console || test || rspec]"
       __pr info "site" "[ngrok || mailcatcher start/stop]"
       __pr 
       ;;
@@ -1146,6 +1146,24 @@ site(){
       cd "$OBRAS"
       db set $1
       title $1
+      ;;
+
+    env)
+      case $2 in
+        development|dev)
+          unset RAILS_ENV
+          export RAILS_ENV=development
+          ;;
+        test|tst)
+          unset RAILS_ENV
+          export RAILS_ENV=test
+          ;;
+        *)
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad env "$2
+          __pr
+          return 1
+          ;;
+      esac  
       ;;
 
     set)
@@ -1188,23 +1206,6 @@ site(){
           export SELENIUM_REMOTE_HOST=true
           ;;
 
-        env)
-          case $3 in
-            development|dev)
-              unset RAILS_ENV
-              export RAILS_ENV=development
-              ;;
-            test|tst)
-              unset RAILS_ENV
-              export RAILS_ENV=test
-              ;;
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad env "$3
-              __pr
-              return 1
-              ;;
-          esac  
-          ;;
 
         *)
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$2
