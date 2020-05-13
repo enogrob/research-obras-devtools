@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA27
-## Date     : 2020-05-12
+## Version  : PA28
+## Date     : 2020-05-13
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -963,11 +963,11 @@ db(){
           sites=(olimpia rioclaro suzano santoandre demo)
           for site in "${sites[@]}"
           do
-            site set $site
+            site $site
             db download 
             db import 
           done
-          site set $SITE
+          site $SITE
           ;;
 
         *)

@@ -5,6 +5,8 @@ Prepared : Roberto Nogueira
 
 #### Docker Development Flux with `Obras - DevTools`
 
+##### Installation and Configuation
+
 Important Characteristics:
 
 * Development Flux with `Docker` without interference with the usual. 
@@ -72,46 +74,92 @@ $ docker volume ls
 $ docker network ls
 ```
 
-In order to start services e.g. `olimpia` and `santoandre`
+#### Develoment Flux with Docker
+
+Is the same as the Regular except that you have to setup an env variable `DOCKER` in the beginning and unset at the end, e.g.:
 ```shell
-$ docker-compose up -d db olimpia santoandre
+$ site set docker
 :
-
-$ docker-compose ps
-   Name                 Command               State           Ports
-----------------------------------------------------------------------------
-db           docker-entrypoint.sh mysqld      Up      3306/tcp, 33060/tcp
-olimpia      ./docker-entrypoint.sh bun ...   Up      0.0.0.0:3002->3000/tcp
-santoandre   ./docker-entrypoint.sh bun ...   Up      0.0.0.0:3005->3000/tcp
-```
-
-In order to import the database services e.g. `olimpia` and `santoandre`
-```shell
-$ site db ls
+:
+$ site
+site: santoandre
+rvm : ruby-2.6.5@rails-6.0.2.1
+env : development, test
+rails server: http://localhost:3005 25380
+mailcatcher : http://localhost:1080
+flags : coverage, headless, docker, selenium_remote
+db_dev: santoandre_dev 584 805657
+db_tst: santoandre_tst 0
 db_sqls:
- obras.2020-04-22_olimpia.sql
- obras.2020-04-25_santoandre.sql
-
-$ site db import docker all 
+ obras.2020-04-27_santoandre.sql
+:
+:
+$ site unset docker
 ```
 
-#### Regular Development Flux with `Obras - DevTools`
+##### Regular Development Flux with `Obras - DevTools`
+
+In order to setup the site for development you just have to setup the db:
+```
+$ site db status
+$ site set santoandre
+
+$ site
+site: santoandre
+rvm : ruby-2.6.5@rails-6.0.2.1
+env : development, test
+rails server: http://localhost:3005
+mailcatcher : http://localhost:1080
+flags : coverage, headless, docker, selenium_remote
+db_dev: santoandre_dev
+db_tst: santoandre_tst
+db_sqls:
+ no sql files
+
+$ site db update
+
+$ site 
+site: santoandre
+rvm : ruby-2.6.5@rails-6.0.2.1
+env : development, test
+rails server: http://localhost:3005
+mailcatcher : http://localhost:1080
+flags : coverage, headless, docker, selenium_remote
+db_dev: santoandre_dev 583 804261
+db_tst: santoandre_tst
+db_sqls:
+ obras.2020-04-26_santoandre.sql
+
+$ site start
+
+$ site
+site: santoandre
+rvm : ruby-2.6.5@rails-6.0.2.1
+env : development, test
+rails server: http://localhost:3005 19614
+mailcatcher : http://localhost:1080
+flags : coverage, headless, docker, selenium_remote
+db_dev: santoandre_dev 583 804261
+db_tst: santoandre_tst
+db_sqls:
+ obras.2020-04-26_santoandre.sql
+```
 
 #### Tests
 
-In order to run `RSpec` or `Minitest` tests, the site db has to be prepared i.e. for `default` site:
+In order to run `RSpec` or `Minitest` tests, the site db has to be prepared i.e. for `demo` site:
 ```shell
 $ default
 
 $ site
- site: default
+ site: demo
  rvm : ruby-2.6.5@rails-6.0.2.1
- env : development
- rails server: http://localhost:3000
+ env : development, test
+ rails server: http://localhost:3013
  mailcatcher : http://localhost:1080
- coverage: no, headless: no, selenium remote: no
- db_dev: obrasdev
- db_tst: obrastest
+ flags : coverage, headless, docker, selenium_remote
+ db_dev: demo_dev
+ db_tst: demo_test
  db_sqls:
   no sql files
 
@@ -121,21 +169,21 @@ $ site
  $ site set env development
 
  $ site
- site: default
+ site: demo
  rvm : ruby-2.6.5@rails-6.0.2.1
- env : development
- rails server: http://localhost:3000
+ env : development, test
+ rails server: http://localhost:3013
  mailcatcher : http://localhost:1080
- coverage: no, headless: no, selenium remote: no
- db_dev: obrasdev 583 21549
- db_tst: obrastest 583 21552
+ flags : coverage, headless, docker, selenium_remote
+ db_dev: demo_dev 583 21549
+ db_tst: demo_tst 583 21552
  db_sqls:
   no sql files
 ```
 
 Running `Unit` tests:
 ```shell
-$ rails test
+$ site test
 Started with run options --seed 65307
 
 BuildingPurposeInProjectCreationTest
@@ -155,7 +203,7 @@ Finished in 3.16327s
 
 Running `System` tests:
 ```
-$ rails test:system
+$ site test:system
 Started with run options --seed 43391
 
 BuildingPurposeInProjectCreationsTest
@@ -205,18 +253,18 @@ Finished in 199.26141s
 
 If you want to debug you have to set env `headless`. The same if you want run with coverage, you have to set env `coverage`.
 ```
-$ site set env headless
-$ site set env coverage
+$ site unset headless
+$ site set coverage
 
 $ site
-site: default
+site: demo
 rvm : ruby-2.6.5@rails-6.0.2.1
-env : development
-rails server: http://localhost:3000
+env : development, test
+rails server: http://localhost:3013 25380
 mailcatcher : http://localhost:1080
-coverage: yes, headless: yes, selenium remote: no
-db_dev: obrasdev 583 21502
-db_tst: obrastest 583 1142
+flags : coverage, headless, docker, selenium_remote
+db_dev: demo_dev 583 21027
+db_tst: demo_tst 583 21455
 db_sqls:
  no sql files
 ```
