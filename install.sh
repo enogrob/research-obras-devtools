@@ -3,8 +3,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : install.sh
-## Version  : PA06
-## Date     : 2020-05-04
+## Version  : PA07
+## Date     : 2020-05-13
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -225,7 +225,7 @@ case $1 in
         echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
         echo ""
       else
-        if [ $INSTALL_DIR == "obras_dir" ];then
+        if [ $INSTALL_DIR == "obras_dir" ]; then
           unset INSTALL_DIR
           export INSTALL_DIR=$OBRAS
         else
@@ -240,7 +240,11 @@ case $1 in
           echo ""
           rm -rf $INSTALL_DIR/.idea
         fi
-        cp -r rubymine/.idea $INSTALL_DIR/.idea
+        if [ $INSTALL_DIR == $OBRAS ]; then
+          cp -r rubymine/obras.idea $INSTALL_DIR/.idea
+        else
+          cp -r rubymine/obras_old.idea $INSTALL_DIR/.idea
+        fi  
       fi  
       ;;
 
