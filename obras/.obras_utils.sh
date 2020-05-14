@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA28
-## Date     : 2020-05-13
+## Version  : PA29
+## Date     : 2020-05-14
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -1203,7 +1203,7 @@ site(){
           
         selenium|selenium_remote)
           unset SELENIUM_REMOTE_HOST
-          export SELENIUM_REMOTE_HOST=true
+          export SELENIUM_REMOTE_HOST=selenium
           ;;
 
 

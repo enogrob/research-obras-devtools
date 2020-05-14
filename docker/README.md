@@ -102,7 +102,7 @@ $ site unset docker
 In order to setup the site for development you just have to setup the db:
 ```
 $ site db status
-$ site set santoandre
+$ site santoandre
 
 $ site
 site: santoandre
@@ -149,7 +149,7 @@ db_sqls:
 
 In order to run `RSpec` or `Minitest` tests, the site db has to be prepared i.e. for `demo` site:
 ```shell
-$ default
+$ demo
 
 $ site
  site: demo
