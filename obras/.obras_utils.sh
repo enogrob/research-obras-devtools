@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA29
-## Date     : 2020-05-14
+## Version  : PA30
+## Date     : 2020-05-25
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -1188,7 +1188,7 @@ site(){
               unset DOCKER
               export DOCKER=true
               unset SELENIUM_REMOTE_HOST
-              export SELENIUM_REMOTE_HOST=true
+              export SELENIUM_REMOTE_HOST=selenium
             else  
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker services up"
               __pr
