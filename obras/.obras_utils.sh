@@ -1350,7 +1350,7 @@ site(){
         rails console
       else
         docker-compose exec $SITE spring stop
-        docker-compose exec -e $RAILS_ENV $SITE rails console
+        docker-compose exec -e RAILS_ENV=$RAILS_ENV -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST -e COVERAGE=$COVERAGE $SITE rails console
       fi
       ;;
 
