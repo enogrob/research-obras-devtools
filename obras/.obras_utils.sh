@@ -425,7 +425,7 @@ __docker(){
     unset DOCKER
     export DOCKER=true
     unset SELENIUM_REMOTE_HOST
-    export SELENIUM_REMOTE_HOST=true
+    export SELENIUM_REMOTE_HOST=selenium
   fi
   if [ ! -z "$DOCKER" ]; then
     db=$(docker-compose ps db | grep -o Up)
