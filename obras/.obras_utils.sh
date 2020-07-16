@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA30
-## Date     : 2020-05-25
+## Version  : PA31
+## Date     : 2020-07-16
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -1118,7 +1118,7 @@ site(){
       __pr 
       ;;
 
-    olimpia|santoandre|demo)
+    olimpia|santoandre|suzano|demo)
       export SITE=$1
       export HEADLESS=true
       unset COVERAGE
@@ -1128,7 +1128,7 @@ site(){
       title $1
       ;;
 
-    rioclaro|suzano)
+    rioclaro)
       export SITE=$1
       export HEADLESS=true
       unset COVERAGE
