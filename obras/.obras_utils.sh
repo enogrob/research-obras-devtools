@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA31
-## Date     : 2020-07-16
+## Version  : PA32
+## Date     : 2020-08-15
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -454,6 +454,76 @@ db(){
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
       __pr 
       ;; 
+      
+    api)
+      case $2 in
+        dump)
+          IFS=$'\n'
+          if [ -z "$DOCKER" ]; then
+            files_sql=(`mysqlshow -uroot $MYSQL_DATABASE_DEV | sed 's/[|+-]//g' | grep "^\sapi" | sed -e 's/^[[:space:]]*//' 2>/dev/null`)
+          else
+            files_sql=(`docker exec -i db mysqlshow -uroot $MYSQL_DATABASE_DEV | sed 's/[|+-]//g' | grep "^\sapi" | sed -e 's/^[[:space:]]*//' 2>/dev/null`)
+          fi  
+          if [ ! -z "$files_sql" ]; then
+            IFS=$'\n'
+            files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+            for file in ${files_sql[*]}
+            do
+              file1=$(echo -e "${file}" | tr -d '[:space:]')
+              ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Dumping ";ansi --green $file1
+              if [ -z "$DOCKER" ]; then
+                mysqldump -uroot $MYSQL_DATABASE_DEV $file1 > "$file1.sql"
+              else
+                docker exec -i db mysqldump -uroot -proot $MYSQL_DATABASE_DEV $file1 > "$file1.sql"
+              fi  
+            done
+          else
+            __pr dang " no api files"
+          fi
+          __pr
+          ;;
+        import)
+          IFS=$'\n'
+          files_sql=(`ls api*.sql 2>/dev/null`)
+          if [ ! -z "$files_sql" ]; then
+            IFS=$'\n'
+            files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+            for file in ${files_sql[*]}
+            do
+              ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Importing ";ansi --green $file
+              if [ -z "$DOCKER" ]; then
+                pv $file | mysql -uroot $MYSQL_DATABASE_DEV 
+              else
+                pv $file | docker exec -i db mysql -uroot -proot $MYSQL_DATABASE_DEV
+              fi  
+            done
+          else
+            __pr dang " no api files"
+          fi
+          __pr
+          ;;
+        *)
+          IFS=$'\n'
+          if [ -z "$DOCKER" ]; then
+            files_sql=(`mysqlshow -uroot $MYSQL_DATABASE_DEV | sed 's/[|+-]//g' | grep "^\sapi" | sed -e 's/^[[:space:]]*//' 2>/dev/null`)
+          else
+            files_sql=(`docker exec -i db mysqlshow -uroot $MYSQL_DATABASE_DEV | sed 's/[|+-]//g' | grep "^\sapi" | sed -e 's/^[[:space:]]*//' 2>/dev/null`)
+          fi  
+          echo -e "table_apis:"
+          if [ ! -z "$files_sql" ]; then
+            IFS=$'\n'
+            files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+            for file in ${files_sql[*]}
+            do
+              __pr succ ' '$file
+            done
+          else
+            __pr dang " no api files"
+          fi
+          __pr
+          ;;
+      esac
+      ;;
 
     preptest|init)
       if [ -z "$DOCKER" ]; then
