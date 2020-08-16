@@ -53,6 +53,7 @@ obras_utils.sh
 [x] Integrate Spinners into db import
 [x] Implement site stop
 [x] Implement site update all
+[x] Implement dump/import api tables
 install.sh
 [x] Installation support for Obras Utils
 [x] Installation support for Spinners

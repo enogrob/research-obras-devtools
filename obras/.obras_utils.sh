@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA32
-## Date     : 2020-08-15
+## Version  : PA33
+## Date     : 2020-08-16
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -452,6 +452,8 @@ db(){
       __pr bold "::"
       __pr info "db" "[set sitename || ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
+      __pr info "db" "[api [dump || import]]"
+
       __pr 
       ;; 
       
