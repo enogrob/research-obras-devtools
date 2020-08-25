@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA34
-## Date     : 2020-08-22
+## Version  : PA35
+## Date     : 2020-08-24
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -61,47 +61,47 @@ alias dkis='docker images'
 # functions
 __pr(){
     if [ $# -eq 0 ]; then
-        echo -e ""
+        ansi --white ""
     elif [ $# -eq 2 ]; then
         case $1 in
             dang|red)
-                echo -e "\033[31m$2 \033[0m"
+                ansi --red $2
                 ;;
             succ|green)
-                echo -e "\033[32m$2 \033[0m"
+                ansi --green $2
                 ;;
             warn|yellow)
-                echo -e "\033[33m$2 \033[0m"
+                ansi --yellow $2
                 ;;
             info|blue)
-                echo -e "\033[36m$2 \033[0m"
+                ansi --cyan $2
                 ;;
             infobold|lightcyan)
-                echo -e "\033[1;96m$2 \033[0m"
+                ansi --cyan-intense $2
                 ;;
             bold|white)
-                echo -e "\033[1;39m$2 \033[0m"
+                ansi --white $2
                 ;;
         esac
     elif [ $# -eq 3 ]; then
         case $1 in
             dang|red)
-                echo -e "$2 \033[31m$3 \033[0m"
+                ansi --no-newline --white $2;ansi --red $3
                 ;;
             succ|green)
-                echo -e "$2 \033[32m$3 \033[0m"
+                ansi --no-newline --white $2;ansi --green $3
                 ;;
             warn|yellow)
-                echo -e "$2 \033[33m$3 \033[0m"
+                ansi --no-newline --white $2;ansi --yellow $3
                 ;;
             info|blue)
-                echo -e "$2 \033[36m$3 \033[0m"
+                ansi --no-newline --white $2;ansi --cyan $3
                 ;;
             infobold|lightcyan)
-                echo -e "$2 \033[1;96m$3 \033[0m"
+                ansi --no-newline --white $2;ansi --cyan-intense $3
                 ;;
             bold|white)
-                echo -e "$2 \033[1;39m$3 \033[0m"
+                ansi --no-newline --white $2;ansi --white-intense $3
                 ;;
         esac
     else
@@ -1160,7 +1160,7 @@ db(){
       __pr_db tst
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      echo -e "db_sqls:"
+      ansi --white "db_sqls:"
       if [ ! -z "$files_sql" ]; then
         IFS=$'\n'
         files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
