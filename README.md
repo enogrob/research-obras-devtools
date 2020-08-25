@@ -3,9 +3,9 @@ Roberto Nogueira
 BSd EE, MSd CE
 Solution Integrator Experienced - Certified by Ericsson
 ```
-# Project Obras DevTools
+# Research Obras DevTools
 
-![project image](images/project.png)
+![project image](images/research.png)
 
 **About**
 
@@ -24,7 +24,7 @@ This in order to improve the Obras Development Process, developing utilities and
 
 **Refs:**
 
-* [1] [**Project Obras Devtools** in Github](https://github.com/enogrob/project-obras-devtools)
+* [1] [**Project Obras Devtools** in Github](https://github.com/enogrob/research-obras-devtools)
 * [2] [**Pipe Viewer**](http://www.ivarch.com/programs/pv.shtml)
 * [3] [**Library Ansi**](https://github.com/fidian/ansi)
 * [4] [**Revolver**](https://github.com/molovo/revolver)
