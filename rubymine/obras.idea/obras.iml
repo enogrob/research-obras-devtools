@@ -97,7 +97,6 @@
     <orderEntry type="library" scope="PROVIDED" name="cpf_faker (v1.3.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="daemons (v1.3.1, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="database_cleaner (v1.8.5, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debase (v0.2.4.1, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debase-ruby_core_source (v0.10.9, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug_inspector (v0.0.3, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
@@ -133,6 +132,7 @@
     <orderEntry type="library" scope="PROVIDED" name="faye (v1.2.5, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faye-websocket (v0.10.9, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.12.2, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="foreman (v0.87.1, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="formatador (v0.2.5, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fugit (v1.3.5, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fullcalendar-rails (v3.9.0.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
@@ -215,6 +215,7 @@
     <orderEntry type="library" scope="PROVIDED" name="pretender (v0.3.4, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry (v0.13.1, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry-byebug (v3.9.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="pry-gem (v1.0.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry-rails (v0.3.9, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry-rescue (v1.5.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry-stack_explorer (v0.4.9.3, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />

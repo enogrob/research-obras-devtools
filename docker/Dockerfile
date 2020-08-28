@@ -5,6 +5,10 @@ MAINTAINER Roberto Nogueira <roberto.nogueira@tecnogroup.com.br>
 RUN apt-get update -yqq
 RUN apt-get install -yqq --no-install-recommends nodejs
 
+# Install google-chrome for debian
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome*.deb || apt update && apt-get install -f -y
+
 # Install gem files for Development flow
 COPY Gemfile* /usr/src/app/
 WORKDIR /usr/src/app
