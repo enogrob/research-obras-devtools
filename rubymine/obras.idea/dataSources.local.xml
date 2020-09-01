@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="@localhost" uuid="8abf41b6-c827-4d6a-9135-a13e5d1f3d95">
+    <data-source name="@obras_mysql_localhost" uuid="8abf41b6-c827-4d6a-9135-a13e5d1f3d95">
       <database-info product="MySQL" version="5.7.29" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )" dbms="MYSQL" exact-version="5.7.29" exact-driver-version="5.1">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
@@ -10,6 +10,16 @@
       <secret-storage>master_key</secret-storage>
       <user-name>root</user-name>
       <introspection-schemas>*:@,demo_dev,obrasdev,olimpia_dev,santoandre_dev</introspection-schemas>
+    </data-source>
+    <data-source name="@obras_mysql_docker" uuid="ad075d66-eeaa-4583-b386-24f1fe1d4b15">
+      <database-info product="MySQL" version="5.7.23" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )" dbms="MYSQL" exact-version="5.7.23" exact-driver-version="5.1">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:demo_dev,obrasdev,obrastest,olimpia_dev,santoandre_dev,suzano_dev</introspection-schemas>
     </data-source>
   </component>
 </project>

@@ -42,6 +42,7 @@
     <orderEntry type="library" scope="PROVIDED" name="afm (v0.2.2, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="akami (v1.3.1, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="amazing_print (v1.1.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="amq-protocol (v2.3.2, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ansi (v1.5.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="awesome_print (v1.8.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
@@ -71,6 +72,7 @@
     <orderEntry type="library" scope="PROVIDED" name="brstring (v3.3.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.1.4, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bunny (v2.16.1, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="byebug (v11.1.3, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cancancan (v1.17.0, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v3.32.1, RVM: ruby-2.6.5 [rails-6.0.2.1]) [gem]" level="application" />
