@@ -54,6 +54,7 @@ obras_utils.sh
 [x] Implement site stop
 [x] Implement site update all
 [x] Implement dump/import api tables
+[x] Remove SELENIUM_REMOTE var
 install.sh
 [x] Installation support for Obras Utils
 [x] Installation support for Spinners

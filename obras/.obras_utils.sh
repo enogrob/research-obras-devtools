@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA35
-## Date     : 2020-08-24
+## Version  : PA36
+## Date     : 2020-08-31
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -33,7 +33,6 @@ unset MYSQL_DATABASE_TST
 export HEADLESS=true
 unset COVERAGE
 unset DOCKER
-unset SELENIUM_REMOTE_HOST
 
 # aliases development
 alias home='cd $HOME;title home'
@@ -424,8 +423,6 @@ __docker(){
   if [[ ! -z "$pid" && -z "$DOCKER" ]]; then
     unset DOCKER
     export DOCKER=true
-    unset SELENIUM_REMOTE_HOST
-    export SELENIUM_REMOTE_HOST=selenium
   fi
   if [ ! -z "$DOCKER" ]; then
     db=$(docker-compose ps db | grep -o Up)
@@ -506,11 +503,7 @@ db(){
           ;;
         *)
           IFS=$'\n'
-          if [ -z "$DOCKER" ]; then
-            files_sql=(`mysqlshow -uroot $MYSQL_DATABASE_DEV | sed 's/[|+-]//g' | grep "^\sapi" | sed -e 's/^[[:space:]]*//' 2>/dev/null`)
-          else
-            files_sql=(`docker exec -i db mysqlshow -uroot $MYSQL_DATABASE_DEV | sed 's/[|+-]//g' | grep "^\sapi" | sed -e 's/^[[:space:]]*//' 2>/dev/null`)
-          fi  
+          files_sql=(`ls api*.sql 2>/dev/null`)
           echo -e "table_apis:"
           if [ ! -z "$files_sql" ]; then
             IFS=$'\n'
@@ -1194,7 +1187,6 @@ site(){
       export SITE=$1
       export HEADLESS=true
       unset COVERAGE
-      unset SELENIUM_REMOTE_HOST
       cd "$OBRAS"
       db set $1
       title $1
@@ -1204,7 +1196,6 @@ site(){
       export SITE=$1
       export HEADLESS=true
       unset COVERAGE
-      unset SELENIUM_REMOTE_HOST
       cd "$OBRAS_OLD"
       db set $1
       title $1
@@ -1214,7 +1205,6 @@ site(){
       export SITE=$1
       export HEADLESS=true
       unset COVERAGE
-      unset SELENIUM_REMOTE_HOST
       cd "$OBRAS"
       db set $1
       title $1
@@ -1254,13 +1244,11 @@ site(){
           docker info > /dev/null 2>&1
           status=$?
           if $(exit $status); then
-            docker-compose up -d db selenium $SITE > /dev/null 2>&1
+            docker-compose up -d db redis selenium $SITE > /dev/null 2>&1
             status=$?
             if $(exit $status); then
               unset DOCKER
               export DOCKER=true
-              unset SELENIUM_REMOTE_HOST
-              export SELENIUM_REMOTE_HOST=selenium
             else  
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker services up"
               __pr
@@ -1273,12 +1261,6 @@ site(){
           fi  
           ;;
           
-        selenium|selenium_remote)
-          unset SELENIUM_REMOTE_HOST
-          export SELENIUM_REMOTE_HOST=selenium
-          ;;
-
-
         *)
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$2
           __pr
@@ -1303,10 +1285,6 @@ site(){
           if $(exit $status); then
             unset DOCKER
           fi
-          ;;
-
-        selenium|selenium_remote)
-          unset SELENIUM_REMOTE_HOST
           ;;
 
         *)
@@ -1343,7 +1321,7 @@ site(){
         fi
       else
         if [ -z "$2" ]; then
-          docker-compose up -d $SITE
+          docker-compose up -d db redis $SITE
         else   
           case $2 in
             olimpia|rioclaro|suzano|santoandre|demo)
@@ -1394,7 +1372,7 @@ site(){
         fi
       else
         if [ -z "$2" ]; then
-          docker-compose stop $SITE
+          docker-compose rm -f -s -v $SITE
         else   
           case $2 in
             olimpia|rioclaro|suzano|santoandre|demo)
@@ -1422,7 +1400,7 @@ site(){
         rails console
       else
         docker-compose exec $SITE spring stop
-        docker-compose exec -e RAILS_ENV=$RAILS_ENV -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST -e COVERAGE=$COVERAGE $SITE rails console
+        docker-compose exec -e RAILS_ENV=$RAILS_ENV -e COVERAGE=$COVERAGE $SITE rails console
       fi
       ;;
 
@@ -1461,7 +1439,6 @@ site(){
       __wr_env "coverage" $COVERAGE 
       __wr_env "headless" $HEADLESS
       __wr_env  "docker" $DOCKER
-      __pr_env  "selenium_remote" $SELENIUM_REMOTE_HOST
       __pr
       ;;
 
@@ -1474,7 +1451,7 @@ site(){
       if [ -z $DOCKER ]; then
         rails test $*
       else
-        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST $SITE rails test $*
+        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rails test $*
       fi
       ;;
 
@@ -1482,7 +1459,7 @@ site(){
       if [ -z $DOCKER ]; then
         rails test:system $*
       else
-        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST $SITE rails test:system $*
+        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rails test:system $*
       fi
       ;;
 
@@ -1490,7 +1467,7 @@ site(){
       if [ -z $DOCKER ]; then
         rspec $*
       else
-        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE -e SELENIUM_REMOTE_HOST=$SELENIUM_REMOTE_HOST $SITE rspec $*
+        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rspec $*
       fi
       ;;
 
@@ -1515,8 +1492,7 @@ site(){
       ansi --no-newline "flags : "
       __wr_env "coverage" $COVERAGE 
       __wr_env "headless" $HEADLESS
-      __wr_env  "docker" $DOCKER
-      __pr_env  "selenium_remote" $SELENIUM_REMOTE_HOST
+      __pr_env  "docker" $DOCKER
       db
       ;;
   esac
