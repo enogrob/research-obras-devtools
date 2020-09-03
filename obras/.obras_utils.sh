@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA36
-## Date     : 2020-08-31
+## Version  : PA37
+## Date     : 2020-09-03
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -428,10 +428,6 @@ __docker(){
     db=$(docker-compose ps db | grep -o Up)
     if [ -z $db ]; then
       docker-compose up -d db
-    fi
-    selenium=$(docker-compose ps selenium | grep -o Up)
-    if [ -z $selenium ]; then
-      docker-compose up -d selenium
     fi
     site=$(docker-compose ps $SITE | grep -o Up)
     if [ -z $site ]; then
@@ -1244,7 +1240,7 @@ site(){
           docker info > /dev/null 2>&1
           status=$?
           if $(exit $status); then
-            docker-compose up -d db redis selenium $SITE > /dev/null 2>&1
+            docker-compose up -d db redis $SITE > /dev/null 2>&1
             status=$?
             if $(exit $status); then
               unset DOCKER
