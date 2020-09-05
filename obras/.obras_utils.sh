@@ -433,10 +433,6 @@ __docker(){
     if [ -z $selenium ]; then
       docker-compose up -d selenium
     fi
-    chrome=$(docker-compose ps chrome | grep -o Up)
-    if [ -z $chrome ]; then
-      docker-compose up -d chrome
-    fi
     site=$(docker-compose ps $SITE | grep -o Up)
     if [ -z $site ]; then
       docker-compose up -d $SITE
@@ -1248,7 +1244,7 @@ site(){
           docker info > /dev/null 2>&1
           status=$?
           if $(exit $status); then
-            docker-compose up -d db redis selenium chrome $SITE > /dev/null 2>&1
+            docker-compose up -d db redis selenium $SITE > /dev/null 2>&1
             status=$?
             if $(exit $status); then
               unset DOCKER
