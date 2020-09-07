@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA37
-## Date     : 2020-09-04
+## Version  : PA38
+## Date     : 2020-09-07
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -1449,25 +1449,25 @@ site(){
 
     test)
       if [ -z $DOCKER ]; then
-        rails test $*
+        rails test ${@: 2}
       else
-        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rails test $*
+        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rails test ${@: 2}
       fi
       ;;
 
     test:system)
       if [ -z $DOCKER ]; then
-        rails test:system $*
+        rails test:system 
       else
-        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rails test:system $*
+        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rails test:system 
       fi
       ;;
 
     rspec)
       if [ -z $DOCKER ]; then
-        rspec $*
+        rspec ${@: 2}
       else
-        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rspec $*
+        docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rspec ${@: 2}
       fi
       ;;
 
