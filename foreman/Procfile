@@ -1,8 +1,0 @@
-## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-## Prepared : Roberto Nogueira
-
-default: env MYSQL_DATABASE_DEV=obrasdev rails server -p 3000 -P tmp/pids/default.pid
-olimpia: env MYSQL_DATABASE_DEV=olimpia_dev rails server -p 3002 -P tmp/pids/olimpia.pid
-suzano: env MYSQL_DATABASE_DEV=suzano_dev rails server -p 3004 -P tmp/pids/suzano.pid
-santoandre: env MYSQL_DATABASE_DEV=santoandre_dev rails server -p 3005 -P tmp/pids/santoandre.pid
-demo: env MYSQL_DATABASE_DEV=demo_dev rails server -p 3013 -P tmp/pids/demo.pid

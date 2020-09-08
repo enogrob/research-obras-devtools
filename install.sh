@@ -248,61 +248,6 @@ case $1 in
       fi  
       ;;
 
-  foreman)
-      if test -f obras/temp2; then
-        source obras/temp2
-      fi
-      if [ -z "$INSTALL_DIR" ]; then
-        echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
-        echo ""
-      else
-        if [ $INSTALL_DIR == "obras_dir" ];then
-          unset INSTALL_DIR
-          export INSTALL_DIR=$OBRAS
-        else
-          unset INSTALL_DIR
-          export INSTALL_DIR=$OBRAS_OLD
-        fi
-        if ! test -f $INSTALL_DIR/Procfile; then
-          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"foreman.Profile\" in "$INSTALL_DIR" \033[0m"
-          echo ""
-        else  
-          echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"foreman.Procfile\" in "$INSTALL_DIR" \033[0m"
-          echo ""
-        fi
-        cp foreman/Procfile $INSTALL_DIR/.idea
-      fi  
-      ;;
-
-  docker)
-      if test -f obras/temp2; then
-        source obras/temp2
-      fi
-      if [ -z "$INSTALL_DIR" ]; then
-        echo -e "\033[1;31m==> \033[0m\033[1;39m\"INSTALL_DIR\" has not been defined \033[0m"
-        echo ""
-      else
-        if [ $INSTALL_DIR == "obras_dir" ];then
-          unset INSTALL_DIR
-          export INSTALL_DIR=$OBRAS
-        else
-          unset INSTALL_DIR
-          export INSTALL_DIR=$OBRAS_OLD
-        fi
-        if ! test -f $INSTALL_DIR/Dockerfile; then
-          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"docker\" in "$INSTALL_DIR" \033[0m"
-          echo ""
-        else  
-          echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"docker\" in "$INSTALL_DIR" \033[0m"
-          echo ""
-        fi
-        cp docker/Dockerfile $INSTALL_DIR
-        cp docker/.dockerignore $INSTALL_DIR
-        cp docker/docker-compose.yaml $INSTALL_DIR
-        cp docker/docker-entrypoint.sh $INSTALL_DIR
-      fi  
-      ;;
-
   *)
     if test -f obras/temp2; then
       source obras/temp2
@@ -310,7 +255,7 @@ case $1 in
     echo -e "\033[1;39mCrafted (c) 2013~2020 by InMov - Intelligence in Movement \033[0m"
     echo "::"
     echo -e "1. \033[36minstall.sh" " obras_dir || obras_old_dir [<obras_dir> <obras_old_dir>] \033[0m"
-    echo -e "2. \033[36minstall.sh" " [obras || docker || foreman || vscode || rubymine] \033[0m"
+    echo -e "2. \033[36minstall.sh" " [obras || vscode || rubymine] \033[0m"
     echo "::"
     echo -e '\033[1;39m=> envs\033[0m'
     echo -e " \033[36m INSTALL_DIR: $INSTALL_DIR\033[0m"
