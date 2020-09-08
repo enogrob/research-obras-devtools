@@ -677,7 +677,7 @@ db(){
       else
         db=$(__db)
         if [ "$(__has_database $db)" == 'no' ]; then
-          rails=`docker-compose exec rails --version`
+          rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
             revolver --style 'simpleDotsScrolling' start 
@@ -713,7 +713,7 @@ db(){
       else
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
-          rails=`docker-compose exec rails --version`
+          rails=`rails --version`
           if [ $rails == 'Rails 6.0.2.1' ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:migrate
