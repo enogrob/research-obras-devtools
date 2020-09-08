@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA38
-## Date     : 2020-09-07
+## Version  : PA39
+## Date     : 2020-09-08
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -542,10 +542,6 @@ db(){
           revolver --style 'simpleDotsScrolling' start 
           rails runner "require Rails.root.join('db/seeds.development.rb')"
           revolver stop
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
-          revolver --style 'simpleDotsScrolling' start 
-          rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
-          revolver stop
         else
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
           revolver --style 'simpleDotsScrolling' start 
@@ -582,10 +578,6 @@ db(){
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
           revolver --style 'simpleDotsScrolling' start
           docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.development.rb')"
-          revolver stop
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.falta_rodar_suzano_e_rio_claro.rb"
-          revolver --style 'simpleDotsScrolling' start 
-          docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.falta_rodar_suzano_e_rio_claro.rb')"
           revolver stop
         else
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
