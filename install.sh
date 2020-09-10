@@ -143,7 +143,7 @@ case $1 in
     if ! test -f $HOME/.obras_utils.sh; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"obras utils\" \033[0m"
       echo ""
-      echo 'source $HOME/obras_utils.sh' >> $HOME/.bashrc
+      echo 'source $HOME/.obras_utils.sh' >> $HOME/.bashrc
     else  
       echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"obras utils\" \033[0m"
       echo ""
