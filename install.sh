@@ -3,8 +3,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : install.sh
-## Version  : PA07
-## Date     : 2020-05-13
+## Version  : PA08
+## Date     : 2020-09-10
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -148,7 +148,7 @@ case $1 in
       echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \"obras utils\" \033[0m"
       echo ""
     fi  
-    cp obras/temp2 $HOME/.obras_utils.sh
+    cp obras/temp2 "$HOME/.obras_utils.sh"
     source $HOME/.obras_utils.sh 
 
     if ! test -f /usr/local/bin/pv; then

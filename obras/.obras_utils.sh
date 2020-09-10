@@ -1039,7 +1039,7 @@ db(){
         if [ $OS == 'Darwin' ]; then
           brew services start mysql@5.7
         else
-          service mysql start
+          sudo service mysql start
         fi
       else
         docker-compose up -d db
@@ -1051,7 +1051,7 @@ db(){
         if [ $OS == 'Darwin' ]; then
           brew services stop mysql@5.7
         else
-          service mysql stop
+          sudo service mysql stop
         fi
       else
         docker-compose stop db
@@ -1072,8 +1072,7 @@ db(){
           fi
           brew services list
         else
-          service mysql restart
-          service mysql status
+          sudo service mysql restart
         fi
       else
         docker-compose restart db
