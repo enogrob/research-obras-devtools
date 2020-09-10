@@ -181,6 +181,10 @@ case $1 in
         rm -rf revolver
       fi
     fi
+
+    if ! test -f /usr/bin/zsh; then
+      sudo apt-get install zsh
+    fi
     ;;
 
   vscode)
