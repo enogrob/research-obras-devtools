@@ -134,3 +134,29 @@ db[set sitename || ls || preptest || drop || create || migrate || seed || import
 db[status || start || stop || restart || tables || databases || socket]
 db[api [dump || import]]
 ```
+
+For automatic test use example in headless mode and coverage, preparation and tests:
+
+```shell
+$ demo
+$ site db init
+$ site env test
+$ site db init
+$ site env development
+$ site set headless
+$ site set coverage
+
+$ site
+
+# Minitest
+$ site test
+$ site test:system
+:
+:
+
+# RSpec
+$ site rspec
+:
+:
+
+```
