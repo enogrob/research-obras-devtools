@@ -9,7 +9,7 @@ Solution Integrator Experienced - Certified by Ericsson
 
 **About**
 
-This in order to improve the Obras Development Process, developing utilities and support for `Foreman`, `Docker` and  editors `VsCode` and `Rubymine`. 
+This in order to improve the Obras Development Process, developing utilities and support for [`Foreman`](https://github.com/ddollar/foreman), [`Docker`](https://www.docker.com/) and  editors [`VsCode`](https://code.visualstudio.com/) and [`Rubymine`](https://www.jetbrains.com/ruby/). 
 
 **Advantages:**
 
