@@ -9,7 +9,7 @@ Solution Integrator Experienced - Certified by Ericsson
 
 **About**
 
-This in order to improve the Obras Development Process, developing utilities and support for [`Foreman`](https://github.com/ddollar/foreman), [`Docker`](https://www.docker.com/) and  editors [`VsCode`](https://code.visualstudio.com/) and [`Rubymine`](https://www.jetbrains.com/ruby/). 
+This in order to improve the Obras Development Process, developing utilities and support for [**Foreman**](https://github.com/ddollar/foreman), [**Docker**](https://www.docker.com/) and  editors [**VsCode**](https://code.visualstudio.com/) and [**Rubymine**](https://www.jetbrains.com/ruby/). 
 
 **Advantages:**
 
@@ -19,7 +19,7 @@ This in order to improve the Obras Development Process, developing utilities and
 * **Progress bars** and **spinners** for long tasks duration
 * Supports for OSX and Linux
 * Supports [**NGrok**](https://ngrok.com/) and [**Foreman**](https://github.com/ddollar/foreman)
-* Extends use of [https://trello.com/c/sIcQXzig/116-chromeapps-for-eicon](https://trello.com/c/sIcQXzig/116-chromeapps-for-eicon)
+* Extends use of [**chromeapps-for-eicon**](https://github.com/enogrob/chromeapps-eicon)
 * Configurations support for [**Rubymine**](https://www.jetbrains.com/ruby/) and [**Vscode**](https://code.visualstudio.com/)
 
 **Refs:**
