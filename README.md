@@ -110,6 +110,11 @@ $ site start
 
 In other shell. Check that is running.
 
+```shell
+$ site
+:
+```
+
 ![](images/screenshot2.png)
 
 For further help:
