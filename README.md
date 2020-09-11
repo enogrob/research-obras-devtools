@@ -130,7 +130,7 @@ site[ngrok || mailcatcher start/stop]
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ::
-db[set sitename || ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]
+db[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]
 db[status || start || stop || restart || tables || databases || socket]
-db[api [dump || import]]
+db[api [dump/export || import]]
 ```
