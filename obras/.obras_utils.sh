@@ -2,8 +2,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA39
-## Date     : 2020-09-08
+## Version  : PA40
+## Date     : 2020-09-11
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi, revolver
@@ -447,16 +447,16 @@ db(){
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       __pr bold "::"
-      __pr info "db" "[set sitename || ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
+      __pr info "db" "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
-      __pr info "db" "[api [dump || import]]"
+      __pr info "db" "[api [dump/export || import]]"
 
       __pr 
       ;; 
       
     api)
       case $2 in
-        dump)
+        dump|export)
           IFS=$'\n'
           if [ -z "$DOCKER" ]; then
             files_sql=(`mysqlshow -uroot $MYSQL_DATABASE_DEV | sed 's/[|+-]//g' | grep "^\sapi" | sed -e 's/^[[:space:]]*//' 2>/dev/null`)
