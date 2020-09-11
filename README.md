@@ -28,39 +28,104 @@ This in order to improve the Obras Development Process, developing utilities and
 * [2] [**Pipe Viewer**](http://www.ivarch.com/programs/pv.shtml)
 * [3] [**Library Ansi**](https://github.com/fidian/ansi)
 * [4] [**Revolver**](https://github.com/molovo/revolver)
+* [5] [**Z shell**](http://zsh.sourceforge.net/)
 
-## Activities
+## Installation
+
+1. Clone the `DevTools` repository
+
+```shell
+$ git clone git@github.com:enogrob/research-obras-devtools.git
+```
+
+2. Go to into `research-obras-devtools` directory.
+
+```shell
+$ cd research-obras-devtools
+```
+
+3. Define temporarily two enviroment variables specifying wwhere `obras` and `obras_old` is, for example:
+Obs: 
+
+* `obras` is the mainly project folder for sites `olimpia`, `santoandre` e `suzano`. 
+* `obras_old` is the project folder for site `rioclaro`.
+
+```shell
+$ OBRAS=~/Projects/obras
+$ OBRAS_OLD=~/Projects/obras_old
+```
+
+4. Run `install.sh` in order to install `DevTools` for `obras`:
+
+```shell
+$ ./install.sh obras_dir $OBRAS $OBRAS_OLD
+$ ./install.sh obras
+```
+
+5. If you have not specify yet the `gemset` in the `obras` directories do it:
+Obs: The underlying ruby has to be installed before, do `rvm list` in order to check.
+
+```shell
+$ cd $OBRAS
+$ rvm use ruby-2.6.5
+$ rvm gemset create rails-6.0.2.1
+$ rvm gemset list
+$ rvm use --ruby-version ruby-2.6.5@rails-6.0.2.1
+$ rvm current
+$ gem list
+$ rvm install rails -v '6.0.2.1'
+
+$ cd $OBRAS_OLD
+$ rvm use ruby-2.3.8
+$ rvm gemset create rails-4.2.8
+$ rvm gemset list
+$ rvm use --ruby-version ruby-2.3.8@rails-4.2.8
+$ rvm current
+$ gem list
+$ rvm install rails -v '4.2.8'
+```
+
+6. reload the shell in order to take effect.
+
+```shell
+$ source ~/.bashrc
+```
+
+7. Below is a example to to prepare a site for use.
+
+obs: Remember to register the `ssh` keys in **Engine Yard** in order to be able to download the dumps automatically.
+
+```shell
+$ santoandre
+$ site db update
+:
+```
+
+![](images/screenshot1.png)
 
 ```
-obras_utils.sh
-[x] Function db in Obras Utils
-[x] Function site in Obras Utils
-[x] Integration of Ansi library
-[x] Improve use of colors
-[x] Add db tables and databases sub commands
-[x] Unify db into site command
-[x] Implement site db import all
-[x] Implement site db import docker all
-[x] Test implementation import all
-[x] Test implementation import docker all
-[x] Implement site db dowload all
-[x] Change demo to the default site (port 3000) when site is not defined
-[x] Change site envs default
-[x] Integrate Docker into Obras Utils
-[x] Integrate Docker Test into Obras Utils
-[x] Implement db update
-[x] Integrate Spinners
-[x] Integrate Spinners into db import
-[x] Implement site stop
-[x] Implement site update all
-[x] Implement dump/import api tables
-[x] Remove SELENIUM_REMOTE var
-install.sh
-[x] Installation support for Obras Utils
-[x] Installation support for Spinners
-[x] Installation support for Foreman
-[x] Installation support for Docker
-[x] Installation support for VsCode
-[x] Installation support for Rubymine
-[x] Update README.md
+:
+$ site start
+```
+
+In other shell. Check that is running.
+
+![](images/screenshot2.png)
+
+For further help:
+
+```shell
+$ site --help
+Crafted (c) 2013~2020 by InMov - Intelligence in Movement
+::
+site[sitename || flags || set/unset flag|| env development/test]
+site[check/ls || start/stop [sitename/all] || console || test || rspec]
+site[ngrok || mailcatcher start/stop]
+
+$ site db --help
+Crafted (c) 2013~2020 by InMov - Intelligence in Movement
+::
+db[set sitename || ls || preptest || drop || create || migrate || seed || import [dbfile] || download || update [all]]
+db[status || start || stop || restart || tables || databases || socket]
+db[api [dump || import]]
 ```
