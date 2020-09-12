@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_DEVTOOLS_VERSION=1.4.5
+export OBRAS_DEVTOOLS_VERSION=1.4.6
 export OBRAS_DEVTOOLS_VERSION_DATE=2020.09.12
 
 export OS=`uname`
@@ -60,13 +60,14 @@ alias dkis='docker images'
 
 # functions
 __devtools_update() {
-  wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.obras_utils.sh
   test -f obras_temp && rm -rf obras_temp*
   test -f .obras_utils.sh && rm -rf .obras_utils.sh
-  sed 's@\$OBRASTMP@'"$1"'@' ./.obras_utils.sh > obras_temp
+  wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.obras_utils.sh
+  sed 's@\$OBRASTMP@'"$1"'@' .obras_utils.sh > obras_temp
   sed 's@\$OBRASOLDTMP@'"$2"'@' obras_temp > obras_temp1 
   cp obras_temp1 $HOME/.obras_utils.sh 
   test -f obras_temp && rm -rf obras_temp*
+  test -f .obras_utils.sh && rm -rf .obras_utils.sh
   source ~/.bashrc
 }
 
