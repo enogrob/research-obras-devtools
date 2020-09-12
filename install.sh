@@ -3,8 +3,8 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : install.sh
-## Version  : PA08
-## Date     : 2020-09-10
+## Version  : PA09
+## Date     : 2020-09-11
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -183,7 +183,24 @@ case $1 in
     fi
 
     if ! test -f /usr/bin/zsh; then
-      sudo apt-get install zsh
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"zsh\" \033[0m"
+      echo ""
+      if [ "$OS" == 'Darwin' ]; then
+        brew install zsh
+      else  
+        sudo apt-get install zsh
+      fi
+    fi
+    ;;
+
+    if ! test -f /usr/local/bin/wget; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"wget\" \033[0m"
+      echo ""
+      if [ "$OS" == 'Darwin' ]; then
+        brew install wget
+      else  
+        sudo apt-get install wget
+      fi
     fi
     ;;
 
