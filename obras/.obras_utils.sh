@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.52
+export OBRAS_UTILS_VERSION=1.4.53
 export OBRAS_UTILS_VERSION_DATE=2020.09.12
 
 export OS=`uname`
@@ -61,13 +61,13 @@ alias dkis='docker images'
 # functions
 obras_utils() {
   case $1 in
-    --version|-v|v)
+    --version|-v|v|version)
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       ;;
 
-    update)
+    update|-u)
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Updating Obras utils "
       ansi --white --no-newline "Obras Utils is at ";ansi --white-intense $OBRAS_UTILS_VERSION
       test -f obras_temp && rm -rf obras_temp*
