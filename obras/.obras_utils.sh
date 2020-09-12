@@ -68,7 +68,6 @@ obras_utils() {
       ;;
 
     update)
-
       $1=$OBRAS
       $2=$OBRAS_OLD
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Updating Obras utils "
@@ -89,6 +88,8 @@ obras_utils() {
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
+      __pr info "obras_utils " "[version/update]"
+      __pr
       ;;  
     esac  
 }
@@ -492,8 +493,9 @@ db(){
       ;; 
 
     --version|-v|v)  
-      __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      __pr bold "Version: " $OBRAS_DEVTOOLS_VERSION
+      ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
+      ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+      ansi --white "::"
       ;;
 
     api)
