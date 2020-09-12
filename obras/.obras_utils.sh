@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_DEVTOOLS_VERSION=1.4.6
+export OBRAS_DEVTOOLS_VERSION=1.4.7
 export OBRAS_DEVTOOLS_VERSION_DATE=2020.09.12
 
 export OS=`uname`
