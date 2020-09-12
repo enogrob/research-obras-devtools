@@ -2,7 +2,7 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA42
+## Version  : PA43
 ## Date     : 2020-09-11
 ## Project  : project-obras-devtools
 ## Reference: bash
@@ -19,7 +19,7 @@ if [ $OS == 'Darwin' ]; then
 fi
 
 export MAILCATCHER_ENV=LOCALHOST
-export OBRASDEVTOOLSVERSIONTMP="20200911PA42"
+export OBRASDEVTOOLSVERSIONTMP="20200911PA43"
 export OBRASTMP="$HOME/Projects/obras"
 export OBRASOLDTMP="$HOME/Logbook/obras"
 export INSTALLDIRTMP=obras_dir
