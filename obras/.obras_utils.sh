@@ -68,7 +68,6 @@ __devtools_update() {
   cp obras_temp1 $HOME/.obras_utils.sh 
   test -f obras_temp && rm -rf obras_temp*
   source ~/.bashrc
-  ;;
 }
 
 __pr(){
