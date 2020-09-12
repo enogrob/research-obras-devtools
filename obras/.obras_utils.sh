@@ -19,9 +19,11 @@ if [ $OS == 'Darwin' ]; then
 fi
 
 export MAILCATCHER_ENV=LOCALHOST
+export OBRASVERSIONTMP="2020-09-11 PA40"
 export OBRASTMP="$HOME/Projects/obras"
 export OBRASOLDTMP="$HOME/Logbook/obras"
 export INSTALLDIRTMP=obras_dir
+export OBRAS_VERSION=$OBRASVERSIONTMP
 export OBRAS=$OBRASTMP
 export OBRAS_OLD=$OBRASOLDTMP
 export INSTALL_DIR=$INSTALLDIRTMP
@@ -446,7 +448,7 @@ db(){
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      __pr bold "::"
+      __pr bold "::"$OBRAS_VERSION
       __pr info "db" "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
       __pr info "db" "[api [dump/export || import]]"
@@ -1167,13 +1169,20 @@ site(){
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      __pr bold "::"
+      __pr bold "::"$OBRAS_VERSION
       __pr info "site" "[sitename || flags || set/unset flag|| env development/test]"
       __pr info "site" "[check/ls || start/stop [sitename/all] || console || test || rspec]"
       __pr info "site" "[ngrok || mailcatcher start/stop]"
+      __pr info "site" "[update]"
       __pr 
       ;;
-
+    update)
+      wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.obras_utils.sh
+      mv .obras_utils.sh.1 .obras_utils.sh
+      chmod +x .obras_utils.sh
+      mv .obras_utils.sh ~/
+      source ~/.bashrc
+      ;;
     olimpia|santoandre|suzano|demo)
       export SITE=$1
       export HEADLESS=true
