@@ -13,7 +13,8 @@ fobras_utils() {
   case $1 in
     --version|-v|v|version)
       if [ -z $OBRAS_UTILS_VERSION ]; then
-        export OBRAS_UTILS_VERSION=PA43
+       V=(`cat .obras_utils.sh | grep Version | cut -d':' -f 2`)
+       export OBRAS_UTILS_VERSION=${V[0]}
       fi
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
@@ -22,7 +23,8 @@ fobras_utils() {
 
     update|-u)
       if [ -z $OBRAS_UTILS_VERSION ]; then
-        export OBRAS_UTILS_VERSION=PA43
+       V=(`cat .obras_utils.sh | grep Version | cut -d':' -f 2`)
+       export OBRAS_UTILS_VERSION=${V[0]}
       fi
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Updating Obras utils "
       ansi --white --no-newline "Obras Utils is at ";ansi --white-intense $OBRAS_UTILS_VERSION
@@ -36,11 +38,13 @@ fobras_utils() {
       test -f .obras_utils.sh && rm -rf .obras_utils.sh
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
+      test -f .fobras_utils.sh && rm -rf .fobras_utils.sh
       ;;
 
     *)
       if [ -z $OBRAS_UTILS_VERSION ]; then
-        export OBRAS_UTILS_VERSION=PA43
+       V=(`cat .obras_utils.sh | grep Version | cut -d':' -f 2`)
+       export OBRAS_UTILS_VERSION=${V[0]}
       fi
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
