@@ -1191,8 +1191,12 @@ site(){
 
     update)
       wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.obras_utils.sh
-      mv .obras_utils.sh.1 .obras_utils.sh
       chmod +x .obras_utils.sh
+      test -f obras_temp && rm -rf obras_temp*
+      sed 's@\$OBRASTMP@'"$OBRAS"'@' .obras_utils.sh > obras_temp
+      sed 's@\$OBRASOLDTMP@'"$OBRAS_OLD"'@' obras_temp > obras_temp1 
+      cp obras_temp1 $HOME/.obras_utils.sh 
+      test -f obras_temp && rm -rf obras_temp*
       source ~/.bashrc
       ;;
 
