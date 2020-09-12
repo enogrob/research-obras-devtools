@@ -12,12 +12,18 @@
 fobras_utils() {
   case $1 in
     --version|-v|v|version)
+      if [ -z $OBRAS_UTILS_VERSION ]; then
+        export OBRAS_UTILS_VERSION=PA43
+      fi
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       ;;
 
     update|-u)
+      if [ -z $OBRAS_UTILS_VERSION ]; then
+        export OBRAS_UTILS_VERSION=PA43
+      fi
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Updating Obras utils "
       ansi --white --no-newline "Obras Utils is at ";ansi --white-intense $OBRAS_UTILS_VERSION
       test -f obras_temp && rm -rf obras_temp*
@@ -33,6 +39,9 @@ fobras_utils() {
       ;;
 
     *)
+      if [ -z $OBRAS_UTILS_VERSION ]; then
+        export OBRAS_UTILS_VERSION=PA43
+      fi
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"

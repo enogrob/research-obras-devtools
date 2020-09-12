@@ -121,6 +121,7 @@ $ site
 
 ```shell
 $ obras
+$ test -f .fobras_utils.sh && rm -rf .fobras_utils.sh
 $ wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.fobras_utils.sh
 $ source .fobras_utils.sh
 $ fobras_utils update
