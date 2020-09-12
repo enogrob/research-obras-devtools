@@ -13,7 +13,7 @@ fobras_utils() {
   case $1 in
     --version|-v|v|version)
       if [ -z $OBRAS_UTILS_VERSION ]; then
-       V=(`cat .obras_utils.sh | grep Version | cut -d':' -f 2`)
+       V=(`cat $HOME/.obras_utils.sh | grep Version | cut -d':' -f 2`)
        export OBRAS_UTILS_VERSION=${V[0]}
       fi
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
@@ -23,7 +23,7 @@ fobras_utils() {
 
     update|-u)
       if [ -z $OBRAS_UTILS_VERSION ]; then
-       V=(`cat .obras_utils.sh | grep Version | cut -d':' -f 2`)
+       V=(`cat $HOME/.obras_utils.sh | grep Version | cut -d':' -f 2`)
        export OBRAS_UTILS_VERSION=${V[0]}
       fi
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Updating Obras utils "
@@ -43,7 +43,7 @@ fobras_utils() {
 
     *)
       if [ -z $OBRAS_UTILS_VERSION ]; then
-       V=(`cat .obras_utils.sh | grep Version | cut -d':' -f 2`)
+       V=(`cat $HOME/.obras_utils.sh | grep Version | cut -d':' -f 2`)
        export OBRAS_UTILS_VERSION=${V[0]}
       fi
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
