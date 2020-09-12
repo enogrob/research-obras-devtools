@@ -32,19 +32,19 @@ This in order to improve the Obras Development Process, developing utilities and
 
 ## Installation
 
-1. Clone the `DevTools` repository
+**1.** Clone the `DevTools` repository
 
 ```shell
 $ git clone git@github.com:enogrob/research-obras-devtools.git
 ```
 
-2. Go to into `research-obras-devtools` directory.
+**2.** Go to into `research-obras-devtools` directory.
 
 ```shell
 $ cd research-obras-devtools
 ```
 
-3. Define temporarily two enviroment variables specifying wwhere `obras` and `obras_old` is, for example:
+**3.** Define temporarily two enviroment variables specifying wwhere `obras` and `obras_old` is, for example:
 Obs: 
 
 * `obras` is the mainly project folder for sites `olimpia`, `santoandre` e `suzano`. 
@@ -55,14 +55,14 @@ $ OBRAS=~/Projects/obras
 $ OBRAS_OLD=~/Projects/obras_old
 ```
 
-4. Run `install.sh` in order to install `DevTools` for `obras`:
+**4.** Run `install.sh` in order to install `DevTools` for `obras`:
 
 ```shell
 $ ./install.sh obras_dir $OBRAS $OBRAS_OLD
 $ ./install.sh obras
 ```
 
-5. If you have not specify yet the `gemset` in the `obras` directories do it:
+**5.** If you have not specify yet the `gemset` in the `obras` directories do it:
 Obs: The underlying ruby has to be installed before, do `rvm list` in order to check.
 
 ```shell
@@ -85,13 +85,13 @@ $ gem list
 $ rvm install rails -v '4.2.8'
 ```
 
-6. reload the shell in order to take effect.
+**6.** reload the shell in order to take effect.
 
 ```shell
 $ source ~/.bashrc
 ```
 
-7. Below is a example to to prepare a site for use.
+**7.** Below is a example to to prepare a site for use.
 
 obs: Remember to register the `ssh` keys in **Engine Yard** in order to be able to download the dumps automatically.
 
@@ -117,7 +117,16 @@ $ site
 
 ![](images/screenshot2.png)
 
-For further help:
+**8.** In order to update from previous versions that does not contain `obras_utils` function does the following:
+
+```shell
+$ obras
+$ wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.fobras_utils.sh
+$ source .fobras_utils.sh
+$ fobras_utils update
+```
+
+**For further help:**
 
 ```shell
 $ site --help
