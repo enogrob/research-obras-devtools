@@ -2,7 +2,7 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : .obras_utils.sh
-## Version  : PA41
+## Version  : PA42
 ## Date     : 2020-09-11
 ## Project  : project-obras-devtools
 ## Reference: bash
@@ -19,7 +19,7 @@ if [ $OS == 'Darwin' ]; then
 fi
 
 export MAILCATCHER_ENV=LOCALHOST
-export OBRASDEVTOOLSVERSIONTMP="20200911PA40"
+export OBRASDEVTOOLSVERSIONTMP="20200911PA42"
 export OBRASTMP="$HOME/Projects/obras"
 export OBRASOLDTMP="$HOME/Logbook/obras"
 export INSTALLDIRTMP=obras_dir
@@ -448,7 +448,7 @@ db(){
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      __pr bold "Version: "$OBRAS_DEVTOOLS_VERSION
+      __pr bold "Version: " $OBRAS_DEVTOOLS_VERSION
       __pr bold "::"
       __pr info "db" "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
       __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
@@ -459,7 +459,7 @@ db(){
 
     --version|-v|v)  
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      __pr bold "Version: "$OBRAS_DEVTOOLS_VERSION
+      __pr bold "Version: " $OBRAS_DEVTOOLS_VERSION
       ;;
 
     api)
@@ -1175,7 +1175,7 @@ site(){
   case $1 in
     help|h|--help|-h)
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      __pr bold "Version: "$OBRAS_DEVTOOLS_VERSION
+      __pr bold "Version: " $OBRAS_DEVTOOLS_VERSION
       __pr bold "::"
       __pr info "site" "[sitename || flags || set/unset flag|| env development/test]"
       __pr info "site" "[check/ls || start/stop [sitename/all] || console || test || rspec]"
@@ -1186,7 +1186,7 @@ site(){
 
     --version|-v|v)  
       __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      __pr bold "Version: "$OBRAS_DEVTOOLS_VERSION
+      __pr bold "Version: " $OBRAS_DEVTOOLS_VERSION
       ;;
 
     update)
