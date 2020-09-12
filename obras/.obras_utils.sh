@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.51
+export OBRAS_UTILS_VERSION=1.4.52
 export OBRAS_UTILS_VERSION_DATE=2020.09.12
 
 export OS=`uname`
@@ -486,8 +486,6 @@ db(){
       __pr info "db " "[status || start || stop || restart || tables || databases || socket]"
       __pr info "db " "[api [dump/export || import]]"
       __pr 
-      __pr info "obras_utils " "[version/update]"
-      __pr
       ;; 
 
     --version|-v|v)  
@@ -1216,8 +1214,6 @@ site(){
       __pr info "site " "[ngrok || mailcatcher start/stop]"
       __pr info "site " "[devtools_update]"
       __pr 
-      __pr info "obras_utils " "[version/update]"
-      __pr
       ;;
 
     --version|-v|v)  
