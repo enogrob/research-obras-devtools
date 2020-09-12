@@ -9,6 +9,16 @@
 ## File     : .fobras_utils.sh
 
 # functions
+get_latest_release() {
+  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+    grep '"tag_name":' |                                            # Get tag line
+    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+}
+
+version_gt(){
+  test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+}
+
 fobras_utils() {
   case $1 in
     --version|-v|v|version)
@@ -20,6 +30,19 @@ fobras_utils() {
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       ;;
+
+    check|-c)
+      if [ -z $OBRAS_UTILS_VERSION ]; then
+       V=(`cat $HOME/.obras_utils.sh | grep Version | cut -d':' -f 2`)
+       export OBRAS_UTILS_VERSION=${V[0]}
+      fi
+      first_version=$(get_latest_release enogrob/research-obras-devtools)
+      second_version=$OBRAS_UTILS_VERSION
+      if version_gt $first_version $second_version; then
+        ansi --white --no-newline "There is a newer relese of Obras Utils ";ansi --white-intense $first_version
+        ansi --white ""
+      fi
+      ;;  
 
     update|-u)
       if [ -z $OBRAS_UTILS_VERSION ]; then
@@ -49,7 +72,7 @@ fobras_utils() {
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "obras_utils " "[version/update]"
+      __pr info "obras_utils " "[version/update/check]"
       __pr
       ;;  
     esac  

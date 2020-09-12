@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.58
+export OBRAS_UTILS_VERSION=1.4.59
 export OBRAS_UTILS_VERSION_DATE=2020.09.12
 
 export OS=`uname`
@@ -59,6 +59,16 @@ alias dki='docker image'
 alias dkis='docker images'
 
 # functions
+get_latest_release() {
+  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+    grep '"tag_name":' |                                            # Get tag line
+    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+}
+
+version_gt(){
+  test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+}
+
 obras_utils() {
   case $1 in
     --version|-v|v|version)
@@ -66,6 +76,15 @@ obras_utils() {
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       ;;
+
+    check|-c)
+      first_version=$(get_latest_release enogrob/research-obras-devtools)
+      second_version=$OBRAS_UTILS_VERSION
+      if version_gt $first_version $second_version; then
+        ansi --white --no-newline "There is a newer relese of Obras Utils ";ansi --white-intense $first_version
+        ansi --white ""
+      fi
+      ;;  
 
     update|-u)
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Updating Obras utils "
@@ -86,7 +105,7 @@ obras_utils() {
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "obras_utils " "[version/update]"
+      __pr info "obras_utils " "[version/update/check]"
       __pr
       ;;  
     esac  

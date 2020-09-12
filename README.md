@@ -132,7 +132,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.51
+Obras Utils 1.4.59
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test || rspec]
@@ -141,7 +141,7 @@ site [devtools_update]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.51
+Obras Utils 1.4.59
 ::
 db [set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]
 db [status || start || stop || restart || tables || databases || socket]
@@ -149,7 +149,7 @@ db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.51
+Obras Utils 1.4.59
 ::
-obras_utils [version/update]
+obras_utils [version/update/check]
 ```
