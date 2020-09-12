@@ -68,15 +68,13 @@ obras_utils() {
       ;;
 
     update)
-      ${2:-$OBRAS}
-      ${3:-$OBRAS_OLD}
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Updating Obras utils "
       ansi --white --no-newline "Obras Utils is at ";ansi --white-intense $OBRAS_UTILS_VERSION
       test -f obras_temp && rm -rf obras_temp*
       test -f .obras_utils.sh && rm -rf .obras_utils.sh
       wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.obras_utils.sh
-      sed 's@\$OBRASTMP@'"$2"'@' .obras_utils.sh > obras_temp
-      sed 's@\$OBRASOLDTMP@'"$3"'@' obras_temp > obras_temp1 
+      sed 's@\$OBRASTMP@'"$OBRAS"'@' .obras_utils.sh > obras_temp
+      sed 's@\$OBRASOLDTMP@'"$OBRAS_OLD"'@' obras_temp > obras_temp1 
       cp obras_temp1 $HOME/.obras_utils.sh 
       test -f obras_temp && rm -rf obras_temp*
       test -f .obras_utils.sh && rm -rf .obras_utils.sh
