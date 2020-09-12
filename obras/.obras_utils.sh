@@ -9,8 +9,8 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_DEVTOOLS_VERSION=1.4.7
-export OBRAS_DEVTOOLS_VERSION_DATE=2020.09.12
+export OBRAS_UTILS_VERSION=1.4.51
+export OBRAS_UTILS_VERSION_DATE=2020.09.12
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -59,16 +59,35 @@ alias dki='docker image'
 alias dkis='docker images'
 
 # functions
-__devtools_update() {
-  test -f obras_temp && rm -rf obras_temp*
-  test -f .obras_utils.sh && rm -rf .obras_utils.sh
-  wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.obras_utils.sh
-  sed 's@\$OBRASTMP@'"$1"'@' .obras_utils.sh > obras_temp
-  sed 's@\$OBRASOLDTMP@'"$2"'@' obras_temp > obras_temp1 
-  cp obras_temp1 $HOME/.obras_utils.sh 
-  test -f obras_temp && rm -rf obras_temp*
-  test -f .obras_utils.sh && rm -rf .obras_utils.sh
-  source ~/.bashrc
+obras_utils() {
+  case $1 in
+    --version|-v|v)
+      ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
+      ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+      ansi --white "::"
+      ;;
+
+    update)
+      $1=$OBRAS
+      $2=$OBRAS_OLD
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Updating Obras utils "
+      test -f obras_temp && rm -rf obras_temp*
+      test -f .obras_utils.sh && rm -rf .obras_utils.sh
+      wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.obras_utils.sh
+      sed 's@\$OBRASTMP@'"$1"'@' .obras_utils.sh > obras_temp
+      sed 's@\$OBRASOLDTMP@'"$2"'@' obras_temp > obras_temp1 
+      cp obras_temp1 $HOME/.obras_utils.sh 
+      test -f obras_temp && rm -rf obras_temp*
+      test -f .obras_utils.sh && rm -rf .obras_utils.sh
+      source ~/.bashrc
+      ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
+      ;;
+
+    *)
+      ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
+      ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+      ansi --white "::"
+      ;;  
 }
 
 __pr(){
@@ -459,14 +478,14 @@ db(){
   case $1 in
     help|h|--help|-h)
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      ansi --white --no-newline "Obras DevTools Version: ";ansi --white-intense $OBRAS_DEVTOOLS_VERSION
-      ansi --white --no-newline "Date: ";ansi --white-intense $OBRAS_DEVTOOLS_VERSION_DATE
-      __pr bold "::"
-      __pr info "db" "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
-      __pr info "db" "[status || start || stop || restart || tables || databases || socket]"
-      __pr info "db" "[api [dump/export || import]]"
-
+      ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+      ansi --white "::"
+      __pr info "db " "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
+      __pr info "db " "[status || start || stop || restart || tables || databases || socket]"
+      __pr info "db " "[api [dump/export || import]]"
       __pr 
+      __pr info "obras_utils " "[version/update]"
+      __pr
       ;; 
 
     --version|-v|v)  
@@ -1187,27 +1206,21 @@ site(){
   case $1 in
     help|h|--help|-h)
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      ansi --white --no-newline "Obras DevTools Version: ";ansi --white-intense $OBRAS_DEVTOOLS_VERSION
-      ansi --white --no-newline "Date: ";ansi --white-intense $OBRAS_DEVTOOLS_VERSION_DATE
-      __pr bold "::"
-      __pr info "site" "[sitename || flags || set/unset flag|| env development/test]"
-      __pr info "site" "[check/ls || start/stop [sitename/all] || console || test || rspec]"
-      __pr info "site" "[ngrok || mailcatcher start/stop]"
-      __pr info "site" "[devtools_update]"
+      ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+      ansi --white "::"
+      __pr info "site " "[sitename || flags || set/unset flag|| env development/test]"
+      __pr info "site " "[check/ls || start/stop [sitename/all] || console || test || rspec]"
+      __pr info "site " "[ngrok || mailcatcher start/stop]"
+      __pr info "site " "[devtools_update]"
       __pr 
-      ;;
-
-    devtools_update)
-      __devtools_update $OBRAS $OBRAS_OLD
+      __pr info "obras_utils " "[version/update]"
+      __pr
       ;;
 
     --version|-v|v)  
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      ansi --white --no-newline "Obras DevTools Version: ";ansi --white-intense $OBRAS_DEVTOOLS_VERSION
-      ansi --white --no-newline "Date: ";ansi --white-intense $OBRAS_DEVTOOLS_VERSION_DATE
-      __pr bold "::"
-      __pr bold "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
-      __pr bold "Version: " $OBRAS_DEVTOOLS_VERSION
+      ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+      ansi --white "::"
       ;;
 
     olimpia|santoandre|suzano|demo)
