@@ -45,14 +45,14 @@ $ cd research-obras-devtools
 ```
 
 **3.** Define temporarily two enviroment variables specifying wwhere `obras` and `obras_old` is, for example:
-Obs: 
+Obs: As nowadays all sites are at same level, specify same location for both.  
 
-* `obras` is the mainly project folder for sites `olimpia`, `santoandre` e `suzano`. 
-* `obras_old` is the project folder for site `rioclaro`.
+* `obras` is the most actual location for the mainly project. 
+* `obras_old` is the project folder for sites in older revision.
 
 ```shell
 $ OBRAS=~/Projects/obras
-$ OBRAS_OLD=~/Projects/obras_old
+$ OBRAS_OLD=~/Projects/obras
 ```
 
 **4.** Run `install.sh` in order to install `DevTools` for `obras`:
@@ -63,7 +63,7 @@ $ ./install.sh obras
 ```
 
 **5.** If you have not specify yet the `gemset` in the `obras` directories do it:
-Obs: The underlying ruby has to be installed before, do `rvm list` in order to check.
+Obs: The underlying ruby has to be installed before, do `rvm list` in order to check. As nowadays the location are the same does just for one.
 
 ```shell
 $ cd $OBRAS
@@ -74,15 +74,6 @@ $ rvm use --ruby-version ruby-2.6.5@rails-6.0.2.1
 $ rvm current
 $ gem list
 $ rvm install rails -v '6.0.2.1'
-
-$ cd $OBRAS_OLD
-$ rvm use ruby-2.3.8
-$ rvm gemset create rails-4.2.8
-$ rvm gemset list
-$ rvm use --ruby-version ruby-2.3.8@rails-4.2.8
-$ rvm current
-$ gem list
-$ rvm install rails -v '4.2.8'
 ```
 
 **6.** reload the shell in order to take effect.
@@ -132,7 +123,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.59
+Obras Utils 1.4.60
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test || rspec]
@@ -141,7 +132,7 @@ site [devtools_update]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.59
+Obras Utils 1.4.60
 ::
 db [set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]
 db [status || start || stop || restart || tables || databases || socket]
@@ -149,7 +140,7 @@ db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.59
+Obras Utils 1.4.60
 ::
 obras_utils [version/update/check]
 ```

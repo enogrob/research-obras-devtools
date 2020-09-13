@@ -9,8 +9,8 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.59
-export OBRAS_UTILS_VERSION_DATE=2020.09.12
+export OBRAS_UTILS_VERSION=1.4.60
+export OBRAS_UTILS_VERSION_DATE=2020.09.13
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1241,20 +1241,11 @@ site(){
       ansi --white "::"
       ;;
 
-    olimpia|santoandre|suzano|demo)
+    olimpia|rioclaro|santoandre|suzano|demo)
       export SITE=$1
       export HEADLESS=true
       unset COVERAGE
       cd "$OBRAS"
-      db set $1
-      title $1
-      ;;
-
-    rioclaro)
-      export SITE=$1
-      export HEADLESS=true
-      unset COVERAGE
-      cd "$OBRAS_OLD"
       db set $1
       title $1
       ;;
