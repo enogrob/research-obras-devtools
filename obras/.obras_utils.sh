@@ -9,8 +9,8 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.60
-export OBRAS_UTILS_VERSION_DATE=2020.09.13
+export OBRAS_UTILS_VERSION=1.4.61
+export OBRAS_UTILS_VERSION_DATE=2020.09.14
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -20,9 +20,15 @@ if [ $OS == 'Darwin' ]; then
 fi
 
 export MAILCATCHER_ENV=LOCALHOST
+export RAILSVERSIONTMP="Rails 6.0.2.1"
+export SITESTMP="+(default|olimpia|rioclaro|suzano|santoandre|demo)"
+export SITESOLDTMP="+(none)"
 export OBRASTMP="$HOME/Projects/obras"
 export OBRASOLDTMP="$HOME/Logbook/obras"
 export INSTALLDIRTMP=obras_dir
+export RAILS_VERSION=$RAILSVERSIONTMP
+export SITES=$SITESTMP
+export SITES_OLD=$SITESOLDTMP
 export OBRAS=$OBRASTMP
 export OBRAS_OLD=$OBRASOLDTMP
 export INSTALL_DIR=$INSTALLDIRTMP
@@ -38,6 +44,7 @@ unset DOCKER
 # aliases development
 alias home='cd $HOME;title home'
 alias obras='cd $OBRAS;title obras'
+alias obras_old='cd $OBRAS_OLD;title obras_old'
 alias downloads='cd $HOME/Downloads;title downloads'
 alias code='code --disable-gpu .&'
 alias mysql='mysql -u root'
@@ -80,8 +87,12 @@ obras_utils() {
     check|-c)
       first_version=$(get_latest_release enogrob/research-obras-devtools)
       second_version=$OBRAS_UTILS_VERSION
+      ansi --white --no-newline "Your release of Obras Utils is ";ansi --white-intense $second_version
       if version_gt $first_version $second_version; then
-        ansi --white --no-newline "There is a newer relese of Obras Utils ";ansi --white-intense $first_version
+        ansi --white --no-newline "There is a newer release which is ";ansi --white-intense $first_version
+        ansi --white ""
+      else   
+        ansi --white --no-newline "There is no newer release"
         ansi --white ""
       fi
       ;;  
@@ -278,7 +289,7 @@ __tables(){
 
 __import(){
   rails=`rails --version`
-  if [ $rails == 'Rails 6.0.2.1' ]; then
+  if [ $rails == $RAILS_VERSION ]; then
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
     revolver --style 'simpleDotsScrolling' start 
     rails db:drop
@@ -335,7 +346,7 @@ __import(){
 
 __import_docker(){
   rails=`rails --version`
-  if [ $rails == 'Rails 6.0.2.1' ]; then
+  if [ $rails == $RAILS_VERSION ]; then
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
     revolver --style 'simpleDotsScrolling' start 
     docker-compose exec $SITE rails db:drop
@@ -502,7 +513,7 @@ db(){
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       __pr info "db " "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
-      __pr info "db " "[status || start || stop || restart || tables || databases || socket]"
+      __pr info "db " "[status || start || stop || restart || tables || databases || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
       __pr 
       ;; 
@@ -582,7 +593,7 @@ db(){
     preptest|init)
       if [ -z "$DOCKER" ]; then
         rails=`rails --version`
-        if [ $rails == 'Rails 6.0.2.1' ]; then
+        if [ $rails == $RAILS_VERSION ]; then
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
           revolver --style 'simpleDotsScrolling' start 
           rails db:drop
@@ -619,7 +630,7 @@ db(){
         fi
       else 
         rails=`rails --version`
-        if [ $rails == 'Rails 6.0.2.1' ]; then
+        if [ $rails == $RAILS_VERSION ]; then
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
           revolver --style 'simpleDotsScrolling' start 
           docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:drop
@@ -659,7 +670,7 @@ db(){
 
     ls)
       IFS=$'\n'
-      files_sql=(`ls *.sql 2>/dev/null`)
+      files_sql=(`ls *$SITE.sql 2>/dev/null`)
       echo -e "db_sqls:"
       if [ ! -z "$files_sql" ]; then
         IFS=$'\n'
@@ -679,7 +690,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
-          if [ $rails == 'Rails 6.0.2.1' ]; then
+          if [ $rails == $RAILS_VERSION ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
             revolver --style 'simpleDotsScrolling' start
             rails db:drop
@@ -697,7 +708,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
-          if [ $rails == 'Rails 6.0.2.1' ]; then
+          if [ $rails == $RAILS_VERSION ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
             revolver --style 'simpleDotsScrolling' start 
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:drop
@@ -719,7 +730,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
-          if [ $rails == 'Rails 6.0.2.1' ]; then
+          if [ $rails == $RAILS_VERSION ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
             revolver --style 'simpleDotsScrolling' start 
             rails db:create
@@ -737,7 +748,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
-          if [ $rails == 'Rails 6.0.2.1' ]; then
+          if [ $rails == $RAILS_VERSION ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
             revolver --style 'simpleDotsScrolling' start 
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:create
@@ -759,7 +770,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
-          if [ $rails == 'Rails 6.0.2.1' ]; then
+          if [ $rails == $RAILS_VERSION ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
             rails db:migrate
           else
@@ -773,7 +784,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
-          if [ $rails == 'Rails 6.0.2.1' ]; then
+          if [ $rails == $RAILS_VERSION ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:migrate
           else
@@ -793,7 +804,7 @@ db(){
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
-          if [ $rails == 'Rails 6.0.2.1' ]; then
+          if [ $rails == $RAILS_VERSION ]; then
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
             revolver --style 'simpleDotsScrolling' start
             rails runner "require Rails.root.join('db/seeds.production.rb')"
@@ -825,7 +836,7 @@ db(){
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
-          if [ $rails == 'Rails 6.0.2.1' ]; then
+          if [ $rails == $RAILS_VERSION ]; then
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
@@ -1175,10 +1186,27 @@ db(){
     socket)
       if [ -z "$DOCKER" ]; then
         mysql_config --socket
+        ansi ""
       else
-        docker compose exec db mysql_config --socket
+        ansi --red-intense --no-newline " mysql_admin ";ansi --red " not installed in db"
+        ansi ""
       fi
       ;; 
+
+    connect)
+      db=$(__db)
+      if [ "$(__has_database $db)" == 'yes' ]; then
+        if [ -z "$DOCKER" ]; then
+          rails db
+        else
+          docker-compose exec db mysql -uroot -proot $db
+        fi 
+      else   
+        ansi --red-intense --no-newline $db;ansi --red " does not exist"
+        ansi ""
+      fi
+      ;; 
+
 
     tables)
       if [ -z "$DOCKER" ]; then
@@ -1186,7 +1214,7 @@ db(){
         mysqlshow -uroot $db | more
       else
         db=$(__db)
-        docker compose exexc db mysqlshow -uroot $db | more
+        docker-compose exec db mysqlshow -uroot -proot $db | more
       fi
       ;;
 
@@ -1194,7 +1222,7 @@ db(){
       if [ -z "$DOCKER" ]; then
         mysqlshow -uroot | more
       else
-        docker compose exec db mysqlshow -uroot | more
+        docker-compose exec db mysqlshow -uroot -proot | more
       fi
       ;;
 
@@ -1229,9 +1257,8 @@ site(){
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       __pr info "site " "[sitename || flags || set/unset flag|| env development/test]"
-      __pr info "site " "[check/ls || start/stop [sitename/all] || console || test || rspec]"
+      __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
       __pr info "site " "[ngrok || mailcatcher start/stop]"
-      __pr info "site " "[devtools_update]"
       __pr 
       ;;
 
@@ -1241,7 +1268,7 @@ site(){
       ansi --white "::"
       ;;
 
-    olimpia|rioclaro|santoandre|suzano|demo)
+    $SITES)
       export SITE=$1
       export HEADLESS=true
       unset COVERAGE
@@ -1250,13 +1277,20 @@ site(){
       title $1
       ;;
 
-    default)
-      export SITE=$1
-      export HEADLESS=true
-      unset COVERAGE
-      cd "$OBRAS"
-      db set $1
-      title $1
+    $SITES_OLD)
+      case $1 in
+        none)
+          ;;
+
+        *)  
+          export SITE=$1
+          export HEADLESS=true
+          unset COVERAGE
+          cd "$OBRAS_OLD"
+          db set $1
+          title $1
+          ;;
+      esac
       ;;
 
     env)
