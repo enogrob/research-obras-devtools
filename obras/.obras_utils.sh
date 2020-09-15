@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.65
+export OBRAS_UTILS_VERSION=1.4.66
 export OBRAS_UTILS_VERSION_DATE=2020.09.15
 
 export OS=`uname`
@@ -522,7 +522,7 @@ db(){
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "db " "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]"
+      __pr info "db " "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all] || backups]"
       __pr info "db " "[status || start || stop || restart || tables || databases || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
       __pr 
@@ -1084,6 +1084,36 @@ db(){
           pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
           rm -f "${sitefile[0]}_$SITE.sql.gz"
+          ;;
+
+        *)
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$SITE
+          __pr
+          return 1
+          ;;
+      esac     
+      ;;
+
+    backups)
+      case $SITE in 
+        olimpia)
+          echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
+          ;;
+
+        rioclaro)
+          echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
+          ;;
+
+        suzano)  
+          echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
+          ;;
+
+        santoandre)  
+          echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
+          ;;
+
+        demo)
+          echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
           ;;
 
         *)

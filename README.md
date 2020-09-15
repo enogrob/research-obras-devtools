@@ -18,7 +18,7 @@ This in order to improve the Obras Development Process, developing utilities and
 * Live **db, servers, testing** information
 * **Progress bars** and **spinners** for long tasks duration
 * Supports for OSX and Linux
-* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman) and [mycli](https://github.com/dbcli/mycli)
+* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman) and [**mycli**](https://github.com/dbcli/mycli)
 * Extends use of [**chromeapps-for-eicon**](https://github.com/enogrob/chromeapps-eicon)
 * Configurations support for [**Rubymine**](https://www.jetbrains.com/ruby/) and [**Vscode**](https://code.visualstudio.com/)
 
@@ -123,23 +123,23 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.62
+Obras Utils 1.4.66
 ::
 site [sitename || flags || set/unset flag|| env development/test]
-site [check/ls || start/stop [sitename/all] || console || test || rspec]
+site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
 site [ngrok || mailcatcher start/stop]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.62
+Obras Utils 1.4.66
 ::
-db [set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all]]
+db [set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all] || backups]
 db [status || start || stop || restart || tables || databases || socket]
 db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.62
+Obras Utils 1.4.66
 ::
 obras_utils [version/update/check]
 ```
