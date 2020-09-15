@@ -193,6 +193,17 @@ case $1 in
     fi
     ;;
 
+    if ! test -f /usr/local/bin/mycli; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"mycli\" \033[0m"
+      echo ""
+      if [ "$OS" == 'Darwin' ]; then
+        brew install mycli
+      else  
+        sudo apt-get install mycli
+      fi
+    fi
+    ;;
+
     if ! test -f /usr/local/bin/wget; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"wget\" \033[0m"
       echo ""

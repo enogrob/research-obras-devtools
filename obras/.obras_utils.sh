@@ -9,8 +9,8 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.61
-export OBRAS_UTILS_VERSION_DATE=2020.09.14
+export OBRAS_UTILS_VERSION=1.4.62
+export OBRAS_UTILS_VERSION_DATE=2020.09.15
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -105,9 +105,19 @@ obras_utils() {
       wget https://raw.githubusercontent.com/enogrob/research-obras-devtools/master/obras/.obras_utils.sh
       sed 's@\$OBRASTMP@'"$OBRAS"'@' .obras_utils.sh > obras_temp
       sed 's@\$OBRASOLDTMP@'"$OBRAS_OLD"'@' obras_temp > obras_temp1 
+      echo -e "\033[1;92m==> \033[0m\033[1;39mUpdating \".obras_utils.sh\" \033[0m"
       cp obras_temp1 $HOME/.obras_utils.sh 
       test -f obras_temp && rm -rf obras_temp*
       test -f .obras_utils.sh && rm -rf .obras_utils.sh
+      if ! test -f /usr/local/bin/mycli; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"mycli\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew install mycli
+        else  
+          sudo apt-get install mycli
+        fi
+      fi
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
       ;;
@@ -1197,7 +1207,7 @@ db(){
       db=$(__db)
       if [ "$(__has_database $db)" == 'yes' ]; then
         if [ -z "$DOCKER" ]; then
-          rails db
+          mycli -uroot $db
         else
           docker-compose exec db mysql -uroot -proot $db
         fi 
