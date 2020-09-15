@@ -18,7 +18,7 @@ This in order to improve the Obras Development Process, developing utilities and
 * Live **db, servers, testing** information
 * **Progress bars** and **spinners** for long tasks duration
 * Supports for OSX and Linux
-* Supports [**NGrok**](https://ngrok.com/) and [**Foreman**](https://github.com/ddollar/foreman)
+* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman) and [mycli](https://github.com/dbcli/mycli)
 * Extends use of [**chromeapps-for-eicon**](https://github.com/enogrob/chromeapps-eicon)
 * Configurations support for [**Rubymine**](https://www.jetbrains.com/ruby/) and [**Vscode**](https://code.visualstudio.com/)
 
