@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.63
+export OBRAS_UTILS_VERSION=1.4.64
 export OBRAS_UTILS_VERSION_DATE=2020.09.15
 
 export OS=`uname`
@@ -1198,8 +1198,7 @@ db(){
         mysql_config --socket
         ansi ""
       else
-        ansi --red-intense --no-newline " mysql_admin ";ansi --red " not installed in db"
-        ansi ""
+        docker-compose exec db mysql_config --socket
       fi
       ;; 
 
@@ -1337,16 +1336,36 @@ site(){
           docker info > /dev/null 2>&1
           status=$?
           if $(exit $status); then
-            docker-compose up -d db redis selenium $SITE > /dev/null 2>&1
+            docker-compose up -d db > /dev/null 2>&1
             status=$?
             if $(exit $status); then
-              unset DOCKER
-              export DOCKER=true
-            else  
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker services up"
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker db service up"
               __pr
               return 1
             fi
+            docker-compose up -d redis > /dev/null 2>&1
+            status=$?
+            if $(exit $status); then
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker redis service up"
+              __pr
+              return 1
+            fi
+            docker-compose up -d selenium > /dev/null 2>&1
+            status=$?
+            if $(exit $status); then
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker selenium service up"
+              __pr
+              return 1
+            fi
+            docker-compose up -d $SITE > /dev/null 2>&1
+            status=$?
+            if $(exit $status); then
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker $SITE service up"
+              __pr
+              return 1
+            fi
+            unset DOCKER
+            export DOCKER=true
           else  
             ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot connect to the Docker daemon"
             __pr
