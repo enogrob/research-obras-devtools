@@ -59,6 +59,15 @@ fobras_utils() {
       cp obras_temp1 $HOME/.obras_utils.sh 
       test -f obras_temp && rm -rf obras_temp*
       test -f .obras_utils.sh && rm -rf .obras_utils.sh
+      if ! test -f /usr/local/bin/mycli; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"mycli\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew install mycli
+        else  
+          sudo apt-get install mycli
+        fi
+      fi
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
       test -f .fobras_utils.sh && rm -rf .fobras_utils.sh

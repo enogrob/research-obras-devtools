@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.62
+export OBRAS_UTILS_VERSION=1.4.63
 export OBRAS_UTILS_VERSION_DATE=2020.09.15
 
 export OS=`uname`
@@ -1209,7 +1209,7 @@ db(){
         if [ -z "$DOCKER" ]; then
           mycli -uroot $db
         else
-          docker-compose exec db mysql -uroot -proot $db
+          mycli -proot db://root@localhost:33060/$db
         fi 
       else   
         ansi --red-intense --no-newline $db;ansi --red " does not exist"
