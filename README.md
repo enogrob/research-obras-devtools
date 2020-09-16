@@ -123,7 +123,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.66
+Obras Utils 1.4.67
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -131,15 +131,16 @@ site [ngrok || mailcatcher start/stop]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.66
+Obras Utils 1.4.67
 ::
-db [set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all] || backups]
-db [status || start || stop || restart || tables || databases || socket]
+db [set sitename || ls || preptest/init || drop || create || migrate || seed]
+db [backups || download [filenumber] || import [dbfile] || update [all]]
+db [status || start || stop || restart || tables || databases || socket || connect]
 db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.66
+Obras Utils 1.4.67
 ::
 obras_utils [version/update/check]
 ```

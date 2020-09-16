@@ -9,8 +9,8 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.66
-export OBRAS_UTILS_VERSION_DATE=2020.09.15
+export OBRAS_UTILS_VERSION=1.4.67
+export OBRAS_UTILS_VERSION_DATE=2020.09.16
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -280,20 +280,20 @@ __has_records(){
 __records(){
   if [ -z "$DOCKER" ]; then
     s=`mysql -u root -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-    echo $(echo -n $s | sed 's/[^0-9]*//g')
+    echo $(echo -n $s | sed 's/[^0-9]*//g' | tr -d '\n')
   else
     s=`docker-compose exec db mysql -uroot -proot -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-    echo $(echo -n $s | sed 's/[^0-9]*//g')
+    echo $(echo -n $s | sed 's/[^0-9]*//g' | tr -d '\n')
   fi
 } 
 
 __tables(){
   if [ -z "$DOCKER" ]; then
     s=`mysql -u root -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-    echo $(echo -n $s | sed 's/[^0-9]*//g')
+    echo $(echo -n $s | sed 's/[^0-9]*//g' | tr -d '\n')
   else
     s=`docker-compose exec db mysql -uroot -proot -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
-    echo $(echo -n $s | sed 's/[^0-9]*//g')
+    echo $(echo -n $s | sed 's/[^0-9]*//g' | tr -d '\n')
   fi
 }
 
@@ -440,7 +440,7 @@ __pr_db(){
     fi
   fi
   if [ "$(__has_database $db)" == 'yes' ]; then
-    ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --no-newline $(__tables $db)' '; ansi $(__records $db)
+    ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --white --no-newline $(__tables $db)' '; ansi --white $(__records $db)
   else  
     ansi --no-newline "db_"$env": "; ansi --red $db
   fi
@@ -522,7 +522,8 @@ db(){
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "db " "[set sitename || ls || preptest/init || drop || create || migrate || seed || import [dbfile] || download || update [all] || backups]"
+      __pr info "db " "[set sitename || ls || preptest/init || drop || create || migrate || seed]"
+      __pr info "db " "[backups || download [filenumber] || import [dbfile] || update [all]]"
       __pr info "db " "[status || start || stop || restart || tables || databases || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
       __pr 
@@ -982,108 +983,178 @@ db(){
     download)
       case $SITE in 
         olimpia)
-          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          if [ -z "$2" ]; then
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          else  
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com | grep gz | grep "$2:obras")
+          fi
           IFS=' '
           read -ra file <<< "$files"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
-          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com 
-          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
-          scp deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          filenumber=${file[0]}
+          filename_orig="${file[1]}"
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "$filenumber"
+          echo "sudo -i eybackup -e mysql -d $filenumber" | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com 
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "$filename_orig
+          scp deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com:/mnt/tmp/$filename_orig .
           IFS='T'
-          read -ra sitefile <<< "${file[1]}"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
-          rm -rf "${sitefile[0]}_$SITE.sql~"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          rm -f "${sitefile[0]}_$SITE.sql.gz"
+          read -ra file1 <<< "${file[1]}"
+
+          prefix="${file1[0]}"
+          IFS='.'
+          read -ra file2 <<< "${file1[1]}"
+          filename=$prefix'_'${file2[0]}'_'$SITE
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "$filename.sql.gz"
+          mv "$filename_orig" "$filename.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "$filename.sql.gz"
+          pv "$filename.sql.gz" | gunzip > "$filename.sql"
+          rm -rf "$filename.sql~"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "$filename.sql"
+          pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
+          rm -f "$filename.sql.gz"
           ;;
 
         rioclaro)
-          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          if [ -z "$2" ]; then
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          else  
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com | grep gz | grep "$2:obras")
+          fi
           IFS=' '
           read -ra file <<< "$files"
+          filenumber=${file[0]}
+
+          filename_orig="${file[1]}"
+
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
-          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com 
+          echo "sudo -i eybackup -e mysql -d $filenumber" | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com 
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
           scp deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
           IFS='T'
-          read -ra sitefile <<< "${file[1]}"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
-          rm -rf "${sitefile[0]}_$SITE.sql~"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          rm -f "${sitefile[0]}_$SITE.sql.gz"
+          read -ra file1 <<< "${file[1]}"
+
+          prefix="${file1[0]}"
+          IFS='.'
+          read -ra file2 <<< "${file1[1]}"
+          filename=$prefix'_'${file2[0]}'_'$SITE
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "$filename.sql.gz"
+          mv "$finame_orig" "$filename.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "$filename.sql.gz"
+          pv "$filename.sql.gz" | gunzip > "$filename.sql"
+          rm -rf "$filename.sql~"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "$filename.sql"
+          pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
+          rm -f "$filename.sql.gz"
           ;;
 
         suzano)  
-          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          if [ -z "$2" ]; then
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          else  
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com | grep gz | grep "$2:obras")
+          fi
           IFS=' '
           read -ra file <<< "$files"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
-          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com 
-          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
-          scp deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          filenumber=${file[0]}
+
+          filename_orig="${file[1]}"
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "$filenumber"
+          echo "sudo -i eybackup -e mysql -d $filenumber" | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com 
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "$filename_orig
+          scp deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com:/mnt/tmp/$filename_orig .
           IFS='T'
-          read -ra sitefile <<< "${file[1]}"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
-          rm -rf "${sitefile[0]}_$SITE.sql~"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          rm -f "${sitefile[0]}_$SITE.sql.gz"
+          read -ra file1 <<< "${file[1]}"
+
+          prefix="${file1[0]}"
+          IFS='.'
+          read -ra file2 <<< "${file1[1]}"
+          filename=$prefix'_'${file2[0]}'_'$SITE
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "$filename.sql.gz"
+          mv "$filename_orig" "$filename.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "$filename.sql.gz"
+          pv "$filename.sql.gz" | gunzip > "$filename.sql"
+          rm -rf "$filename.sql~"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "$filename.sql"
+          pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
+          rm -f "$filename.sql.gz"
           ;;
 
         santoandre)  
-          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          filename_orig="${file[1]}"
+          if [ -z "$2" ]; then
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          else  
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | grep gz | grep "$2:obras")
+          fi
           IFS=' '
           read -ra file <<< "$files"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
-          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com 
-          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
-          scp deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          filenumber=${file[0]}
+          filename_orig="${file[1]}"
+
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "$filenumber"
+          echo "sudo -i eybackup -e mysql -d $filenumber" | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com 
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "$filename_orig
+          scp deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com:/mnt/tmp/$filename_orig .
           IFS='T'
-          read -ra sitefile <<< "${file[1]}"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
-          rm -rf "${sitefile[0]}_$SITE.sql~"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          rm -f "${sitefile[0]}_$SITE.sql.gz"
+          read -ra file1 <<< "${file[1]}"
+
+          prefix="${file1[0]}"
+          IFS='.'
+          read -ra file2 <<< "${file1[1]}"
+          filename=$prefix'_'${file2[0]}'_'$SITE
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "$filename.sql.gz"
+          mv "$filename_orig" "$filename.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "$filename.sql.gz"
+          pv "$filename.sql.gz" | gunzip > "$filename.sql"
+          rm -rf "$filename.sql~"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "$filename.sql"
+          pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
+          rm -f "$filename.sql.gz"
           ;;
 
         demo)
-          files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          filename_orig="${file[1]}"
+          if [ -z "$2" ]; then
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          else  
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com | grep gz | grep "$2:obras")
+          fi
           IFS=' '
           read -ra file <<< "$files"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
-          echo "sudo -i eybackup -e mysql -d ${file[0]}" | ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com 
-          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
-          scp deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          filenumber=${file[0]}
+          filename_orig="${file[1]}"
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "$filenumber"
+          echo "sudo -i eybackup -e mysql -d $filenumber" | ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com 
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "$filename_orig
+          scp deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com:/mnt/tmp/$filename_orig .
           IFS='T'
-          read -ra sitefile <<< "${file[1]}"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          mv "${file[1]}" "${sitefile[0]}_$SITE.sql.gz"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          pv "${sitefile[0]}_$SITE.sql.gz" | gunzip > "${sitefile[0]}_$SITE.sql"
-          rm -rf "${sitefile[0]}_$SITE.sql~"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "${sitefile[0]}_$SITE.sql"
-          pv "${sitefile[0]}_$SITE.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "${sitefile[0]}_$SITE.sql" && mv temp "${sitefile[0]}_$SITE.sql"
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "${sitefile[0]}_$SITE.sql.gz"
-          rm -f "${sitefile[0]}_$SITE.sql.gz"
+          read -ra file1 <<< "${file[1]}"
+
+          prefix="${file1[0]}"
+          IFS='.'
+          read -ra file2 <<< "${file1[1]}"
+          filename=$prefix'_'${file2[0]}'_'$SITE
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "$filename.sql.gz"
+          mv "$filename_orig" "$filename.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "$filename.sql.gz"
+          pv "$filename.sql.gz" | gunzip > "$filename.sql"
+          rm -rf "$filename.sql~"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "$filename.sql"
+          pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
+          rm -f "$filename.sql.gz"
           ;;
 
         *)
@@ -1616,8 +1687,8 @@ site(){
 
     *)
       __docker
-      __pr bold "site:" $SITE
-      __pr infobold "rvm :" $(rvm current)
+      __pr bold "site: " $SITE
+      ansi --white --no-newline "rvm : ";ansi --cyan-intense $(rvm current)
       ansi --no-newline "env : "
       if [ $RAILS_ENV == 'development' ]; then 
         ansi --no-newline --green "development"
