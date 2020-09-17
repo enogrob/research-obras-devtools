@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.69
+export OBRAS_UTILS_VERSION=1.4.70
 export OBRAS_UTILS_VERSION_DATE=2020.09.16
 
 export OS=`uname`
@@ -627,7 +627,7 @@ db(){
               fi  
             done
           else
-            __pr dang " no api files"
+            __pr dang " no api dump files"
           fi
           unset IFS
           __pr
@@ -648,7 +648,7 @@ db(){
               fi  
             done
           else
-            __pr dang " no api files"
+            __pr dang " no api dump files"
           fi
           unset IFS
           __pr
@@ -656,7 +656,7 @@ db(){
         *)
           IFS=$'\n'
           files_sql=(`ls api*.sql 2>/dev/null`)
-          echo -e "table_apis:"
+          echo -e "api_dumps:"
           if [ ! -z "$files_sql" ]; then
             IFS=$'\n'
             files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
@@ -665,7 +665,7 @@ db(){
               __pr succ ' '$file
             done
           else
-            __pr dang " no api files"
+            __pr dang " no api dump files"
           fi
           unset IFS
           __pr
@@ -756,7 +756,7 @@ db(){
     ls)
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      echo -e "db_sqls:"
+      echo -e "db_dumps:"
       if [ ! -z "$files_sql" ]; then
         IFS=$'\n'
         files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
@@ -765,7 +765,7 @@ db(){
           __pr succ ' '$file
         done
       else
-        __pr dang " no sql files"
+        __pr dang " no dump files"
       fi
       unset IFS
       __pr
@@ -991,7 +991,7 @@ db(){
               done
               unset IFS
             else   
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no dump file"
               __pr
               return 1
             fi
@@ -1030,7 +1030,7 @@ db(){
               done
               unset IFS
             else   
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no dump file"
               __pr
               return 1
             fi
@@ -1051,7 +1051,7 @@ db(){
                 echo $file
                 __import $(basename $file)
               else   
-                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
+                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no dump file"
                 __pr
                 return 1
               fi
@@ -1070,7 +1070,7 @@ db(){
                 file=${files_sql[0]}
                 __import_docker $(basename $file)
               else
-                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
+                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no dump file"
                 __pr
                 return 1
               fi
@@ -1450,7 +1450,7 @@ db(){
       __pr_db tst
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      ansi --white "db_sqls:"
+      ansi --white "db_dumps:"
       if [ ! -z "$files_sql" ]; then
         IFS=$'\n'
         files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
@@ -1459,7 +1459,7 @@ db(){
           __pr succ ' '$file
         done
       else
-        __pr dang " no sql files"
+        __pr dang " no dump files"
       fi
       unset IFS
       __pr
