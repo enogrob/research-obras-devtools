@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.67
+export OBRAS_UTILS_VERSION=1.4.68
 export OBRAS_UTILS_VERSION_DATE=2020.09.16
 
 export OS=`uname`
@@ -35,8 +35,13 @@ export INSTALL_DIR=$INSTALLDIRTMP
 export RAILS_ENV=development
 export RUBYOPT=-W0
 export SITE=default
+export SITEPREV=default
 unset MYSQL_DATABASE_DEV
 unset MYSQL_DATABASE_TST
+unset DB_TABLES_DEV
+unset DB_RECORDS_DEV
+unset DB_TABLES_TST
+unset DB_RECORDS_TST
 export HEADLESS=true
 unset COVERAGE
 unset DOCKER
@@ -118,8 +123,18 @@ obras_utils() {
           sudo apt-get install mycli
         fi
       fi
+      if ! test -f /usr/local/bin/cowsay; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"cowsay\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew install cowsay
+        else  
+          sudo apt-get install cowsay
+        fi
+      fi
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
+      cowsay "* site command is now faster"
       ;;
 
     *)
@@ -211,10 +226,20 @@ __pr_env(){
   else
     ansi --green $name
   fi
-}      
+}   
+
+__pr_site(){
+  ansi --white --no-newline "site: "
+  ansi --white-intense $SITE
+}
 
 __db(){
-  if [ "$RAILS_ENV" == 'development' ]; then
+  if [ -z $1 ]; then
+    env=$RAILS_ENV
+  else
+    env=$1
+  fi
+  if [ "$env" == 'development' ]; then
     if [ -z $MYSQL_DATABASE_DEV ]; then
       echo obrasdev
     else
@@ -295,6 +320,54 @@ __tables(){
     s=`docker-compose exec db mysql -uroot -proot -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
     echo $(echo -n $s | sed 's/[^0-9]*//g' | tr -d '\n')
   fi
+}
+
+__update_db_dev_stats(){
+  db=$(__db development)
+  if [ "$(__has_database $db)" == 'yes' ]; then
+    export DB_TABLES_DEV=$(__tables $db)
+    export DB_RECORDS_DEV=$(__records $db)
+  fi
+}
+
+__update_db_tst_stats(){
+  db=$(__db test)
+  if [ "$(__has_database $db)" == 'yes' ]; then
+    export DB_TABLES_TST=$(__tables $db)
+    export DB_RECORDS_TST=$(__records $db)
+  fi
+}
+
+__update_db_stats(){
+  db=$(__db $RAILS_ENV)
+  if [ "$(__has_database $db)" == 'yes' ]; then
+    case $RAILS_ENV in 
+      development)
+        export DB_TABLES_DEV=$(__tables $db)
+        export DB_RECORDS_DEV=$(__records $db)
+        ;;
+      test)
+        export DB_TABLES_TST=$(__tables $db)
+        export DB_RECORDS_TST=$(__records $db)
+        ;;
+    esac
+  fi
+}
+
+__zeroed_db_stats(){
+  unset DB_TABLES_DEV
+  unset DB_RECORDS_DEV
+  unset DB_TABLES_TST
+  unset DB_RECORDS_TST
+}
+
+__update_db_stats_site(){
+  if [ -z "$DB_TABLES_DEV" ]; then
+    __update_db_dev_stats
+  fi  
+  if [ -z "$DB_TABLES_TST" ]; then
+    __update_db_tst_stats
+  fi  
 }
 
 __import(){
@@ -427,20 +500,16 @@ __contains() {
 __pr_db(){
   env=$1
   if [ $env == "dev" ]; then
-    if [ -z $MYSQL_DATABASE_DEV ]; then
-      db=obrasdev
-    else  
-      db=$MYSQL_DATABASE_DEV
-    fi
+    db=$(__db development)
   else  
-    if [ -z $MYSQL_DATABASE_TST ]; then
-      db=obrastest
-    else  
-      db=$MYSQL_DATABASE_TST
-    fi
+    db=$(__db test)
   fi
   if [ "$(__has_database $db)" == 'yes' ]; then
-    ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --white --no-newline $(__tables $db)' '; ansi --white $(__records $db)
+    if [ $env == "dev" ]; then
+      ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
+    else
+      ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_TST' '; ansi --white $DB_RECORDS_TST
+    fi  
   else  
     ansi --no-newline "db_"$env": "; ansi --red $db
   fi
@@ -639,6 +708,7 @@ db(){
           rake db:seed
           revolver stop
         fi
+        __update_db_stats
       else 
         rails=`rails --version`
         if [ $rails == $RAILS_VERSION ]; then
@@ -676,6 +746,7 @@ db(){
           docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:seed
           revolver stop
         fi
+        __update_db_stats
       fi
       ;;
 
@@ -712,6 +783,7 @@ db(){
             rake db:drop
             revolver stop
           fi
+          __zeroed_db_stats 
         else  
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
         fi
@@ -730,6 +802,7 @@ db(){
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:drop
             revolver stop
           fi
+          __zeroed_db_stats
         else  
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
         fi
@@ -751,7 +824,8 @@ db(){
             revolver --style 'simpleDotsScrolling' start
             rake db:create
             revolver stop
-          fi  
+          fi 
+          __zeroed_db_stats 
         else  
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" already exists"
         fi
@@ -770,6 +844,7 @@ db(){
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:create
             revolver stop
           fi
+          __zeroed_db_stats
         else  
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" already exists"
         fi
@@ -788,6 +863,7 @@ db(){
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
             rake db:migrate
           fi
+          __update_db_stats
         else  
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
         fi
@@ -802,6 +878,7 @@ db(){
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:migrate
           fi  
+          __update_db_stats
         else  
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
         fi
@@ -834,6 +911,7 @@ db(){
             rake db:seed
             revolver stop
           fi
+          __update_db_stats
         else   
           if [ '$(__has_database $db)' == 'yes' ]; then
             ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
@@ -858,6 +936,7 @@ db(){
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.rb"
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:seed
           fi
+          __update_db_stats
         else   
           if [ '$(__has_database $db)' == 'yes' ]; then
             ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
@@ -883,22 +962,27 @@ db(){
                 if [ $(__contains "$file" "olimpia") == "y" ]; then
                   site set olimpia
                   __import $(basename $file)
+                  __update_db_stats
                 fi
                 if [ $(__contains "$file" "rioclaro") == "y" ]; then
                   site set rioclaro
                   __import $(basename $file)
+                  __update_db_stats
                 fi
                 if [ $(__contains "$file" "suzano") == "y" ]; then
                   site set suzano
                   __import $(basename $file)
+                  __update_db_stats
                 fi
                 if [ $(__contains "$file" "santoandre") == "y" ]; then
                   site set santoandre
                   __import $(basename $file)
+                  __update_db_stats
                 fi
                 if [ $(__contains "$file" "demo") == "y" ]; then
                   site set demo
                   __import $(basename $file)
+                  __update_db_stats
                 fi
               done
             else   
@@ -916,22 +1000,27 @@ db(){
                 if [ $(__contains "$file" "olimpia") == "y" ]; then
                   site set olimpia
                   __import_docker $(basename $file)
+                  __update_db_stats
                 fi
                 if [ $(__contains "$file" "rioclaro") == "y" ]; then
                   site set rioclaro
                   __import_docker $(basename $file)
+                  __update_db_stats
                 fi
                 if [ $(__contains "$file" "suzano") == "y" ]; then
                   site set suzano
                   __import_docker $(basename $file)
+                  __update_db_stats
                 fi
                 if [ $(__contains "$file" "santoandre") == "y" ]; then
                   site set santoandre
                   __import_docker $(basename $file)
+                  __update_db_stats
                 fi
                 if [ $(__contains "$file" "demo") == "y" ]; then
                   site set demo
                   __import_docker $(basename $file)
+                  __update_db_stats
                 fi
               done
             else   
@@ -947,11 +1036,13 @@ db(){
             if test -f "$2"; then
               __import $2
             else
-              files_sql=(`ls *$SITE.sql`)
+              IFS=$'\n' 
+              files_sql=($(ls *$SITE.sql))
               if [ ! -z "$files_sql" ]; then
                 IFS=$'\n'
                 files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
                 file=${files_sql[0]}
+                echo $file
                 __import $(basename $file)
               else   
                 ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
@@ -959,6 +1050,7 @@ db(){
                 return 1
               fi
             fi
+            __update_db_stats
           else  
             if test -f "$2"; then
               __import_docker $2
@@ -975,6 +1067,7 @@ db(){
                 return 1
               fi
             fi
+            __update_db_stats
           fi
           ;;
       esac
@@ -1210,7 +1303,8 @@ db(){
 
         *)
           db download
-          db import  
+          db import 
+          __update_db_stats 
           ;;
       esac
       ;;
@@ -1380,12 +1474,20 @@ site(){
       ;;
 
     $SITES)
+      export SITEPREV=$SITE
       export SITE=$1
       export HEADLESS=true
       unset COVERAGE
       cd "$OBRAS"
       db set $1
       title $1
+      if [ "$SITE" != "$SITEPREV" ]; then
+        unset DB_TABLES_DEV
+        unset DB_RECORDS_DEV
+        unset DB_TABLES_TST
+        unset DB_RECORDS_TST
+      fi
+      __update_db_stats_site
       ;;
 
     $SITES_OLD)
@@ -1394,12 +1496,20 @@ site(){
           ;;
 
         *)  
+          export SITEPREV=$SITE
           export SITE=$1
           export HEADLESS=true
           unset COVERAGE
           cd "$OBRAS_OLD"
           db set $1
           title $1
+          if [ "$SITE" != "$SITEPREV" ]; then
+            unset DB_TABLES_DEV
+            unset DB_RECORDS_DEV
+            unset DB_TABLES_TST
+            unset DB_RECORDS_TST
+          fi
+          __update_db_stats_site
           ;;
       esac
       ;;
@@ -1476,7 +1586,7 @@ site(){
           ;;
           
         *)
-          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$2
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad flag "$2
           __pr
           return 1
           ;;
@@ -1687,7 +1797,8 @@ site(){
 
     *)
       __docker
-      __pr bold "site: " $SITE
+      __update_db_stats_site
+      __pr_site
       ansi --white --no-newline "rvm : ";ansi --cyan-intense $(rvm current)
       ansi --no-newline "env : "
       if [ $RAILS_ENV == 'development' ]; then 

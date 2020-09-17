@@ -123,7 +123,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.67
+Obras Utils 1.4.68
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -131,7 +131,7 @@ site [ngrok || mailcatcher start/stop]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.67
+Obras Utils 1.4.68
 ::
 db [set sitename || ls || preptest/init || drop || create || migrate || seed]
 db [backups || download [filenumber] || import [dbfile] || update [all]]
@@ -140,7 +140,17 @@ db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.67
+Obras Utils 1.4.68
 ::
 obras_utils [version/update/check]
 ```
+
+## Obras Utils
+
+Changes log
+
+* **1.4.67** `site db download` add filenumber parameter in order to specify the required downloaded file.
+* **1.4.68** Improve the records and tables calculation.
+
+Changes Required
+

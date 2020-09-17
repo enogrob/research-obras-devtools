@@ -68,9 +68,19 @@ fobras_utils() {
           sudo apt-get install mycli
         fi
       fi
+      if ! test -f /usr/local/bin/cowsay; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"cowsay\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew install cowsay
+        else  
+          sudo apt-get install cowsay
+        fi
+      fi
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
       test -f .fobras_utils.sh && rm -rf .fobras_utils.sh
+      cowsay "* site command is now faster"
       ;;
 
     *)
