@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.68
+export OBRAS_UTILS_VERSION=1.4.69
 export OBRAS_UTILS_VERSION_DATE=2020.09.16
 
 export OS=`uname`
@@ -629,6 +629,7 @@ db(){
           else
             __pr dang " no api files"
           fi
+          unset IFS
           __pr
           ;;
         import)
@@ -649,6 +650,7 @@ db(){
           else
             __pr dang " no api files"
           fi
+          unset IFS
           __pr
           ;;
         *)
@@ -665,6 +667,7 @@ db(){
           else
             __pr dang " no api files"
           fi
+          unset IFS
           __pr
           ;;
       esac
@@ -764,6 +767,7 @@ db(){
       else
         __pr dang " no sql files"
       fi
+      unset IFS
       __pr
       ;;
 
@@ -985,6 +989,7 @@ db(){
                   __update_db_stats
                 fi
               done
+              unset IFS
             else   
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
               __pr
@@ -1023,6 +1028,7 @@ db(){
                   __update_db_stats
                 fi
               done
+              unset IFS
             else   
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Error no sql files"
               __pr
@@ -1049,12 +1055,14 @@ db(){
                 __pr
                 return 1
               fi
+              unset IFS
             fi
             __update_db_stats
           else  
             if test -f "$2"; then
               __import_docker $2
             else
+              IFS=$'\n'
               files_sql=(`ls *$SITE.sql`)
               if [ ! -z "$files_sql" ]; then
                 IFS=$'\n'
@@ -1066,6 +1074,7 @@ db(){
                 __pr
                 return 1
               fi
+              unset IFS
             fi
             __update_db_stats
           fi
@@ -1107,6 +1116,7 @@ db(){
           pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
           rm -f "$filename.sql.gz"
+          unset IFS
           ;;
 
         rioclaro)
@@ -1142,6 +1152,7 @@ db(){
           pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
           rm -f "$filename.sql.gz"
+          unset IFS
           ;;
 
         suzano)  
@@ -1177,6 +1188,7 @@ db(){
           pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
           rm -f "$filename.sql.gz"
+          unset IFS
           ;;
 
         santoandre)  
@@ -1213,6 +1225,7 @@ db(){
           pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
           rm -f "$filename.sql.gz"
+          unset IFS
           ;;
 
         demo)
@@ -1248,6 +1261,7 @@ db(){
           pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
           rm -f "$filename.sql.gz"
+          unset IFS
           ;;
 
         *)
@@ -1447,6 +1461,7 @@ db(){
       else
         __pr dang " no sql files"
       fi
+      unset IFS
       __pr
       ;;
   esac
