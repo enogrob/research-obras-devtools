@@ -123,7 +123,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.68
+Obras Utils 1.4.71
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -131,7 +131,7 @@ site [ngrok || mailcatcher start/stop]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.68
+Obras Utils 1.4.71
 ::
 db [set sitename || ls || preptest/init || drop || create || migrate || seed]
 db [backups || download [filenumber] || import [dbfile] || update [all]]
@@ -140,7 +140,7 @@ db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.68
+Obras Utils 1.4.71
 ::
 obras_utils [version/update/check]
 ```
@@ -149,8 +149,21 @@ obras_utils [version/update/check]
 
 Changes log
 
-* **1.4.67** `site db download` add filenumber parameter in order to specify the required downloaded file.
-* **1.4.68** Improve the records and tables calculation.
+* **1.4.71** Correct `install.sh` script.
+* **1.4.70** Correct dump messages.
+* **1.4.69** Correct the **IFS** problem.
+* **1.4.68** Command `site` command is now faster.
+* **1.4.67** Command `site db download [filenumber]` add parameter to specify the required downloaded file.
+* **1.4.66** Add command `site db backups` in order to list the backups files in **Engine Yard**.
+* **1.4.65** Update README.md and `site set docker` command.
+* **1.4.64** Improve **Docker** interaction.
+* **1.4.63** utility **mycli** becomes accessible from a Docker container.
+* **1.4.62** Improve the **mysql cli** with **mycli**. 
+* **1.4.61** Command  `site db connect` a new one to connect to **db**.
+* **1.4.60** This release is due to that `rioclaro` has been updated to **ruby-2.6.5@rails-6.0.2.1.**
+* **1.4.59** In this release `obras_utils` can check if there is a new release in github.
 
 Changes Required
+
+* **1.4.72** Management of `sidekiq` and `redis` services.
 

@@ -9,8 +9,8 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.70
-export OBRAS_UTILS_VERSION_DATE=2020.09.16
+export OBRAS_UTILS_VERSION=1.4.71
+export OBRAS_UTILS_VERSION_DATE=2020.09.17
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then

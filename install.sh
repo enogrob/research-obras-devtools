@@ -3,8 +3,6 @@
 ## Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 ## Prepared : Roberto Nogueira
 ## File     : install.sh
-## Version  : PA09
-## Date     : 2020-09-11
 ## Project  : project-obras-devtools
 ## Reference: bash
 ## Depends  : foreman, pipe viewer, ansi
@@ -191,7 +189,6 @@ case $1 in
         sudo apt-get install zsh
       fi
     fi
-    ;;
 
     if ! test -f /usr/local/bin/mycli; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"mycli\" \033[0m"
@@ -202,7 +199,6 @@ case $1 in
         sudo apt-get install mycli
       fi
     fi
-    ;;
 
     if ! test -f /usr/local/bin/wget; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"wget\" \033[0m"
@@ -211,6 +207,16 @@ case $1 in
         brew install wget
       else  
         sudo apt-get install wget
+      fi
+    fi
+
+    if ! test -f /usr/local/bin/cowsay; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"cowsay\" \033[0m"
+      echo ""
+      if [ "$OS" == 'Darwin' ]; then
+        brew install cowsay
+      else  
+        sudo apt-get install cowsay
       fi
     fi
     ;;
