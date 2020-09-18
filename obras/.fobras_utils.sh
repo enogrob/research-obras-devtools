@@ -80,7 +80,7 @@ fobras_utils() {
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
       test -f .fobras_utils.sh && rm -rf .fobras_utils.sh
-      cowsay "* site command is now faster"
+      cowsay "Correct 'RAILS_VERSION' checking. New parameter '[all]' in 'site db drop'"
       ;;
 
     *)

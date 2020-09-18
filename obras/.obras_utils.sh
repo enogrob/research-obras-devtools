@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.71
+export OBRAS_UTILS_VERSION=1.4.72
 export OBRAS_UTILS_VERSION_DATE=2020.09.17
 
 export OS=`uname`
@@ -19,16 +19,20 @@ if [ $OS == 'Darwin' ]; then
   export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 fi
 
+SITESTMP="default olimpia rioclaro suzano santoandre demo"
+SITESOLDTMP="none"
+export SITES=$SITESTMP
+export SITES_OLD=$SITESOLDTMP
+
+export SITES_CASE="+($(echo $SITES | sed 's/ /|/g'))"
+export SITES_CASE_OLD="+($(echo $SITES_OLD | sed 's/ /|/g'))"
+
 export MAILCATCHER_ENV=LOCALHOST
 export RAILSVERSIONTMP="Rails 6.0.2.1"
-export SITESTMP="+(default|olimpia|rioclaro|suzano|santoandre|demo)"
-export SITESOLDTMP="+(none)"
 export OBRASTMP="$HOME/Projects/obras"
 export OBRASOLDTMP="$HOME/Logbook/obras"
 export INSTALLDIRTMP=obras_dir
 export RAILS_VERSION=$RAILSVERSIONTMP
-export SITES=$SITESTMP
-export SITES_OLD=$SITESOLDTMP
 export OBRAS=$OBRASTMP
 export OBRAS_OLD=$OBRASOLDTMP
 export INSTALL_DIR=$INSTALLDIRTMP
@@ -134,7 +138,7 @@ obras_utils() {
       fi
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
-      cowsay "* site command is now faster"
+      cowsay "Correct 'RAILS_VERSION' checking. New parameter '[all]' in 'site db drop'"
       ;;
 
     *)
@@ -145,6 +149,33 @@ obras_utils() {
       __pr
       ;;  
     esac  
+}
+
+__sites(){
+  case $# in
+    0)
+      if [ $(__contains "$SITES" "$SITE") == "y" ]; then
+        echo $SITES
+      elif [ $(__contains "$SITES_OLDS" "$SITE") == "y" ]; then
+        echo $SITES_OLD
+      else  
+        echo ""
+      fi
+      ;;
+    1)
+      case $1 in
+        case)
+          if [ $(__contains "$SITES" "$SITE") == "y" ]; then
+            echo $SITES_CASE
+          elif [ $(__contains "$SITES_OLDS" "$SITE") == "y" ]; then
+            echo $SITES_OLD_CASE
+          else  
+            echo ""
+          fi
+          ;;
+      esac    
+      ;;
+  esac      
 }
 
 __pr(){
@@ -372,7 +403,7 @@ __update_db_stats_site(){
 
 __import(){
   rails=`rails --version`
-  if [ $rails == $RAILS_VERSION ]; then
+  if [ "$rails" == "$RAILS_VERSION" ]; then
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
     revolver --style 'simpleDotsScrolling' start 
     rails db:drop
@@ -429,7 +460,7 @@ __import(){
 
 __import_docker(){
   rails=`rails --version`
-  if [ $rails == $RAILS_VERSION ]; then
+  if [ "$rails" == "$RAILS_VERSION" ]; then
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
     revolver --style 'simpleDotsScrolling' start 
     docker-compose exec $SITE rails db:drop
@@ -591,7 +622,7 @@ db(){
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "db " "[set sitename || ls || preptest/init || drop || create || migrate || seed]"
+      __pr info "db " "[set sitename || ls || preptest/init || drop [all] || create || migrate || seed]"
       __pr info "db " "[backups || download [filenumber] || import [dbfile] || update [all]]"
       __pr info "db " "[status || start || stop || restart || tables || databases || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
@@ -676,7 +707,7 @@ db(){
     preptest|init)
       if [ -z "$DOCKER" ]; then
         rails=`rails --version`
-        if [ $rails == $RAILS_VERSION ]; then
+        if [ "$rails" == "$RAILS_VERSION" ]; then
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
           revolver --style 'simpleDotsScrolling' start 
           rails db:drop
@@ -714,7 +745,7 @@ db(){
         __update_db_stats
       else 
         rails=`rails --version`
-        if [ $rails == $RAILS_VERSION ]; then
+        if [ "$rails" == "$RAILS_VERSION" ]; then
           ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
           revolver --style 'simpleDotsScrolling' start 
           docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:drop
@@ -772,53 +803,80 @@ db(){
       ;;
 
     drop)
-      if [ -z "$DOCKER" ]; then
-        db=$(__db)
-        if [ "$(__has_database $db)" == 'yes' ]; then
-          rails=`rails --version`
-          if [ $rails == $RAILS_VERSION ]; then
-            ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
-            revolver --style 'simpleDotsScrolling' start
-            rails db:drop
-            revolver stop
+      case $# in
+        1)
+          if [ -z "$DOCKER" ]; then
+            db=$(__db)
+            if [ "$(__has_database $db)" == 'yes' ]; then
+              rails=`rails --version`
+              if [ "$rails" == "$RAILS_VERSION" ]; then
+                ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+                revolver --style 'simpleDotsScrolling' start
+                rails db:drop
+                revolver stop
+              else
+                ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+                revolver --style 'simpleDotsScrolling' start 
+                rake db:drop
+                revolver stop
+              fi
+              __zeroed_db_stats 
+            else  
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
+            fi
           else
-            ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
-            revolver --style 'simpleDotsScrolling' start 
-            rake db:drop
-            revolver stop
+            db=$(__db)
+            if [ "$(__has_database $db)" == 'yes' ]; then
+              rails=`rails --version`
+              if [ "$rails" == "$RAILS_VERSION" ]; then
+                ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+                revolver --style 'simpleDotsScrolling' start 
+                docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:drop
+                revolver stop
+              else  
+                ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
+                revolver --style 'simpleDotsScrolling' start 
+                docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:drop
+                revolver stop
+              fi
+              __zeroed_db_stats
+            else  
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
+            fi
           fi
-          __zeroed_db_stats 
-        else  
-          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
-        fi
-      else
-        db=$(__db)
-        if [ "$(__has_database $db)" == 'yes' ]; then
-          rails=`rails --version`
-          if [ $rails == $RAILS_VERSION ]; then
-            ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
-            revolver --style 'simpleDotsScrolling' start 
-            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:drop
-            revolver stop
-          else  
-            ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
-            revolver --style 'simpleDotsScrolling' start 
-            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:drop
-            revolver stop
-          fi
-          __zeroed_db_stats
-        else  
-          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
-        fi
-      fi
-      ;;
+          ;;
+        2)
+          case $2 in
+          all)
+            sites=(`__sites`)
+            for site in "${sites[@]}"
+            do
+              site $site
+              db drop
+            done
+            site $SITE
+            ;;
+          *)
+            ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad parameter "$2
+            __pr
+            return 1
+            ;;
+          esac    
+          ;;
+        *)
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad number of parameters"
+          __pr
+          return 1
+          ;;
+      esac  
+      ;;  
 
     create)  
       if [ -z "$DOCKER" ]; then
         db=$(__db)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
-          if [ $rails == $RAILS_VERSION ]; then
+          if [ "$rails" == "$RAILS_VERSION" ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
             revolver --style 'simpleDotsScrolling' start 
             rails db:create
@@ -837,7 +895,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
-          if [ $rails == $RAILS_VERSION ]; then
+          if [ "$rails" == "$RAILS_VERSION" ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Creating db"
             revolver --style 'simpleDotsScrolling' start 
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:create
@@ -860,7 +918,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
-          if [ $rails == $RAILS_VERSION ]; then
+          if [ "$rails" == "$RAILS_VERSION" ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
             rails db:migrate
           else
@@ -875,7 +933,7 @@ db(){
         db=$(__db)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
-          if [ $rails == $RAILS_VERSION ]; then
+          if [ "$rails" == "$RAILS_VERSION" ]; then
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:migrate
           else
@@ -896,7 +954,7 @@ db(){
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
-          if [ $rails == $RAILS_VERSION ]; then
+          if [ "$rails" == "$RAILS_VERSION" ]; then
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
             revolver --style 'simpleDotsScrolling' start
             rails runner "require Rails.root.join('db/seeds.production.rb')"
@@ -929,7 +987,7 @@ db(){
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
-          if [ $rails == $RAILS_VERSION ]; then
+          if [ "$rails" == "$RAILS_VERSION" ]; then
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.production.rb"
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails runner "require Rails.root.join('db/seeds.production.rb')"
             ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Seeding ";ansi --white-intense "db/seeds.development.rb"
@@ -1305,12 +1363,20 @@ db(){
     update)
       case $2 in
         all)
-          sites=(olimpia rioclaro suzano santoandre demo)
+          sites=(`__sites`)
           for site in "${sites[@]}"
           do
-            site $site
-            db download 
-            db import 
+            case $site in
+              default)
+                site default
+                db init
+                ;;
+              *)  
+                site $site
+                db download 
+                db import 
+                ;;
+            esac    
           done
           site $SITE
           ;;
@@ -1488,7 +1554,7 @@ site(){
       ansi --white "::"
       ;;
 
-    $SITES)
+    $SITES_CASE)
       export SITEPREV=$SITE
       export SITE=$1
       export HEADLESS=true
@@ -1505,7 +1571,7 @@ site(){
       __update_db_stats_site
       ;;
 
-    $SITES_OLD)
+    $SITES_OLD_CASE)
       case $1 in
         none)
           ;;
@@ -1639,9 +1705,10 @@ site(){
         if [ -z "$2" ]; then
           test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
           foreman start $SITE
-        else   
+        else  
+          BELONGS=$(__sites case)
           case $2 in
-            olimpia|rioclaro|suzano|santoandre|demo|default)
+            $BELONGS)
               test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
               foreman start $2
               ;;
