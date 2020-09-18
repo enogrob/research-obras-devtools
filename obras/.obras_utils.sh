@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.72
+export OBRAS_UTILS_VERSION=1.4.73
 export OBRAS_UTILS_VERSION_DATE=2020.09.17
 
 export OS=`uname`
@@ -138,7 +138,7 @@ obras_utils() {
       fi
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
-      cowsay "Correct 'RAILS_VERSION' checking. New parameter '[all]' in 'site db drop'"
+      cowsay "Correct 'site db download' for 'Rio Claro'"
       ;;
 
     *)
@@ -1186,13 +1186,12 @@ db(){
           IFS=' '
           read -ra file <<< "$files"
           filenumber=${file[0]}
-
           filename_orig="${file[1]}"
 
-          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "${file[0]}"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "$filenumber"
           echo "sudo -i eybackup -e mysql -d $filenumber" | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com 
-          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "${file[1]}
-          scp deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com:/mnt/tmp/${file[1]} .
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "$filename_orig
+          scp deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com:/mnt/tmp/$filename_orig .
           IFS='T'
           read -ra file1 <<< "${file[1]}"
 
@@ -1202,7 +1201,7 @@ db(){
           filename=$prefix'_'${file2[0]}'_'$SITE
 
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "$filename.sql.gz"
-          mv "$finame_orig" "$filename.sql.gz"
+          mv "$filename_orig" "$filename.sql.gz"
           ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "$filename.sql.gz"
           pv "$filename.sql.gz" | gunzip > "$filename.sql"
           rm -rf "$filename.sql~"
