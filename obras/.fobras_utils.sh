@@ -80,7 +80,7 @@ fobras_utils() {
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
       test -f .fobras_utils.sh && rm -rf .fobras_utils.sh
-      cowsay "Correct 'Error bad site' for 'site' command."
+      cowsay $OBRAS_UTILS_UPDATE_MESSAGE
       ;;
 
     *)

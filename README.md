@@ -133,7 +133,7 @@ $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 Obras Utils 1.4.74
 ::
-db [set sitename || ls || preptest/init || drop [all] || create || migrate || seed]
+db [set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db [backups || download [filenumber] || import [dbfile] || update [all]]
 db [status || start || stop || restart || tables || databases || socket || connect]
 db [api [dump/export || import]]
@@ -149,6 +149,7 @@ obras_utils [version/update/check]
 
 Changes log
 
+* **1.4.75** Command `site db init` init env from **seeds**, and `site db preptest` does both envs.
 * **1.4.74** Correct `Error bad site` for `site` command.
 * **1.4.73** Correct `site db download` for **Rio Claro**.
 * **1.4.72** Correct `RAILS_VERSION` checking. New parameter `[all]` in `site db drop`.
@@ -168,6 +169,5 @@ Changes log
 
 Changes Required
 
-* **1.4.76** Differenciate `site db init` from `site db preptest`.
-* **1.4.75** Management of `sidekiq` and `redis` services.
+* **1.4.76** Management of `sidekiq` and `redis` services.
 

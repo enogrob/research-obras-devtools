@@ -9,8 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.74
-export OBRAS_UTILS_VERSION_DATE=2020.09.17
+export OBRAS_UTILS_VERSION=1.4.75
+export OBRAS_UTILS_VERSION_DATE=2020.09.18
+export OBRAS_UTILS_UPDATE_MESSAGE="Command 'site db init' init env from **seeds**, and 'site db preptest' does both envs."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -138,7 +139,7 @@ obras_utils() {
       fi
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
-      cowsay "Correct 'Error bad site' for 'site' command."
+      cowsay $OBRAS_UTILS_UPDATE_MESSAGE
       ;;
 
     *)
@@ -622,7 +623,7 @@ db(){
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "db " "[set sitename || ls || preptest/init || drop [all] || create || migrate || seed]"
+      __pr info "db " "[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]"
       __pr info "db " "[backups || download [filenumber] || import [dbfile] || update [all]]"
       __pr info "db " "[status || start || stop || restart || tables || databases || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
@@ -704,7 +705,7 @@ db(){
       esac
       ;;
 
-    preptest|init)
+    init)
       if [ -z "$DOCKER" ]; then
         rails=`rails --version`
         if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -782,6 +783,19 @@ db(){
         fi
         __update_db_stats
       fi
+      ;;
+
+    preptest)
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "This site $SITE will be prepared for test"
+      ansi ""
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
+      set env development
+      db init
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to test"
+      set env test
+      db init
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
+      set env development
       ;;
 
     ls)
@@ -1368,7 +1382,7 @@ db(){
             case $site in
               default)
                 site default
-                db init
+                db preptest
                 ;;
               *)  
                 site $site
