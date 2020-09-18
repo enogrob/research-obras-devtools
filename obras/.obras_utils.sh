@@ -789,13 +789,13 @@ db(){
       ansi --no-newline --green-intense "==> "; ansi --white-intense "This site $SITE will be prepared for test"
       ansi ""
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
-      site set env development
+      site env development
       db init
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to test"
-      site set env test
+      site env test
       db init
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
-      site set env development
+      site env development
       ;;
 
     ls)
