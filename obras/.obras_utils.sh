@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.73
+export OBRAS_UTILS_VERSION=1.4.74
 export OBRAS_UTILS_VERSION_DATE=2020.09.17
 
 export OS=`uname`
@@ -25,7 +25,7 @@ export SITES=$SITESTMP
 export SITES_OLD=$SITESOLDTMP
 
 export SITES_CASE="+($(echo $SITES | sed 's/ /|/g'))"
-export SITES_CASE_OLD="+($(echo $SITES_OLD | sed 's/ /|/g'))"
+export SITES_OLD_CASE="+($(echo $SITES_OLD | sed 's/ /|/g'))"
 
 export MAILCATCHER_ENV=LOCALHOST
 export RAILSVERSIONTMP="Rails 6.0.2.1"
@@ -138,7 +138,7 @@ obras_utils() {
       fi
       source ~/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
-      cowsay "Correct 'site db download' for 'Rio Claro'"
+      cowsay "Correct 'Error bad site' for 'site' command."
       ;;
 
     *)
@@ -1571,27 +1571,20 @@ site(){
       ;;
 
     $SITES_OLD_CASE)
-      case $1 in
-        none)
-          ;;
-
-        *)  
-          export SITEPREV=$SITE
-          export SITE=$1
-          export HEADLESS=true
-          unset COVERAGE
-          cd "$OBRAS_OLD"
-          db set $1
-          title $1
-          if [ "$SITE" != "$SITEPREV" ]; then
-            unset DB_TABLES_DEV
-            unset DB_RECORDS_DEV
-            unset DB_TABLES_TST
-            unset DB_RECORDS_TST
-          fi
-          __update_db_stats_site
-          ;;
-      esac
+      export SITEPREV=$SITE
+      export SITE=$1
+      export HEADLESS=true
+      unset COVERAGE
+      cd "$OBRAS_OLD"
+      db set $1
+      title $1
+      if [ "$SITE" != "$SITEPREV" ]; then
+        unset DB_TABLES_DEV
+        unset DB_RECORDS_DEV
+        unset DB_TABLES_TST
+        unset DB_RECORDS_TST
+      fi
+      __update_db_stats_site
       ;;
 
     env)

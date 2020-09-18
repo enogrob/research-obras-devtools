@@ -123,7 +123,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.73
+Obras Utils 1.4.74
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -131,7 +131,7 @@ site [ngrok || mailcatcher start/stop]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.73
+Obras Utils 1.4.74
 ::
 db [set sitename || ls || preptest/init || drop [all] || create || migrate || seed]
 db [backups || download [filenumber] || import [dbfile] || update [all]]
@@ -140,7 +140,7 @@ db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.73
+Obras Utils 1.4.74
 ::
 obras_utils [version/update/check]
 ```
@@ -149,6 +149,7 @@ obras_utils [version/update/check]
 
 Changes log
 
+* **1.4.74** Correct `Error bad site` for `site` command.
 * **1.4.73** Correct `site db download` for **Rio Claro**.
 * **1.4.72** Correct `RAILS_VERSION` checking. New parameter `[all]` in `site db drop`.
 * **1.4.71** Correct `install.sh` script.
@@ -167,5 +168,6 @@ Changes log
 
 Changes Required
 
-* **1.4.74** Management of `sidekiq` and `redis` services.
+* **1.4.76** Differenciate `site db init` from `site db preptest`.
+* **1.4.75** Management of `sidekiq` and `redis` services.
 
