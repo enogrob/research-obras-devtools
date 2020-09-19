@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.75
-export OBRAS_UTILS_VERSION_DATE=2020.09.18
-export OBRAS_UTILS_UPDATE_MESSAGE="Command 'site db init' init env from **seeds**, and 'site db preptest' does both envs."
+export OBRAS_UTILS_VERSION=1.4.76
+export OBRAS_UTILS_VERSION_DATE=2020.09.19
+export OBRAS_UTILS_UPDATE_MESSAGE="Current 'sites' shall get from Procfile instead from env SITES"
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -20,27 +20,43 @@ if [ $OS == 'Darwin' ]; then
   export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 fi
 
-SITESTMP="default olimpia rioclaro suzano santoandre demo"
-SITESOLDTMP="none"
-export SITES=$SITESTMP
-export SITES_OLD=$SITESOLDTMP
+export INSTALLDIRTMP=obras_dir
+export OBRASTMP="$HOME/Projects/obras"
+export OBRASOLDTMP="$HOME/Logbook/obras"
+export RAILSVERSIONTMP="Rails 6.0.2.1"
+
+export INSTALL_DIR=$INSTALLDIRTMP
+export OBRAS=$OBRASTMP
+export OBRAS_OLD=$OBRASOLDTMP
+export RAILS_VERSION=$RAILSVERSIONTMP
+
+pushd . > /dev/null 2>&1
+cd $OBRAS
+if hash foreman 2>/dev/null; then
+  export SITES=$(foreman check | awk -F[\(\)] '{print $2}' | sed 's/,//g')
+else
+  export SITES="none"
+fi
+if [ "$OBRAS" != "$OBRAS_OLD" ]; then 
+  cd $OBRAS_OLD
+  if hash foreman 2>/dev/null; then
+    export SITES_OLD=$(foreman check | awk -F[\(\)] '{print $2}' | sed 's/,//g')
+  else
+    export SITES_OLD="none"
+  fi
+else  
+  export SITES_OLD="none"
+fi  
+popd > /dev/null 2>&1
 
 export SITES_CASE="+($(echo $SITES | sed 's/ /|/g'))"
 export SITES_OLD_CASE="+($(echo $SITES_OLD | sed 's/ /|/g'))"
 
-export MAILCATCHER_ENV=LOCALHOST
-export RAILSVERSIONTMP="Rails 6.0.2.1"
-export OBRASTMP="$HOME/Projects/obras"
-export OBRASOLDTMP="$HOME/Logbook/obras"
-export INSTALLDIRTMP=obras_dir
-export RAILS_VERSION=$RAILSVERSIONTMP
-export OBRAS=$OBRASTMP
-export OBRAS_OLD=$OBRASOLDTMP
-export INSTALL_DIR=$INSTALLDIRTMP
 export RAILS_ENV=development
 export RUBYOPT=-W0
 export SITE=default
 export SITEPREV=default
+export MAILCATCHER_ENV=LOCALHOST
 unset MYSQL_DATABASE_DEV
 unset MYSQL_DATABASE_TST
 unset DB_TABLES_DEV

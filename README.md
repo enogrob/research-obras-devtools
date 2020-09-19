@@ -123,7 +123,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.74
+Obras Utils 1.4.76
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -131,7 +131,7 @@ site [ngrok || mailcatcher start/stop]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.74
+Obras Utils 1.4.76
 ::
 db [set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db [backups || download [filenumber] || import [dbfile] || update [all]]
@@ -140,7 +140,7 @@ db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.74
+Obras Utils 1.4.76
 ::
 obras_utils [version/update/check]
 ```
@@ -149,6 +149,7 @@ obras_utils [version/update/check]
 
 Changes log
 
+* **1.4.76** Current `sites()` shall get from **Procfile** instead from env **$SITES**
 * **1.4.75** Command `site db init` init env from **seeds**, and `site db preptest` does both envs.
 * **1.4.74** Correct `Error bad site` for `site` command.
 * **1.4.73** Correct `site db download` for **Rio Claro**.
@@ -169,5 +170,5 @@ Changes log
 
 Changes Required
 
-* **1.4.76** Management of `sidekiq` and `redis` services.
+* **1.4.77** Management of `sidekiq` and `redis` services.
 
