@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.76
+export OBRAS_UTILS_VERSION=1.4.77
 export OBRAS_UTILS_VERSION_DATE=2020.09.19
-export OBRAS_UTILS_UPDATE_MESSAGE="Current 'sites' shall get from Procfile instead from env SITES"
+export OBRAS_UTILS_UPDATE_MESSAGE="Services 'mailcatcher' and 'sidekiq' are now managed."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -554,12 +554,12 @@ __pr_db(){
   fi
   if [ "$(__has_database $db)" == 'yes' ]; then
     if [ $env == "dev" ]; then
-      ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
+      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
     else
-      ansi --no-newline "db_"$env": "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_TST' '; ansi --white $DB_RECORDS_TST
+      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_TST' '; ansi --white $DB_RECORDS_TST
     fi  
   else  
-    ansi --no-newline "db_"$env": "; ansi --red $db
+    ansi --no-newline "  "; ansi --red $db
   fi
 }
 
@@ -629,6 +629,308 @@ __docker(){
       docker-compose up -d $SITE
     fi
   fi  
+}
+
+__mailcatcher(){
+  local port=1080
+  local pid=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
+  case $1 in
+    pid)
+      echo $pid
+      ;;
+
+    port)
+      echo $port
+      ;;
+
+    running)
+      if [ -z $pid ];then
+        echo "n"
+      else
+        echo "y"
+      fi
+      ;;
+
+    start)
+      mailcatcher& 2>&1 > /dev/null
+      ;; 
+
+    stop)  
+      if [ -z $pid ];then
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Mailcatcher was already stopped"
+          ansi ""
+      else
+        kill -9 $pid 2>&1 > /dev/null
+      fi
+      ;;
+
+    status)
+      pid=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
+      if [ -z $pid ]; then
+        ansi --no-newline --green-intense "==> "; ansi --red "Mailcatcher is not running"
+        ansi ""
+      else
+        ansi --no-newline --green-intense "==> "; ansi --white-intense "Mailcatcher is started"
+        ansi ""
+      fi 
+      ;;
+    print)
+      if [ ! -z $pid ]; then
+        ansi --no-newline "  mailcatcher ";ansi --no-newline --underline  --green "http://localhost:$port";ansi " $pid"
+      fi  
+      ;;
+  esac
+}
+
+__sidekiq(){
+  local pid=""
+  local port=""
+  test -f "tmp/pids/${SITE}_sidekiq.pid" && pid=$(cat tmp/pids/${SITE}_sidekiq.pid)
+  case $1 in
+    pid)
+      echo $pid
+      ;;
+
+    running)
+      if [ -z $pid ];then
+        echo "n"
+      else
+        echo "y"
+      fi
+      ;;
+
+    start)
+      sidekiq --pidfile "tmp/pids/${SITE}_sidekiq.pid"
+      ;; 
+
+    stop)  
+      sidekiqctl stop "tmp/pids/${SITE}_sidekiq.pid"
+      ;;
+
+    status)
+      if [ -z $pid ]; then
+        ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is not running"
+        ansi ""
+      else
+        ansi --no-newline --green-intense "==> "; ansi --white-intense "Sidekiq is started"
+        ansi ""
+      fi 
+      ;;
+
+    print)
+      if [ ! -z $pid ]; then
+        port=$(__site port)
+        ansi --no-newline "  sidekiq     ";
+        ansi --no-newline --underline --green "http://localhost:$port/sidekiq";ansi " $pid"
+      fi  
+      ;;
+  esac
+}
+
+__services(){
+  case $1 in
+    running)
+      if [ "$(__mailcatcher running)" == "y" ]; then
+        echo "y"
+        return 0
+      fi   
+      if [ "$(__sidekiq running)" == "y" ]; then
+        echo "y"
+        return 0
+      fi  
+      echo "n"
+      return 1 
+      ;;
+
+    print)
+      if [ "$(__services running)" == "y" ]; then
+        ansi "services:"
+      else
+        ansi "services:"
+        ansi --no-newline --red "  sidekiq";ansi --no-newline ", "
+        ansi --red " mailcatcher";
+      fi   
+      __sidekiq print
+      __mailcatcher print
+      ;;
+  esac
+}
+
+__site(){
+  __siteport(){
+    case $SITE in
+        default)
+          echo 3000
+          ;;
+        olimpia)
+          echo 3002
+          ;;  
+        rioclaro)
+          echo 3003
+          ;;  
+        suzano)
+          echo 3004
+          ;;  
+        santoandre)
+          echo 3005
+          ;;  
+        demo)
+          echo 3013
+          ;;  
+    esac
+  }
+  local port=$(__siteport)
+  local pid=$(lsof -i :$port | grep -e ruby -e docke | awk {'print $2'} | uniq)
+  case $1 in
+    pid)
+      echo $pid
+      ;;
+
+    port)   
+      echo $port
+      ;;
+
+    running)
+      if [ -z $pid ];then
+        echo "n"
+      else
+        echo "y"
+      fi
+      ;;
+
+    start)
+      if [ -z "$DOCKER" ]; then
+        if [ -z "$2" ]; then
+          test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
+          foreman start $SITE
+        else  
+          BELONGS=$(__sites case)
+          case $2 in
+            $BELONGS)
+              test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
+              foreman start $2
+              ;;
+
+            all)
+              test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
+              foreman start all
+              ;;
+
+            *)
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+              __pr
+              return 1
+              ;;
+          esac
+        fi
+      else
+        if [ -z "$2" ]; then
+          docker-compose up -d db redis $SITE
+        else   
+          case $2 in
+            olimpia|rioclaro|suzano|santoandre|demo)
+              docker-compose up -d $2
+              ;;
+
+            all)
+              docker-compose up -d 
+              ;;
+
+            *)
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+              __pr
+              return 1
+              ;;
+          esac
+        fi
+      fi
+      ;;  
+
+    stop)  
+      if [ -z "$DOCKER" ]; then
+        if [ -z "$2" ]; then
+          kill -9 $(__pid $(__port $SITE))
+        else   
+          case $2 in
+            olimpia|rioclaro|suzano|santoandre|default)
+              kill -9 $(__pid $(__port $2))
+              ;;
+
+            all)
+            sites=(olimpia rioclaro suzano santoandre default)
+            for site in "${sites[@]}"
+            do
+              pid=$(__pid $(__port $site))
+              if [ ! -z $pid ]; then
+                kill -9 $pid
+              fi  
+            done
+            ;;
+
+            *)
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+              __pr
+              return 1
+              ;;
+          esac
+        fi
+      else
+        if [ -z "$2" ]; then
+          docker-compose rm -f -s -v $SITE
+        else   
+          case $2 in
+            olimpia|rioclaro|suzano|santoandre|demo)
+              docker-compose stop $2
+              ;;
+
+            all)
+              docker-compose down
+              unset DOCKER
+              ;;
+
+            *)
+              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+              __pr
+              return 1
+              ;;
+          esac
+        fi
+      fi
+      ;;
+
+    status)
+      if [ -z $pid ]; then
+        ansi --no-newline --green-intense "==> "; ansi --red "${SITE} is not running"
+        ansi ""
+      else
+        ansi --no-newline --green-intense "==> "; ansi --white-intense "${SITE} is started"
+        ansi ""
+      fi 
+      ;;
+
+    print)
+      ansi --white --no-newline "site : "
+      ansi --white-intense $SITE
+      ansi --white --no-newline "rvm  : ";ansi --cyan-intense $(rvm current)
+      if [ -z $pid ]; then
+        ansi --no-newline "rails: ";ansi --no-newline --underline --red "http://localhost:$port";ansi " $pid"
+      else  
+        ansi --no-newline "rails: ";ansi --no-newline --underline --green "http://localhost:$port";ansi " $pid"
+      fi  
+      ansi --no-newline "env  : "
+      if [ $RAILS_ENV == 'development' ]; then 
+        ansi --no-newline --green "development"
+      else
+        ansi --no-newline --red "development"
+      fi
+      ansi --no-newline ", "
+      if [ $RAILS_ENV == 'test' ]; then 
+        ansi --green "test"
+      else
+        ansi --red "test"
+      fi
+      ;;  
+  esac
 }
 
 db(){
@@ -704,16 +1006,16 @@ db(){
         *)
           IFS=$'\n'
           files_sql=(`ls api*.sql 2>/dev/null`)
-          echo -e "api_dumps:"
+          echo -e "backups:"
           if [ ! -z "$files_sql" ]; then
             IFS=$'\n'
             files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
             for file in ${files_sql[*]}
             do
-              __pr succ ' '$file
+              __pr succ '  '$file
             done
           else
-            __pr dang " no api dump files"
+            __pr dang "  no api backup files"
           fi
           unset IFS
           __pr
@@ -817,7 +1119,7 @@ db(){
     ls)
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      echo -e "db_dumps:"
+      echo -e "backups:"
       if [ ! -z "$files_sql" ]; then
         IFS=$'\n'
         files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
@@ -1545,16 +1847,16 @@ db(){
       __pr_db tst
       IFS=$'\n'
       files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      ansi --white "db_dumps:"
+      ansi --white "backups:"
       if [ ! -z "$files_sql" ]; then
         IFS=$'\n'
         files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
         for file in ${files_sql[*]}
         do
-          __pr succ ' '$file
+          __pr succ '  '$file
         done
       else
-        __pr dang " no dump files"
+        __pr dang "  no backup files"
       fi
       unset IFS
       __pr
@@ -1723,103 +2025,11 @@ site(){
       ;;
 
     start)
-      if [ -z "$DOCKER" ]; then
-        if [ -z "$2" ]; then
-          test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
-          foreman start $SITE
-        else  
-          BELONGS=$(__sites case)
-          case $2 in
-            $BELONGS)
-              test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
-              foreman start $2
-              ;;
-
-            all)
-              test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
-              foreman start all
-              ;;
-
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
-              __pr
-              return 1
-              ;;
-          esac
-        fi
-      else
-        if [ -z "$2" ]; then
-          docker-compose up -d db redis $SITE
-        else   
-          case $2 in
-            olimpia|rioclaro|suzano|santoandre|demo)
-              docker-compose up -d $2
-              ;;
-
-            all)
-              docker-compose up -d 
-              ;;
-
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
-              __pr
-              return 1
-              ;;
-          esac
-        fi
-      fi
+      __site start $2
       ;;  
 
     stop)
-      if [ -z "$DOCKER" ]; then
-        if [ -z "$2" ]; then
-          kill -9 $(__pid $(__port $SITE))
-        else   
-          case $2 in
-            olimpia|rioclaro|suzano|santoandre|default)
-              kill -9 $(__pid $(__port $2))
-              ;;
-
-            all)
-            sites=(olimpia rioclaro suzano santoandre default)
-            for site in "${sites[@]}"
-            do
-              pid=$(__pid $(__port $site))
-              if [ ! -z $pid ]; then
-                kill -9 $pid
-              fi  
-            done
-            ;;
-
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
-              __pr
-              return 1
-              ;;
-          esac
-        fi
-      else
-        if [ -z "$2" ]; then
-          docker-compose rm -f -s -v $SITE
-        else   
-          case $2 in
-            olimpia|rioclaro|suzano|santoandre|demo)
-              docker-compose stop $2
-              ;;
-
-            all)
-              docker-compose down
-              unset DOCKER
-              ;;
-
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
-              __pr
-              return 1
-              ;;
-          esac
-        fi
-      fi
+      __site stop $2
       ;;
 
     console)
@@ -1839,20 +2049,43 @@ site(){
     mailcatcher) 
       case $2 in
         start)
-          mailcatcher& 2>&1 > /dev/null
+          __mailcatcher start
           ;;
 
         stop)
-          running=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
-          kill -9 $running 2>&1 > /dev/null
+          __mailcatcher stop
           ;;
 
         status)
-          lsof -i :1080
+          __mailcatcher status
           ;;  
 
         *)
-          ansi --no-newline "mailcatcher : ";__url "1080"
+          if [ $(__mailcatcher running) == "y" ]; then
+            ansi --no-newline "mail catcher: ";__url "1080"
+          fi  
+          ;;
+      esac    
+      ;;
+
+    sidekiq) 
+      case $2 in
+        start)
+          __sidekiq start
+          ;;
+
+        stop)
+          __sidekiq stop
+          ;;
+
+        status)
+          __sidekiq status
+          ;;  
+
+        *)
+          if [ $(__sidekiq running) == "y" ]; then
+            ansi --no-newline "sidekiq: ";
+          fi  
           ;;
       esac    
       ;;
@@ -1902,26 +2135,27 @@ site(){
     *)
       __docker
       __update_db_stats_site
-      __pr_site
-      ansi --white --no-newline "rvm : ";ansi --cyan-intense $(rvm current)
-      ansi --no-newline "env : "
-      if [ $RAILS_ENV == 'development' ]; then 
-        ansi --no-newline --green "development"
+
+      __site print
+      __services print
+
+      ansi "flags: "
+      if [ -z "$COVERAGE" ]; then
+        ansi --no-newline --red "  coverage";ansi --no-newline ", "
       else
-        ansi --no-newline --red "development"
+        ansi --no-newline --green "  coverage";ansi --no-newline ", "
       fi
-      ansi --no-newline ", "
-      if [ $RAILS_ENV == 'test' ]; then 
-        ansi --green "test"
+      if [ -z "$HEADLESS" ]; then
+        ansi --no-newline --red "headless";ansi --no-newline ", "
       else
-        ansi --red "test"
+        ansi --no-newline --green "headless";ansi --no-newline ", "
       fi
-      ansi --no-newline "rails server: ";__url $(__port $SITE)
-      site mailcatcher
-      ansi --no-newline "flags : "
-      __wr_env "coverage" $COVERAGE 
-      __wr_env "headless" $HEADLESS
-      __pr_env  "docker" $DOCKER
+      if [ -z "$DOCKER" ]; then
+        ansi --red "docker"
+      else
+        ansi --green "docker"
+      fi
+      ansi "databases:"
       db
       ;;
   esac

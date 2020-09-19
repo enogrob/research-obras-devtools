@@ -170,5 +170,6 @@ Changes log
 
 Changes Required
 
-* **1.4.77** Management of `sidekiq` and `redis` services.
+* **1.4.77** Services `mailcatcher` and `sidekiq` are now managed.
+* **1.4.78** Management of `sidekiq` and `redis` services.
 
