@@ -219,6 +219,34 @@ case $1 in
         sudo apt-get install cowsay
       fi
     fi
+
+    if ! test -f /usr/local/bin/pipx; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"pip\" \033[0m"
+      echo ""
+      if [ "$OS" == 'Darwin' ]; then
+        brew install pipx
+        pipx ensurepath
+      else  
+        sudo apt-get install pipx
+        pipx ensurepath
+      fi
+    fi
+
+    if ! test -f $HOME/.local/bin/iredis; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"iredis\" \033[0m"
+      echo ""
+        pipx install iredis
+    fi
+
+    if ! test -f /usr/local/bin/ngrok; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"ngrok\" \033[0m"
+      echo ""
+      if [ "$OS" == 'Darwin' ]; then
+        brew cask install ngrok
+      else  
+        sudo snap install ngrok
+      fi
+    fi
     ;;
 
   vscode)

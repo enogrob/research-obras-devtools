@@ -123,25 +123,34 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.78
+Obras Utils 1.4.79
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
-site [mysql/redis/mailcatcher/sidekiq start/stop/restart/status || ngrok]
+site [mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]
 site [db/mysql/redis conn/connect]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.78
+Obras Utils 1.4.79
 ::
 db [set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db [ls || backups || download [filenumber] || import [dbfile] || update [all]]
 db [tables || databases || socket]
 db [api [dump/export || import]]
 
+$ site services --help
+Crafted (c) 2013~2020 by InMov - Intelligence in Movement
+Obras Utils 1.4.79
+::
+services [start/stop/restart/status mysql/ngrok|redis/sidekiq/mailcatcher || all]
+services [conn/connect mysql/db/redis
+
+obs: redis and mysql are not involved when all is specified
+
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.78
+Obras Utils 1.4.79
 ::
 obras_utils [version/update/check]
 ```
@@ -150,6 +159,7 @@ obras_utils [version/update/check]
 
 Changes log
 
+* **1.4.79** Improve the 'services' management. 
 * **1.4.78** Services `redis` and `mysql` are now managed.
 * **1.4.77** Services `mailcatcher` and `sidekiq` are now managed.
 * **1.4.76** Current `sites()` shall get from **Procfile** instead from env **$SITES**
@@ -173,5 +183,6 @@ Changes log
 
 Changes Required
 
-* **1.4.79** Review `Docker` for the latest changes.
+* **1.4.80** Improve the **redis cli** with **iredis**. 
+* **1.4.81** Review `Docker` for the latest changes.
 

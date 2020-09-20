@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.78
+export OBRAS_UTILS_VERSION=1.4.79
 export OBRAS_UTILS_VERSION_DATE=2020.09.20
-export OBRAS_UTILS_UPDATE_MESSAGE="Services 'redis' and 'mysql' are now managed."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve the 'services' management."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -833,7 +833,11 @@ __sidekiq(){
 
     start)
       if [ -z $pid ]; then
-        sidekiq --pidfile "tmp/pids/sidekiq.pid"
+        if [ -z $2 ];then
+          sidekiq --pidfile "tmp/pids/sidekiq.pid"
+        else
+          sidekiq --pidfile "tmp/pids/sidekiq.pid" &
+        fi  
       else
         ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is started already"
         ansi ""
@@ -883,6 +887,95 @@ __sidekiq(){
           ansi --red "sidekiq";
         else  
           ansi --no-newline --red "sidekiq";
+        fi  
+      fi
+      ;;
+  esac
+}
+
+__ngrok(){
+  local action=$1
+  if [ -z $DOCKER ]; then
+    local port="4040"
+  else
+    local port="40400"
+  fi  
+  local pid=$(lsof -i :$port | grep -e grok | awk {'print $2'} | uniq)
+  case $action in
+    pid)
+      echo $pid
+      ;;
+
+    is_running)
+      if [ -z $pid ];then
+        echo "n"
+      else
+        echo "y"
+      fi
+      ;;
+
+    start)
+      local rails_port=$(__rails port)
+      if [ -z $DOCKER ]; then
+        if [ -z $pid ]; then 
+          if [ "$(__rails is_running)" == "y" ]; then
+            if [ -z $2 ];then
+              ngrok http $rails_port 
+            else
+              ngrok http $rails_port &
+            fi
+          else  
+            ansi --no-newline --green-intense "==> "; ansi --red "NGrok requires ${SITE} running"
+            ansi ""
+          fi  
+        else
+          ansi --no-newline --green-intense "==> "; ansi --red "NGrok is started already"
+          ansi ""
+        fi 
+      fi
+      ;; 
+
+    stop)  
+      if [ -z $pid ];then
+        ansi --no-newline --green-intense "==> "; ansi --red "NGrok is stopped already"
+        ansi ""
+      else
+        kill -9 $pid 2>&1 > /dev/null
+      fi
+      ;;
+
+    restart)
+      __ngrok stop
+      __ngrok start
+      ;;
+
+    status)
+      if [ -z $pid ]; then
+        ansi --no-newline --green-intense "==> "; ansi --red "NGrok is not running"
+        ansi ""
+      else
+        ansi --no-newline --green-intense "==> "; ansi --white-intense "NGrok is started"
+        ansi ""
+      fi 
+      ;;
+
+    print_up)
+      local major=$2
+      local service_name
+      if [ ! -z $pid ]; then
+        service_name=$(printf "%-${major}s" "ngrok")
+        ansi --no-newline "  ${service_name} ";
+        ansi --no-newline --underline --green "http://localhost:$port";ansi " $pid"
+      fi  
+      ;;
+
+    print_down) 
+      local last=$2
+      if [ -z $pid ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "ngrok";
+        else  
+          ansi --no-newline --red "ngrok";
         fi  
       fi
       ;;
@@ -1016,7 +1109,11 @@ __rails(){
             case $2 in
               $BELONGS)
                 test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
-                foreman start $2
+                if [ -z "$3" ]; then
+                  foreman start $2
+                else  
+                  foreman start $2 &
+                fi
                 ;;
 
               all)
@@ -1173,9 +1270,96 @@ __rails(){
 
 __services(){
   local action=$1
-  local next_services=($2)
-  local services=(rails mysql redis sidekiq mailcatcher)
+  local services=(rails mysql redis sidekiq mailcatcher ngrok)
   case $action in
+    help|h|--help|-h)
+      ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
+      ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+      ansi --white "::"
+      __pr info "services " "[start/stop/restart/status mysql/ngrok|redis/sidekiq/mailcatcher || all]"
+      __pr info "services " "[conn/connect mysql/db/redis]"
+      __pr 
+      __pr info "obs: " "redis and mysql are not involved when all is specified"
+      __pr 
+      ;;
+
+    start)
+      case $2 in
+        rails|mysql|ngrok|redis|sidekiq|mailcatcher)
+          __$s start
+          ;;
+        all)
+          unset services[1]
+          unset services[2]
+          unset services[5]
+          echo ${services[@]}
+          for s in ${services[@]}
+          do
+            if [ "$(__$s is_running)" == "n" ]; then
+              case $s in
+                rails)
+                  __$s start $SITE bg
+                  ;;
+                mailcatcher)
+                  __$s start  
+                  ;;
+                *)
+                  __$s start bg
+                  ;;  
+              esac
+            fi
+          done
+          ;;
+      esac; 
+      ;;   
+
+    stop)
+      case $2 in
+        rails|mysql|ngrok|redis|sidekiq|mailcatcher)
+          __$s stop
+         ;;
+        
+        all)
+          unset services[1]
+          unset services[2]
+          unset services[5]
+          for s in ${services[@]}
+          do
+            if [ "$(__$s is_running)" == "y" ]; then
+              __$s stop
+            fi
+          done
+          ;;
+        *)
+          __services print
+          ;;  
+      esac; 
+      ;;   
+
+    restart)
+      case $2 in
+        rails|mysql|ngrok|redis|sidekiq|mailcatcher)
+          __$s restart
+         ;;
+        
+        all)
+          unset services[1]
+          unset services[2]
+          for s in ${services[@]}
+          do
+              __$s restart
+          done
+          ;;
+        *)
+          __services print
+          ;;  
+      esac; 
+      ;;   
+
+    status)
+      __services print
+      ;;
+
     any_running)
       local result="n"
       for s in ${services[@]}
@@ -1200,18 +1384,6 @@ __services(){
       done
       echo $result
       ;;
-
-    any_next_running)
-      local result="n"
-      for s in ${next_services[@]}
-      do
-        if [ "$(__$s is_running)" == "y" ]; then
-          result="y"
-          break 
-        fi
-      done
-      echo $result
-      ;;  
 
     print_ups)
       local service_name_lens=()
@@ -2153,7 +2325,7 @@ site(){
       ansi --white "::"
       __pr info "site " "[sitename || flags || set/unset flag|| env development/test]"
       __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
-      __pr info "site " "[mysql/redis/mailcatcher/sidekiq start/stop/restart/status || ngrok]"
+      __pr info "site " "[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]"
       __pr info "site " "[db/mysql/redis conn/connect]"
       __pr 
       ;;
@@ -2325,7 +2497,7 @@ site(){
       foreman check  
       ;;
 
-    mysql|redis|sidekiq|mailcatcher)
+    ngrok|mysql|redis|sidekiq|mailcatcher)
       case $2 in
         start)
           __$1 start
@@ -2375,11 +2547,6 @@ site(){
       esac    
       ;;
 
-    ngrok) 
-      port=$(cat Procfile | grep -i $SITE | awk '{print $7}')
-      ngrok http $port 
-      ;;
-
     flags) 
      ansi --no-newline "flags : "
       __wr_env "coverage" $COVERAGE 
@@ -2391,6 +2558,10 @@ site(){
     db)
       shift
       db $*
+      ;;  
+    services)
+      shift
+      __services $*
       ;;  
 
     test)
