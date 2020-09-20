@@ -18,7 +18,7 @@ This in order to improve the Obras Development Process, developing utilities and
 * Live **db, servers, testing** information
 * **Progress bars** and **spinners** for long tasks duration
 * Supports for OSX and Linux
-* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman) and [**mycli**](https://github.com/dbcli/mycli)
+* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman), [**mycli**](https://github.com/dbcli/mycli) ans [**iredis**](https://iredis.io/)
 * Extends use of [**chromeapps-for-eicon**](https://github.com/enogrob/chromeapps-eicon)
 * Configurations support for [**Rubymine**](https://www.jetbrains.com/ruby/) and [**Vscode**](https://code.visualstudio.com/)
 
@@ -123,24 +123,25 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.77
+Obras Utils 1.4.78
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
-site [ngrok || mailcatcher/sidekiq start/stop/status]
+site [mysql/redis/mailcatcher/sidekiq start/stop/restart/status || ngrok]
+site [db/mysql/redis conn/connect]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.77
+Obras Utils 1.4.78
 ::
 db [set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
-db [backups || download [filenumber] || import [dbfile] || update [all]]
-db [status || start || stop || restart || tables || databases || socket || connect]
+db [ls || backups || download [filenumber] || import [dbfile] || update [all]]
+db [tables || databases || socket]
 db [api [dump/export || import]]
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.77
+Obras Utils 1.4.78
 ::
 obras_utils [version/update/check]
 ```
@@ -149,6 +150,7 @@ obras_utils [version/update/check]
 
 Changes log
 
+* **1.4.78** Services `redis` and `mysql` are now managed.
 * **1.4.77** Services `mailcatcher` and `sidekiq` are now managed.
 * **1.4.76** Current `sites()` shall get from **Procfile** instead from env **$SITES**
 * **1.4.75** Command `site db init` init env from **seeds**, and `site db preptest` does both envs.
@@ -171,5 +173,5 @@ Changes log
 
 Changes Required
 
-* **1.4.78** Services `redis` and `db` are now managed.
+* **1.4.79** Review `Docker` for the latest changes.
 

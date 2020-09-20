@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.77
-export OBRAS_UTILS_VERSION_DATE=2020.09.19
-export OBRAS_UTILS_UPDATE_MESSAGE="Services 'mailcatcher' and 'sidekiq' are now managed."
+export OBRAS_UTILS_VERSION=1.4.78
+export OBRAS_UTILS_VERSION_DATE=2020.09.20
+export OBRAS_UTILS_UPDATE_MESSAGE="Services 'redis' and 'mysql' are now managed."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -275,11 +275,6 @@ __pr_env(){
     ansi --green $name
   fi
 }   
-
-__pr_site(){
-  ansi --white --no-newline "site: "
-  ansi --white-intense $SITE
-}
 
 __db(){
   if [ -z $1 ]; then
@@ -669,6 +664,11 @@ __mailcatcher(){
       fi
       ;;
 
+    restart)
+      __mailcatcher stop
+      __mailcatcher start
+      ;;
+
     status)
       pid=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
       if [ -z $pid ]; then
@@ -681,8 +681,12 @@ __mailcatcher(){
       ;;
 
     print_up)
+      local major=$2
+      local service_name
       if [ ! -z $pid ]; then
-        ansi --no-newline "  mailcatcher ";ansi --no-newline --underline  --green "http://localhost:$port";ansi " $pid"
+        service_name=$(printf "%-${major}s" "mailcatcher")
+        ansi --no-newline "  ${service_name} ";
+        ansi --no-newline --underline  --green "http://localhost:$port";ansi " $pid"
       fi  
       ;;
 
@@ -693,6 +697,117 @@ __mailcatcher(){
           ansi --red "mailcatcher";
         else  
           ansi --no-newline --red "mailcatcher";
+        fi  
+      fi
+      ;;
+  esac
+}
+
+__mysql(){
+  local action=$1
+  if [ -z $DOCKER ]; then
+    local port="3306"
+  else
+    local port="33060"
+  fi  
+  local pid=$(lsof -i :$port | grep -e mysql | awk {'print $2'} | uniq)
+  case $action in
+    pid)
+      echo $pid
+      ;;
+
+    is_running)
+      if [ -z $pid ];then
+        echo "n"
+      else
+        echo "y"
+      fi
+      ;;
+
+    start)
+      if [ -z $DOCKER ]; then
+        if [ -z $pid ]; then
+          if [ $OS == 'Darwin' ]; then
+            brew services start mysql@5.7
+          else
+            sudo service start mysql
+          fi
+        else
+          ansi --no-newline --green-intense "==> "; ansi --red "Mysql is started already"
+          ansi ""
+        fi   
+      else  
+        docker-compose up -d db
+      fi
+      ;; 
+
+    stop)  
+      if [ -z $DOCKER ]; then
+        if [ ! -z $pid ]; then
+          if [ $OS == 'Darwin' ]; then
+            brew services stop mysql@5.7
+          else
+            sudo service stop db
+          fi
+        else
+          ansi --no-newline --green-intense "==> "; ansi --red "Mysql is stopped already"
+          ansi ""
+        fi   
+      else  
+        docker-compose stop db
+      fi
+      ;;
+
+    restart)
+      if [ -z "$DOCKER" ]; then
+        if [ $OS == 'Darwin' ]; then
+          FILE=$HOME/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
+          if test -f "$FILE"; then
+            launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
+            rm ~/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
+            brew services start mysql@5.7
+          else
+            brew services stop mysql@5.7
+            brew services start mysql@5.7
+          fi
+          brew services list
+        else
+          sudo service mysql restart
+        fi
+      else
+        docker-compose restart db
+      fi
+      ;;
+
+    status)
+      if [ -z $DOCKER ]; then
+       if [ $OS == 'Darwin' ]; then
+         brew services 
+       else
+         service mysql status
+       fi
+      else  
+        docker-compose ps db
+      fi
+      ;;
+
+    print_up)
+      local major=$2
+      local service_name
+      if [ ! -z $pid ]; then
+        service_name=$(printf "%-${major}s" "mysql")
+        ansi --no-newline "  ${service_name} ";
+        ansi --no-newline --underline --green "localhost:$port";ansi " $pid"
+      fi  
+      ;;
+
+    print_down) 
+      local last=$2
+      if [ -z $pid ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "mysql";
+        else  
+          ansi --no-newline --red "mysql";
         fi  
       fi
       ;;
@@ -735,6 +850,11 @@ __sidekiq(){
       fi
       ;;
 
+    restart)
+      __sidekiq stop
+      __sidekiq start
+      ;;
+
     status)
       if [ -z $pid ]; then
         ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is not running"
@@ -746,9 +866,12 @@ __sidekiq(){
       ;;
 
     print_up)
+      local major=$2
+      local service_name
       if [ ! -z $pid ]; then
-        port=$(__site port)
-        ansi --no-newline "  sidekiq     ";
+        service_name=$(printf "%-${major}s" "sidekiq")
+        ansi --no-newline "  ${service_name} ";
+        port=$(__rails port)
         ansi --no-newline --underline --green "http://localhost:$port/sidekiq";ansi " $pid"
       fi  
       ;;
@@ -766,113 +889,106 @@ __sidekiq(){
   esac
 }
 
-__services(){
+__redis(){
   local action=$1
-  local next_services=($2)
-  local services=(site sidekiq mailcatcher)
+  if [ -z $DOCKER ]; then
+    local port="6379"
+  else
+    local port="63790"
+  fi  
+  local pid=$(lsof -i :$port | grep -e redis | awk {'print $2'} | uniq)
   case $action in
-    any_running)
-      local result="n"
-      for s in ${services[@]}
-      do
-        # result=$(__$s is_running)
-        if [ "$(__$s is_running)" == "y" ]; then
-          result="y"
-          break
-        fi
-      done
-      echo $result
+    pid)
+      echo $pid
       ;;
 
-    any_not_running)
-      local result="n"
-      for s in ${services[@]}
-      do
-        if [ "$(__$s is_running)" == "n" ]; then
-          result="y"
-          break
-        fi
-      done
-      echo $result
+    is_running)
+      if [ -z $pid ];then
+        echo "n"
+      else
+        echo "y"
+      fi
       ;;
 
-    any_next_running)
-      local result="n"
-      for s in ${next_services[@]}
-      do
-        if [ "$(__$s is_running)" == "y" ]; then
-          result="y"
-          break 
-        fi
-      done
-      echo $result
-      ;;  
-
-    print_ups)
-      for s in ${services[@]}
-      do
-        if [ "$(__$s is_running)" == "y" ]; then
-          __$s print_up
-        fi
-      done
-      ;;
-
-    print_downs)
-      local services_not_running
-      for s in ${services[@]}
-      do
-        if [ "$(__$s is_running)" == "n" ]; then
-          services_not_running+=($s)
-        fi
-      done
-      if [ "$(__services any_not_running)" == "y" ]; then
-        ansi --no-newline "  "
-        for s in ${services_not_running[@]}
-        do
-          if [ "$s" == "${services_not_running[${#services_not_running[@]}-1]}" ]; then
-            __$s print_down true
-          else  
-            __$s print_down
-            ansi --no-newline ", "
+    start)
+      if [ -z $DOCKER ]; then
+        if [ -z $pid ]; then
+          if [ $OS == 'Darwin' ]; then
+            brew services start redis
+          else
+            sudo service start redis
           fi
-        done
+        else
+          ansi --no-newline --green-intense "==> "; ansi --red "Redis is started already"
+          ansi ""
+        fi   
+      else  
+        docker-compose up -d redis
+      fi
+      ;; 
+
+    stop)  
+      if [ -z $DOCKER ]; then
+        if [ ! -z $pid ]; then
+          if [ $OS == 'Darwin' ]; then
+            brew services stop redis
+          else
+            sudo service stop redis
+          fi
+        else
+          ansi --no-newline --green-intense "==> "; ansi --red "Redis is stopped already"
+          ansi ""
+        fi   
+      else  
+        docker-compose stop redis
+      fi
+      ;;
+
+    restart)
+      __redis stop
+      __redis start
+      ;;
+
+    status)
+      if [ -z $DOCKER ]; then
+       if [ $OS == 'Darwin' ]; then
+         brew services 
+       else
+         service redis status
+       fi
+      else  
+        docker-compose ps redis
+      fi
+      ;;
+
+    print_up)
+      local major=$2
+      local service_name
+      if [ ! -z $pid ]; then
+        service_name=$(printf "%-${major}s" "redis")
+        ansi --no-newline "  ${service_name} ";
+        ansi --no-newline --underline --green "localhost:$port";ansi " $pid"
       fi  
       ;;
 
-    print)
-      ansi "services:"
-      __services print_ups
-      __services print_downs
-      ;;   
+    print_down) 
+      local last=$2
+      if [ -z $pid ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "redis";
+        else  
+          ansi --no-newline --red "redis";
+        fi  
+      fi
+      ;;
   esac
 }
 
-__site(){
-  __siteport(){
-    case $SITE in
-        default)
-          echo 3000
-          ;;
-        olimpia)
-          echo 3002
-          ;;  
-        rioclaro)
-          echo 3003
-          ;;  
-        suzano)
-          echo 3004
-          ;;  
-        santoandre)
-          echo 3005
-          ;;  
-        demo)
-          echo 3013
-          ;;  
-    esac
-  }
-  local port=$(__siteport)
+__rails(){
+  local action=$1
+  local port=$(cat Procfile | grep -i $SITE | awk '{print $7}')
   local pid=$(lsof -i :$port | grep -e ruby -e docke | awk {'print $2'} | uniq)
-  case $1 in
+  case $action in
     pid)
       echo $pid
       ;;
@@ -999,6 +1115,11 @@ __site(){
       fi
       ;;
 
+    restart)
+      __rails stop
+      __rails start
+      ;;
+
     status)
       if [ -z $pid ]; then
         ansi --no-newline --green-intense "==> "; ansi --red "${SITE} is not running"
@@ -1011,8 +1132,8 @@ __site(){
 
     print)
       ansi --white --no-newline "site : "
-      ansi --white-intense $SITE
-      ansi --white --no-newline "rvm  : ";ansi --cyan-intense $(rvm current)
+      ansi --no-newline --white-intense --underline $SITE
+      ansi --white --no-newline " ";ansi --cyan-intense $(rvm current)
       ansi --no-newline "env  : "
       if [ $RAILS_ENV == 'development' ]; then 
         ansi --no-newline --green "development"
@@ -1025,13 +1146,18 @@ __site(){
       else
         ansi --red "test"
       fi
-      ;;  
+      ;; 
+
     print_up)
+      local major=$2
+      local service_name
       if [ ! -z $pid ]; then
-        ansi --no-newline "  rails       ";
-        ansi --no-newline --underline --green "http://localhost:$port";ansi " $pid"
+        service_name=$(printf "%-${major}s" "rails")
+        ansi --no-newline "  ${service_name} ";
+        ansi --no-newline --underline --green-intense "http://localhost:$port";ansi " $pid"
       fi  
       ;;
+
     print_down) 
       local last=$2
       if [ -z $pid ]; then
@@ -1045,6 +1171,98 @@ __site(){
   esac
 }
 
+__services(){
+  local action=$1
+  local next_services=($2)
+  local services=(rails mysql redis sidekiq mailcatcher)
+  case $action in
+    any_running)
+      local result="n"
+      for s in ${services[@]}
+      do
+        # result=$(__$s is_running)
+        if [ "$(__$s is_running)" == "y" ]; then
+          result="y"
+          break
+        fi
+      done
+      echo $result
+      ;;
+
+    any_not_running)
+      local result="n"
+      for s in ${services[@]}
+      do
+        if [ "$(__$s is_running)" == "n" ]; then
+          result="y"
+          break
+        fi
+      done
+      echo $result
+      ;;
+
+    any_next_running)
+      local result="n"
+      for s in ${next_services[@]}
+      do
+        if [ "$(__$s is_running)" == "y" ]; then
+          result="y"
+          break 
+        fi
+      done
+      echo $result
+      ;;  
+
+    print_ups)
+      local service_name_lens=()
+      local major
+      for s in ${services[@]}
+      do
+        if [ "$(__$s is_running)" == "y" ]; then
+          service_name_lens+=(${#s})
+        fi
+      done
+      IFS=$'\n'
+      major=$(echo "${service_name_lens[*]}" | sort -nr | head -n1)
+      unset IFS
+      for s in ${services[@]}
+      do
+        if [ "$(__$s is_running)" == "y" ]; then
+          __$s print_up $major
+        fi
+      done
+      ;;
+
+    print_downs)
+      local services_not_running
+      for s in ${services[@]}
+      do
+        if [ "$(__$s is_running)" == "n" ]; then
+          services_not_running+=($s)
+        fi
+      done
+      if [ "$(__services any_not_running)" == "y" ]; then
+        ansi --no-newline "  "
+        for s in ${services_not_running[@]}
+        do
+          if [ "$s" == "${services_not_running[${#services_not_running[@]}-1]}" ]; then
+            __$s print_down true
+          else  
+            __$s print_down
+            ansi --no-newline ", "
+          fi
+        done
+      fi  
+      ;;
+
+    print)
+      ansi "services:"
+      __services print_ups
+      __services print_downs
+      ;;   
+  esac
+}
+
 db(){
   __is_obras
   if [ $? -eq 0 ]; then
@@ -1055,7 +1273,7 @@ db(){
       ansi --white "::"
       __pr info "db " "[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]"
       __pr info "db " "[backups || download [filenumber] || import [dbfile] || update [all]]"
-      __pr info "db " "[status || start || stop || restart || tables || databases || socket || connect]"
+      __pr info "db " "[tables || databases || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
       __pr 
       ;; 
@@ -1228,23 +1446,6 @@ db(){
       site env development
       ;;
 
-    ls)
-      IFS=$'\n'
-      files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      echo -e "backups:"
-      if [ ! -z "$files_sql" ]; then
-        IFS=$'\n'
-        files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-        for file in ${files_sql[*]}
-        do
-          __pr succ ' '$file
-        done
-      else
-        __pr dang " no dump files"
-      fi
-      unset IFS
-      __pr
-      ;;
 
     drop)
       case $# in
@@ -1773,30 +1974,49 @@ db(){
       esac     
       ;;
 
+    ls)
+      IFS=$'\n'
+      files_sql=(`ls *$SITE.sql 2>/dev/null`)
+      echo -e "backups:"
+      if [ ! -z "$files_sql" ]; then
+        IFS=$'\n'
+        files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+        for file in ${files_sql[*]}
+        do
+          __pr succ '  '$file
+        done
+      else
+        __pr dang "  no backup files"
+      fi
+      unset IFS
+      __pr
+      ;; 
+
     backups)
       case $SITE in 
         olimpia)
           echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
           ;;
-
+    
         rioclaro)
           echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
           ;;
-
+    
         suzano)  
           echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
           ;;
-
+    
         santoandre)  
           echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
           ;;
-
+    
         demo)
           echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
           ;;
-
+    
+    
         *)
-          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$SITE
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "${SITE} does not have backups"
           __pr
           return 1
           ;;
@@ -1832,50 +2052,8 @@ db(){
       esac
       ;;
 
-    start)
-      if [ -z "$DOCKER" ]; then
-        if [ $OS == 'Darwin' ]; then
-          brew services start mysql@5.7
-        else
-          sudo service mysql start
-        fi
-      else
-        docker-compose up -d db
-      fi
-      ;;
 
-    stop)
-      if [ -z "$DOCKER" ]; then
-        if [ $OS == 'Darwin' ]; then
-          brew services stop mysql@5.7
-        else
-          sudo service mysql stop
-        fi
-      else
-        docker-compose stop db
-      fi
-      ;;
 
-    restart)
-      if [ -z "$DOCKER" ]; then
-        if [ $OS == 'Darwin' ]; then
-          FILE=$HOME/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
-          if test -f "$FILE"; then
-            launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
-            rm ~/Library/LaunchAgents/homebrew.mxcl.mysql@5.7.plist
-            brew services start mysql@5.7
-          else
-            brew services stop mysql@5.7
-            brew services start mysql@5.7
-          fi
-          brew services list
-        else
-          sudo service mysql restart
-        fi
-      else
-        docker-compose restart db
-      fi
-      ;;
 
     set)
       case $2 in
@@ -1899,18 +2077,6 @@ db(){
       esac
       ;;
 
-    status)
-      if [ -z "$DOCKER" ]; then
-        if [ $OS == 'Darwin' ]; then
-          brew services list
-        else  
-          service mysql status
-        fi
-      else
-        docker-compose ps db
-      fi
-      ;;
-
     socket)
       if [ -z "$DOCKER" ]; then
         mysql_config --socket
@@ -1921,7 +2087,7 @@ db(){
       fi
       ;; 
 
-    connect)
+    connect/conn)
       db=$(__db)
       if [ "$(__has_database $db)" == 'yes' ]; then
         if [ -z "$DOCKER" ]; then
@@ -1987,7 +2153,8 @@ site(){
       ansi --white "::"
       __pr info "site " "[sitename || flags || set/unset flag|| env development/test]"
       __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
-      __pr info "site " "[ngrok || mailcatcher start/stop]"
+      __pr info "site " "[mysql/redis/mailcatcher/sidekiq start/stop/restart/status || ngrok]"
+      __pr info "site " "[db/mysql/redis conn/connect]"
       __pr 
       ;;
 
@@ -2137,11 +2304,11 @@ site(){
       ;;
 
     start)
-      __site start $2
+      __rails start $2
       ;;  
 
     stop)
-      __site stop $2
+      __rails stop $2
       ;;
 
     console)
@@ -2158,47 +2325,53 @@ site(){
       foreman check  
       ;;
 
-    mailcatcher) 
+    mysql|redis|sidekiq|mailcatcher)
       case $2 in
         start)
-          __mailcatcher start
+          __$1 start
           ;;
 
         stop)
-          __mailcatcher stop
+          __$1 stop
           ;;
 
         status)
-          __mailcatcher status
-          ;;  
+          __$1 status
+          ;; 
 
-        *)
-          if [ $(__mailcatcher running) == "y" ]; then
-            ansi --no-newline "mail catcher: ";__url "1080"
-          fi  
-          ;;
-      esac    
-      ;;
+        connect/conn)
+          case $1 in
+            mysql)
+              db=$(__db)
+              if [ "$(__has_database $db)" == 'yes' ]; then
+                if [ -z "$DOCKER" ]; then
+                  mycli -uroot $db
+                else
+                  mycli -proot db://root@localhost:33060/$db
+                fi 
+              else   
+                ansi --red-intense --no-newline $db;ansi --red " does not exist"
+                ansi ""
+              fi
+              ;;
+            redis)
+              if [ "$(__has_database $db)" == 'yes' ]; then
+                if [ -z "$DOCKER" ]; then
+                  iredis -d redis://localhost:6379/4
+                else
+                  iredis -d redis://localhost:63790/4
+                fi 
+              else   
+                ansi --red-intense --no-newline $db;ansi --red " does not exist"
+                ansi ""
+              fi
+              ;;
+          esac 
+          ;;      
 
-    sidekiq) 
-      case $2 in
-        start)
-          __sidekiq start
-          ;;
-
-        stop)
-          __sidekiq stop
-          ;;
-
-        status)
-          __sidekiq status
-          ;;  
-
-        *)
-          if [ $(__sidekiq running) == "y" ]; then
-            ansi --no-newline "sidekiq: ";
-          fi  
-          ;;
+          *)
+            __$1 status
+            ;;
       esac    
       ;;
 
@@ -2248,11 +2421,11 @@ site(){
       __docker
       __update_db_stats_site
 
-      __site print
+      __rails print
 
-      ansi "flags: "
+      ansi --no-newline "flags: "
       if [ -z "$COVERAGE" ]; then
-        ansi --no-newline --red "  coverage";ansi --no-newline ", "
+        ansi --no-newline --red "coverage";ansi --no-newline ", "
       else
         ansi --no-newline --green "  coverage";ansi --no-newline ", "
       fi
