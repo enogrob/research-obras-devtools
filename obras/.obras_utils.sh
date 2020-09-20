@@ -652,13 +652,18 @@ __mailcatcher(){
       ;;
 
     start)
-      mailcatcher& 2>&1 > /dev/null
+      if [ -z $pid ];then
+        mailcatcher& 2>&1 > /dev/null
+      else
+        ansi --no-newline --green-intense "==> "; ansi --red "Mailcatcher is started already"
+        ansi ""
+      fi
       ;; 
 
     stop)  
       if [ -z $pid ];then
-          ansi --no-newline --green-intense "==> "; ansi --white-intense "Mailcatcher was already stopped"
-          ansi ""
+        ansi --no-newline --green-intense "==> "; ansi --red "Mailcatcher is stopped already"
+        ansi ""
       else
         kill -9 $pid 2>&1 > /dev/null
       fi
@@ -697,7 +702,7 @@ __mailcatcher(){
 __sidekiq(){
   local pid=""
   local port=""
-  test -f "tmp/pids/${SITE}_sidekiq.pid" && pid=$(cat tmp/pids/${SITE}_sidekiq.pid)
+  test -f "tmp/pids/sidekiq.pid" && pid=$(cat tmp/pids/sidekiq.pid)
   case $1 in
     pid)
       echo $pid
@@ -712,11 +717,22 @@ __sidekiq(){
       ;;
 
     start)
-      sidekiq --pidfile "tmp/pids/${SITE}_sidekiq.pid"
+      if [ -z $pid ]; then
+        sidekiq --pidfile "tmp/pids/sidekiq.pid"
+      else
+        ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is started already"
+        ansi ""
+      fi   
       ;; 
 
     stop)  
-      sidekiqctl stop "tmp/pids/${SITE}_sidekiq.pid"
+      if [ ! -z $pid ]; then
+        sidekiqctl stop "tmp/pids/sidekiq.pid"
+        test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
+      else  
+        ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is stopped already"
+        ansi ""
+      fi
       ;;
 
     status)
@@ -874,102 +890,112 @@ __site(){
       ;;
 
     start)
-      if [ -z "$DOCKER" ]; then
-        if [ -z "$2" ]; then
-          test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
-          foreman start $SITE
-        else  
-          BELONGS=$(__sites case)
-          case $2 in
-            $BELONGS)
-              test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
-              foreman start $2
-              ;;
+      if [ -z $pid ]; then
+        if [ -z "$DOCKER" ]; then
+          if [ -z "$2" ]; then
+            test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
+            foreman start $SITE
+          else  
+            BELONGS=$(__sites case)
+            case $2 in
+              $BELONGS)
+                test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
+                foreman start $2
+                ;;
 
-            all)
-              test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
-              foreman start all
-              ;;
+              all)
+                test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
+                foreman start all
+                ;;
 
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
-              __pr
-              return 1
-              ;;
-          esac
+              *)
+                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+                __pr
+                return 1
+                ;;
+            esac
+          fi
+        else
+          if [ -z "$2" ]; then
+            docker-compose up -d db redis $SITE
+          else   
+            case $2 in
+              olimpia|rioclaro|suzano|santoandre|demo)
+                docker-compose up -d $2
+                ;;
+
+              all)
+                docker-compose up -d 
+                ;;
+
+              *)
+                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+                __pr
+                return 1
+                ;;
+            esac
+          fi
         fi
       else
-        if [ -z "$2" ]; then
-          docker-compose up -d db redis $SITE
-        else   
-          case $2 in
-            olimpia|rioclaro|suzano|santoandre|demo)
-              docker-compose up -d $2
-              ;;
-
-            all)
-              docker-compose up -d 
-              ;;
-
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
-              __pr
-              return 1
-              ;;
-          esac
-        fi
+        ansi --no-newline --green-intense "==> "; ansi --red "$SITE is started already"
+        ansi ""
       fi
       ;;  
 
     stop)  
-      if [ -z "$DOCKER" ]; then
-        if [ -z "$2" ]; then
-          kill -9 $(__pid $(__port $SITE))
-        else   
-          case $2 in
-            olimpia|rioclaro|suzano|santoandre|default)
-              kill -9 $(__pid $(__port $2))
+      if [ ! -z $pid ]; then
+        if [ -z "$DOCKER" ]; then
+          if [ -z "$2" ]; then
+            kill -9 $(__pid $(__port $SITE))
+          else   
+            case $2 in
+              olimpia|rioclaro|suzano|santoandre|default)
+                kill -9 $(__pid $(__port $2))
+                ;;
+
+              all)
+              sites=(olimpia rioclaro suzano santoandre default)
+              for site in "${sites[@]}"
+              do
+                pid=$(__pid $(__port $site))
+                if [ ! -z $pid ]; then
+                  kill -9 $pid
+                fi  
+              done
               ;;
 
-            all)
-            sites=(olimpia rioclaro suzano santoandre default)
-            for site in "${sites[@]}"
-            do
-              pid=$(__pid $(__port $site))
-              if [ ! -z $pid ]; then
-                kill -9 $pid
-              fi  
-            done
-            ;;
+              *)
+                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+                __pr
+                return 1
+                ;;
+            esac
+          fi
+        else
+          if [ -z "$2" ]; then
+            docker-compose rm -f -s -v $SITE
+          else   
+            case $2 in
+              olimpia|rioclaro|suzano|santoandre|demo)
+                docker-compose stop $2
+                ;;
 
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
-              __pr
-              return 1
-              ;;
-          esac
+              all)
+                docker-compose down
+                unset DOCKER
+                ;;
+
+              *)
+                ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
+                __pr
+                return 1
+                ;;
+            esac
+          fi
         fi
       else
-        if [ -z "$2" ]; then
-          docker-compose rm -f -s -v $SITE
-        else   
-          case $2 in
-            olimpia|rioclaro|suzano|santoandre|demo)
-              docker-compose stop $2
-              ;;
-
-            all)
-              docker-compose down
-              unset DOCKER
-              ;;
-
-            *)
-              ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site name "$2
-              __pr
-              return 1
-              ;;
-          esac
-        fi
+        ansi --no-newline --green-intense "==> "; ansi --red "$SITE is stopped already"
+        ansi ""
       fi
       ;;
 
