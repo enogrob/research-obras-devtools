@@ -643,7 +643,7 @@ __mailcatcher(){
       echo $port
       ;;
 
-    running)
+    is_running)
       if [ -z $pid ];then
         echo "n"
       else
@@ -674,10 +674,22 @@ __mailcatcher(){
         ansi ""
       fi 
       ;;
-    print)
+
+    print_up)
       if [ ! -z $pid ]; then
         ansi --no-newline "  mailcatcher ";ansi --no-newline --underline  --green "http://localhost:$port";ansi " $pid"
       fi  
+      ;;
+
+    print_down) 
+      local last=$2
+      if [ -z $pid ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "mailcatcher";
+        else  
+          ansi --no-newline --red "mailcatcher";
+        fi  
+      fi
       ;;
   esac
 }
@@ -691,7 +703,7 @@ __sidekiq(){
       echo $pid
       ;;
 
-    running)
+    is_running)
       if [ -z $pid ];then
         echo "n"
       else
@@ -717,42 +729,105 @@ __sidekiq(){
       fi 
       ;;
 
-    print)
+    print_up)
       if [ ! -z $pid ]; then
         port=$(__site port)
         ansi --no-newline "  sidekiq     ";
         ansi --no-newline --underline --green "http://localhost:$port/sidekiq";ansi " $pid"
       fi  
       ;;
+
+    print_down) 
+      local last=$2
+      if [ -z $pid ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "sidekiq";
+        else  
+          ansi --no-newline --red "sidekiq";
+        fi  
+      fi
+      ;;
   esac
 }
 
 __services(){
-  case $1 in
-    running)
-      if [ "$(__mailcatcher running)" == "y" ]; then
-        echo "y"
-        return 0
-      fi   
-      if [ "$(__sidekiq running)" == "y" ]; then
-        echo "y"
-        return 0
+  local action=$1
+  local next_services=($2)
+  local services=(site sidekiq mailcatcher)
+  case $action in
+    any_running)
+      local result="n"
+      for s in ${services[@]}
+      do
+        # result=$(__$s is_running)
+        if [ "$(__$s is_running)" == "y" ]; then
+          result="y"
+          break
+        fi
+      done
+      echo $result
+      ;;
+
+    any_not_running)
+      local result="n"
+      for s in ${services[@]}
+      do
+        if [ "$(__$s is_running)" == "n" ]; then
+          result="y"
+          break
+        fi
+      done
+      echo $result
+      ;;
+
+    any_next_running)
+      local result="n"
+      for s in ${next_services[@]}
+      do
+        if [ "$(__$s is_running)" == "y" ]; then
+          result="y"
+          break 
+        fi
+      done
+      echo $result
+      ;;  
+
+    print_ups)
+      for s in ${services[@]}
+      do
+        if [ "$(__$s is_running)" == "y" ]; then
+          __$s print_up
+        fi
+      done
+      ;;
+
+    print_downs)
+      local services_not_running
+      for s in ${services[@]}
+      do
+        if [ "$(__$s is_running)" == "n" ]; then
+          services_not_running+=($s)
+        fi
+      done
+      if [ "$(__services any_not_running)" == "y" ]; then
+        ansi --no-newline "  "
+        for s in ${services_not_running[@]}
+        do
+          if [ "$s" == "${services_not_running[${#services_not_running[@]}-1]}" ]; then
+            __$s print_down true
+          else  
+            __$s print_down
+            ansi --no-newline ", "
+          fi
+        done
       fi  
-      echo "n"
-      return 1 
       ;;
 
     print)
-      if [ "$(__services running)" == "y" ]; then
-        ansi "services:"
-      else
-        ansi "services:"
-        ansi --no-newline --red "  sidekiq";ansi --no-newline ", "
-        ansi --red " mailcatcher";
-      fi   
-      __sidekiq print
-      __mailcatcher print
-      ;;
+      ansi "services:"
+      __services print_ups
+      __services print_downs
+      ;;   
   esac
 }
 
@@ -790,8 +865,8 @@ __site(){
       echo $port
       ;;
 
-    running)
-      if [ -z $pid ];then
+    is_running)
+      if [ -z $pid ]; then
         echo "n"
       else
         echo "y"
@@ -912,11 +987,6 @@ __site(){
       ansi --white --no-newline "site : "
       ansi --white-intense $SITE
       ansi --white --no-newline "rvm  : ";ansi --cyan-intense $(rvm current)
-      if [ -z $pid ]; then
-        ansi --no-newline "rails: ";ansi --no-newline --underline --red "http://localhost:$port";ansi " $pid"
-      else  
-        ansi --no-newline "rails: ";ansi --no-newline --underline --green "http://localhost:$port";ansi " $pid"
-      fi  
       ansi --no-newline "env  : "
       if [ $RAILS_ENV == 'development' ]; then 
         ansi --no-newline --green "development"
@@ -930,6 +1000,22 @@ __site(){
         ansi --red "test"
       fi
       ;;  
+    print_up)
+      if [ ! -z $pid ]; then
+        ansi --no-newline "  rails       ";
+        ansi --no-newline --underline --green "http://localhost:$port";ansi " $pid"
+      fi  
+      ;;
+    print_down) 
+      local last=$2
+      if [ -z $pid ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "rails";
+        else  
+          ansi --no-newline --red "rails";
+        fi  
+      fi
+      ;;
   esac
 }
 
@@ -2137,7 +2223,6 @@ site(){
       __update_db_stats_site
 
       __site print
-      __services print
 
       ansi "flags: "
       if [ -z "$COVERAGE" ]; then
@@ -2155,6 +2240,9 @@ site(){
       else
         ansi --green "docker"
       fi
+
+      __services print
+
       ansi "databases:"
       db
       ;;
