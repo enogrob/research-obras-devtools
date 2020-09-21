@@ -135,7 +135,7 @@ Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 Obras Utils 1.4.79
 ::
 db [set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
-db [ls || backups || download [filenumber] || import [dbfile] || update [all]]
+db [ls || backups || download [filenumber] || import [backupfile] || update [all]]
 db [tables || databases || socket]
 db [api [dump/export || import]]
 

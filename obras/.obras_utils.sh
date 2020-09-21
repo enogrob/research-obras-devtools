@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.79
+export OBRAS_UTILS_VERSION=1.4.80
 export OBRAS_UTILS_VERSION_DATE=2020.09.20
 export OBRAS_UTILS_UPDATE_MESSAGE="Improve the 'services' management."
 
@@ -92,17 +92,19 @@ alias dki='docker image'
 alias dkis='docker images'
 
 # functions
-get_latest_release() {
-  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
-    grep '"tag_name":' |                                            # Get tag line
-    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
-}
 
-version_gt(){
-  test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
-}
 
 obras_utils() {
+  get_latest_release() {
+    curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+      grep '"tag_name":' |                                            # Get tag line
+      sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+  }
+  
+  version_gt(){
+    test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
+  }
+
   case $1 in
     --version|-v|v|version)
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
@@ -541,12 +543,24 @@ __contains() {
 }
 
 __pr_db(){
+  local db
+  local dbs
+  local db_lens=()
+  local env
   env=$1
-  if [ $env == "dev" ]; then
+  db=$(__db development)
+  db_lens+=(${#db})
+  db=$(__db test)
+  db_lens+=(${#db})
+  IFS=$'\n'
+  major=$(echo "${db_lens[*]}" | sort -nr | head -n1)
+  unset IFS
+  if [ "$env" == "dev" ]; then
     db=$(__db development)
   else  
     db=$(__db test)
   fi
+  db=$(printf "%-${major}s" "${db}")
   if [ "$(__has_database $db)" == 'yes' ]; then
     if [ $env == "dev" ]; then
       ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
@@ -1444,7 +1458,7 @@ db(){
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       __pr info "db " "[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]"
-      __pr info "db " "[backups || download [filenumber] || import [dbfile] || update [all]]"
+      __pr info "db " "[backups || download [filenumber] || import [backupfile] || update [all]]"
       __pr info "db " "[tables || databases || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
       __pr 
