@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.81
+export OBRAS_UTILS_VERSION=1.4.82
 export OBRAS_UTILS_VERSION_DATE=2020.09.20
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'unexpected end of file' error."
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'mycli' or 'iredis' connection error.
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -278,27 +278,6 @@ __pr_env(){
   fi
 }   
 
-__db(){
-  if [ -z $1 ]; then
-    env=$RAILS_ENV
-  else
-    env=$1
-  fi
-  if [ "$env" == 'development' ]; then
-    if [ -z $MYSQL_DATABASE_DEV ]; then
-      echo obrasdev
-    else
-      echo $MYSQL_DATABASE_DEV
-    fi  
-  else
-    if [ -z $MYSQL_DATABASE_TST ]; then
-      echo obrastest
-    else
-      echo $MYSQL_DATABASE_TST
-    fi  
-  fi 
-}      
-
 __has_database(){
   if [ -z "$DOCKER" ]; then
     mysqlshow -uroot > /dev/null 2>&1
@@ -368,7 +347,7 @@ __tables(){
 }
 
 __update_db_dev_stats(){
-  db=$(__db development)
+  db=$(__db current development)
   if [ "$(__has_database $db)" == 'yes' ]; then
     export DB_TABLES_DEV=$(__tables $db)
     export DB_RECORDS_DEV=$(__records $db)
@@ -376,7 +355,7 @@ __update_db_dev_stats(){
 }
 
 __update_db_tst_stats(){
-  db=$(__db test)
+  db=$(__db current current test)
   if [ "$(__has_database $db)" == 'yes' ]; then
     export DB_TABLES_TST=$(__tables $db)
     export DB_RECORDS_TST=$(__records $db)
@@ -384,7 +363,7 @@ __update_db_tst_stats(){
 }
 
 __update_db_stats(){
-  db=$(__db $RAILS_ENV)
+  db=$(__db current $RAILS_ENV)
   if [ "$(__has_database $db)" == 'yes' ]; then
     case $RAILS_ENV in 
       development)
@@ -540,36 +519,6 @@ __contains() {
   }
   echo "n"
   return 1
-}
-
-__pr_db(){
-  local db
-  local dbs
-  local db_lens=()
-  local env
-  env=$1
-  db=$(__db development)
-  db_lens+=(${#db})
-  db=$(__db test)
-  db_lens+=(${#db})
-  IFS=$'\n'
-  major=$(echo "${db_lens[*]}" | sort -nr | head -n1)
-  unset IFS
-  if [ "$env" == "dev" ]; then
-    db=$(__db development)
-  else  
-    db=$(__db test)
-  fi
-  db=$(printf "%-${major}s" "${db}")
-  if [ "$(__has_database $db)" == 'yes' ]; then
-    if [ $env == "dev" ]; then
-      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
-    else
-      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_TST' '; ansi --white $DB_RECORDS_TST
-    fi  
-  else  
-    ansi --no-newline "  "; ansi --red $db
-  fi
 }
 
 __port(){
@@ -1257,6 +1206,22 @@ __rails(){
       else
         ansi --red "test"
       fi
+      ansi --no-newline "flags: "
+      if [ -z "$COVERAGE" ]; then
+        ansi --no-newline --red "coverage";ansi --no-newline ", "
+      else
+        ansi --no-newline --green "  coverage";ansi --no-newline ", "
+      fi
+      if [ -z "$HEADLESS" ]; then
+        ansi --no-newline --red "headless";ansi --no-newline ", "
+      else
+        ansi --no-newline --green "headless";ansi --no-newline ", "
+      fi
+      if [ -z "$DOCKER" ]; then
+        ansi --red "docker"
+      else
+        ansi --green "docker"
+      fi
       ;; 
 
     print_up)
@@ -1279,6 +1244,85 @@ __rails(){
         fi  
       fi
       ;;
+  esac
+}
+
+__db(){ 
+  local action=$1 
+  local env=$2
+
+  case $action in
+    current)
+      local env=$1
+      if [ -z $env ]; then
+        env=$RAILS_ENV
+      fi
+      if [ "$env" == "development" ]; then
+        if [ -z $MYSQL_DATABASE_DEV ]; then
+          echo obrasdev
+        else
+          echo $MYSQL_DATABASE_DEV
+        fi  
+      else
+        if [ -z $MYSQL_DATABASE_TST ]; then
+          echo obrastest
+        else
+          echo $MYSQL_DATABASE_TST
+        fi  
+      fi 
+      ;;
+
+
+    print_db)
+      local db
+      local dbs
+      local db_lens=()
+      local env=$1
+      db=$(__db current development)
+      db_lens+=(${#db})
+      db=$(__db current test)
+      db_lens+=(${#db})
+      IFS=$'\n'
+      major=$(echo "${db_lens[*]}" | sort -nr | head -n1)
+      unset IFS
+      if [ "$env" == "development" ]; then
+        db=$(__db current development)
+      else  
+        db=$(__db current test)
+      fi
+      db=$(printf "%-${major}s" "${db}")
+      if [ "$(__has_database $db)" == 'yes' ]; then
+        if [ $env == "development" ]; then
+          ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
+        else
+          ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_TST' '; ansi --white $DB_RECORDS_TST
+        fi  
+      else  
+        ansi --no-newline "  "; ansi --red $db
+      fi
+      ;;
+      
+    print)
+      ansi "databases:"
+      __db print_db development
+      __db print_db test 
+
+      IFS=$'\n'
+      files_sql=(`ls *$SITE.sql 2>/dev/null`)
+      ansi --white "backups:"
+      if [ ! -z "$files_sql" ]; then
+        IFS=$'\n'
+        files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+        for file in ${files_sql[*]}
+        do
+          __pr succ '  '$file
+        done
+      else
+        __pr dang "  no backup files"
+      fi
+      unset IFS
+      __pr
+      ;;  
   esac
 }
 
@@ -1637,7 +1681,7 @@ db(){
       case $# in
         1)
           if [ -z "$DOCKER" ]; then
-            db=$(__db)
+            db=$(__db current)
             if [ "$(__has_database $db)" == 'yes' ]; then
               rails=`rails --version`
               if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1656,7 +1700,7 @@ db(){
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
             fi
           else
-            db=$(__db)
+            db=$(__db current)
             if [ "$(__has_database $db)" == 'yes' ]; then
               rails=`rails --version`
               if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1704,7 +1748,7 @@ db(){
 
     create)  
       if [ -z "$DOCKER" ]; then
-        db=$(__db)
+        db=$(__db current)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1723,7 +1767,7 @@ db(){
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" already exists"
         fi
       else
-        db=$(__db)
+        db=$(__db current)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1746,7 +1790,7 @@ db(){
 
     migrate)
       if [ -z "$DOCKER" ]; then
-        db=$(__db)
+        db=$(__db current)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1761,7 +1805,7 @@ db(){
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
         fi
       else
-        db=$(__db)
+        db=$(__db current)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1781,7 +1825,7 @@ db(){
 
     seed)
       if [ -z "$DOCKER" ]; then
-        db=$(__db)
+        db=$(__db current)
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
@@ -1814,7 +1858,7 @@ db(){
           fi 
         fi   
       else
-        db=$(__db)
+        db=$(__db current)
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
@@ -2273,8 +2317,8 @@ db(){
       fi
       ;; 
 
-    connect/conn)
-      db=$(__db)
+    connect|conn)
+      db=$(__db current)
       if [ "$(__has_database $db)" == 'yes' ]; then
         if [ -z "$DOCKER" ]; then
           mycli -uroot $db
@@ -2290,10 +2334,10 @@ db(){
 
     tables)
       if [ -z "$DOCKER" ]; then
-        db=$(__db)
+        db=$(__db current)
         mysqlshow -uroot $db | more
       else
-        db=$(__db)
+        db=$(__db current)
         docker-compose exec db mysqlshow -uroot -proot $db | more
       fi
       ;;
@@ -2307,23 +2351,7 @@ db(){
       ;;
 
     *)
-      __pr_db dev
-      __pr_db tst
-      IFS=$'\n'
-      files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      ansi --white "backups:"
-      if [ ! -z "$files_sql" ]; then
-        IFS=$'\n'
-        files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-        for file in ${files_sql[*]}
-        do
-          __pr succ '  '$file
-        done
-      else
-        __pr dang "  no backup files"
-      fi
-      unset IFS
-      __pr
+      __db print
       ;;
   esac
   fi
@@ -2525,10 +2553,10 @@ site(){
           __$1 status
           ;; 
 
-        connect/conn)
+        connect|conn)
           case $1 in
             mysql)
-              db=$(__db)
+              db=$(__db current)
               if [ "$(__has_database $db)" == 'yes' ]; then
                 if [ -z "$DOCKER" ]; then
                   mycli -uroot $db
@@ -2605,30 +2633,10 @@ site(){
     *)
       __docker
       __update_db_stats_site
-
+      
       __rails print
-
-      ansi --no-newline "flags: "
-      if [ -z "$COVERAGE" ]; then
-        ansi --no-newline --red "coverage";ansi --no-newline ", "
-      else
-        ansi --no-newline --green "  coverage";ansi --no-newline ", "
-      fi
-      if [ -z "$HEADLESS" ]; then
-        ansi --no-newline --red "headless";ansi --no-newline ", "
-      else
-        ansi --no-newline --green "headless";ansi --no-newline ", "
-      fi
-      if [ -z "$DOCKER" ]; then
-        ansi --red "docker"
-      else
-        ansi --green "docker"
-      fi
-
       __services print
-
-      ansi "databases:"
-      db
+      __db print
       ;;
   esac
   fi
