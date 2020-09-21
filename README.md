@@ -159,8 +159,8 @@ obras_utils [version/update/check]
 
 Changes log
 
-* **1.4.80** Improve the **redis cli** with **iredis**. 
-* **1.4.79** Improve the 'services' management. 
+* **1.4.80** Improve `cli` interface. 
+* **1.4.79** Improve the `services` management. 
 * **1.4.78** Services `redis` and `mysql` are now managed.
 * **1.4.77** Services `mailcatcher` and `sidekiq` are now managed.
 * **1.4.76** Current `sites()` shall get from **Procfile** instead from env **$SITES**
@@ -184,5 +184,6 @@ Changes log
 
 Changes Required
 
-* **1.4.81** Review `Docker` for the latest changes.
+* **1.4.81** Improve the **redis cli** with **iredis**. 
+* **1.4.82** Review `Docker` for the latest changes.
 

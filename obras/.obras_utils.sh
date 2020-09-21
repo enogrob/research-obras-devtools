@@ -11,7 +11,7 @@
 # variables
 export OBRAS_UTILS_VERSION=1.4.80
 export OBRAS_UTILS_VERSION_DATE=2020.09.20
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve the 'services' management."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve the 'cli' interface.
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -100,7 +100,7 @@ obras_utils() {
       grep '"tag_name":' |                                            # Get tag line
       sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
   }
-  
+
   version_gt(){
     test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; 
   }
