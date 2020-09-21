@@ -10,7 +10,7 @@
 
 # variables
 export OBRAS_UTILS_VERSION=1.4.82
-export OBRAS_UTILS_VERSION_DATE=2020.09.20
+export OBRAS_UTILS_VERSION_DATE=2020.09.21
 export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'mycli' or 'iredis' connection error."
 
 export OS=`uname`
@@ -1191,37 +1191,6 @@ __rails(){
       ;;
 
     print)
-      ansi --white --no-newline "site : "
-      ansi --no-newline --white-intense --underline $SITE
-      ansi --white --no-newline " ";ansi --cyan-intense $(rvm current)
-      ansi --no-newline "env  : "
-      if [ $RAILS_ENV == 'development' ]; then 
-        ansi --no-newline --green "development"
-      else
-        ansi --no-newline --red "development"
-      fi
-      ansi --no-newline ", "
-      if [ $RAILS_ENV == 'test' ]; then 
-        ansi --green "test"
-      else
-        ansi --red "test"
-      fi
-      ansi --no-newline "flags: "
-      if [ -z "$COVERAGE" ]; then
-        ansi --no-newline --red "coverage";ansi --no-newline ", "
-      else
-        ansi --no-newline --green "  coverage";ansi --no-newline ", "
-      fi
-      if [ -z "$HEADLESS" ]; then
-        ansi --no-newline --red "headless";ansi --no-newline ", "
-      else
-        ansi --no-newline --green "headless";ansi --no-newline ", "
-      fi
-      if [ -z "$DOCKER" ]; then
-        ansi --red "docker"
-      else
-        ansi --green "docker"
-      fi
       ;; 
 
     print_up)
@@ -1242,6 +1211,45 @@ __rails(){
         else  
           ansi --no-newline --red "rails";
         fi  
+      fi
+      ;;
+  esac
+}
+
+__site(){
+  local action=$1
+  case $action in
+    print)
+      ansi --white --no-newline "site:  "
+      ansi --no-newline --white-intense --underline $SITE
+      ansi --white --no-newline " ";ansi --cyan-intense $(rvm current)
+      ansi --no-newline "  env   "
+      if [ $RAILS_ENV == 'development' ]; then 
+        ansi --no-newline --green "development"
+      else
+        ansi --no-newline --red "development"
+      fi
+      ansi --no-newline ", "
+      if [ $RAILS_ENV == 'test' ]; then 
+        ansi --green "test"
+      else
+        ansi --red "test"
+      fi
+      ansi --no-newline "  flags "
+      if [ -z "$COVERAGE" ]; then
+        ansi --no-newline --red "coverage";ansi --no-newline ", "
+      else
+        ansi --no-newline --green "  coverage";ansi --no-newline ", "
+      fi
+      if [ -z "$HEADLESS" ]; then
+        ansi --no-newline --red "headless";ansi --no-newline ", "
+      else
+        ansi --no-newline --green "headless";ansi --no-newline ", "
+      fi
+      if [ -z "$DOCKER" ]; then
+        ansi --red "docker"
+      else
+        ansi --green "docker"
       fi
       ;;
   esac
@@ -2634,7 +2642,7 @@ site(){
       __docker
       __update_db_stats_site
       
-      __rails print
+      __site print
       __services print
       __db print
       ;;
