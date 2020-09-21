@@ -123,7 +123,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.82
+Obras Utils 1.4.83
 ::
 site [sitename || flags || set/unset flag|| env development/test]
 site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -132,7 +132,7 @@ site [db/mysql/redis conn/connect]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.82
+Obras Utils 1.4.83
 ::
 db [set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db [ls || backups || download [filenumber] || import [backupfile] || update [all]]
@@ -141,7 +141,7 @@ db [api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.82
+Obras Utils 1.4.83
 ::
 services [start/stop/restart/status mysql/ngrok|redis/sidekiq/mailcatcher || all]
 services [conn/connect mysql/db/redis
@@ -150,7 +150,7 @@ obs: redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.82
+Obras Utils 1.4.83
 ::
 obras_utils [version/update/check]
 ```
@@ -159,6 +159,7 @@ obras_utils [version/update/check]
 
 Changes log
 
+* **1.4.83** Correct `__db print_db` and `__db current` connection error.
 * **1.4.82** Correct `mycli` or `iredis` connection error.
 * **1.4.81** Correct `unexpected end of file` error.
 * **1.4.80** Improve the `services` management. 
@@ -186,6 +187,6 @@ Changes log
 
 Changes Required
 
-* **1.4.83** Improve the **redis cli** with **iredis**. 
-* **1.4.84** Review `Docker` for the latest changes.
+* **1.4.84** Improve the **redis cli** with **iredis**. 
+* **1.4.85** Review `Docker` for the latest changes.
 

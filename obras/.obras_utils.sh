@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.82
+export OBRAS_UTILS_VERSION=1.4.83
 export OBRAS_UTILS_VERSION_DATE=2020.09.21
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'mycli' or 'iredis' connection error."
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct '__db print_db' and '__db current'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1261,7 +1261,6 @@ __db(){
 
   case $action in
     current)
-      local env=$1
       if [ -z $env ]; then
         env=$RAILS_ENV
       fi
@@ -1285,7 +1284,6 @@ __db(){
       local db
       local dbs
       local db_lens=()
-      local env=$1
       db=$(__db current development)
       db_lens+=(${#db})
       db=$(__db current test)
@@ -1293,6 +1291,9 @@ __db(){
       IFS=$'\n'
       major=$(echo "${db_lens[*]}" | sort -nr | head -n1)
       unset IFS
+      if [ -z $env ]; then
+        env=$RAILS_ENV
+      fi
       if [ "$env" == "development" ]; then
         db=$(__db current development)
       else  
