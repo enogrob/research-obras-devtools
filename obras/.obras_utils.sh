@@ -11,7 +11,7 @@
 # variables
 export OBRAS_UTILS_VERSION=1.4.82
 export OBRAS_UTILS_VERSION_DATE=2020.09.20
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'mycli' or 'iredis' connection error.
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'mycli' or 'iredis' connection error."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
