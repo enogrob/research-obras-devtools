@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.80
+export OBRAS_UTILS_VERSION=1.4.81
 export OBRAS_UTILS_VERSION_DATE=2020.09.20
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve the 'services' management."
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'unexpected end of file' error."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
