@@ -122,43 +122,46 @@ $ fobras_utils update
 
 ```shell
 $ site --help
+
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.83
+Obras Utils 1.4.84
 ::
-site [sitename || flags || set/unset flag|| env development/test]
-site [check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
-site [mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]
-site [db/mysql/redis conn/connect]
+site[sitename || flags || set/unset flag|| env development/test]
+site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
+site[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]
+site[db/mysql/redis conn/connect]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.83
+Obras Utils 1.4.84
 ::
-db [set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
-db [ls || backups || download [filenumber] || import [backupfile] || update [all]]
-db [tables || databases || socket]
-db [api [dump/export || import]]
+db[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
+db[backups || download [filenumber] || import [backupfile] || update [all]]
+db[tables || databases || socket || connect]
+db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.83
+Obras Utils 1.4.84
 ::
-services [start/stop/restart/status mysql/ngrok|redis/sidekiq/mailcatcher || all]
-services [conn/connect mysql/db/redis
+services[ls/check]
+services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
+services[conn/connect mysql/db/redis]
 
-obs: redis and mysql are not involved when all is specified
+obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.83
+Obras Utils 1.4.84
 ::
-obras_utils [version/update/check]
+obras_utils[version/update/check]
 ```
 
 ## Obras Utils
 
 Changes log
 
+* **1.4.84** Improve the `site services` management. 
 * **1.4.83** Correct `__db print_db` and `__db current` connection error.
 * **1.4.82** Correct `mycli` or `iredis` connection error.
 * **1.4.81** Correct `unexpected end of file` error.
@@ -187,6 +190,6 @@ Changes log
 
 Changes Required
 
-* **1.4.84** Improve the **redis cli** with **iredis**. 
-* **1.4.85** Review `Docker` for the latest changes.
+* **1.4.85** Improve the **redis cli** with **iredis**. 
+* **1.4.86** Review `Docker` for the latest changes.
 

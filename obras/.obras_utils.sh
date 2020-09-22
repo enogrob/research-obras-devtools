@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.83
+export OBRAS_UTILS_VERSION=1.4.84
 export OBRAS_UTILS_VERSION_DATE=2020.09.21
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct '__db print_db' and '__db current'."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve the 'site services' management."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -55,6 +55,7 @@ export SITES_OLD_CASE="+($(echo $SITES_OLD | sed 's/ /|/g'))"
 export RAILS_ENV=development
 export RUBYOPT=-W0
 export SITE=default
+export PORT=3000
 export SITEPREV=default
 export MAILCATCHER_ENV=LOCALHOST
 unset MYSQL_DATABASE_DEV
@@ -347,7 +348,7 @@ __tables(){
 }
 
 __update_db_dev_stats(){
-  db=$(__db current development)
+  db=$(db.current development)
   if [ "$(__has_database $db)" == 'yes' ]; then
     export DB_TABLES_DEV=$(__tables $db)
     export DB_RECORDS_DEV=$(__records $db)
@@ -355,7 +356,7 @@ __update_db_dev_stats(){
 }
 
 __update_db_tst_stats(){
-  db=$(__db current current test)
+  db=$(db.current current test)
   if [ "$(__has_database $db)" == 'yes' ]; then
     export DB_TABLES_TST=$(__tables $db)
     export DB_RECORDS_TST=$(__records $db)
@@ -363,7 +364,7 @@ __update_db_tst_stats(){
 }
 
 __update_db_stats(){
-  db=$(__db current $RAILS_ENV)
+  db=$(db.current $RAILS_ENV)
   if [ "$(__has_database $db)" == 'yes' ]; then
     case $RAILS_ENV in 
       development)
@@ -589,6 +590,7 @@ __docker(){
   fi  
 }
 
+
 __mailcatcher(){
   local port=1080
   local pid=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
@@ -611,7 +613,7 @@ __mailcatcher(){
 
     start)
       if [ -z $pid ];then
-        mailcatcher& 2>&1 > /dev/null
+        foreman start mailcatcher
       else
         ansi --no-newline --green-intense "==> "; ansi --red "Mailcatcher is started already"
         ansi ""
@@ -665,6 +667,7 @@ __mailcatcher(){
       ;;
   esac
 }
+
 
 __mysql(){
   local action=$1
@@ -777,6 +780,7 @@ __mysql(){
   esac
 }
 
+
 __sidekiq(){
   local pid=""
   local port=""
@@ -796,11 +800,7 @@ __sidekiq(){
 
     start)
       if [ -z $pid ]; then
-        if [ -z $2 ];then
-          sidekiq --pidfile "tmp/pids/sidekiq.pid"
-        else
-          sidekiq --pidfile "tmp/pids/sidekiq.pid" &
-        fi  
+        foreman start sidekiq
       else
         ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is started already"
         ansi ""
@@ -809,9 +809,12 @@ __sidekiq(){
 
     stop)  
       if [ ! -z $pid ]; then
-        sidekiqctl stop "tmp/pids/sidekiq.pid"
-        test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
+        sidekiqctl stop "tmp/pids/sidekiq.pid" > /dev/null 2>&1
+        if [ $? -eq 1 ];then
+          test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
+        fi
       else  
+        test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
         ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is stopped already"
         ansi ""
       fi
@@ -856,6 +859,7 @@ __sidekiq(){
   esac
 }
 
+
 __ngrok(){
   local action=$1
   if [ -z $DOCKER ]; then
@@ -863,7 +867,7 @@ __ngrok(){
   else
     local port="40400"
   fi  
-  local pid=$(lsof -i :$port | grep -e grok | awk {'print $2'} | uniq)
+  local pid=$(lsof -i :$port | grep -e ngrok | awk {'print $2'} | uniq)
   case $action in
     pid)
       echo $pid
@@ -882,11 +886,7 @@ __ngrok(){
       if [ -z $DOCKER ]; then
         if [ -z $pid ]; then 
           if [ "$(__rails is_running)" == "y" ]; then
-            if [ -z $2 ];then
-              ngrok http $rails_port 
-            else
-              ngrok http $rails_port &
-            fi
+            foreman start ngrok 
           else  
             ansi --no-newline --green-intense "==> "; ansi --red "NGrok requires ${SITE} running"
             ansi ""
@@ -944,6 +944,7 @@ __ngrok(){
       ;;
   esac
 }
+
 
 __redis(){
   local action=$1
@@ -1039,6 +1040,7 @@ __redis(){
       ;;
   esac
 }
+
 
 __rails(){
   local action=$1
@@ -1216,124 +1218,6 @@ __rails(){
   esac
 }
 
-__site(){
-  local action=$1
-  case $action in
-    print)
-      ansi --white --no-newline "site:  "
-      ansi --no-newline --white-intense --underline $SITE
-      ansi --white --no-newline " ";ansi --cyan-intense $(rvm current)
-      ansi --no-newline "  env   "
-      if [ $RAILS_ENV == 'development' ]; then 
-        ansi --no-newline --green "development"
-      else
-        ansi --no-newline --red "development"
-      fi
-      ansi --no-newline ", "
-      if [ $RAILS_ENV == 'test' ]; then 
-        ansi --green "test"
-      else
-        ansi --red "test"
-      fi
-      ansi --no-newline "  flags "
-      if [ -z "$COVERAGE" ]; then
-        ansi --no-newline --red "coverage";ansi --no-newline ", "
-      else
-        ansi --no-newline --green "  coverage";ansi --no-newline ", "
-      fi
-      if [ -z "$HEADLESS" ]; then
-        ansi --no-newline --red "headless";ansi --no-newline ", "
-      else
-        ansi --no-newline --green "headless";ansi --no-newline ", "
-      fi
-      if [ -z "$DOCKER" ]; then
-        ansi --red "docker"
-      else
-        ansi --green "docker"
-      fi
-      ;;
-  esac
-}
-
-__db(){ 
-  local action=$1 
-  local env=$2
-
-  case $action in
-    current)
-      if [ -z $env ]; then
-        env=$RAILS_ENV
-      fi
-      if [ "$env" == "development" ]; then
-        if [ -z $MYSQL_DATABASE_DEV ]; then
-          echo obrasdev
-        else
-          echo $MYSQL_DATABASE_DEV
-        fi  
-      else
-        if [ -z $MYSQL_DATABASE_TST ]; then
-          echo obrastest
-        else
-          echo $MYSQL_DATABASE_TST
-        fi  
-      fi 
-      ;;
-
-
-    print_db)
-      local db
-      local dbs
-      local db_lens=()
-      db=$(__db current development)
-      db_lens+=(${#db})
-      db=$(__db current test)
-      db_lens+=(${#db})
-      IFS=$'\n'
-      major=$(echo "${db_lens[*]}" | sort -nr | head -n1)
-      unset IFS
-      if [ -z $env ]; then
-        env=$RAILS_ENV
-      fi
-      if [ "$env" == "development" ]; then
-        db=$(__db current development)
-      else  
-        db=$(__db current test)
-      fi
-      db=$(printf "%-${major}s" "${db}")
-      if [ "$(__has_database $db)" == 'yes' ]; then
-        if [ $env == "development" ]; then
-          ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
-        else
-          ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_TST' '; ansi --white $DB_RECORDS_TST
-        fi  
-      else  
-        ansi --no-newline "  "; ansi --red $db
-      fi
-      ;;
-      
-    print)
-      ansi "databases:"
-      __db print_db development
-      __db print_db test 
-
-      IFS=$'\n'
-      files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      ansi --white "backups:"
-      if [ ! -z "$files_sql" ]; then
-        IFS=$'\n'
-        files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-        for file in ${files_sql[*]}
-        do
-          __pr succ '  '$file
-        done
-      else
-        __pr dang "  no backup files"
-      fi
-      unset IFS
-      __pr
-      ;;  
-  esac
-}
 
 __services(){
   local action=$1
@@ -1343,39 +1227,32 @@ __services(){
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "services " "[start/stop/restart/status mysql/ngrok|redis/sidekiq/mailcatcher || all]"
+      __pr info "services " "[ls/check]"
+      __pr info "services " "[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]"
       __pr info "services " "[conn/connect mysql/db/redis]"
       __pr 
       __pr info "obs: " "redis and mysql are not involved when all is specified"
       __pr 
       ;;
-
+    ls|check)
+      if test -f Procfile.$SITE; then
+        foreman check -f Procfile.$SITE
+      else
+        cat Procfile.services > Procfile.$SITE
+        cat Procfile | grep $SITE >> Procfile.$SITE
+        foreman check -f Procfile.$SITE
+      fi
+      ;;
     start)
       case $2 in
         rails|mysql|ngrok|redis|sidekiq|mailcatcher)
           __$s start
           ;;
         all)
-          unset services[1]
-          unset services[2]
-          unset services[5]
-          echo ${services[@]}
-          for s in ${services[@]}
-          do
-            if [ "$(__$s is_running)" == "n" ]; then
-              case $s in
-                rails)
-                  __$s start $SITE bg
-                  ;;
-                mailcatcher)
-                  __$s start  
-                  ;;
-                *)
-                  __$s start bg
-                  ;;  
-              esac
-            fi
-          done
+          test -f Procfile.$SITE && rm -rf Procfile.$SITE
+          cat Procfile.services > Procfile.$SITE
+          cat Procfile | grep $SITE >> Procfile.$SITE
+          foreman start all -f Procfile.$SITE
           ;;
       esac; 
       ;;   
@@ -1389,7 +1266,6 @@ __services(){
         all)
           unset services[1]
           unset services[2]
-          unset services[5]
           for s in ${services[@]}
           do
             if [ "$(__$s is_running)" == "y" ]; then
@@ -1498,9 +1374,13 @@ __services(){
       ansi "services:"
       __services print_ups
       __services print_downs
+      ;;  
+    *)
+      __services check
       ;;   
   esac
 }
+
 
 db(){
   __is_obras
@@ -1690,7 +1570,7 @@ db(){
       case $# in
         1)
           if [ -z "$DOCKER" ]; then
-            db=$(__db current)
+            db=$(db.current)
             if [ "$(__has_database $db)" == 'yes' ]; then
               rails=`rails --version`
               if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1709,7 +1589,7 @@ db(){
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
             fi
           else
-            db=$(__db current)
+            db=$(db.current)
             if [ "$(__has_database $db)" == 'yes' ]; then
               rails=`rails --version`
               if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1757,7 +1637,7 @@ db(){
 
     create)  
       if [ -z "$DOCKER" ]; then
-        db=$(__db current)
+        db=$(db.current)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1776,7 +1656,7 @@ db(){
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" already exists"
         fi
       else
-        db=$(__db current)
+        db=$(db.current)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1799,7 +1679,7 @@ db(){
 
     migrate)
       if [ -z "$DOCKER" ]; then
-        db=$(__db current)
+        db=$(db.current)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1814,7 +1694,7 @@ db(){
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
         fi
       else
-        db=$(__db current)
+        db=$(db.current)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -1834,7 +1714,7 @@ db(){
 
     seed)
       if [ -z "$DOCKER" ]; then
-        db=$(__db current)
+        db=$(db.current)
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
@@ -1867,7 +1747,7 @@ db(){
           fi 
         fi   
       else
-        db=$(__db current)
+        db=$(db.current)
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
@@ -2295,25 +2175,7 @@ db(){
 
 
     set)
-      case $2 in
-        olimpia|rioclaro|suzano|santoandre|demo)
-          spring stop
-          set -o allexport
-          . ./.env/development/$2
-          set +o allexport
-          ;;
-
-        default) 
-          unset MYSQL_DATABASE_DEV
-          unset MYSQL_DATABASE_TST
-          ;;
-
-        *)
-          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$2
-          __pr
-          return 1
-          ;;
-      esac
+      db.set $2
       ;;
 
     socket)
@@ -2327,7 +2189,7 @@ db(){
       ;; 
 
     connect|conn)
-      db=$(__db current)
+      db=$(db.current)
       if [ "$(__has_database $db)" == 'yes' ]; then
         if [ -z "$DOCKER" ]; then
           mycli -uroot $db
@@ -2343,10 +2205,10 @@ db(){
 
     tables)
       if [ -z "$DOCKER" ]; then
-        db=$(__db current)
+        db=$(db.current)
         mysqlshow -uroot $db | more
       else
-        db=$(__db current)
+        db=$(db.current)
         docker-compose exec db mysqlshow -uroot -proot $db | more
       fi
       ;;
@@ -2360,11 +2222,104 @@ db(){
       ;;
 
     *)
-      __db print
+      db.print
       ;;
   esac
   fi
 }
+db.current(){
+  local env=$1
+  if [ -z $env ]; then
+    env=$RAILS_ENV
+  fi
+  if [ "$env" == "development" ]; then
+    if [ -z $MYSQL_DATABASE_DEV ]; then
+      echo obrasdev
+    else
+      echo $MYSQL_DATABASE_DEV
+    fi  
+  else
+    if [ -z $MYSQL_DATABASE_TST ]; then
+      echo obrastest
+    else
+      echo $MYSQL_DATABASE_TST
+    fi  
+  fi 
+}
+db.print(){
+  ansi "databases:"
+  db.print_db development
+  db.print_db test 
+  IFS=$'\n'
+  files_sql=(`ls *$SITE.sql 2>/dev/null`)
+  ansi --white "backups:"
+  if [ ! -z "$files_sql" ]; then
+    IFS=$'\n'
+    files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
+    for file in ${files_sql[*]}
+    do
+      __pr succ '  '$file
+    done
+  else
+    __pr dang "  no backup files"
+  fi
+  unset IFS
+  __pr
+}
+db.print_db(){
+  local env=$1
+  local db
+  local dbs
+  local db_lens=()
+  db=$(db.current development)
+  db_lens+=(${#db})
+  db=$(db.current test)
+  db_lens+=(${#db})
+  IFS=$'\n'
+  major=$(echo "${db_lens[*]}" | sort -nr | head -n1)
+  unset IFS
+  if [ -z $env ]; then
+    env=$RAILS_ENV
+  fi
+  if [ "$env" == "development" ]; then
+    db=$(db.current development)
+  else  
+    db=$(db.current test)
+  fi
+  db=$(printf "%-${major}s" "${db}")
+  if [ "$(__has_database $db)" == 'yes' ]; then
+    if [ $env == "development" ]; then
+      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
+    else
+      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_TST' '; ansi --white $DB_RECORDS_TST
+    fi  
+  else  
+    ansi --no-newline "  "; ansi --red $db
+  fi
+}
+db.set(){
+  local site=$1
+  case $1 in
+    olimpia|rioclaro|suzano|santoandre|demo)
+      spring stop
+      set -o allexport
+      . ./.env/development/$1
+      set +o allexport
+      ;;
+
+    default) 
+      unset MYSQL_DATABASE_DEV
+      unset MYSQL_DATABASE_TST
+      ;;
+
+    *)
+      ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$1
+      __pr
+      return 1
+      ;;
+  esac
+}
+
 
 site(){
   __is_obras
@@ -2390,10 +2345,11 @@ site(){
     $SITES_CASE)
       export SITEPREV=$SITE
       export SITE=$1
+      export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
       export HEADLESS=true
       unset COVERAGE
       cd "$OBRAS"
-      db set $1
+      db.set $1
       title $1
       if [ "$SITE" != "$SITEPREV" ]; then
         unset DB_TABLES_DEV
@@ -2410,7 +2366,7 @@ site(){
       export HEADLESS=true
       unset COVERAGE
       cd "$OBRAS_OLD"
-      db set $1
+      db.set $1
       title $1
       if [ "$SITE" != "$SITEPREV" ]; then
         unset DB_TABLES_DEV
@@ -2565,7 +2521,7 @@ site(){
         connect|conn)
           case $1 in
             mysql)
-              db=$(__db current)
+              db=$(db.current)
               if [ "$(__has_database $db)" == 'yes' ]; then
                 if [ -z "$DOCKER" ]; then
                   mycli -uroot $db
@@ -2643,10 +2599,43 @@ site(){
       __docker
       __update_db_stats_site
       
-      __site print
+      site.print
       __services print
-      __db print
+      db.print
       ;;
   esac
+  fi
+}
+site.print(){
+  ansi --white --no-newline "site:  "
+  ansi --no-newline --white-intense --underline $SITE
+  ansi --white --no-newline " ";ansi --cyan-intense $(rvm current)
+  ansi --no-newline "  env   "
+  if [ $RAILS_ENV == 'development' ]; then 
+    ansi --no-newline --green "development"
+  else
+    ansi --no-newline --red "development"
+  fi
+  ansi --no-newline ", "
+  if [ $RAILS_ENV == 'test' ]; then 
+    ansi --green "test"
+  else
+    ansi --red "test"
+  fi
+  ansi --no-newline "  flags "
+  if [ -z "$COVERAGE" ]; then
+    ansi --no-newline --red "coverage";ansi --no-newline ", "
+  else
+    ansi --no-newline --green "  coverage";ansi --no-newline ", "
+  fi
+  if [ -z "$HEADLESS" ]; then
+    ansi --no-newline --red "headless";ansi --no-newline ", "
+  else
+    ansi --no-newline --green "headless";ansi --no-newline ", "
+  fi
+  if [ -z "$DOCKER" ]; then
+    ansi --red "docker"
+  else
+    ansi --green "docker"
   fi
 }
