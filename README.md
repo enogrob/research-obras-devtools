@@ -124,7 +124,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.85
+Obras Utils 1.4.86
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -133,7 +133,7 @@ site[db/mysql/redis conn/connect]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.85
+Obras Utils 1.4.86
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -142,7 +142,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.85
+Obras Utils 1.4.86
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -152,7 +152,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.85
+Obras Utils 1.4.86
 ::
 obras_utils[version/update/check]
 ```
@@ -161,6 +161,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.4.86** Implemented `site services enable/disable [service]`.
 * **1.4.85** Improve more the `site services` management. 
 * **1.4.84** Improve the `site services` management. 
 * **1.4.83** Correct `__db print_db` and `__db current` connection error.
@@ -191,7 +192,6 @@ Changes log
 
 Changes Required
 
-* **1.4.86** Implement `site services enable/disable [service]`.
 * **1.4.87** Improve the **redis cli** with **iredis**. 
 * **1.4.88** Review `Docker` for the latest changes.
 

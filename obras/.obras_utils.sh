@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.85
-export OBRAS_UTILS_VERSION_DATE=2020.09.21
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve more the 'site services' management."
+export OBRAS_UTILS_VERSION=1.4.86
+export OBRAS_UTILS_VERSION_DATE=2020.09.22
+export OBRAS_UTILS_UPDATE_MESSAGE="Implemented 'site services enable/disable [service]'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -657,11 +657,22 @@ __mailcatcher(){
 
     print_down) 
       local last=$2
+      local service=mailcatcher
+      local services_disabled
+      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
-          ansi --red "mailcatcher";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --strike --red "$service";
+          else  
+            ansi --red "$service";
+          fi
         else  
-          ansi --no-newline --red "mailcatcher";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --no-newline --strike --red "$service";
+          else  
+            ansi --no-newline --red "$service";
+          fi 
         fi  
       fi
       ;;
@@ -769,11 +780,22 @@ __mysql(){
 
     print_down) 
       local last=$2
+      local service=mysql
+      local services_disabled
+      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
-          ansi --red "mysql";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --strike --red "$service";
+          else  
+            ansi --red "$service";
+          fi
         else  
-          ansi --no-newline --red "mysql";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --no-newline --strike --red "$service";
+          else  
+            ansi --no-newline --red "$service";
+          fi 
         fi  
       fi
       ;;
@@ -848,11 +870,22 @@ __sidekiq(){
 
     print_down) 
       local last=$2
+      local service=sidekiq
+      local services_disabled
+      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
-          ansi --red "sidekiq";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --strike --red "$service";
+          else  
+            ansi --red "$service";
+          fi
         else  
-          ansi --no-newline --red "sidekiq";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --no-newline --strike --red "$service";
+          else  
+            ansi --no-newline --red "$service";
+          fi 
         fi  
       fi
       ;;
@@ -934,11 +967,22 @@ __ngrok(){
 
     print_down) 
       local last=$2
+      local service=ngrok
+      local services_disabled
+      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
-          ansi --red "ngrok";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --strike --red "$service";
+          else  
+            ansi --red "$service";
+          fi
         else  
-          ansi --no-newline --red "ngrok";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --no-newline --strike --red "$service";
+          else  
+            ansi --no-newline --red "$service";
+          fi 
         fi  
       fi
       ;;
@@ -1030,11 +1074,22 @@ __redis(){
 
     print_down) 
       local last=$2
+      local service=redis
+      local services_disabled
+      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
-          ansi --red "redis";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --strike --red "$service";
+          else  
+            ansi --red "$service";
+          fi
         else  
-          ansi --no-newline --red "redis";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --no-newline --strike --red "$service";
+          else  
+            ansi --no-newline --red "$service";
+          fi 
         fi  
       fi
       ;;
@@ -1207,11 +1262,22 @@ __rails(){
 
     print_down) 
       local last=$2
+      local service=rails
+      local services_disabled
+      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
-          ansi --red "rails";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --strike --red "$service";
+          else  
+            ansi --red "$service";
+          fi
         else  
-          ansi --no-newline --red "rails";
+          if [ $(__contains "$services_disabled" "$service") == "y" ]; then
+            ansi --no-newline --strike --red "$service";
+          else  
+            ansi --no-newline --red "$service";
+          fi 
         fi  
       fi
       ;;
@@ -1315,7 +1381,30 @@ __services(){
     status)
       __services print
       ;;
-
+    enable)
+      local site_services=()
+      local service="$2"
+      site_services=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g')
+      if [ $(__contains "$site_services" "$service") == "y" ]; then
+        sed -e "/#$service/ s/^#$service*/$service/" Procfile.$SITE > temp && rm -f "Procfile.$SITE" && mv temp "Procfile.$SITE"
+        foreman check -f Procfile.$SITE
+      else 
+        ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${service}' service"
+        ansi ""
+      fi
+      ;;  
+    disable)
+      local site_services=()
+      local service=$2
+      site_services=$(foreman check -f Procfile.$SITE | awk -F[\(\)] '{print $2}' | sed 's/,//g' | sed 's/#//g')
+      if [ $(__contains "$site_services" "$service") == "y" ]; then
+        sed -e "/$service/ s/^#*/#/" Procfile.$SITE > temp && rm -f "Procfile.$SITE" && mv temp "Procfile.$SITE"
+        foreman check -f Procfile.$SITE
+      else 
+        ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${service}' service"
+        ansi ""
+      fi
+      ;;
     any_running)
       local result="n"
       for s in ${services[@]}
@@ -1363,7 +1452,11 @@ __services(){
 
     print_downs)
       local services_not_running
-      for s in ${services[@]}
+      local site_services
+      local sites_disabled
+      site_services=($(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g'))
+      sites_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      for s in ${site_services[@]}
       do
         if [ "$(__$s is_running)" == "n" ]; then
           services_not_running+=($s)
