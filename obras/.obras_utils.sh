@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.84
+export OBRAS_UTILS_VERSION=1.4.85
 export OBRAS_UTILS_VERSION_DATE=2020.09.21
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve the 'site services' management."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve more the 'site services' management."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1221,7 +1221,7 @@ __rails(){
 
 __services(){
   local action=$1
-  local services=(rails mysql redis sidekiq mailcatcher ngrok)
+  local services=(mysql redis mailcatcher sidekiq ngrok rails)
   case $action in
     help|h|--help|-h)
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
@@ -1239,39 +1239,45 @@ __services(){
         foreman check -f Procfile.$SITE
       else
         cat Procfile.services > Procfile.$SITE
-        cat Procfile | grep $SITE >> Procfile.$SITE
+        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> Procfile.$SITE
         foreman check -f Procfile.$SITE
       fi
       ;;
     start)
       case $2 in
         rails|mysql|ngrok|redis|sidekiq|mailcatcher)
-          __$s start
+          __$2 start
           ;;
         all)
-          test -f Procfile.$SITE && rm -rf Procfile.$SITE
-          cat Procfile.services > Procfile.$SITE
-          cat Procfile | grep $SITE >> Procfile.$SITE
+          if ! test -f Procfile.$SITE; then
+            cat Procfile.services > Procfile.$SITE
+            cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> Procfile.$SITE
+          fi  
           foreman start all -f Procfile.$SITE
           ;;
       esac; 
       ;;   
 
     stop)
+      local site_services
       case $2 in
         rails|mysql|ngrok|redis|sidekiq|mailcatcher)
           __$s stop
          ;;
         
         all)
-          unset services[1]
-          unset services[2]
-          for s in ${services[@]}
-          do
-            if [ "$(__$s is_running)" == "y" ]; then
-              __$s stop
-            fi
-          done
+          if test -f Procfile.$SITE; then
+            site_services=$(foreman check -f Procfile.$SITE | awk -F[\(\)] '{print $2}' | sed 's/,//g')
+            for s in ${site_services[@]}
+            do
+              if [ "$(__$s is_running)" == "y" ]; then
+                __$s stop
+              fi
+            done
+          else  
+            ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not exist"
+            ansi ""
+          fi
           ;;
         *)
           __services print
@@ -1286,12 +1292,19 @@ __services(){
          ;;
         
         all)
-          unset services[1]
-          unset services[2]
-          for s in ${services[@]}
-          do
-              __$s restart
-          done
+          if test -f Procfile.$SITE; then
+            services=$(foreman check | awk -F[\(\)] '{print $2}' | sed 's/,//g')
+            for s in ${services[@]}
+            do
+              if [ "$(__$s is_running)" == "y" ]; then
+                __$s stop
+              fi
+            done
+            foreman start all -f Procfile.$SITE
+          else  
+            ansi --no-newline --green-intense "==> "; ansi --red "Procfile.{$SITE} does not exist"
+            ansi ""
+          fi
           ;;
         *)
           __services print
