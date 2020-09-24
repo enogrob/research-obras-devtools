@@ -114,7 +114,7 @@ fobras_utils() {
         fi
       fi
 
-      if ! test -f /usr/local/bin/ngrok && ! $HOME/bin/ngrok; then
+      if ! test -f /usr/local/bin/ngrok && ! test -f $HOME/bin/ngrok; then
         echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"ngrok\" \033[0m"
         echo ""
         if [ "$OS" == 'Darwin' ]; then

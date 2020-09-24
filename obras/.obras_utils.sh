@@ -201,7 +201,7 @@ obras_utils() {
           sudo snap install ngrok
         fi
       fi
-      source ~/.bashrc
+      source $HOME/.bashrc
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
       cowsay $OBRAS_UTILS_UPDATE_MESSAGE
       ;;
