@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.86
-export OBRAS_UTILS_VERSION_DATE=2020.09.22
-export OBRAS_UTILS_UPDATE_MESSAGE="Implemented 'site services enable/disable [service]'."
+export OBRAS_UTILS_VERSION=1.4.87
+export OBRAS_UTILS_VERSION_DATE=2020.09.23
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site services enable/disable [service]'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -684,10 +684,11 @@ __mysql(){
   local action=$1
   if [ -z $DOCKER ]; then
     local port="3306"
+    local pid=$(lsof -i :$port | grep -e mysql | awk {'print $2'} | uniq)
   else
     local port="33060"
+    local pid=$(lsof -i :$port | grep -e docke | awk {'print $2'} | uniq)
   fi  
-  local pid=$(lsof -i :$port | grep -e mysql | awk {'print $2'} | uniq)
   case $action in
     pid)
       echo $pid
@@ -994,10 +995,11 @@ __redis(){
   local action=$1
   if [ -z $DOCKER ]; then
     local port="6379"
+    local pid=$(lsof -i :$port | grep -e redis | awk {'print $2'} | uniq)
   else
     local port="63790"
+    local pid=$(lsof -i :$port | grep -e docke | awk {'print $2'} | uniq)
   fi  
-  local pid=$(lsof -i :$port | grep -e redis | awk {'print $2'} | uniq)
   case $action in
     pid)
       echo $pid
@@ -1295,6 +1297,7 @@ __services(){
       ansi --white "::"
       __pr info "services " "[ls/check]"
       __pr info "services " "[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]"
+      __pr info "services " "[enable/disable ngrok/sidekiq/mailcatcher]"
       __pr info "services " "[conn/connect mysql/db/redis]"
       __pr 
       __pr info "obs: " "redis and mysql are not involved when all is specified"
@@ -1328,7 +1331,7 @@ __services(){
       local site_services
       case $2 in
         rails|mysql|ngrok|redis|sidekiq|mailcatcher)
-          __$s stop
+          __$2 stop
          ;;
         
         all)
@@ -1456,6 +1459,8 @@ __services(){
       local sites_disabled
       site_services=($(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g'))
       sites_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      site_services+=(mysql)
+      site_services+=(redis)
       for s in ${site_services[@]}
       do
         if [ "$(__$s is_running)" == "n" ]; then
