@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.87
-export OBRAS_UTILS_VERSION_DATE=2020.09.23
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site services enable/disable [service]'."
+export OBRAS_UTILS_VERSION=1.4.88
+export OBRAS_UTILS_VERSION_DATE=2020.09.24
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site services enable/disable' can specify more than one service."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1385,28 +1385,36 @@ __services(){
       __services print
       ;;
     enable)
+      shift
       local site_services=()
-      local service="$2"
+      local params=("$@")
       site_services=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g')
-      if [ $(__contains "$site_services" "$service") == "y" ]; then
-        sed -e "/#$service/ s/^#$service*/$service/" Procfile.$SITE > temp && rm -f "Procfile.$SITE" && mv temp "Procfile.$SITE"
-        foreman check -f Procfile.$SITE
-      else 
-        ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${service}' service"
-        ansi ""
-      fi
+      for p in ${params[@]}
+      do
+        if [ $(__contains "$site_services" "$p") == "y" ]; then
+          sed -e "/#$p/ s/^#$p*/$p/" Procfile.$SITE > temp && rm -f "Procfile.$SITE" && mv temp "Procfile.$SITE"
+        else 
+          ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${p}' service"
+          ansi ""
+        fi
+      done
+      foreman check -f Procfile.$SITE
       ;;  
     disable)
+      shift
       local site_services=()
-      local service=$2
+      local params=("$@")
       site_services=$(foreman check -f Procfile.$SITE | awk -F[\(\)] '{print $2}' | sed 's/,//g' | sed 's/#//g')
-      if [ $(__contains "$site_services" "$service") == "y" ]; then
-        sed -e "/$service/ s/^#*/#/" Procfile.$SITE > temp && rm -f "Procfile.$SITE" && mv temp "Procfile.$SITE"
-        foreman check -f Procfile.$SITE
-      else 
-        ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${service}' service"
-        ansi ""
-      fi
+      for p in ${params[@]}
+      do
+        if [ $(__contains "$site_services" "$p") == "y" ]; then
+          sed -e "/$p/ s/^#*/#/" Procfile.$SITE > temp && rm -f "Procfile.$SITE" && mv temp "Procfile.$SITE"
+        else 
+          ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${p}' service"
+          ansi ""
+        fi
+      done
+      foreman check -f Procfile.$SITE
       ;;
     any_running)
       local result="n"
