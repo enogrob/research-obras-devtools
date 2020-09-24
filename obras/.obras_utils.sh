@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.88
+export OBRAS_UTILS_VERSION=1.4.89
 export OBRAS_UTILS_VERSION_DATE=2020.09.24
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site services enable/disable' can specify more than one service."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'install.sh' and 'obras_utils update'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -138,7 +138,7 @@ obras_utils() {
       cp obras_temp1 $HOME/.obras_utils.sh 
       test -f obras_temp && rm -rf obras_temp*
       test -f .obras_utils.sh && rm -rf .obras_utils.sh
-      if ! test -f /usr/local/bin/mycli; then
+      if ! test -f /usr/local/bin/mycli && ! test -f /usr/bin/mycli; then
         echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"mycli\" \033[0m"
         echo ""
         if [ "$OS" == 'Darwin' ]; then
@@ -147,13 +147,58 @@ obras_utils() {
           sudo apt-get install mycli
         fi
       fi
-      if ! test -f /usr/local/bin/cowsay; then
+
+      if ! test -f /usr/local/bin/wget && ! test -f /usr/bin/wget; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"wget\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew install wget
+        else  
+          sudo apt-get install wget
+        fi
+      fi
+
+      if ! test -f /usr/local/bin/cowsay && ! test -f /usr/games/cowsay; then
         echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"cowsay\" \033[0m"
         echo ""
         if [ "$OS" == 'Darwin' ]; then
           brew install cowsay
         else  
           sudo apt-get install cowsay
+        fi
+      fi
+
+      if ! test -f /usr/local/bin/pipx && ! test -f $HOME/.local/bin/pipx ; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"pip\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew install pipx
+          pipx ensurepath
+        else 
+          python3 -m pip install --user pipx
+          python3 -m pipx ensurepath 
+          source $HOME/.bashrc
+        fi
+      fi
+
+      if ! test -f $HOME/.local/bin/iredis; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"iredis\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew install iredis
+        else 
+          apt-get install python3-venv
+          pipx install iredis
+        fi
+      fi
+
+      if ! test -f /usr/local/bin/ngrok && ! $HOME/bin/ngrok; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"ngrok\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew cask install ngrok
+        else  
+          sudo snap install ngrok
         fi
       fi
       source ~/.bashrc

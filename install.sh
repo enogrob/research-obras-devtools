@@ -190,7 +190,7 @@ case $1 in
       fi
     fi
 
-    if ! test -f /usr/local/bin/mycli; then
+    if ! test -f /usr/local/bin/mycli && ! test -f /usr/bin/mycli; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"mycli\" \033[0m"
       echo ""
       if [ "$OS" == 'Darwin' ]; then
@@ -200,7 +200,7 @@ case $1 in
       fi
     fi
 
-    if ! test -f /usr/local/bin/wget; then
+    if ! test -f /usr/local/bin/wget && ! test -f /usr/bin/wget; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"wget\" \033[0m"
       echo ""
       if [ "$OS" == 'Darwin' ]; then
@@ -210,7 +210,7 @@ case $1 in
       fi
     fi
 
-    if ! test -f /usr/local/bin/cowsay; then
+    if ! test -f /usr/local/bin/cowsay && ! test -f /usr/games/cowsay; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"cowsay\" \033[0m"
       echo ""
       if [ "$OS" == 'Darwin' ]; then
@@ -220,25 +220,31 @@ case $1 in
       fi
     fi
 
-    if ! test -f /usr/local/bin/pipx; then
+    if ! test -f /usr/local/bin/pipx && ! test -f $HOME/.local/bin/pipx ; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"pip\" \033[0m"
       echo ""
       if [ "$OS" == 'Darwin' ]; then
         brew install pipx
         pipx ensurepath
-      else  
-        sudo apt-get install pipx
-        pipx ensurepath
+      else 
+        python3 -m pip install --user pipx
+        python3 -m pipx ensurepath 
+        source $HOME/.bashrc
       fi
     fi
 
     if ! test -f $HOME/.local/bin/iredis; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"iredis\" \033[0m"
       echo ""
+      if [ "$OS" == 'Darwin' ]; then
+        brew install iredis
+      else 
+        apt-get install python3-venv
         pipx install iredis
+      fi
     fi
 
-    if ! test -f /usr/local/bin/ngrok; then
+    if ! test -f /usr/local/bin/ngrok && ! $HOME/bin/ngrok; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"ngrok\" \033[0m"
       echo ""
       if [ "$OS" == 'Darwin' ]; then
