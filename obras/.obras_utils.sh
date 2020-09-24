@@ -22,7 +22,7 @@ fi
 
 export INSTALLDIRTMP=obras_dir
 export OBRASTMP="$HOME/Projects/obras"
-export OBRASOLDTMP="$HOME/Logbook/obras"
+export OBRASOLDTMP="$HOME/Projects/obras"
 export RAILSVERSIONTMP="Rails 6.0.2.1"
 
 export INSTALL_DIR=$INSTALLDIRTMP
@@ -1039,8 +1039,17 @@ __ngrok(){
 __redis(){
   local action=$1
   if [ -z $DOCKER ]; then
-    local port="6379"
-    local pid=$(lsof -i :$port | grep -e redis | awk {'print $2'} | uniq)
+    if [ "$OS" == 'Darwin' ]; then
+      local port="6379"
+      local pid=$(lsof -i :$port | grep -e redis | awk {'print $2'} | uniq)
+    else  
+      local port="6379"
+      if test -f /var/run/redis/redis-server.pid; then
+        local pid=$(sudo cat /var/run/redis/redis-server.pid)
+      else
+        unset pid
+      fi 
+    fi   
   else
     local port="63790"
     local pid=$(lsof -i :$port | grep -e docke | awk {'print $2'} | uniq)
@@ -1510,6 +1519,10 @@ __services(){
       local services_not_running
       local site_services
       local sites_disabled
+      if ! test -f Procfile.$SITE; then
+        cat Procfile.services > Procfile.$SITE
+        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> Procfile.$SITE
+      fi  
       site_services=($(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g'))
       sites_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       site_services+=(mysql)
