@@ -196,6 +196,9 @@ Changes log
 
 Changes Required
 
-* **1.4.90** Improve the **redis cli** with **iredis**. 
-* **1.4.91** Review `Docker` for the latest changes.
+* **1.4.90** Improve `backups` management.
+* **1.4.91** Integrate `coverage`.
+* **1.4.92** Integrate `RubyCritic`, `MetricFu` and `Attractor`.
+* **1.4.93** Improve `sites` management.
+* **1.4.94** Review `Docker` for the latest changes.
 
