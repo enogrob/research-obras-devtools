@@ -11,7 +11,7 @@
 # variables
 export OBRAS_UTILS_VERSION=1.4.91
 export OBRAS_UTILS_VERSION_DATE=2020.09.26
-export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'coverage/index.html' in flags."
+export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'tmp/rubycritic/overview.html' in flags."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
