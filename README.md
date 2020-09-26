@@ -124,7 +124,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.91
+Obras Utils 1.4.92
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -133,7 +133,7 @@ site[db/mysql/redis conn/connect]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.91
+Obras Utils 1.4.92
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -142,7 +142,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.91
+Obras Utils 1.4.92
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -153,7 +153,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.91
+Obras Utils 1.4.92
 ::
 obras_utils[version/update/check]
 ```
@@ -162,6 +162,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.4.92** Improve `flags.print_ups` in flags.
 * **1.4.91** Integrate `tmp/rubycritic/overview.html` in flags.
 * **1.4.90** Integrate `coverage/index.html` in flags.
 * **1.4.89** Improve "Improve `install.sh` and `obras_utils update`."
@@ -198,8 +199,8 @@ Changes log
 
 Changes Required
 
-* **1.4.92** Improve `backups` management.
-* **1.4.93** Integrate `MetricFu` and `Attractor`.
-* **1.4.94** Improve `sites` management.
-* **1.4.95** Review `Docker` for the latest changes.
+* **1.4.93** Improve `backups` management.
+* **1.4.94** Integrate `MetricFu` and `Attractor`.
+* **1.4.95** Improve `sites` management.
+* **1.4.96** Review `Docker` for the latest changes.
 

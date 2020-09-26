@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.91
+export OBRAS_UTILS_VERSION=1.4.92
 export OBRAS_UTILS_VERSION_DATE=2020.09.26
-export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'tmp/rubycritic/overview.html' in flags."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'flags.print_ups' in flags."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -630,13 +630,20 @@ __docker(){
 }
 
 flags.print(){
-  ansi --no-newline "  flags"
+  ansi "flags:"
+  flags.print_ups
   flags.print_all
 }
 flags.print_all(){
-  local flags=(coverage rubycritic docker headless)
+  local flags=(docker headless)
+  if [ "$(flag.is_set coverage)" == "n" ]; then
+    flags+=(coverage)
+  fi
+  if [ "$(flag.is_set rubycritic)" == "n" ]; then
+    flags+=(rubycritic)
+  fi
   local flags_set
-  ansi --no-newline " "
+  ansi --no-newline "  "
   for f in ${flags[@]}
   do
     if [ "$f" == "${flags[${#flags[@]}-1]}" ]; then
@@ -648,26 +655,25 @@ flags.print_all(){
   done
 }
 flags.print_ups(){
-  local flags=(coverage rubycritic docker headless)
+  local flag_name_lens=()
+  local major
+  local flags=(rubycritic coverage)
   local flags_set
   for f in ${flags[@]}
   do
     if [ "$(flag.is_set $f)" == "y" ]; then
-      flags_set+=($f)
+      flag_name_lens+=(${#f})
     fi
   done
-  if [ "$(flags.any_set)" == "y" ]; then
-    ansi --no-newline "  "
-    for f in ${flags_set[@]}
-    do
-      if [ "$f" == "${flags_set[${#flags_set[@]}-1]}" ]; then
-        flag.print_up $f true
-      else
-        flag.print_up $f
-        ansi --no-newline ", "
-      fi
-    done
-  fi
+  IFS=$'\n'
+  major=$(echo "${flag_name_lens[*]}" | sort -nr | head -n1)
+  unset IFS
+  for f in ${flags[@]}
+  do
+    if [ "$(flag.is_set $f)" == "y" ]; then
+      flag.print_up $f $major
+    fi
+  done
 }
 flags.print_downs(){
   local flags=(coverage rubycritic docker headless)
@@ -811,60 +817,33 @@ flag.unset(){
 }
 flag.print_up(){
   local flag=$1
-  local last=$2
+  local major=$2
+  local flag_name
   case $flag in
     coverage)
       if [ "$(flag.is_set coverage)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          if test -f coverage/index.html; then
-            ansi --underline --green-intense "coverage/index.html"
-          else
-            ansi --green "coverage"
-          fi
+        if test -f coverage/index.html; then
+          flag_name=$(printf "%-${major}s" "coverage")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --underline --green-intense "coverage/index.html"
         else
-          if test -f coverage/index.html; then
-            ansi --no-newline --underline --green-intense "coverage/index.html"
-          else
-            ansi --no-newline --green "coverage"
-          fi
+          flag_name=$(printf "%-${major}s" "coverage")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --green "coverage"
         fi
       fi
       ;;
 
     rubycritic)
       if [ "$(flag.is_set rubycritic)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          if test -f tmp/rubycritic/overview.html; then
-            ansi --underline --green-intense "tmp/rubycritic/overview.html"
-          else
-            ansi --green "rubycritic"
-          fi
+        if test -f tmp/rubycritic/overview.html; then
+          flag_name=$(printf "%-${major}s" "rubycritic")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --underline --green-intense "tmp/rubycritic/overview.html"
         else
-          if test -f coverage/index.html; then
-            ansi --no-newline --underline --green-intense "tmp/rubycritic/overview.html"
-          else
-            ansi --no-newline --green "rubycritic"
-          fi
-        fi
-      fi
-      ;;
-
-    docker)
-      if [ "$(flag.is_set docker)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --green "docker"
-        else
-          ansi --no-newline --green "docker"
-        fi
-      fi
-      ;;
-
-    headless)
-      if [ "$(flag.is_set headless)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --green "headless"
-        else
-          ansi --no-newline --green "headless"
+          flag_name=$(printf "%-${major}s" "rubycritic")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --green "rubycritic"
         fi
       fi
       ;;
