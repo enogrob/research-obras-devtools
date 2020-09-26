@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.89
-export OBRAS_UTILS_VERSION_DATE=2020.09.24
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'install.sh' and 'obras_utils update'."
+export OBRAS_UTILS_VERSION=1.4.90
+export OBRAS_UTILS_VERSION_DATE=2020.09.26
+export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'coverage/index.html' in flags."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -54,9 +54,6 @@ export SITES_OLD_CASE="+($(echo $SITES_OLD | sed 's/ /|/g'))"
 
 export RAILS_ENV=development
 export RUBYOPT=-W0
-export SITE=default
-export PORT=3000
-export SITEPREV=default
 export MAILCATCHER_ENV=LOCALHOST
 unset MYSQL_DATABASE_DEV
 unset MYSQL_DATABASE_TST
@@ -64,9 +61,6 @@ unset DB_TABLES_DEV
 unset DB_RECORDS_DEV
 unset DB_TABLES_TST
 unset DB_RECORDS_TST
-export HEADLESS=true
-unset COVERAGE
-unset DOCKER
 
 # aliases development
 alias home='cd $HOME;title home'
@@ -635,6 +629,313 @@ __docker(){
   fi  
 }
 
+flags.print(){
+  ansi --no-newline "  flags"
+  flags.print_all
+}
+flags.print_all(){
+  local flags=(coverage docker headless)
+  local flags_set
+  ansi --no-newline " "
+  for f in ${flags[@]}
+  do
+    if [ "$f" == "${flags[${#flags[@]}-1]}" ]; then
+      flag.print $f true
+    else
+      flag.print $f
+      ansi --no-newline ", "
+    fi
+  done
+}
+flags.print_ups(){
+  local flags=(docker coverage headless)
+  local flags_set
+  for f in ${flags[@]}
+  do
+    if [ "$(flag.is_set $f)" == "y" ]; then
+      flags_set+=($f)
+    fi
+  done
+  if [ "$(flags.any_set)" == "y" ]; then
+    ansi --no-newline "  "
+    for f in ${flags_set[@]}
+    do
+      if [ "$f" == "${flags_set[${#flags_set[@]}-1]}" ]; then
+        flag.print_up $f true
+      else
+        flag.print_up $f
+        ansi --no-newline ", "
+      fi
+    done
+  fi
+}
+flags.print_downs(){
+  local flags=(docker coverage headless)
+  local flags_not_set
+  for f in ${flags[@]}
+  do
+    if [ "$(flag.is_set $f)" == "n" ]; then
+      flags_not_set+=($f)
+    fi
+  done
+  if [ "$(flags.any_not_set)" == "y" ]; then
+    ansi --no-newline "  "
+    for f in ${flags_not_set[@]}
+    do
+      if [ "$f" == "${flags_not_set[${#flags_not_set[@]}-1]}" ]; then
+        flag.print_down $f true
+      else
+        flag.print_down $f
+        ansi --no-newline ", "
+      fi
+    done
+  fi
+}
+flags.any_not_set(){
+  local flags=(docker coverage headless)
+  local result="n"
+  for f in ${flags[@]}
+  do
+    if [ "$(flag.is_set $f)" == "n" ]; then
+      result="y"
+      break
+    fi
+  done
+  echo $result
+}
+flags.any_set(){
+  local flags=(docker coverage headless)
+  local result="n"
+  for f in ${flags[@]}
+  do
+    if [ "$(flag.is_set $f)" == "y" ]; then
+      result="y"
+      break
+    fi
+  done
+  echo $result
+}
+flag.get(){
+  local flag=$1
+  case $flag in
+    coverage)
+      echo $COVERAGE
+      ;;
+    docker)
+      echo $DOCKER
+      ;;
+    headless)
+      echo $HEADLESS
+      ;;
+  esac
+}
+flag.is_set(){
+  local flag=$1
+  flag=$(flag.get $1)
+  if [ -z $flag ]; then
+    echo "n"
+  else
+    echo "y"
+  fi
+}
+flag.set(){
+  local flag=$1
+  case $flag in
+    coverage)
+      unset COVERAGE
+      export COVERAGE=true
+      ;;
+
+    headless)
+      unset HEADLESS
+      export HEADLESS=true
+      ;;
+
+    docker)
+      docker info > /dev/null 2>&1
+      status=$?
+      if $(exit $status); then
+        docker-compose up -d db redis selenium $SITE > /dev/null 2>&1
+        unset DOCKER
+        export DOCKER=true
+      else  
+        ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot connect to the Docker daemon"
+        __pr
+        return 1
+      fi  
+      ;;
+    *)
+      ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad flag "$2
+      __pr
+      return 1
+      ;;
+  esac
+}
+flag.unset(){
+  local flag=$1
+  case $flag in
+    coverage)
+      unset COVERAGE
+      ;;
+
+    headless)
+      unset HEADLESS
+      ;;
+
+    docker)
+      docker-compose down > /dev/null 2>&1
+      status=$?
+      if $(exit $status); then
+        unset DOCKER
+      fi
+      ;;
+
+    *)
+      ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad parameter "$2
+      __pr
+      return 1
+      ;;
+  esac   
+}
+flag.print_up(){
+  local flag=$1
+  local last=$2
+  case $flag in
+    coverage)
+      if [ "$(flag.is_set coverage)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f coverage/index.html; then
+            ansi --underline --green-intense "coverage/index.html"
+          else
+            ansi --green "coverage"
+          fi
+        else
+          if test -f coverage/index.html; then
+            ansi --no-newline --underline --green-intense "coverage/index.html"
+          else
+            ansi --no-newline --green "coverage"
+          fi
+        fi
+      fi
+      ;;
+
+    docker)
+      if [ "$(flag.is_set docker)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --green "docker"
+        else
+          ansi --no-newline --green "docker"
+        fi
+      fi
+      ;;
+
+    headless)
+      if [ "$(flag.is_set headless)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --green "headless"
+        else
+          ansi --no-newline --green "headless"
+        fi
+      fi
+      ;;
+  esac
+}
+flag.print(){
+  local flag=$1
+  local last=$2
+  case $flag in
+    coverage)
+      if [ "$(flag.is_set coverage)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f coverage/index.html; then
+            ansi --underline --green-intense "coverage/index.html"
+          else
+            ansi --green "coverage"
+          fi
+        else
+          if test -f coverage/index.html; then
+            ansi --no-newline --underline --green-intense "coverage/index.html"
+          else
+            ansi --no-newline --green "coverage"
+          fi
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "coverage";
+        else
+          ansi --no-newline --red "coverage";
+        fi
+      fi
+      ;;
+
+    docker)
+      if [ "$(flag.is_set docker)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --green "docker"
+        else
+          ansi --no-newline --green "docker"
+        fi
+      else  
+        if [ "$last" == "true" ]; then
+          ansi --red "docker";
+        else
+          ansi --no-newline --red "docker";
+        fi
+      fi
+      ;;
+
+    headless)
+      if [ "$(flag.is_set headless)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --green "headless"
+        else
+          ansi --no-newline --green "headless"
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "headless";
+        else
+          ansi --no-newline --red "headless";
+        fi
+      fi
+      ;;
+  esac
+}
+flag.print_down(){
+  local flag=$1
+  local last=$2
+  case $flag in
+    coverage)
+      if [ "$(flag.is_set coverage)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "coverage";
+        else
+          ansi --no-newline --red "coverage";
+        fi
+      fi
+      ;;
+
+    docker)
+      if [ "$(flag.is_set docker)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "docker";
+        else
+          ansi --no-newline --red "docker";
+        fi
+      fi
+      ;;
+
+    headless)
+      if [ "$(flag.is_set headless)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "headless";
+        else
+          ansi --no-newline --red "headless";
+        fi
+      fi
+    ;;
+  esac
+}
 
 __mailcatcher(){
   local port=1080
@@ -2523,8 +2824,6 @@ site(){
       export SITEPREV=$SITE
       export SITE=$1
       export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
-      export HEADLESS=true
-      unset COVERAGE
       cd "$OBRAS"
       db.set $1
       title $1
@@ -2534,6 +2833,9 @@ site(){
         unset DB_TABLES_TST
         unset DB_RECORDS_TST
       fi
+      unset DOCKER
+      unset COVERAGE
+      export HEADLESS=true
       __update_db_stats_site
       ;;
 
@@ -2573,90 +2875,11 @@ site(){
       ;;
 
     set)
-      case $2 in
-        coverage)
-          unset COVERAGE
-          export COVERAGE=true
-          ;;
-
-        headless)
-          unset HEADLESS
-          export HEADLESS=true
-          ;;
-
-        docker)
-          docker info > /dev/null 2>&1
-          status=$?
-          if $(exit $status); then
-            docker-compose up -d db > /dev/null 2>&1
-            # status=$?
-            # if $(exit $status); then
-            #   ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker db service up"
-            #   __pr
-            #   return 1
-            # fi
-            docker-compose up -d redis > /dev/null 2>&1
-            # status=$?
-            # if $(exit $status); then
-            #   ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker redis service up"
-            #   __pr
-            #   return 1
-            # fi
-            docker-compose up -d selenium > /dev/null 2>&1
-            # status=$?
-            # if $(exit $status); then
-            #   ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker selenium service up"
-            #   __pr
-            #   return 1
-            # fi
-            docker-compose up -d $SITE > /dev/null 2>&1
-            # status=$?
-            # if $(exit $status); then
-            #   ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot turn Docker $SITE service up"
-            #   __pr
-            #   return 1
-            # fi
-            unset DOCKER
-            export DOCKER=true
-          else  
-            ansi --no-newline --red-intense "==> "; ansi --white-intense "Cannot connect to the Docker daemon"
-            __pr
-            return 1
-          fi  
-          ;;
-          
-        *)
-          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad flag "$2
-          __pr
-          return 1
-          ;;
-      esac
+      flag.set $2
       ;;
 
-    unset)  
-      case $2 in
-        coverage)
-          unset COVERAGE
-          ;;
-
-        headless)
-          unset HEADLESS
-          ;;
-
-        docker)
-          docker-compose down > /dev/null 2>&1
-          status=$?
-          if $(exit $status); then
-            unset DOCKER
-          fi
-          ;;
-
-        *)
-          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad parameter "$2
-          __pr
-          return 1
-          ;;
-      esac
+    unset)
+      flag.unset $2
       ;;
 
     start)
@@ -2784,7 +3007,7 @@ site(){
   fi
 }
 site.print(){
-  ansi --white --no-newline "site:  "
+  ansi --white --no-newline "site:   "
   ansi --no-newline --white-intense --underline $SITE
   ansi --white --no-newline " ";ansi --cyan-intense $(rvm current)
   ansi --no-newline "  env   "
@@ -2799,20 +3022,5 @@ site.print(){
   else
     ansi --red "test"
   fi
-  ansi --no-newline "  flags "
-  if [ -z "$COVERAGE" ]; then
-    ansi --no-newline --red "coverage";ansi --no-newline ", "
-  else
-    ansi --no-newline --green "  coverage";ansi --no-newline ", "
-  fi
-  if [ -z "$HEADLESS" ]; then
-    ansi --no-newline --red "headless";ansi --no-newline ", "
-  else
-    ansi --no-newline --green "headless";ansi --no-newline ", "
-  fi
-  if [ -z "$DOCKER" ]; then
-    ansi --red "docker"
-  else
-    ansi --green "docker"
-  fi
+  flags.print
 }
