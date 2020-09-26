@@ -9,7 +9,7 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.90
+export OBRAS_UTILS_VERSION=1.4.91
 export OBRAS_UTILS_VERSION_DATE=2020.09.26
 export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'coverage/index.html' in flags."
 
@@ -634,7 +634,7 @@ flags.print(){
   flags.print_all
 }
 flags.print_all(){
-  local flags=(coverage docker headless)
+  local flags=(coverage rubycritic docker headless)
   local flags_set
   ansi --no-newline " "
   for f in ${flags[@]}
@@ -648,7 +648,7 @@ flags.print_all(){
   done
 }
 flags.print_ups(){
-  local flags=(docker coverage headless)
+  local flags=(coverage rubycritic docker headless)
   local flags_set
   for f in ${flags[@]}
   do
@@ -670,7 +670,7 @@ flags.print_ups(){
   fi
 }
 flags.print_downs(){
-  local flags=(docker coverage headless)
+  local flags=(coverage rubycritic docker headless)
   local flags_not_set
   for f in ${flags[@]}
   do
@@ -692,7 +692,7 @@ flags.print_downs(){
   fi
 }
 flags.any_not_set(){
-  local flags=(docker coverage headless)
+  local flags=(coverage rubycritic docker headless)
   local result="n"
   for f in ${flags[@]}
   do
@@ -704,7 +704,7 @@ flags.any_not_set(){
   echo $result
 }
 flags.any_set(){
-  local flags=(docker coverage headless)
+  local flags=(coverage rubycritic docker headless)
   local result="n"
   for f in ${flags[@]}
   do
@@ -720,6 +720,9 @@ flag.get(){
   case $flag in
     coverage)
       echo $COVERAGE
+      ;;
+    rubycritic)
+      echo $RUBYCRITIC
       ;;
     docker)
       echo $DOCKER
@@ -744,6 +747,11 @@ flag.set(){
     coverage)
       unset COVERAGE
       export COVERAGE=true
+      ;;
+
+    rubycritic)
+      unset RUBYCRITIC
+      export RUBYCRITIC=true
       ;;
 
     headless)
@@ -776,6 +784,10 @@ flag.unset(){
   case $flag in
     coverage)
       unset COVERAGE
+      ;;
+
+    rubycritic)
+      unset RUBYCRITIC
       ;;
 
     headless)
@@ -814,6 +826,24 @@ flag.print_up(){
             ansi --no-newline --underline --green-intense "coverage/index.html"
           else
             ansi --no-newline --green "coverage"
+          fi
+        fi
+      fi
+      ;;
+
+    rubycritic)
+      if [ "$(flag.is_set rubycritic)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f tmp/rubycritic/overview.html; then
+            ansi --underline --green-intense "tmp/rubycritic/overview.html"
+          else
+            ansi --green "rubycritic"
+          fi
+        else
+          if test -f coverage/index.html; then
+            ansi --no-newline --underline --green-intense "tmp/rubycritic/overview.html"
+          else
+            ansi --no-newline --green "rubycritic"
           fi
         fi
       fi
@@ -868,6 +898,30 @@ flag.print(){
       fi
       ;;
 
+    rubycritic)
+      if [ "$(flag.is_set rubycritic)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f tmp/rubycritic/overview.html; then
+            ansi --underline --green-intense "tmp/rubycritic/overview.html"
+          else
+            ansi --green "rubycritic"
+          fi
+        else
+          if test -f tmp/rubycritic/overview.html; then
+            ansi --no-newline --underline --green-intense "tmp/rubycritic/overview.html"
+          else
+            ansi --no-newline --green "rubycritic"
+          fi
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "rubycritic";
+        else
+          ansi --no-newline --red "rubycritic";
+        fi
+      fi
+      ;;
+
     docker)
       if [ "$(flag.is_set docker)" == "y" ]; then
         if [ "$last" == "true" ]; then
@@ -911,6 +965,16 @@ flag.print_down(){
           ansi --red "coverage";
         else
           ansi --no-newline --red "coverage";
+        fi
+      fi
+      ;;
+
+    rubycritic)
+      if [ "$(flag.is_set rubycritic)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "rubycritic";
+        else
+          ansi --no-newline --red "rubycritic";
         fi
       fi
       ;;
@@ -2835,6 +2899,7 @@ site(){
       fi
       unset DOCKER
       unset COVERAGE
+      unset RUBYCRITIC
       export HEADLESS=true
       __update_db_stats_site
       ;;
@@ -2842,8 +2907,7 @@ site(){
     $SITES_OLD_CASE)
       export SITEPREV=$SITE
       export SITE=$1
-      export HEADLESS=true
-      unset COVERAGE
+      export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
       cd "$OBRAS_OLD"
       db.set $1
       title $1
@@ -2853,6 +2917,10 @@ site(){
         unset DB_TABLES_TST
         unset DB_RECORDS_TST
       fi
+      unset DOCKER
+      unset COVERAGE
+      unset RUBYCRITIC
+      export HEADLESS=true
       __update_db_stats_site
       ;;
 
@@ -2957,6 +3025,7 @@ site(){
     flags) 
      ansi --no-newline "flags : "
       __wr_env "coverage" $COVERAGE 
+      __wr_env "rubycritic" $RUBYCRITIC
       __wr_env "headless" $HEADLESS
       __wr_env  "docker" $DOCKER
       __pr
