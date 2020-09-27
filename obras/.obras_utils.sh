@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.93
+export OBRAS_UTILS_VERSION=1.4.94
 export OBRAS_UTILS_VERSION_DATE=2020.09.27
-export OBRAS_UTILS_UPDATE_MESSAGE="New command '[site conn/connect]' in order to access via ssh the homolog site."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'backups' management."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -460,7 +460,7 @@ __import(){
       else
         pv $1 | mysql -u root $MYSQL_DATABASE_TST 
       fi
-    fi    
+    fi   
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     rails db:migrate
   else
@@ -485,10 +485,11 @@ __import(){
       else
         pv $1 | mysql -u root $MYSQL_DATABASE_DEV 
       fi 
-    fi   
+    fi  
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     rake db:migrate
   fi
+  dumps.activate $1
 } 
 
 __import_docker(){
@@ -546,6 +547,7 @@ __import_docker(){
     ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
     docker-compose exec $SITE rake db:migrate
   fi
+  dumps.activate $1
 } 
 
 __contains() {
@@ -2615,21 +2617,8 @@ db(){
       ;;
 
     ls)
-      IFS=$'\n'
-      files_sql=(`ls *$SITE.sql 2>/dev/null`)
-      echo -e "backups:"
-      if [ ! -z "$files_sql" ]; then
-        IFS=$'\n'
-        files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-        for file in ${files_sql[*]}
-        do
-          __pr succ '  '$file
-        done
-      else
-        __pr dang "  no backup files"
-      fi
-      unset IFS
-      __pr
+      dumps.ls
+      dumps.print
       ;; 
 
     backups)
@@ -2771,21 +2760,7 @@ db.print(){
   ansi "databases:"
   db.print_db development
   db.print_db test 
-  IFS=$'\n'
-  files_sql=(`ls *$SITE.sql 2>/dev/null`)
-  ansi --white "backups:"
-  if [ ! -z "$files_sql" ]; then
-    IFS=$'\n'
-    files_sql=( $(printf "%s\n" ${files_sql[@]} | sort -r ) )
-    for file in ${files_sql[*]}
-    do
-      __pr succ '  '$file
-    done
-  else
-    __pr dang "  no backup files"
-  fi
-  unset IFS
-  __pr
+  dumps.print
 }
 db.print_db(){
   local env=$1
@@ -2840,7 +2815,77 @@ db.set(){
       ;;
   esac
 }
-
+dumps.ls(){
+  ! test -d tmp/devtools && mkdir -p tmp/devtools
+  if ! test -f tmp/devtools/dumps.$SITE; then
+    dumps.activate ""
+  fi
+}
+dumps.activate(){
+  local dump_active=$1
+  local dumps
+  IFS=$'\n'
+  dumps=(`ls *$SITE.sql 2>/dev/null`)
+  if [ ! -z "$dumps" ]; then
+    ! test -d tmp/devtools && mkdir -p tmp/devtools
+    test -f tmp/devtools/dumps.$SITE && rm -rf tmp/devtools/dumps.$SITE
+    touch tmp/devtools/dumps.$SITE
+    for dump in ${dumps[*]}
+    do
+      if [ "$dump" == "$dump_active" ]; then
+        echo $dump >> tmp/devtools/dumps.$SITE 
+      else
+        echo "#${dump}" >> tmp/devtools/dumps.$SITE
+      fi
+    done
+  fi
+  unset IFS
+}
+dumps.print(){
+  dumps.ls
+  ansi "dumps:"
+  dumps.print_up
+  dumps.print_downs
+  if ! test -f tmp/devtools/dumps.$SITE; then 
+    ansi --red "  no dumps"
+  else
+    dump_downs=($(cat tmp/devtools/dumps.$SITE | grep -i '#' |  tr '\n' ' ' | sed 's/#//g'))
+    dump_up=$(cat tmp/devtools/dumps.$SITE | grep -v '#')
+    test -z "$dump_downs" && test -z "$dump_up" && ansi --red "  no dumps"
+  fi
+}
+dumps.print_up(){
+  local dump_up
+  if test -f tmp/devtools/dumps.$SITE; then
+    dump_up=$(cat tmp/devtools/dumps.$SITE | grep -v '#')
+    if [ ! -z "$dump_up" ]; then
+      ansi --no-newline "  ";
+      ansi --green $dump_up
+    fi
+  fi
+}
+dumps.print_downs(){
+  local sorted
+  local dump_downs
+  if test -f tmp/devtools/dumps.$SITE; then
+    dump_downs=($(cat tmp/devtools/dumps.$SITE | grep -i '#' | sed 's/#//g'))
+    if [ ! -z "$dump_downs" ]; then 
+      IFS=$'\n'
+      sorted=( $(printf "%s\n" ${dump_downs[@]} | sort -r ) ) 
+      ansi --no-newline "  ";
+      for dump in ${sorted[*]}
+      do
+      if [ "$dump" == "${sorted[${#sorted[@]}-1]}" ]; then
+        ansi --red $dump
+      else
+        ansi --red --no-newline $dump
+        ansi --no-newline ", "
+      fi
+      done
+      unset IFS
+    fi  
+  fi
+}
 
 site(){
   __is_obras
