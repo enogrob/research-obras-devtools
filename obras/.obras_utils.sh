@@ -9,8 +9,8 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.92
-export OBRAS_UTILS_VERSION_DATE=2020.09.26
+export OBRAS_UTILS_VERSION=1.4.93
+export OBRAS_UTILS_VERSION_DATE=2020.09.27
 export OBRAS_UTILS_UPDATE_MESSAGE="New command '[site conn/connect]' in order to access via ssh the homolog site."
 
 export OS=`uname`
@@ -3005,12 +3005,7 @@ site(){
       ;;
 
     flags) 
-     ansi --no-newline "flags : "
-      __wr_env "coverage" $COVERAGE 
-      __wr_env "rubycritic" $RUBYCRITIC
-      __wr_env "headless" $HEADLESS
-      __wr_env  "docker" $DOCKER
-      __pr
+      flags.print
       ;;
 
     db)
