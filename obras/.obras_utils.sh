@@ -11,7 +11,7 @@
 # variables
 export OBRAS_UTILS_VERSION=1.4.92
 export OBRAS_UTILS_VERSION_DATE=2020.09.26
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'flags.print_ups' in flags."
+export OBRAS_UTILS_UPDATE_MESSAGE="New command '[site conn/connect]' in order to access via ssh the homolog site."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -2854,6 +2854,7 @@ site(){
       __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
       __pr info "site " "[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]"
       __pr info "site " "[db/mysql/redis conn/connect]"
+      __pr info "site " "[conn/connect]"
       __pr 
       ;;
 
@@ -2950,7 +2951,9 @@ site(){
     check|ls)
       foreman check  
       ;;
-
+    conn|connect)
+      site.connect
+      ;;
     ngrok|mysql|redis|sidekiq|mailcatcher)
       case $2 in
         start)
@@ -3071,4 +3074,27 @@ site.print(){
     ansi --red "test"
   fi
   flags.print
+}
+site.connect(){
+  case $SITE in
+    olimpia)
+      ssh -t deploy@ec2-18-231-91-182.sa-east-1.compute.amazonaws.com "cd /data/obras/current/ey_bundler_binstubs; exec \$SHELL -l"
+      ;;
+    rioclaro)
+      ssh -t deploy@ec2-54-232-181-209.sa-east-1.compute.amazonaws.com "cd /data/obras/current/ey_bundler_binstubs; exec \$SHELL -l"
+      ;;
+    suzano)
+      ssh -t deploy@ec2-52-67-14-193.sa-east-1.compute.amazonaws.com "cd /data/obras/current/ey_bundler_binstubs; exec \$SHELL -l"
+      ;;
+    santoandre)
+      ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com "cd /data/obras/current/ey_bundler_binstubs; exec \$SHELL -l"
+      ;;
+    demo)
+      ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com "cd /data/obras/current/ey_bundler_binstubs; exec \$SHELL -l"
+      ;;
+    *)
+      ansi --no-newline --red-intense "==> "; ansi --white-intense "Error bad site "$SITE
+      ansi ""
+     ;;          
+  esac 
 }
