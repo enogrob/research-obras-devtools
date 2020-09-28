@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.94
+export OBRAS_UTILS_VERSION=1.4.95
 export OBRAS_UTILS_VERSION_DATE=2020.09.27
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'backups' management."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve again 'backups' and 'services' management."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1050,7 +1050,7 @@ __mailcatcher(){
       local last=$2
       local service=mailcatcher
       local services_disabled
-      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
@@ -1174,7 +1174,7 @@ __mysql(){
       local last=$2
       local service=mysql
       local services_disabled
-      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
@@ -1264,7 +1264,7 @@ __sidekiq(){
       local last=$2
       local service=sidekiq
       local services_disabled
-      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
@@ -1361,7 +1361,7 @@ __ngrok(){
       local last=$2
       local service=ngrok
       local services_disabled
-      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
@@ -1478,7 +1478,7 @@ __redis(){
       local last=$2
       local service=redis
       local services_disabled
-      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
@@ -1666,7 +1666,7 @@ __rails(){
       local last=$2
       local service=rails
       local services_disabled
-      services_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
@@ -1704,12 +1704,12 @@ __services(){
       __pr 
       ;;
     ls|check)
-      if test -f Procfile.$SITE; then
-        foreman check -f Procfile.$SITE
+      if test -f tmp/devtools/${SITE}.procfile; then
+        foreman check -f tmp/devtools/${SITE}.procfile
       else
-        cat Procfile.services > Procfile.$SITE
-        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> Procfile.$SITE
-        foreman check -f Procfile.$SITE
+        cat Procfile.services > tmp/devtools/${SITE}.procfile
+        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile
+        foreman check -f tmp/devtools/${SITE}.procfile
       fi
       ;;
     start)
@@ -1718,11 +1718,11 @@ __services(){
           __$2 start
           ;;
         all)
-          if ! test -f Procfile.$SITE; then
-            cat Procfile.services > Procfile.$SITE
-            cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> Procfile.$SITE
+          if ! test -f tmp/devtools/${SITE}.procfile; then
+            cat Procfile.services > tmp/devtools/${SITE}.procfile
+            cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile
           fi  
-          foreman start all -f Procfile.$SITE
+          foreman start all -f tmp/devtools/${SITE}.procfile
           ;;
       esac; 
       ;;   
@@ -1735,8 +1735,8 @@ __services(){
          ;;
         
         all)
-          if test -f Procfile.$SITE; then
-            site_services=$(foreman check -f Procfile.$SITE | awk -F[\(\)] '{print $2}' | sed 's/,//g')
+          if test -f tmp/devtools/${SITE}.procfile; then
+            site_services=$(foreman check -f tmp/devtools/${SITE}.procfile | awk -F[\(\)] '{print $2}' | sed 's/,//g')
             for s in ${site_services[@]}
             do
               if [ "$(__$s is_running)" == "y" ]; then
@@ -1761,7 +1761,7 @@ __services(){
          ;;
         
         all)
-          if test -f Procfile.$SITE; then
+          if test -f tmp/devtools/${SITE}.procfile; then
             services=$(foreman check | awk -F[\(\)] '{print $2}' | sed 's/,//g')
             for s in ${services[@]}
             do
@@ -1769,7 +1769,7 @@ __services(){
                 __$s stop
               fi
             done
-            foreman start all -f Procfile.$SITE
+            foreman start all -f tmp/devtools/${SITE}.procfile
           else  
             ansi --no-newline --green-intense "==> "; ansi --red "Procfile.{$SITE} does not exist"
             ansi ""
@@ -1788,33 +1788,33 @@ __services(){
       shift
       local site_services=()
       local params=("$@")
-      site_services=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g')
+      site_services=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g')
       for p in ${params[@]}
       do
         if [ $(__contains "$site_services" "$p") == "y" ]; then
-          sed -e "/#$p/ s/^#$p*/$p/" Procfile.$SITE > temp && rm -f "Procfile.$SITE" && mv temp "Procfile.$SITE"
+          sed -e "/#$p/ s/^#$p*/$p/" tmp/devtools/${SITE}.procfile > temp && rm -f "tmp/devtools/${SITE}.procfile" && mv temp "tmp/devtools/${SITE}.procfile"
         else 
           ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${p}' service"
           ansi ""
         fi
       done
-      foreman check -f Procfile.$SITE
+      foreman check -f tmp/devtools/${SITE}.procfile
       ;;  
     disable)
       shift
       local site_services=()
       local params=("$@")
-      site_services=$(foreman check -f Procfile.$SITE | awk -F[\(\)] '{print $2}' | sed 's/,//g' | sed 's/#//g')
+      site_services=$(foreman check -f tmp/devtools/${SITE}.procfile | awk -F[\(\)] '{print $2}' | sed 's/,//g' | sed 's/#//g')
       for p in ${params[@]}
       do
         if [ $(__contains "$site_services" "$p") == "y" ]; then
-          sed -e "/$p/ s/^#*/#/" Procfile.$SITE > temp && rm -f "Procfile.$SITE" && mv temp "Procfile.$SITE"
+          sed -e "/$p/ s/^#*/#/" tmp/devtools/${SITE}.procfile > temp && rm -f "tmp/devtools/${SITE}.procfile" && mv temp "tmp/devtools/${SITE}.procfile"
         else 
           ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${p}' service"
           ansi ""
         fi
       done
-      foreman check -f Procfile.$SITE
+      foreman check -f tmp/devtools/${SITE}.procfile
       ;;
     any_running)
       local result="n"
@@ -1865,12 +1865,12 @@ __services(){
       local services_not_running
       local site_services
       local sites_disabled
-      if ! test -f Procfile.$SITE; then
-        cat Procfile.services > Procfile.$SITE
-        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> Procfile.$SITE
+      if ! test -f tmp/devtools/${SITE}.procfile; then
+        cat Procfile.services > tmp/devtools/${SITE}.procfile
+        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile
       fi  
-      site_services=($(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g'))
-      sites_disabled=$(cat Procfile.$SITE | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
+      site_services=($(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g'))
+      sites_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       site_services+=(mysql)
       site_services+=(redis)
       for s in ${site_services[@]}
@@ -2617,7 +2617,6 @@ db(){
       ;;
 
     ls)
-      dumps.ls
       dumps.print
       ;; 
 
@@ -2815,11 +2814,33 @@ db.set(){
       ;;
   esac
 }
-dumps.ls(){
-  ! test -d tmp/devtools && mkdir -p tmp/devtools
-  if ! test -f tmp/devtools/dumps.$SITE; then
-    dumps.activate ""
+dumps.print(){
+  ansi "dumps:"
+  dumps.print_all
+}
+dumps.print_all(){
+  local dump_active
+  local dumps
+  if test -f tmp/devtools/${SITE}.dump_active; then
+    dump_active=$(cat tmp/devtools/${SITE}.dump_active)
+  fi  
+  IFS=$'\n'
+  dumps=(`ls *$SITE.sql 2>/dev/null`)
+  dumps=($(printf "%s\n" ${dumps[@]} | sort -r )) 
+  if [ ! -z "$dumps" ]; then
+    for dump in ${dumps[*]}
+    do
+      ansi --no-newline "  "
+      if [ "$dump" == "$dump_active" ]; then
+        ansi --green $dump
+      else
+        ansi --red $dump  
+      fi
+    done
+  else  
+    ansi --red "  no dumps"
   fi
+  unset IFS
 }
 dumps.activate(){
   local dump_active=$1
@@ -2828,36 +2849,22 @@ dumps.activate(){
   dumps=(`ls *$SITE.sql 2>/dev/null`)
   if [ ! -z "$dumps" ]; then
     ! test -d tmp/devtools && mkdir -p tmp/devtools
-    test -f tmp/devtools/dumps.$SITE && rm -rf tmp/devtools/dumps.$SITE
-    touch tmp/devtools/dumps.$SITE
     for dump in ${dumps[*]}
     do
       if [ "$dump" == "$dump_active" ]; then
-        echo $dump >> tmp/devtools/dumps.$SITE 
-      else
-        echo "#${dump}" >> tmp/devtools/dumps.$SITE
+        echo $dump > tmp/devtools/${SITE}.dump_active 
       fi
     done
   fi
   unset IFS
 }
-dumps.print(){
-  dumps.ls
-  ansi "dumps:"
-  dumps.print_up
-  dumps.print_downs
-  if ! test -f tmp/devtools/dumps.$SITE; then 
-    ansi --red "  no dumps"
-  else
-    dump_downs=($(cat tmp/devtools/dumps.$SITE | grep -i '#' |  tr '\n' ' ' | sed 's/#//g'))
-    dump_up=$(cat tmp/devtools/dumps.$SITE | grep -v '#')
-    test -z "$dump_downs" && test -z "$dump_up" && ansi --red "  no dumps"
-  fi
+dumps.deactivate(){
+  test -f tmp/devtools/${SITE}.dump_active && rm -rf tmp/devtools/${SITE}.dump_active
 }
 dumps.print_up(){
   local dump_up
-  if test -f tmp/devtools/dumps.$SITE; then
-    dump_up=$(cat tmp/devtools/dumps.$SITE | grep -v '#')
+  if test -f tmp/devtools/${SITE}.dump_active; then
+    dump_up=$(cat tmp/devtools/${SITE}.dump_active)
     if [ ! -z "$dump_up" ]; then
       ansi --no-newline "  ";
       ansi --green $dump_up
@@ -2865,26 +2872,28 @@ dumps.print_up(){
   fi
 }
 dumps.print_downs(){
-  local sorted
-  local dump_downs
-  if test -f tmp/devtools/dumps.$SITE; then
-    dump_downs=($(cat tmp/devtools/dumps.$SITE | grep -i '#' | sed 's/#//g'))
-    if [ ! -z "$dump_downs" ]; then 
-      IFS=$'\n'
-      sorted=( $(printf "%s\n" ${dump_downs[@]} | sort -r ) ) 
-      ansi --no-newline "  ";
-      for dump in ${sorted[*]}
-      do
-      if [ "$dump" == "${sorted[${#sorted[@]}-1]}" ]; then
-        ansi --red $dump
-      else
-        ansi --red --no-newline $dump
-        ansi --no-newline ", "
-      fi
-      done
-      unset IFS
-    fi  
-  fi
+  local dump_active
+  local dumps
+  IFS=$'\n'
+  dumps=(`ls *$SITE.sql 2>/dev/null`)
+  dumps=($(printf "%s\n" ${dumps[@]} | sort -r )) 
+  if test -f tmp/devtools/${SITE}.dump_active; then
+    dump_active=$(cat tmp/devtools/${SITE}.dump_active)
+    dumps=("${dumps[@]/$dump_active}")
+  fi  
+  if [ ! -z "$dumps" ]; then 
+    ansi --no-newline "  ";
+    for dump in ${dumps[*]}
+    do
+    if [ "$dump" == "${dumps[${#dumps[@]}-1]}" ]; then
+      ansi --red $dump
+    else
+      ansi --red --no-newline $dump
+      ansi --no-newline ", "
+    fi
+    done
+  fi  
+  unset IFS
 }
 
 site(){
@@ -2913,6 +2922,7 @@ site(){
       export SITEPREV=$SITE
       export SITE=$1
       export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
+      export OBRAS_CURRENT=$OBRAS
       cd "$OBRAS"
       db.set $1
       title $1
@@ -2933,6 +2943,7 @@ site(){
       export SITEPREV=$SITE
       export SITE=$1
       export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
+      export OBRAS_CURRENT=$OBRAS_OLD
       cd "$OBRAS_OLD"
       db.set $1
       title $1
@@ -3060,7 +3071,11 @@ site(){
     services)
       shift
       __services $*
-      ;;  
+      ;; 
+
+    dumps)
+      dumps.print
+      ;;   
 
     test)
       if [ -z $DOCKER ]; then
