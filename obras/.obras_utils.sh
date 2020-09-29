@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.95
+export OBRAS_UTILS_VERSION=1.4.96
 export OBRAS_UTILS_VERSION_DATE=2020.09.27
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve again 'backups' and 'services' management."
+export OBRAS_UTILS_UPDATE_MESSAGE="New command 'site stats' in order to give rails statistics."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -2033,6 +2033,7 @@ db(){
           rake db:seed
           revolver stop
         fi
+        dumps.deactivate
         __update_db_stats
       else 
         rails=`rails --version`
@@ -2070,7 +2071,8 @@ db(){
           revolver --style 'simpleDotsScrolling' start 
           docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:seed
           revolver stop
-        fi
+        fi  
+        dumps.deactivate
         __update_db_stats
       fi
       ;;
@@ -2100,6 +2102,7 @@ db(){
                 ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
                 revolver --style 'simpleDotsScrolling' start
                 rails db:drop
+                dumps.deactivate
                 revolver stop
               else
                 ansi --no-newline --green-intense "==> "; ansi --white-intense "Dropping db "
@@ -2907,8 +2910,10 @@ site(){
       __pr info "site " "[sitename || flags || set/unset flag|| env development/test]"
       __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
       __pr info "site " "[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]"
+      __pr info "site " "[dumps [activate dumpfile]]"
       __pr info "site " "[db/mysql/redis conn/connect]"
       __pr info "site " "[conn/connect]"
+      __pr info "site " "[stats]"
       __pr 
       ;;
 
@@ -3007,6 +3012,12 @@ site(){
     check|ls)
       foreman check  
       ;;
+    stats)
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Rails Statistics "
+      revolver --style 'simpleDotsScrolling' start
+      rails stats
+      revolver stop
+      ;;  
     conn|connect)
       site.connect
       ;;
@@ -3074,8 +3085,15 @@ site(){
       ;; 
 
     dumps)
-      dumps.print
-      ;;   
+      case $2 in
+        activate)
+          dumps.activate $3
+          ;;
+        *)
+          dumps.print
+          ;; 
+      esac      
+      ;;
 
     test)
       if [ -z $DOCKER ]; then

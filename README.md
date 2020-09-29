@@ -124,17 +124,19 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.95
+Obras Utils 1.4.96
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
 site[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]
+site[dumps [activate dumpfile]]
 site[db/mysql/redis conn/connect]
 site[conn/connect]
+site[stats]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.95
+Obras Utils 1.4.96
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -143,7 +145,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.95
+Obras Utils 1.4.96
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -154,7 +156,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.95
+Obras Utils 1.4.96
 ::
 obras_utils[version/update/check]
 ```
@@ -163,9 +165,10 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.4.96** New command `site stats` in order to give rails statistics.
 * **1.4.95** Improve again `backups` and `services` management.
 * **1.4.94** Improve `backups` management.
-* **1.4.93** New command `[site conn/connect]` in order to access via ssh the homolog site.
+* **1.4.93** New command `site conn/connect` in order to access via ssh the homolog site.
 * **1.4.92** Improve `flags.print_ups` in flags.
 * **1.4.91** Integrate `tmp/rubycritic/overview.html` in flags.
 * **1.4.90** Integrate `coverage/index.html` in flags.
@@ -203,7 +206,7 @@ Changes log
 
 Changes Required
 
-* **1.4.96** Integrate `rubocop`.
-* **1.4.97** Improve `sites` management.
-* **1.4.98** Review `Docker` for the latest changes.
+* **1.4.97** Integrate `rubocop`.
+* **1.4.98** Improve `rubycritics` management.
+* **1.4.99** Review `Docker` for the latest changes.
 
