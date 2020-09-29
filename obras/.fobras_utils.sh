@@ -125,6 +125,7 @@ fobras_utils() {
       fi
       
       source ~/.bashrc
+      site $SITE
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
       test -f .fobras_utils.sh && rm -rf .fobras_utils.sh
       cowsay $OBRAS_UTILS_UPDATE_MESSAGE

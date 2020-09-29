@@ -196,6 +196,7 @@ obras_utils() {
         fi
       fi
       source $HOME/.bashrc
+      site $SITE
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
       cowsay $OBRAS_UTILS_UPDATE_MESSAGE
       ;;
