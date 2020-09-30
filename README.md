@@ -124,7 +124,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.96
+Obras Utils 1.4.97
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -133,10 +133,11 @@ site[dumps [activate dumpfile]]
 site[db/mysql/redis conn/connect]
 site[conn/connect]
 site[stats]
+site[rubycritic/rubocop [files]]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.96
+Obras Utils 1.4.97
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -145,7 +146,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.96
+Obras Utils 1.4.97
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -156,7 +157,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.96
+Obras Utils 1.4.97
 ::
 obras_utils[version/update/check]
 ```
@@ -165,6 +166,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.4.97** Integrate `rubocop` and improve `rubycritic`.
 * **1.4.96** New command `site stats` in order to give rails statistics.
 * **1.4.95** Improve again `backups` and `services` management.
 * **1.4.94** Improve `backups` management.
@@ -206,7 +208,5 @@ Changes log
 
 Changes Required
 
-* **1.4.97** Integrate `rubocop`.
-* **1.4.98** Improve `rubycritics` management.
-* **1.4.99** Review `Docker` for the latest changes.
+* **1.4.98** Review `Docker` for the latest changes.
 

@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.96
+export OBRAS_UTILS_VERSION=1.4.97
 export OBRAS_UTILS_VERSION_DATE=2020.09.27
-export OBRAS_UTILS_UPDATE_MESSAGE="New command 'site stats' in order to give rails statistics."
+export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'rubocop' and improve 'rubycritics'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -645,6 +645,9 @@ flags.print_all(){
   if [ "$(flag.is_set rubycritic)" == "n" ]; then
     flags+=(rubycritic)
   fi
+  if [ "$(flag.is_set rubocop)" == "n" ]; then
+    flags+=(rubocop)
+  fi
   local flags_set
   ansi --no-newline "  "
   for f in ${flags[@]}
@@ -660,7 +663,7 @@ flags.print_all(){
 flags.print_ups(){
   local flag_name_lens=()
   local major
-  local flags=(rubycritic coverage)
+  local flags=(rubycritic rubocop coverage)
   local flags_set
   for f in ${flags[@]}
   do
@@ -679,7 +682,7 @@ flags.print_ups(){
   done
 }
 flags.print_downs(){
-  local flags=(coverage rubycritic docker headless)
+  local flags=(coverage rubycritic rubocop docker headless)
   local flags_not_set
   for f in ${flags[@]}
   do
@@ -701,7 +704,7 @@ flags.print_downs(){
   fi
 }
 flags.any_not_set(){
-  local flags=(coverage rubycritic docker headless)
+  local flags=(coverage rubycritic rubocop docker headless)
   local result="n"
   for f in ${flags[@]}
   do
@@ -713,7 +716,7 @@ flags.any_not_set(){
   echo $result
 }
 flags.any_set(){
-  local flags=(coverage rubycritic docker headless)
+  local flags=(coverage rubycritic rubocop docker headless)
   local result="n"
   for f in ${flags[@]}
   do
@@ -732,6 +735,9 @@ flag.get(){
       ;;
     rubycritic)
       echo $RUBYCRITIC
+      ;;
+    rubocop)
+      echo $RUBOCOP
       ;;
     docker)
       echo $DOCKER
@@ -761,6 +767,11 @@ flag.set(){
     rubycritic)
       unset RUBYCRITIC
       export RUBYCRITIC=true
+      ;;
+
+    rubocop)
+      unset RUBOCOP
+      export RUBOCOP=true
       ;;
 
     headless)
@@ -799,6 +810,10 @@ flag.unset(){
       unset RUBYCRITIC
       ;;
 
+    rubocop)
+      unset RUBOCOP
+      ;;
+
     headless)
       unset HEADLESS
       ;;
@@ -828,7 +843,7 @@ flag.print_up(){
         if test -f coverage/index.html; then
           flag_name=$(printf "%-${major}s" "coverage")
           ansi --no-newline "  ${flag_name} ";
-          ansi --underline --green-intense "coverage/index.html"
+          ansi --underline --green "coverage/index.html"
         else
           flag_name=$(printf "%-${major}s" "coverage")
           ansi --no-newline "  ${flag_name} ";
@@ -842,11 +857,24 @@ flag.print_up(){
         if test -f tmp/rubycritic/overview.html; then
           flag_name=$(printf "%-${major}s" "rubycritic")
           ansi --no-newline "  ${flag_name} ";
-          ansi --underline --green-intense "tmp/rubycritic/overview.html"
+          ansi --underline --green "tmp/rubycritic/overview.html"
         else
           flag_name=$(printf "%-${major}s" "rubycritic")
           ansi --no-newline "  ${flag_name} ";
           ansi --green "rubycritic"
+        fi
+      fi
+      ;;
+    rubocop)
+      if [ "$(flag.is_set rubocop)" == "y" ]; then
+        if test -f tmp/rubocop/overview.html; then
+          flag_name=$(printf "%-${major}s" "rubocop")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --underline --green "tmp/rubocop/overview.html"
+        else
+          flag_name=$(printf "%-${major}s" "rubocop")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --green "rubocop"
         fi
       fi
       ;;
@@ -860,13 +888,13 @@ flag.print(){
       if [ "$(flag.is_set coverage)" == "y" ]; then
         if [ "$last" == "true" ]; then
           if test -f coverage/index.html; then
-            ansi --underline --green-intense "coverage/index.html"
+            ansi --underline --green "coverage/index.html"
           else
             ansi --green "coverage"
           fi
         else
           if test -f coverage/index.html; then
-            ansi --no-newline --underline --green-intense "coverage/index.html"
+            ansi --no-newline --underline --green "coverage/index.html"
           else
             ansi --no-newline --green "coverage"
           fi
@@ -884,13 +912,13 @@ flag.print(){
       if [ "$(flag.is_set rubycritic)" == "y" ]; then
         if [ "$last" == "true" ]; then
           if test -f tmp/rubycritic/overview.html; then
-            ansi --underline --green-intense "tmp/rubycritic/overview.html"
+            ansi --underline --green "tmp/rubycritic/overview.html"
           else
             ansi --green "rubycritic"
           fi
         else
           if test -f tmp/rubycritic/overview.html; then
-            ansi --no-newline --underline --green-intense "tmp/rubycritic/overview.html"
+            ansi --no-newline --underline --green "tmp/rubycritic/overview.html"
           else
             ansi --no-newline --green "rubycritic"
           fi
@@ -903,6 +931,31 @@ flag.print(){
         fi
       fi
       ;;
+
+    rubocop)
+      if [ "$(flag.is_set rubocop)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f tmp/rubocop/overview.html; then
+            ansi --underline --green "tmp/rubocop/overview.html"
+          else
+            ansi --green "rubocop"
+          fi
+        else
+          if test -f tmp/rubocop/overview.html; then
+            ansi --no-newline --underline --green "tmp/rubocop/overview.html"
+          else
+            ansi --no-newline --green "rubocop"
+          fi
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "rubocop";
+        else
+          ansi --no-newline --red "rubocop";
+        fi
+      fi
+      ;;
+
 
     docker)
       if [ "$(flag.is_set docker)" == "y" ]; then
@@ -957,6 +1010,16 @@ flag.print_down(){
           ansi --red "rubycritic";
         else
           ansi --no-newline --red "rubycritic";
+        fi
+      fi
+      ;;
+
+    rubocop)
+      if [ "$(flag.is_set rubocop)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "rubocop";
+        else
+          ansi --no-newline --red "rubocop";
         fi
       fi
       ;;
@@ -2915,6 +2978,7 @@ site(){
       __pr info "site " "[db/mysql/redis conn/connect]"
       __pr info "site " "[conn/connect]"
       __pr info "site " "[stats]"
+      __pr info "site " "[rubycritic/rubocop [files]]"
       __pr 
       ;;
 
@@ -2941,6 +3005,7 @@ site(){
       unset DOCKER
       unset COVERAGE
       unset RUBYCRITIC
+      unset RUBOCOP
       export HEADLESS=true
       __update_db_stats_site
       ;;
@@ -2962,6 +3027,7 @@ site(){
       unset DOCKER
       unset COVERAGE
       unset RUBYCRITIC
+      unset RUBOCOP
       export HEADLESS=true
       __update_db_stats_site
       ;;
@@ -3076,6 +3142,15 @@ site(){
       flags.print
       ;;
 
+    rubycritic)
+      shift 
+      rubycritic.run $*
+      ;;
+
+    rubocop)
+      shift 
+      rubocop.run $*
+      ;;  
     db)
       shift
       db $*
@@ -3129,6 +3204,48 @@ site(){
       db.print
       ;;
   esac
+  fi
+}
+rubycritic.run(){
+  local params=$(git diff --name-only --diff-filter AMT | grep -i 'rb' | tr '\n' ' ')
+  if [ "$(flag.is_set rubycritic)" == "y" ]; then 
+    if [ $# -eq 0 ]; then
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RubyCritic "
+      revolver --style 'simpleDotsScrolling' start
+      rubycritic $params
+      dumps.deactivate
+      revolver stop
+    else
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RubyCritic "
+      revolver --style 'simpleDotsScrolling' start
+      rubycritic  $*
+      dumps.deactivate
+      revolver stop
+    fi
+  else  
+    ansi --no-newline --green-intense "==> "; ansi --red "rubycritic shall be set"
+    ansi ""
+  fi
+}
+rubocop.run(){
+  local params=$(git diff --name-only --diff-filter AMT | grep -i 'rb' | tr '\n' ' ')
+  if [ "$(flag.is_set rubocop)" == "y" ]; then 
+    if [ $# -eq 0 ]; then
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RuboCop "
+      revolver --style 'simpleDotsScrolling' start
+      rubocop -f h -o tmp/rubocop/overview.html $params
+      dumps.deactivate
+      revolver stop
+    else
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RuboCop "
+      revolver --style 'simpleDotsScrolling' start
+      rubocop -f h -o tmp/rubocop/overview.html $* 
+      dumps.deactivate
+      revolver stop
+    fi
+  else  
+    ansi --no-newline --green-intense "==> "; ansi --red "rubocop shall be set"
+    ansi ""
   fi
 }
 site.print(){
