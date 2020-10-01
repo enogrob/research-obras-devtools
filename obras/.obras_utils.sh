@@ -9,9 +9,9 @@
 ## File     : .obras_utils.sh
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.97
-export OBRAS_UTILS_VERSION_DATE=2020.09.27
-export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'rubocop' and improve 'rubycritics'."
+export OBRAS_UTILS_VERSION=1.4.98
+export OBRAS_UTILS_VERSION_DATE=2020.10.01
+export OBRAS_UTILS_UPDATE_MESSAGE="add 'function __gitignore()' ."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -88,6 +88,10 @@ alias dkis='docker images'
 
 # functions
 
+__gitignore(){
+  local file=$1  
+  git update-index --assume-unchanged $file
+}
 
 obras_utils() {
   get_latest_release() {
