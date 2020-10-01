@@ -166,6 +166,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.4.98** Add `function __gitignore()` and correct `site rubycritic` and `site rubocop`
 * **1.4.97** Integrate `rubocop` and improve `rubycritic`.
 * **1.4.96** New command `site stats` in order to give rails statistics.
 * **1.4.95** Improve again `backups` and `services` management.
@@ -208,5 +209,5 @@ Changes log
 
 Changes Required
 
-* **1.4.98** Review `Docker` for the latest changes.
+* **1.4.99** Review `Docker` for the latest changes.
 

@@ -11,7 +11,7 @@
 # variables
 export OBRAS_UTILS_VERSION=1.4.98
 export OBRAS_UTILS_VERSION_DATE=2020.10.01
-export OBRAS_UTILS_UPDATE_MESSAGE="add 'function __gitignore()' ."
+export OBRAS_UTILS_UPDATE_MESSAGE="Add 'function __gitignore()' and correct 'site rubycritic' and 'site rubocop'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -3217,13 +3217,11 @@ rubycritic.run(){
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RubyCritic "
       revolver --style 'simpleDotsScrolling' start
       rubycritic $params
-      dumps.deactivate
       revolver stop
     else
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RubyCritic "
       revolver --style 'simpleDotsScrolling' start
       rubycritic  $*
-      dumps.deactivate
       revolver stop
     fi
   else  
@@ -3238,13 +3236,11 @@ rubocop.run(){
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RuboCop "
       revolver --style 'simpleDotsScrolling' start
       rubocop -f h -o tmp/rubocop/overview.html $params
-      dumps.deactivate
       revolver stop
     else
       ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RuboCop "
       revolver --style 'simpleDotsScrolling' start
       rubocop -f h -o tmp/rubocop/overview.html $* 
-      dumps.deactivate
       revolver stop
     fi
   else  
