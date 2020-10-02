@@ -124,7 +124,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.98
+Obras Utils 1.4.99
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -137,7 +137,7 @@ site[rubycritic/rubocop [files]]
 
 $ site db --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.98
+Obras Utils 1.4.99
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -146,7 +146,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.98
+Obras Utils 1.4.99
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -157,7 +157,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.98
+Obras Utils 1.4.99
 ::
 obras_utils[version/update/check]
 ```
@@ -166,7 +166,8 @@ obras_utils[version/update/check]
 
 Changes log
 
-* **1.4.98** Add `function __gitignore()` and correct `site rubycritic` and `site rubocop`
+* **1.4.99** Refactored flags.
+* **1.4.98** Add `function __gitignore()` and correct `site rubycritic` and `site rubocop`.
 * **1.4.97** Integrate `rubocop` and improve `rubycritic`.
 * **1.4.96** New command `site stats` in order to give rails statistics.
 * **1.4.95** Improve again `backups` and `services` management.
@@ -188,7 +189,7 @@ Changes log
 * **1.4.79** Improve the `services` management. 
 * **1.4.78** Services `redis` and `mysql` are now managed.
 * **1.4.77** Services `mailcatcher` and `sidekiq` are now managed.
-* **1.4.76** Current `sites()` shall get from **Procfile** instead from env **$SITES**
+* **1.4.76** Current `sites()` shall get from **Procfile** instead from env **$SITES**.
 * **1.4.75** Command `site db init` init env from **seeds**, and `site db preptest` does both envs.
 * **1.4.74** Correct `Error bad site` for `site` command.
 * **1.4.73** Correct `site db download` for **Rio Claro**.
@@ -204,10 +205,10 @@ Changes log
 * **1.4.63** utility **mycli** becomes accessible from a Docker container.
 * **1.4.62** Improve the **mysql cli** with **mycli**. 
 * **1.4.61** New command  `site db connect` to connect to **db**.
-* **1.4.60** This release is due to that `rioclaro` has been updated to **ruby-2.6.5@rails-6.0.2.1.**
+* **1.4.60** This release is due to that `rioclaro` has been updated to **ruby-2.6.5@rails-6.0.2.1.**.
 * **1.4.59** New command `obras_utils` that can checks if there is a new release in github.
 
 Changes Required
 
-* **1.4.99** Review `Docker` for the latest changes.
+* **1.5.00** Review `Docker` for the latest changes.
 

@@ -8,10 +8,11 @@
 ##            projects.
 ## File     : .obras_utils.sh
 
+
 # variables
-export OBRAS_UTILS_VERSION=1.4.98
-export OBRAS_UTILS_VERSION_DATE=2020.10.01
-export OBRAS_UTILS_UPDATE_MESSAGE="Add 'function __gitignore()' and correct 'site rubycritic' and 'site rubocop'."
+export OBRAS_UTILS_VERSION=1.4.99
+export OBRAS_UTILS_VERSION_DATE=2020.10.02
+export OBRAS_UTILS_UPDATE_MESSAGE="Recfactored flags."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -62,6 +63,7 @@ unset DB_RECORDS_DEV
 unset DB_TABLES_TST
 unset DB_RECORDS_TST
 
+
 # aliases development
 alias home='cd $HOME;title home'
 alias obras='cd $OBRAS;title obras'
@@ -79,6 +81,7 @@ alias default='cd $OBRAS;site default'
 alias rc='rvm current'
 alias window='tput cols;tput lines'
 
+
 # aliases docker
 alias dc='docker-compose'
 alias dk='docker'
@@ -86,13 +89,12 @@ alias dkc='docker container'
 alias dki='docker image'
 alias dkis='docker images'
 
-# functions
 
+# functions
 __gitignore(){
   local file=$1  
   git update-index --assume-unchanged $file
 }
-
 obras_utils() {
   get_latest_release() {
     curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
@@ -214,7 +216,6 @@ obras_utils() {
       ;;  
     esac  
 }
-
 __sites(){
   case $# in
     0)
@@ -241,7 +242,6 @@ __sites(){
       ;;
   esac      
 }
-
 __pr(){
     if [ $# -eq 0 ]; then
         ansi --white ""
@@ -293,16 +293,13 @@ __pr(){
         return 1
     fi
 }
-
 dash(){
   open dash://$1:$2
 }
-
 title(){
   title=$1
   export PROMPT_COMMAND='echo -ne "\033]0;${title##*/}\007"'
 }
-
 __wr_env(){
   name=$1
   value=$2
@@ -312,7 +309,6 @@ __wr_env(){
     ansi --no-newline --green $name;ansi --no-newline ", "
   fi
 }      
-
 __pr_env(){
   name=$1
   value=$2
@@ -322,6 +318,7 @@ __pr_env(){
     ansi --green $name
   fi
 }   
+
 
 __has_database(){
   if [ -z "$DOCKER" ]; then
@@ -352,7 +349,6 @@ __has_database(){
     fi
   fi
 }
-
 __has_tables(){
   tables=$(__tables $1)
   if [ ! "$tables" == '0' ] && [ ! -z $tables ]; then
@@ -361,7 +357,6 @@ __has_tables(){
     echo 'no'  
   fi
 }
-
 __has_records(){
   records=$(__records $1)
   if [ ! "$records" == '' ] && [ ! -z $records ]; then
@@ -370,7 +365,6 @@ __has_records(){
     echo 'no'  
   fi
 }
-
 __records(){
   if [ -z "$DOCKER" ]; then
     s=`mysql -u root -e "SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
@@ -380,7 +374,6 @@ __records(){
     echo $(echo -n $s | sed 's/[^0-9]*//g' | tr -d '\n')
   fi
 } 
-
 __tables(){
   if [ -z "$DOCKER" ]; then
     s=`mysql -u root -e "SELECT count(*) AS TOTALNUMBEROFTABLES FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$1';"`
@@ -390,7 +383,6 @@ __tables(){
     echo $(echo -n $s | sed 's/[^0-9]*//g' | tr -d '\n')
   fi
 }
-
 __update_db_dev_stats(){
   db=$(db.current development)
   if [ "$(__has_database $db)" == 'yes' ]; then
@@ -398,7 +390,6 @@ __update_db_dev_stats(){
     export DB_RECORDS_DEV=$(__records $db)
   fi
 }
-
 __update_db_tst_stats(){
   db=$(db.current current test)
   if [ "$(__has_database $db)" == 'yes' ]; then
@@ -406,7 +397,6 @@ __update_db_tst_stats(){
     export DB_RECORDS_TST=$(__records $db)
   fi
 }
-
 __update_db_stats(){
   db=$(db.current $RAILS_ENV)
   if [ "$(__has_database $db)" == 'yes' ]; then
@@ -422,14 +412,12 @@ __update_db_stats(){
     esac
   fi
 }
-
 __zeroed_db_stats(){
   unset DB_TABLES_DEV
   unset DB_RECORDS_DEV
   unset DB_TABLES_TST
   unset DB_RECORDS_TST
 }
-
 __update_db_stats_site(){
   if [ -z "$DB_TABLES_DEV" ]; then
     __update_db_dev_stats
@@ -438,7 +426,6 @@ __update_db_stats_site(){
     __update_db_tst_stats
   fi  
 }
-
 __import(){
   rails=`rails --version`
   if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -496,7 +483,6 @@ __import(){
   fi
   dumps.activate $1
 } 
-
 __import_docker(){
   rails=`rails --version`
   if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -555,6 +541,7 @@ __import_docker(){
   dumps.activate $1
 } 
 
+
 __contains() {
   local n=$#
   local value=${!n}
@@ -567,7 +554,6 @@ __contains() {
   echo "n"
   return 1
 }
-
 __port(){
   site=$1
   case $1 in
@@ -592,13 +578,11 @@ __port(){
   esac
   echo $port
 }  
-
 __pid(){
   port=$1
   pid=$(lsof -i :$port | grep -e ruby -e docke | awk {'print $2'} | uniq)
   echo $pid
 } 
-
 __url(){
   port=$1
   pid=$(__pid $port)
@@ -608,11 +592,9 @@ __url(){
     ansi --no-newline --underline --green http://localhost:$port; ansi ' '$pid
   fi
 }
-
 __is_obras(){
   [[ $PWD == $OBRAS || $PWD == $OBRAS_OLD ]]
 }
-
 __docker(){
   port=$(__port $SITE)
   pid=$(lsof -i :$port | grep -e docke | awk {'print $2'} | uniq)
@@ -636,75 +618,43 @@ __docker(){
   fi  
 }
 
-flags.print(){
-  ansi "flags:"
-  flags.print_ups
-  flags.print_all
-}
-flags.print_all(){
-  local flags=(docker headless)
-  if [ "$(flag.is_set coverage)" == "n" ]; then
-    flags+=(coverage)
-  fi
-  if [ "$(flag.is_set rubycritic)" == "n" ]; then
-    flags+=(rubycritic)
-  fi
-  if [ "$(flag.is_set rubocop)" == "n" ]; then
-    flags+=(rubocop)
-  fi
-  local flags_set
-  ansi --no-newline "  "
-  for f in ${flags[@]}
-  do
-    if [ "$f" == "${flags[${#flags[@]}-1]}" ]; then
-      flag.print $f true
+
+rubocop.run(){
+  local params=$(git diff --name-only --diff-filter AMT | grep -i 'rb' | tr '\n' ' ')
+  if [ "$(flags.is_set rubocop)" == "y" ]; then 
+    if [ $# -eq 0 ]; then
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RuboCop "
+      revolver --style 'simpleDotsScrolling' start
+      rubocop -f h -o tmp/rubocop/overview.html $params
+      revolver stop
     else
-      flag.print $f
-      ansi --no-newline ", "
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RuboCop "
+      revolver --style 'simpleDotsScrolling' start
+      rubocop -f h -o tmp/rubocop/overview.html $* 
+      revolver stop
     fi
-  done
+  else  
+    ansi --no-newline --green-intense "==> "; ansi --red "rubocop shall be set"
+    ansi ""
+  fi
 }
-flags.print_ups(){
-  local flag_name_lens=()
-  local major
-  local flags=(rubycritic rubocop coverage)
-  local flags_set
-  for f in ${flags[@]}
-  do
-    if [ "$(flag.is_set $f)" == "y" ]; then
-      flag_name_lens+=(${#f})
+rubycritic.run(){
+  local params=$(git diff --name-only --diff-filter AMT | grep -i 'rb' | tr '\n' ' ')
+  if [ "$(flags.is_set rubycritic)" == "y" ]; then 
+    if [ $# -eq 0 ]; then
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RubyCritic "
+      revolver --style 'simpleDotsScrolling' start
+      rubycritic $params
+      revolver stop
+    else
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RubyCritic "
+      revolver --style 'simpleDotsScrolling' start
+      rubycritic  $*
+      revolver stop
     fi
-  done
-  IFS=$'\n'
-  major=$(echo "${flag_name_lens[*]}" | sort -nr | head -n1)
-  unset IFS
-  for f in ${flags[@]}
-  do
-    if [ "$(flag.is_set $f)" == "y" ]; then
-      flag.print_up $f $major
-    fi
-  done
-}
-flags.print_downs(){
-  local flags=(coverage rubycritic rubocop docker headless)
-  local flags_not_set
-  for f in ${flags[@]}
-  do
-    if [ "$(flag.is_set $f)" == "n" ]; then
-      flags_not_set+=($f)
-    fi
-  done
-  if [ "$(flags.any_not_set)" == "y" ]; then
-    ansi --no-newline "  "
-    for f in ${flags_not_set[@]}
-    do
-      if [ "$f" == "${flags_not_set[${#flags_not_set[@]}-1]}" ]; then
-        flag.print_down $f true
-      else
-        flag.print_down $f
-        ansi --no-newline ", "
-      fi
-    done
+  else  
+    ansi --no-newline --green-intense "==> "; ansi --red "rubycritic shall be set"
+    ansi ""
   fi
 }
 flags.any_not_set(){
@@ -712,7 +662,7 @@ flags.any_not_set(){
   local result="n"
   for f in ${flags[@]}
   do
-    if [ "$(flag.is_set $f)" == "n" ]; then
+    if [ "$(flags.is_set $f)" == "n" ]; then
       result="y"
       break
     fi
@@ -724,14 +674,14 @@ flags.any_set(){
   local result="n"
   for f in ${flags[@]}
   do
-    if [ "$(flag.is_set $f)" == "y" ]; then
+    if [ "$(flags.is_set $f)" == "y" ]; then
       result="y"
       break
     fi
   done
   echo $result
 }
-flag.get(){
+flags.get(){
   local flag=$1
   case $flag in
     coverage)
@@ -751,16 +701,294 @@ flag.get(){
       ;;
   esac
 }
-flag.is_set(){
+flags.is_set(){
   local flag=$1
-  flag=$(flag.get $1)
+  flag=$(flags.get $1)
   if [ -z $flag ]; then
     echo "n"
   else
     echo "y"
   fi
 }
-flag.set(){
+flags.print(){
+  local flag=$1
+  local last=$2
+  case $flag in
+    coverage)
+      if [ "$(flags.is_set coverage)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f coverage/index.html; then
+            ansi --underline --green "coverage/index.html"
+          else
+            ansi --green "coverage"
+          fi
+        else
+          if test -f coverage/index.html; then
+            ansi --no-newline --underline --green "coverage/index.html"
+          else
+            ansi --no-newline --green "coverage"
+          fi
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "coverage";
+        else
+          ansi --no-newline --red "coverage";
+        fi
+      fi
+      ;;
+
+    rubycritic)
+      if [ "$(flags.is_set rubycritic)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f tmp/rubycritic/overview.html; then
+            ansi --underline --green "tmp/rubycritic/overview.html"
+          else
+            ansi --green "rubycritic"
+          fi
+        else
+          if test -f tmp/rubycritic/overview.html; then
+            ansi --no-newline --underline --green "tmp/rubycritic/overview.html"
+          else
+            ansi --no-newline --green "rubycritic"
+          fi
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "rubycritic";
+        else
+          ansi --no-newline --red "rubycritic";
+        fi
+      fi
+      ;;
+
+    rubocop)
+      if [ "$(flags.is_set rubocop)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f tmp/rubocop/overview.html; then
+            ansi --underline --green "tmp/rubocop/overview.html"
+          else
+            ansi --green "rubocop"
+          fi
+        else
+          if test -f tmp/rubocop/overview.html; then
+            ansi --no-newline --underline --green "tmp/rubocop/overview.html"
+          else
+            ansi --no-newline --green "rubocop"
+          fi
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "rubocop";
+        else
+          ansi --no-newline --red "rubocop";
+        fi
+      fi
+      ;;
+
+
+    docker)
+      if [ "$(flags.is_set docker)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --green "docker"
+        else
+          ansi --no-newline --green "docker"
+        fi
+      else  
+        if [ "$last" == "true" ]; then
+          ansi --red "docker";
+        else
+          ansi --no-newline --red "docker";
+        fi
+      fi
+      ;;
+
+    headless)
+      if [ "$(flags.is_set headless)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --green "headless"
+        else
+          ansi --no-newline --green "headless"
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "headless";
+        else
+          ansi --no-newline --red "headless";
+        fi
+      fi
+      ;;
+  esac
+}
+flags.print_all(){
+  local flags=(docker headless)
+  if [ "$(flags.is_set coverage)" == "n" ]; then
+    flags+=(coverage)
+  fi
+  if [ "$(flags.is_set rubycritic)" == "n" ]; then
+    flags+=(rubycritic)
+  fi
+  if [ "$(flags.is_set rubocop)" == "n" ]; then
+    flags+=(rubocop)
+  fi
+  local flags_set
+  ansi --no-newline "  "
+  for f in ${flags[@]}
+  do
+    if [ "$f" == "${flags[${#flags[@]}-1]}" ]; then
+      flags.print $f true
+    else
+      flags.print $f
+      ansi --no-newline ", "
+    fi
+  done
+}
+flags.print_down(){
+  local flag=$1
+  local last=$2
+  case $flag in
+    coverage)
+      if [ "$(flags.is_set coverage)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "coverage";
+        else
+          ansi --no-newline --red "coverage";
+        fi
+      fi
+      ;;
+
+    rubycritic)
+      if [ "$(flags.is_set rubycritic)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "rubycritic";
+        else
+          ansi --no-newline --red "rubycritic";
+        fi
+      fi
+      ;;
+
+    rubocop)
+      if [ "$(flags.is_set rubocop)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "rubocop";
+        else
+          ansi --no-newline --red "rubocop";
+        fi
+      fi
+      ;;
+
+    docker)
+      if [ "$(flags.is_set docker)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "docker";
+        else
+          ansi --no-newline --red "docker";
+        fi
+      fi
+      ;;
+
+    headless)
+      if [ "$(flags.is_set headless)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "headless";
+        else
+          ansi --no-newline --red "headless";
+        fi
+      fi
+    ;;
+  esac
+}
+flags.print_downs(){
+  local flags=(coverage rubycritic rubocop docker headless)
+  local flags_not_set
+  for f in ${flags[@]}
+  do
+    if [ "$(flags.is_set $f)" == "n" ]; then
+      flags_not_set+=($f)
+    fi
+  done
+  if [ "$(flags.any_not_set)" == "y" ]; then
+    ansi --no-newline "  "
+    for f in ${flags_not_set[@]}
+    do
+      if [ "$f" == "${flags_not_set[${#flags_not_set[@]}-1]}" ]; then
+        flags.print_down $f true
+      else
+        flags.print_down $f
+        ansi --no-newline ", "
+      fi
+    done
+  fi
+}
+flags.print_up(){
+  local flag=$1
+  local major=$2
+  local flag_name
+  case $flag in
+    coverage)
+      if [ "$(flags.is_set coverage)" == "y" ]; then
+        if test -f coverage/index.html; then
+          flag_name=$(printf "%-${major}s" "coverage")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --underline --green "coverage/index.html"
+        else
+          flag_name=$(printf "%-${major}s" "coverage")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --green "coverage"
+        fi
+      fi
+      ;;
+
+    rubycritic)
+      if [ "$(flags.is_set rubycritic)" == "y" ]; then
+        if test -f tmp/rubycritic/overview.html; then
+          flag_name=$(printf "%-${major}s" "rubycritic")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --underline --green "tmp/rubycritic/overview.html"
+        else
+          flag_name=$(printf "%-${major}s" "rubycritic")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --green "rubycritic"
+        fi
+      fi
+      ;;
+    rubocop)
+      if [ "$(flags.is_set rubocop)" == "y" ]; then
+        if test -f tmp/rubocop/overview.html; then
+          flag_name=$(printf "%-${major}s" "rubocop")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --underline --green "tmp/rubocop/overview.html"
+        else
+          flag_name=$(printf "%-${major}s" "rubocop")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --green "rubocop"
+        fi
+      fi
+      ;;
+  esac
+}
+flags.print_ups(){
+  local flag_name_lens=()
+  local major
+  local flags=(rubycritic rubocop coverage)
+  local flags_set
+  for f in ${flags[@]}
+  do
+    if [ "$(flags.is_set $f)" == "y" ]; then
+      flag_name_lens+=(${#f})
+    fi
+  done
+  IFS=$'\n'
+  major=$(echo "${flag_name_lens[*]}" | sort -nr | head -n1)
+  unset IFS
+  for f in ${flags[@]}
+  do
+    if [ "$(flags.is_set $f)" == "y" ]; then
+      flags.print_up $f $major
+    fi
+  done
+}
+flags.set(){
   local flag=$1
   case $flag in
     coverage)
@@ -803,7 +1031,12 @@ flag.set(){
       ;;
   esac
 }
-flag.unset(){
+flags.status(){
+  ansi "flags:"
+  flags.print_ups
+  flags.print_all
+}
+flags.unset(){
   local flag=$1
   case $flag in
     coverage)
@@ -837,218 +1070,7 @@ flag.unset(){
       ;;
   esac   
 }
-flag.print_up(){
-  local flag=$1
-  local major=$2
-  local flag_name
-  case $flag in
-    coverage)
-      if [ "$(flag.is_set coverage)" == "y" ]; then
-        if test -f coverage/index.html; then
-          flag_name=$(printf "%-${major}s" "coverage")
-          ansi --no-newline "  ${flag_name} ";
-          ansi --underline --green "coverage/index.html"
-        else
-          flag_name=$(printf "%-${major}s" "coverage")
-          ansi --no-newline "  ${flag_name} ";
-          ansi --green "coverage"
-        fi
-      fi
-      ;;
 
-    rubycritic)
-      if [ "$(flag.is_set rubycritic)" == "y" ]; then
-        if test -f tmp/rubycritic/overview.html; then
-          flag_name=$(printf "%-${major}s" "rubycritic")
-          ansi --no-newline "  ${flag_name} ";
-          ansi --underline --green "tmp/rubycritic/overview.html"
-        else
-          flag_name=$(printf "%-${major}s" "rubycritic")
-          ansi --no-newline "  ${flag_name} ";
-          ansi --green "rubycritic"
-        fi
-      fi
-      ;;
-    rubocop)
-      if [ "$(flag.is_set rubocop)" == "y" ]; then
-        if test -f tmp/rubocop/overview.html; then
-          flag_name=$(printf "%-${major}s" "rubocop")
-          ansi --no-newline "  ${flag_name} ";
-          ansi --underline --green "tmp/rubocop/overview.html"
-        else
-          flag_name=$(printf "%-${major}s" "rubocop")
-          ansi --no-newline "  ${flag_name} ";
-          ansi --green "rubocop"
-        fi
-      fi
-      ;;
-  esac
-}
-flag.print(){
-  local flag=$1
-  local last=$2
-  case $flag in
-    coverage)
-      if [ "$(flag.is_set coverage)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          if test -f coverage/index.html; then
-            ansi --underline --green "coverage/index.html"
-          else
-            ansi --green "coverage"
-          fi
-        else
-          if test -f coverage/index.html; then
-            ansi --no-newline --underline --green "coverage/index.html"
-          else
-            ansi --no-newline --green "coverage"
-          fi
-        fi
-      else
-        if [ "$last" == "true" ]; then
-          ansi --red "coverage";
-        else
-          ansi --no-newline --red "coverage";
-        fi
-      fi
-      ;;
-
-    rubycritic)
-      if [ "$(flag.is_set rubycritic)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          if test -f tmp/rubycritic/overview.html; then
-            ansi --underline --green "tmp/rubycritic/overview.html"
-          else
-            ansi --green "rubycritic"
-          fi
-        else
-          if test -f tmp/rubycritic/overview.html; then
-            ansi --no-newline --underline --green "tmp/rubycritic/overview.html"
-          else
-            ansi --no-newline --green "rubycritic"
-          fi
-        fi
-      else
-        if [ "$last" == "true" ]; then
-          ansi --red "rubycritic";
-        else
-          ansi --no-newline --red "rubycritic";
-        fi
-      fi
-      ;;
-
-    rubocop)
-      if [ "$(flag.is_set rubocop)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          if test -f tmp/rubocop/overview.html; then
-            ansi --underline --green "tmp/rubocop/overview.html"
-          else
-            ansi --green "rubocop"
-          fi
-        else
-          if test -f tmp/rubocop/overview.html; then
-            ansi --no-newline --underline --green "tmp/rubocop/overview.html"
-          else
-            ansi --no-newline --green "rubocop"
-          fi
-        fi
-      else
-        if [ "$last" == "true" ]; then
-          ansi --red "rubocop";
-        else
-          ansi --no-newline --red "rubocop";
-        fi
-      fi
-      ;;
-
-
-    docker)
-      if [ "$(flag.is_set docker)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --green "docker"
-        else
-          ansi --no-newline --green "docker"
-        fi
-      else  
-        if [ "$last" == "true" ]; then
-          ansi --red "docker";
-        else
-          ansi --no-newline --red "docker";
-        fi
-      fi
-      ;;
-
-    headless)
-      if [ "$(flag.is_set headless)" == "y" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --green "headless"
-        else
-          ansi --no-newline --green "headless"
-        fi
-      else
-        if [ "$last" == "true" ]; then
-          ansi --red "headless";
-        else
-          ansi --no-newline --red "headless";
-        fi
-      fi
-      ;;
-  esac
-}
-flag.print_down(){
-  local flag=$1
-  local last=$2
-  case $flag in
-    coverage)
-      if [ "$(flag.is_set coverage)" == "n" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --red "coverage";
-        else
-          ansi --no-newline --red "coverage";
-        fi
-      fi
-      ;;
-
-    rubycritic)
-      if [ "$(flag.is_set rubycritic)" == "n" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --red "rubycritic";
-        else
-          ansi --no-newline --red "rubycritic";
-        fi
-      fi
-      ;;
-
-    rubocop)
-      if [ "$(flag.is_set rubocop)" == "n" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --red "rubocop";
-        else
-          ansi --no-newline --red "rubocop";
-        fi
-      fi
-      ;;
-
-    docker)
-      if [ "$(flag.is_set docker)" == "n" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --red "docker";
-        else
-          ansi --no-newline --red "docker";
-        fi
-      fi
-      ;;
-
-    headless)
-      if [ "$(flag.is_set headless)" == "n" ]; then
-        if [ "$last" == "true" ]; then
-          ansi --red "headless";
-        else
-          ansi --no-newline --red "headless";
-        fi
-      fi
-    ;;
-  esac
-}
 
 __mailcatcher(){
   local port=1080
@@ -1137,8 +1159,6 @@ __mailcatcher(){
       ;;
   esac
 }
-
-
 __mysql(){
   local action=$1
   if [ -z $DOCKER ]; then
@@ -1261,8 +1281,6 @@ __mysql(){
       ;;
   esac
 }
-
-
 __sidekiq(){
   local pid=""
   local port=""
@@ -1351,8 +1369,6 @@ __sidekiq(){
       ;;
   esac
 }
-
-
 __ngrok(){
   local action=$1
   if [ -z $DOCKER ]; then
@@ -1448,8 +1464,6 @@ __ngrok(){
       ;;
   esac
 }
-
-
 __redis(){
   local action=$1
   if [ -z $DOCKER ]; then
@@ -1565,8 +1579,6 @@ __redis(){
       ;;
   esac
 }
-
-
 __rails(){
   local action=$1
   local port=$(cat Procfile | grep -i $SITE | awk '{print $7}')
@@ -1753,8 +1765,6 @@ __rails(){
       ;;
   esac
 }
-
-
 __services(){
   local action=$1
   local services=(mysql redis mailcatcher sidekiq ngrok rails)
@@ -2885,6 +2895,8 @@ db.set(){
       ;;
   esac
 }
+
+
 dumps.print(){
   ansi "dumps:"
   dumps.print_all
@@ -2966,6 +2978,7 @@ dumps.print_downs(){
   fi  
   unset IFS
 }
+
 
 site(){
   __is_obras
@@ -3055,11 +3068,11 @@ site(){
       ;;
 
     set)
-      flag.set $2
+      flags.set $2
       ;;
 
     unset)
-      flag.unset $2
+      flags.unset $2
       ;;
 
     start)
@@ -3143,7 +3156,7 @@ site(){
       ;;
 
     flags) 
-      flags.print
+      flags.status
       ;;
 
     rubycritic)
@@ -3210,44 +3223,6 @@ site(){
   esac
   fi
 }
-rubycritic.run(){
-  local params=$(git diff --name-only --diff-filter AMT | grep -i 'rb' | tr '\n' ' ')
-  if [ "$(flag.is_set rubycritic)" == "y" ]; then 
-    if [ $# -eq 0 ]; then
-      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RubyCritic "
-      revolver --style 'simpleDotsScrolling' start
-      rubycritic $params
-      revolver stop
-    else
-      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RubyCritic "
-      revolver --style 'simpleDotsScrolling' start
-      rubycritic  $*
-      revolver stop
-    fi
-  else  
-    ansi --no-newline --green-intense "==> "; ansi --red "rubycritic shall be set"
-    ansi ""
-  fi
-}
-rubocop.run(){
-  local params=$(git diff --name-only --diff-filter AMT | grep -i 'rb' | tr '\n' ' ')
-  if [ "$(flag.is_set rubocop)" == "y" ]; then 
-    if [ $# -eq 0 ]; then
-      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RuboCop "
-      revolver --style 'simpleDotsScrolling' start
-      rubocop -f h -o tmp/rubocop/overview.html $params
-      revolver stop
-    else
-      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running RuboCop "
-      revolver --style 'simpleDotsScrolling' start
-      rubocop -f h -o tmp/rubocop/overview.html $* 
-      revolver stop
-    fi
-  else  
-    ansi --no-newline --green-intense "==> "; ansi --red "rubocop shall be set"
-    ansi ""
-  fi
-}
 site.print(){
   ansi --white --no-newline "site:   "
   ansi --no-newline --white-intense --underline $SITE
@@ -3264,7 +3239,7 @@ site.print(){
   else
     ansi --red "test"
   fi
-  flags.print
+  flags.status
 }
 site.connect(){
   case $SITE in
