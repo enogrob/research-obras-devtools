@@ -12,7 +12,7 @@
 # variables
 export OBRAS_UTILS_VERSION=1.4.99
 export OBRAS_UTILS_VERSION_DATE=2020.10.02
-export OBRAS_UTILS_UPDATE_MESSAGE="Recfactored flags."
+export OBRAS_UTILS_UPDATE_MESSAGE="General refactoring."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -384,21 +384,21 @@ __tables(){
   fi
 }
 __update_db_dev_stats(){
-  db=$(db.current development)
+  db=$(dbs.current development)
   if [ "$(__has_database $db)" == 'yes' ]; then
     export DB_TABLES_DEV=$(__tables $db)
     export DB_RECORDS_DEV=$(__records $db)
   fi
 }
 __update_db_tst_stats(){
-  db=$(db.current current test)
+  db=$(dbs.current current test)
   if [ "$(__has_database $db)" == 'yes' ]; then
     export DB_TABLES_TST=$(__tables $db)
     export DB_RECORDS_TST=$(__records $db)
   fi
 }
 __update_db_stats(){
-  db=$(db.current $RAILS_ENV)
+  db=$(dbs.current $RAILS_ENV)
   if [ "$(__has_database $db)" == 'yes' ]; then
     case $RAILS_ENV in 
       development)
@@ -656,6 +656,12 @@ rubycritic.run(){
     ansi --no-newline --green-intense "==> "; ansi --red "rubycritic shall be set"
     ansi ""
   fi
+}
+flags.methods(){
+  local methods=(any_not_set any_set get is_set get is_set print print_all print_down print_downs print_up print_ups set status unset 
+  )
+  echo ${methods[@]}
+  echo ${#methods[@]}
 }
 flags.any_not_set(){
   local flags=(coverage rubycritic rubocop docker headless)
@@ -1977,9 +1983,12 @@ __services(){
       __services print_downs
       ;;  
     *)
-      __services check
+      services.status
       ;;   
   esac
+}
+services.status(){
+  __services print
 }
 
 
@@ -1991,10 +2000,11 @@ db(){
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "db " "[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]"
-      __pr info "db " "[backups || download [filenumber] || import [backupfile] || update [all]]"
-      __pr info "db " "[tables || databases || socket || connect]"
+      __pr info "db " "[set dbname || init || preptest || drop [all] || create || migrate || seed]"
+      __pr info "db " "[databases || tables || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
+      __pr info "db " "[backups || download [backupfile] || update [all]]"
+      __pr info "db " "[dumps/ls || import [dumpfile] || update [all]]"
       __pr 
       ;; 
 
@@ -2173,7 +2183,7 @@ db(){
       case $# in
         1)
           if [ -z "$DOCKER" ]; then
-            db=$(db.current)
+            db=$(dbs.current)
             if [ "$(__has_database $db)" == 'yes' ]; then
               rails=`rails --version`
               if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -2193,7 +2203,7 @@ db(){
               ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exists"
             fi
           else
-            db=$(db.current)
+            db=$(dbs.current)
             if [ "$(__has_database $db)" == 'yes' ]; then
               rails=`rails --version`
               if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -2241,7 +2251,7 @@ db(){
 
     create)  
       if [ -z "$DOCKER" ]; then
-        db=$(db.current)
+        db=$(dbs.current)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -2260,7 +2270,7 @@ db(){
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" already exists"
         fi
       else
-        db=$(db.current)
+        db=$(dbs.current)
         if [ "$(__has_database $db)" == 'no' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -2283,7 +2293,7 @@ db(){
 
     migrate)
       if [ -z "$DOCKER" ]; then
-        db=$(db.current)
+        db=$(dbs.current)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -2298,7 +2308,7 @@ db(){
           ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
         fi
       else
-        db=$(db.current)
+        db=$(dbs.current)
         if [ "$(__has_database $db)" == 'yes' ]; then
           rails=`rails --version`
           if [ "$rails" == "$RAILS_VERSION" ]; then
@@ -2318,7 +2328,7 @@ db(){
 
     seed)
       if [ -z "$DOCKER" ]; then
-        db=$(db.current)
+        db=$(dbs.current)
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
@@ -2351,7 +2361,7 @@ db(){
           fi 
         fi   
       else
-        db=$(db.current)
+        db=$(dbs.current)
         tables=$(__tables $db)
         if [ '$(__has_database $db)' == 'yes' ] && [ $tables == 'no' ]; then
           rails=`rails --version`
@@ -2697,8 +2707,8 @@ db(){
       esac     
       ;;
 
-    ls)
-      dumps.print
+    ls|dumps)
+      dumps.status
       ;; 
 
     backups)
@@ -2765,7 +2775,7 @@ db(){
 
 
     set)
-      db.set $2
+      dbs.set $2
       ;;
 
     socket)
@@ -2779,7 +2789,7 @@ db(){
       ;; 
 
     connect|conn)
-      db=$(db.current)
+      db=$(dbs.current)
       if [ "$(__has_database $db)" == 'yes' ]; then
         if [ -z "$DOCKER" ]; then
           mycli -uroot $db
@@ -2795,10 +2805,10 @@ db(){
 
     tables)
       if [ -z "$DOCKER" ]; then
-        db=$(db.current)
+        db=$(dbs.current)
         mysqlshow -uroot $db | more
       else
-        db=$(db.current)
+        db=$(dbs.current)
         docker-compose exec db mysqlshow -uroot -proot $db | more
       fi
       ;;
@@ -2812,12 +2822,12 @@ db(){
       ;;
 
     *)
-      db.print
+      dbs.status
       ;;
   esac
   fi
 }
-db.current(){
+dbs.current(){
   local env=$1
   if [ -z $env ]; then
     env=$RAILS_ENV
@@ -2836,20 +2846,14 @@ db.current(){
     fi  
   fi 
 }
-db.print(){
-  ansi "databases:"
-  db.print_db development
-  db.print_db test 
-  dumps.print
-}
-db.print_db(){
+dbs.print_db(){
   local env=$1
   local db
   local dbs
   local db_lens=()
-  db=$(db.current development)
+  db=$(dbs.current development)
   db_lens+=(${#db})
-  db=$(db.current test)
+  db=$(dbs.current test)
   db_lens+=(${#db})
   IFS=$'\n'
   major=$(echo "${db_lens[*]}" | sort -nr | head -n1)
@@ -2858,9 +2862,9 @@ db.print_db(){
     env=$RAILS_ENV
   fi
   if [ "$env" == "development" ]; then
-    db=$(db.current development)
+    db=$(dbs.current development)
   else  
-    db=$(db.current test)
+    db=$(dbs.current test)
   fi
   db=$(printf "%-${major}s" "${db}")
   if [ "$(__has_database $db)" == 'yes' ]; then
@@ -2873,7 +2877,7 @@ db.print_db(){
     ansi --no-newline "  "; ansi --red $db
   fi
 }
-db.set(){
+dbs.set(){
   local site=$1
   case $1 in
     olimpia|rioclaro|suzano|santoandre|demo)
@@ -2895,11 +2899,31 @@ db.set(){
       ;;
   esac
 }
+dbs.status(){
+  ansi "dbs:"
+  dbs.print_db development
+  dbs.print_db test 
+}
 
 
-dumps.print(){
-  ansi "dumps:"
-  dumps.print_all
+dumps.activate(){
+  local dump_active=$1
+  local dumps
+  IFS=$'\n'
+  dumps=(`ls *$SITE.sql 2>/dev/null`)
+  if [ ! -z "$dumps" ]; then
+    ! test -d tmp/devtools && mkdir -p tmp/devtools
+    for dump in ${dumps[*]}
+    do
+      if [ "$dump" == "$dump_active" ]; then
+        echo $dump > tmp/devtools/${SITE}.dump_active 
+      fi
+    done
+  fi
+  unset IFS
+}
+dumps.deactivate(){
+  test -f tmp/devtools/${SITE}.dump_active && rm -rf tmp/devtools/${SITE}.dump_active
 }
 dumps.print_all(){
   local dump_active
@@ -2925,35 +2949,6 @@ dumps.print_all(){
   fi
   unset IFS
 }
-dumps.activate(){
-  local dump_active=$1
-  local dumps
-  IFS=$'\n'
-  dumps=(`ls *$SITE.sql 2>/dev/null`)
-  if [ ! -z "$dumps" ]; then
-    ! test -d tmp/devtools && mkdir -p tmp/devtools
-    for dump in ${dumps[*]}
-    do
-      if [ "$dump" == "$dump_active" ]; then
-        echo $dump > tmp/devtools/${SITE}.dump_active 
-      fi
-    done
-  fi
-  unset IFS
-}
-dumps.deactivate(){
-  test -f tmp/devtools/${SITE}.dump_active && rm -rf tmp/devtools/${SITE}.dump_active
-}
-dumps.print_up(){
-  local dump_up
-  if test -f tmp/devtools/${SITE}.dump_active; then
-    dump_up=$(cat tmp/devtools/${SITE}.dump_active)
-    if [ ! -z "$dump_up" ]; then
-      ansi --no-newline "  ";
-      ansi --green $dump_up
-    fi
-  fi
-}
 dumps.print_downs(){
   local dump_active
   local dumps
@@ -2977,6 +2972,20 @@ dumps.print_downs(){
     done
   fi  
   unset IFS
+}
+dumps.print_up(){
+  local dump_up
+  if test -f tmp/devtools/${SITE}.dump_active; then
+    dump_up=$(cat tmp/devtools/${SITE}.dump_active)
+    if [ ! -z "$dump_up" ]; then
+      ansi --no-newline "  ";
+      ansi --green $dump_up
+    fi
+  fi
+}
+dumps.status(){
+  ansi "dumps:"
+  dumps.print_all
 }
 
 
@@ -3011,7 +3020,7 @@ site(){
       export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
       export OBRAS_CURRENT=$OBRAS
       cd "$OBRAS"
-      db.set $1
+      dbs.set $1
       title $1
       if [ "$SITE" != "$SITEPREV" ]; then
         unset DB_TABLES_DEV
@@ -3033,7 +3042,7 @@ site(){
       export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
       export OBRAS_CURRENT=$OBRAS_OLD
       cd "$OBRAS_OLD"
-      db.set $1
+      dbs.set $1
       title $1
       if [ "$SITE" != "$SITEPREV" ]; then
         unset DB_TABLES_DEV
@@ -3122,7 +3131,7 @@ site(){
         connect|conn)
           case $1 in
             mysql)
-              db=$(db.current)
+              db=$(dbs.current)
               if [ "$(__has_database $db)" == 'yes' ]; then
                 if [ -z "$DOCKER" ]; then
                   mycli -uroot $db
@@ -3168,7 +3177,7 @@ site(){
       shift 
       rubocop.run $*
       ;;  
-    db)
+    dbs|db)
       shift
       db $*
       ;;  
@@ -3183,7 +3192,7 @@ site(){
           dumps.activate $3
           ;;
         *)
-          dumps.print
+          dumps.status
           ;; 
       esac      
       ;;
@@ -3211,35 +3220,21 @@ site(){
         docker-compose exec -e HEADLESS=$HEADLESS -e COVERAGE=$COVERAGE $SITE rspec ${@: 2}
       fi
       ;;
-
+    site|status)
+      site.status
+      ;;  
     *)
       __docker
       __update_db_stats_site
       
-      site.print
-      __services print
-      db.print
+      site.status
+      flags.status
+      services.status
+      dbs.status
+      dumps.status
       ;;
   esac
   fi
-}
-site.print(){
-  ansi --white --no-newline "site:   "
-  ansi --no-newline --white-intense --underline $SITE
-  ansi --white --no-newline " ";ansi --cyan-intense $(rvm current)
-  ansi --no-newline "  env   "
-  if [ $RAILS_ENV == 'development' ]; then 
-    ansi --no-newline --green "development"
-  else
-    ansi --no-newline --red "development"
-  fi
-  ansi --no-newline ", "
-  if [ $RAILS_ENV == 'test' ]; then 
-    ansi --green "test"
-  else
-    ansi --red "test"
-  fi
-  flags.status
 }
 site.connect(){
   case $SITE in
@@ -3263,4 +3258,21 @@ site.connect(){
       ansi ""
      ;;          
   esac 
+}
+site.status(){
+  ansi --white --no-newline "site:   "
+  ansi --no-newline --white-intense --underline $SITE
+  ansi --white --no-newline " ";ansi --cyan-intense $(rvm current)
+  ansi --no-newline "  env   "
+  if [ $RAILS_ENV == 'development' ]; then 
+    ansi --no-newline --green "development"
+  else
+    ansi --no-newline --red "development"
+  fi
+  ansi --no-newline ", "
+  if [ $RAILS_ENV == 'test' ]; then 
+    ansi --green "test"
+  else
+    ansi --red "test"
+  fi
 }

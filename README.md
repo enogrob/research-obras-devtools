@@ -135,7 +135,7 @@ site[conn/connect]
 site[stats]
 site[rubycritic/rubocop [files]]
 
-$ site db --help
+$ site db/dbs --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
 Obras Utils 1.4.99
 ::
@@ -166,7 +166,7 @@ obras_utils[version/update/check]
 
 Changes log
 
-* **1.4.99** Refactored flags.
+* **1.4.99** General Refactoring.
 * **1.4.98** Add `function __gitignore()` and correct `site rubycritic` and `site rubocop`.
 * **1.4.97** Integrate `rubocop` and improve `rubycritic`.
 * **1.4.96** New command `site stats` in order to give rails statistics.
