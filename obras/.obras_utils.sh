@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.4.99
-export OBRAS_UTILS_VERSION_DATE=2020.10.02
-export OBRAS_UTILS_UPDATE_MESSAGE="General refactoring."
+export OBRAS_UTILS_VERSION=1.5.00
+export OBRAS_UTILS_VERSION_DATE=2020.10.08
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site services start/stop', now will start and stop 'all' as well."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1811,7 +1811,14 @@ __services(){
           fi  
           foreman start all -f tmp/devtools/${SITE}.procfile
           ;;
-      esac; 
+      esac;
+      if [ -z "$2" ]; then
+        if ! test -f tmp/devtools/${SITE}.procfile; then
+          cat Procfile.services > tmp/devtools/${SITE}.procfile
+          cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile
+        fi  
+        foreman start all -f tmp/devtools/${SITE}.procfile
+      fi 
       ;;   
 
     stop)
@@ -1835,10 +1842,21 @@ __services(){
             ansi ""
           fi
           ;;
-        *)
-          __services print
-          ;;  
       esac; 
+      if [ -z "$2" ]; then
+        if test -f tmp/devtools/${SITE}.procfile; then
+          site_services=$(foreman check -f tmp/devtools/${SITE}.procfile | awk -F[\(\)] '{print $2}' | sed 's/,//g')
+          for s in ${site_services[@]}
+          do
+            if [ "$(__$s is_running)" == "y" ]; then
+              __$s stop
+            fi
+          done
+        else  
+          ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not exist"
+          ansi ""
+        fi
+      fi 
       ;;   
 
     restart)

@@ -126,7 +126,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.99
+Obras Utils 1.5.00
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -139,7 +139,7 @@ site[rubycritic/rubocop [files]]
 
 $ site db/dbs --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.99
+Obras Utils 1.5.00
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -148,10 +148,10 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.99
+Obras Utils 1.5.00
 ::
 services[ls/check]
-services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
+services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
 services[enable/disable ngrok/sidekiq/mailcatcher]
 services[conn/connect mysql/db/redis]
 
@@ -159,7 +159,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.4.99
+Obras Utils 1.5.00
 ::
 obras_utils[version/update/check]
 ```
@@ -168,6 +168,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.00** Improve `site services start/stop`, now will start and stop `all` as well.
 * **1.4.99** General Refactoring.
 * **1.4.98** Add `function __gitignore()` and correct `site rubycritic` and `site rubocop`.
 * **1.4.97** Integrate `rubocop` and improve `rubycritic`.
@@ -212,5 +213,5 @@ Changes log
 
 Changes Required
 
-* **1.5.00** Review `Docker` for the latest changes.
+* **1.5.01** Review `Docker` for the latest changes.
 
