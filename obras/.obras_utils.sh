@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.00
-export OBRAS_UTILS_VERSION_DATE=2020.10.08
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site services start/stop', now will start and stop 'all' as well."
+export OBRAS_UTILS_VERSION=1.5.01
+export OBRAS_UTILS_VERSION_DATE=2020.10.09
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site services start/stop', for 'ngrok'"
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1794,8 +1794,10 @@ __services(){
       if test -f tmp/devtools/${SITE}.procfile; then
         foreman check -f tmp/devtools/${SITE}.procfile
       else
-        cat Procfile.services > tmp/devtools/${SITE}.procfile
-        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile
+        cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
+        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+        sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
+        rm -rf tmp/devtools/${SITE}.procfile.temp
         foreman check -f tmp/devtools/${SITE}.procfile
       fi
       ;;
@@ -1806,16 +1808,20 @@ __services(){
           ;;
         all)
           if ! test -f tmp/devtools/${SITE}.procfile; then
-            cat Procfile.services > tmp/devtools/${SITE}.procfile
-            cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile
+            cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
+            cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+            sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
+            rm -rf tmp/devtools/${SITE}.procfile.temp
           fi  
           foreman start all -f tmp/devtools/${SITE}.procfile
           ;;
       esac;
       if [ -z "$2" ]; then
         if ! test -f tmp/devtools/${SITE}.procfile; then
-          cat Procfile.services > tmp/devtools/${SITE}.procfile
-          cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile
+          cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
+          cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+          sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
+          rm -rf tmp/devtools/${SITE}.procfile.temp
         fi  
         foreman start all -f tmp/devtools/${SITE}.procfile
       fi 
@@ -1971,8 +1977,10 @@ __services(){
       local site_services
       local sites_disabled
       if ! test -f tmp/devtools/${SITE}.procfile; then
-        cat Procfile.services > tmp/devtools/${SITE}.procfile
-        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile
+        cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
+        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+        sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
+        rm -rf tmp/devtools/${SITE}.procfile.temp
       fi  
       site_services=($(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g'))
       sites_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
