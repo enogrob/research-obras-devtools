@@ -8,7 +8,15 @@
 ##            projects.
 ## File     : .rails_utils.sh
 
+unset DB_DEV
+unset DB_DEV_TABLES
+unset DB_DEV_RECORDS
+unset DB_TST
+unset DB_TST_TABLES
+unset DB_TST_RECORDS
+
 APP=$(rails r "puts Rails.application.class.module_parent")
+
 dbs.set
 
 site(){
@@ -79,14 +87,14 @@ dbs.current(){
   fi 
 }
 dbs.exists(){
-  echo 'yes'    
+  echo $(rails r "puts (ActiveRecord::Base.connection_pool.with_connection(&:active?) ? 'yes' : 'no') rescue puts 'no'")
 }
 dbs.print_db(){
   local env=$1
   local db
   local dbs
   local db_lens=()
-  db=$(dbs.current development)
+  db=$(dbs.current development) 
   db_lens+=(${#db})
   db=$(dbs.current test)
   db_lens+=(${#db})
@@ -97,25 +105,35 @@ dbs.print_db(){
     env=$RAILS_ENV
   fi
   if [ "$env" == "development" ]; then
-    db=$(dbs.current development)
+    db=$DB_DEV
   else  
-    db=$(dbs.current test)
+    db=$DB_TST
   fi
   db=$(printf "%-${major}s" "${db}")
-  if [ "$(dbs.exists $db)" == 'yes' ]; then
+  if [ ! -z "$db"  ]; then
     if [ $env == "development" ]; then
-      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_DEV' '; ansi --white $DB_RECORDS_DEV
+      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_DEV_TABLES' '; ansi --white $DB_DEV_RECORDS
     else
-      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TABLES_TST' '; ansi --white $DB_RECORDS_TST
+      ansi --no-newline "  "; ansi --no-newline --green $db' '; ansi --white --no-newline $DB_TST_TABLES' '; ansi --white $DB_TST_RECORDS
     fi  
   else  
     ansi --no-newline "  "; ansi --red $db
   fi
 }
 dbs.set(){
-  local env=$RAILS_ENV
-  export DB_DEV=$(rails r "puts Rails.configuration.database_configuration['development']['database']")
-  export DB_TST=$(rails r "puts Rails.configuration.database_configuration['test']['database']")
+  app.env.set.development
+  if [ "$(dbs.exists)" == "yes" ]; then
+    export DB_DEV=$(rails r "puts Rails.configuration.database_configuration['development']['database']")
+    export DB_DEV_TABLES=$(rails r "puts ActiveRecord::Base.connection.tables.count")
+    export DB_DEV_RECORDS=$(rails r "puts ActiveRecord::Base.connection.tables.map!{|t| t.classify.safe_constantize.count if t.classify.safe_constantize.present?}.compact.inject(:+)")
+  fi
+  app.env.set.test
+  if [ "$(dbs.exists)" == "yes" ]; then
+    export DB_TST=$(rails r "puts Rails.configuration.database_configuration['test']['database']")
+    export DB_TST_TABLES=$(rails r "puts ActiveRecord::Base.connection.tables.count")
+    export DB_TST_RECORDS=$(rails r "puts ActiveRecord::Base.connection.tables.map!{|t| t.classify.safe_constantize.count if t.classify.safe_constantize.present?}.compact.inject(:+)")
+  fi  
+  app.env.unset
 }
 dbs.status(){
   ansi "dbs:"
