@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.01
-export OBRAS_UTILS_VERSION_DATE=2020.10.09
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site services start/stop', for 'ngrok'"
+export OBRAS_UTILS_VERSION=1.5.02
+export OBRAS_UTILS_VERSION_DATE=2020.11.11
+export OBRAS_UTILS_UPDATE_MESSAGE="New command 'site db migrate:status' in order to check and act on migration status"
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1610,6 +1610,7 @@ __rails(){
       ;;
 
     start)
+      db migrate:status
       if [ -z $pid ]; then
         if [ -z "$DOCKER" ]; then
           if [ -z "$2" ]; then
@@ -1813,6 +1814,7 @@ __services(){
             sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
             rm -rf tmp/devtools/${SITE}.procfile.temp
           fi  
+          db migrate:status
           foreman start all -f tmp/devtools/${SITE}.procfile
           ;;
       esac;
@@ -1823,6 +1825,7 @@ __services(){
           sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
           rm -rf tmp/devtools/${SITE}.procfile.temp
         fi  
+        db migrate:status
         foreman start all -f tmp/devtools/${SITE}.procfile
       fi 
       ;;   
@@ -2029,7 +2032,7 @@ db(){
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "db " "[set dbname || init || preptest || drop [all] || create || migrate || seed]"
+      __pr info "db " "[set dbname || init || preptest || drop [all] || create || migrate migrate:status || seed]"
       __pr info "db " "[databases || tables || socket || connect]"
       __pr info "db " "[api [dump/export || import]]"
       __pr info "db " "[backups || download [backupfile] || update [all]]"
@@ -2346,6 +2349,41 @@ db(){
           else
             ansi --no-newline --green-intense "==> "; ansi --white-intense "Migrating db "
             docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:migrate
+          fi  
+          __update_db_stats
+        else  
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
+        fi
+      fi
+      __pr
+      ;;    
+
+    migrate:status)
+      if [ -z "$DOCKER" ]; then
+        db=$(dbs.current)
+        if [ "$(__has_database $db)" == 'yes' ]; then
+          rails=`rails --version`
+          if [ "$rails" == "$RAILS_VERSION" ]; then
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Status Migrating db "
+            rails db:migrate:status | grep "^\s*down" && rails db:migrate || ansi --no-newline --green-intense "==> "; ansi --white-intense  "No pending migrations found"
+          else
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Status Migrating db "
+            rake db:migrate:status | grep "^\s*down" && rake db:migrate || ansi --no-newline --green-intense "==> "; ansi --white-intense  "No pending migrations found"
+          fi
+        else  
+          ansi --no-newline --red-intense "==> "; ansi --white-intense "Error file "$db" does not exist"
+        fi
+      else
+        db=$(dbs.current)
+        if [ "$(__has_database $db)" == 'yes' ]; then
+          rails=`rails --version`
+          if [ "$rails" == "$RAILS_VERSION" ]; then
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Status Migrating db "
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rails db:migrate:status | grep "^\s*down" && rails db:migrate || ansi --no-newline --green-intense "==> "; ansi --white-intense  "No pending migrations found"
+
+          else
+            ansi --no-newline --green-intense "==> "; ansi --white-intense "Status Migrating db "
+            docker-compose exec -e RAILS_ENV=$RAILS_ENV $SITE rake db:migrate:status | grep "^\s*down" && rake db:migrate || ansi --no-newline --green-intense "==> "; ansi --white-intense  "No pending migrations found"
           fi  
           __update_db_stats
         else  
