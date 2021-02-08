@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.02
-export OBRAS_UTILS_VERSION_DATE=2020.11.11
-export OBRAS_UTILS_UPDATE_MESSAGE="New command 'site db migrate:status' in order to check and act on migration status"
+export OBRAS_UTILS_VERSION=1.5.03
+export OBRAS_UTILS_VERSION_DATE=2021.01.08
+export OBRAS_UTILS_UPDATE_MESSAGE="New aliases commands such as 'site db:drop', 'site db:create', 'site db:migrate', 'site db:migrate:status' and 'site db:seed'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -3072,6 +3072,7 @@ site(){
       __pr info "site " "[conn/connect]"
       __pr info "site " "[stats]"
       __pr info "site " "[rubycritic/rubocop [files]]"
+      __pr info "site " "[db:drop || db:create || db:migrate db:migrate:status || db:seed]"
       __pr 
       ;;
 
@@ -3247,6 +3248,21 @@ site(){
     dbs|db)
       shift
       db $*
+      ;;  
+    db:drop)
+      db drop
+      ;;  
+    db:create)
+      db create
+      ;;  
+    db:migrate:status)
+      db migrate:status
+      ;;  
+    db:migrate)
+      db migrate
+      ;;  
+    db:seed)
+      db seed
       ;;  
     services)
       shift
