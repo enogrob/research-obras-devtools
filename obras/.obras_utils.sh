@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.03
-export OBRAS_UTILS_VERSION_DATE=2021.01.08
-export OBRAS_UTILS_UPDATE_MESSAGE="New aliases commands such as 'site db:drop', 'site db:create', 'site db:migrate', 'site db:migrate:status' and 'site db:seed'."
+export OBRAS_UTILS_VERSION=1.5.04
+export OBRAS_UTILS_VERSION_DATE=2021.01.11
+export OBRAS_UTILS_UPDATE_MESSAGE="Replace 'lsof' by 'netstat' in order to get the pid process." 
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -201,6 +201,15 @@ obras_utils() {
           sudo snap install ngrok
         fi
       fi
+
+      if [ "$OS" != 'Darwin' ]; then
+        if ! test -f /bin/netstat; then
+          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"net-tools\" \033[0m"
+          echo ""
+          sudo apt-get install net-tools
+        fi 
+      fi
+
       source $HOME/.bashrc
       site $SITE
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
@@ -582,8 +591,8 @@ __port(){
   echo $port
 }  
 __pid(){
-  port=$1
-  pid=$(lsof -i :$port | grep -e ruby -e docke | awk {'print $2'} | uniq)
+  local port=$1
+  local pid=$(netstat -anv | grep LISTEN | grep "[.]$port" | awk '{print $9}' | uniq)
   echo $pid
 } 
 __url(){
@@ -599,9 +608,9 @@ __is_obras(){
   [[ $PWD == $OBRAS || $PWD == $OBRAS_OLD ]]
 }
 __docker(){
-  port=$(__port $SITE)
-  pid=$(lsof -i :$port | grep -e docke | awk {'print $2'} | uniq)
-  if [[ ! -z "$pid" && -z "$DOCKER" ]]; then
+  local port=$(__port $SITE)
+  local pid=$(__pid $port)
+  if [[ ! -z "$pid" && ! -z "$DOCKER" ]]; then
     unset DOCKER
     export DOCKER=true
   fi
@@ -1083,7 +1092,7 @@ flags.unset(){
 
 __mailcatcher(){
   local port=1080
-  local pid=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
+  pid=$(__pid $port)
   case $1 in
     pid)
       echo $pid
@@ -1125,7 +1134,6 @@ __mailcatcher(){
       ;;
 
     status)
-      pid=$(lsof -i :1080 | grep -i ruby | awk {'print $2'})
       if [ -z $pid ]; then
         ansi --no-newline --green-intense "==> "; ansi --red "Mailcatcher is not running"
         ansi ""
@@ -1172,10 +1180,10 @@ __mysql(){
   local action=$1
   if [ -z $DOCKER ]; then
     local port="3306"
-    local pid=$(lsof -i :$port | grep -e mysql | awk {'print $2'} | uniq)
+    local pid=$(__pid $port)
   else
     local port="33060"
-    local pid=$(lsof -i :$port | grep -e docke | awk {'print $2'} | uniq)
+    local pid=$(__pid $port)
   fi  
   case $action in
     pid)
@@ -1385,7 +1393,7 @@ __ngrok(){
   else
     local port="40400"
   fi  
-  local pid=$(lsof -i :$port | grep -e ngrok | awk {'print $2'} | uniq)
+  local pid=$(__pid $port)
   case $action in
     pid)
       echo $pid
@@ -1476,20 +1484,11 @@ __ngrok(){
 __redis(){
   local action=$1
   if [ -z $DOCKER ]; then
-    if [ "$OS" == 'Darwin' ]; then
       local port="6379"
-      local pid=$(lsof -i :$port | grep -e redis | awk {'print $2'} | uniq)
-    else  
-      local port="6379"
-      if test -f /var/run/redis/redis-server.pid; then
-        local pid=$(sudo cat /var/run/redis/redis-server.pid)
-      else
-        unset pid
-      fi 
-    fi   
+      local pid=$(__pid $port)
   else
     local port="63790"
-    local pid=$(lsof -i :$port | grep -e docke | awk {'print $2'} | uniq)
+    local pid=$(__pid $port)
   fi  
   case $action in
     pid)
@@ -1591,7 +1590,7 @@ __redis(){
 __rails(){
   local action=$1
   local port=$(cat Procfile | grep -i $SITE | awk '{print $7}')
-  local pid=$(lsof -i :$port | grep -e ruby -e docke | awk {'print $2'} | uniq)
+  local pid=$(__pid $port)
   case $action in
     pid)
       echo $pid
