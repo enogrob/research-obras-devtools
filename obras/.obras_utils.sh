@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.04
-export OBRAS_UTILS_VERSION_DATE=2021.01.11
-export OBRAS_UTILS_UPDATE_MESSAGE="Replace 'lsof' by 'netstat' in order to get the pid process." 
+export OBRAS_UTILS_VERSION=1.5.05
+export OBRAS_UTILS_VERSION_DATE=2021.01.12
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct '__pid' function for Linux." 
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -592,8 +592,14 @@ __port(){
 }  
 __pid(){
   local port=$1
-  local pid=$(netstat -anv | grep LISTEN | grep "[.]$port" | awk '{print $9}' | uniq)
-  echo $pid
+  if [ "$OS" == 'Darwin' ]; then
+    local pid=$(netstat -anv | grep LISTEN | grep "[.]$port" | awk '{print $9}' | uniq)
+    echo $pid
+  else  
+    local pid=$(netstat -peanut | grep LISTEN | grep "[:]$port" | awk '{print $9}' | uniq)
+    arrIN=(${pid//\// })
+    echo ${arrIN[0]}  
+  fi
 } 
 __url(){
   port=$1
