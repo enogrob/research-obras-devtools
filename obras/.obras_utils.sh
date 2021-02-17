@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.05
-export OBRAS_UTILS_VERSION_DATE=2021.01.12
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct '__pid' function for Linux." 
+export OBRAS_UTILS_VERSION=1.5.06
+export OBRAS_UTILS_VERSION_DATE=2021.01.16
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'tmp/devtools' no such file or directory and when a service is started alone." 
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -33,6 +33,9 @@ export RAILS_VERSION=$RAILSVERSIONTMP
 
 pushd . > /dev/null 2>&1
 cd $OBRAS
+
+! test -d tmp/devtools && mkdir -p tmp/devtools
+
 if hash foreman 2>/dev/null; then
   export SITES=$(foreman check | awk -F[\(\)] '{print $2}' | sed 's/,//g')
 else
@@ -596,7 +599,7 @@ __pid(){
     local pid=$(netstat -anv | grep LISTEN | grep "[.]$port" | awk '{print $9}' | uniq)
     echo $pid
   else  
-    local pid=$(netstat -peanut | grep LISTEN | grep "[:]$port" | awk '{print $9}' | uniq)
+    local pid=$(sudo netstat -peanut | grep "[:]$port" | awk '{print $9}' | uniq)
     arrIN=(${pid//\// })
     echo ${arrIN[0]}  
   fi
@@ -1118,7 +1121,15 @@ __mailcatcher(){
 
     start)
       if [ -z $pid ];then
-        foreman start mailcatcher
+        test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
+        ! test -d tmp/devtools && mkdir -p tmp/devtools
+        if ! test -f tmp/devtools/${SITE}.procfile; then
+          cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
+          cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+          sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
+          rm -rf tmp/devtools/${SITE}.procfile.temp
+        fi  
+        foreman start mailcatcher -f tmp/devtools/${SITE}.procfile
       else
         ansi --no-newline --green-intense "==> "; ansi --red "Mailcatcher is started already"
         ansi ""
@@ -1163,6 +1174,7 @@ __mailcatcher(){
       local last=$2
       local service=mailcatcher
       local services_disabled
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
@@ -1285,6 +1297,7 @@ __mysql(){
       local last=$2
       local service=mysql
       local services_disabled
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
@@ -1323,7 +1336,14 @@ __sidekiq(){
 
     start)
       if [ -z $pid ]; then
-        foreman start sidekiq
+        ! test -d tmp/devtools && mkdir -p tmp/devtools
+        if ! test -f tmp/devtools/${SITE}.procfile; then
+          cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
+          cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+          sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
+          rm -rf tmp/devtools/${SITE}.procfile.temp
+        fi  
+        foreman start sidekiq -f tmp/devtools/${SITE}.procfile
       else
         ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is started already"
         ansi ""
@@ -1373,6 +1393,7 @@ __sidekiq(){
       local last=$2
       local service=sidekiq
       local services_disabled
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
@@ -1418,7 +1439,15 @@ __ngrok(){
       if [ -z $DOCKER ]; then
         if [ -z $pid ]; then 
           if [ "$(__rails is_running)" == "y" ]; then
-            foreman start ngrok 
+            test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
+            ! test -d tmp/devtools && mkdir -p tmp/devtools
+            if ! test -f tmp/devtools/${SITE}.procfile; then
+              cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
+              cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+              sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
+              rm -rf tmp/devtools/${SITE}.procfile.temp
+            fi  
+            foreman start ngrok -f tmp/devtools/${SITE}.procfile
           else  
             ansi --no-newline --green-intense "==> "; ansi --red "NGrok requires ${SITE} running"
             ansi ""
@@ -1468,6 +1497,7 @@ __ngrok(){
       local last=$2
       local service=ngrok
       local services_disabled
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
@@ -1574,6 +1604,7 @@ __redis(){
       local last=$2
       local service=redis
       local services_disabled
+      ! test -f tmp/devtools && mkdir -p tmp/devtools
       services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
@@ -1620,7 +1651,15 @@ __rails(){
         if [ -z "$DOCKER" ]; then
           if [ -z "$2" ]; then
             test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
-            foreman start $SITE
+            ! test -d tmp/devtools && mkdir -p tmp/devtools
+            if ! test -f tmp/devtools/${SITE}.procfile; then
+              cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
+              cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+              sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
+              rm -rf tmp/devtools/${SITE}.procfile.temp
+            fi  
+            db migrate:status
+            foreman start rails -f tmp/devtools/${SITE}.procfile
           else  
             BELONGS=$(__sites case)
             case $2 in
@@ -1761,6 +1800,7 @@ __rails(){
       local last=$2
       local service=rails
       local services_disabled
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       services_disabled=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | grep -i '#' | tr '\n' ' ' | sed 's/#//g')
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
@@ -1797,6 +1837,7 @@ __services(){
       __pr 
       ;;
     ls|check)
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       if test -f tmp/devtools/${SITE}.procfile; then
         foreman check -f tmp/devtools/${SITE}.procfile
       else
@@ -1813,6 +1854,7 @@ __services(){
           __$2 start
           ;;
         all)
+          ! test -d tmp/devtools && mkdir -p tmp/devtools
           if ! test -f tmp/devtools/${SITE}.procfile; then
             cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
             cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
@@ -1824,6 +1866,7 @@ __services(){
           ;;
       esac;
       if [ -z "$2" ]; then
+        ! test -d tmp/devtools && mkdir -p tmp/devtools
         if ! test -f tmp/devtools/${SITE}.procfile; then
           cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
           cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
@@ -1837,6 +1880,7 @@ __services(){
 
     stop)
       local site_services
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       case $2 in
         rails|mysql|ngrok|redis|sidekiq|mailcatcher)
           __$2 stop
@@ -1880,6 +1924,7 @@ __services(){
          ;;
         
         all)
+          ! test -d tmp/devtools && mkdir -p tmp/devtools
           if test -f tmp/devtools/${SITE}.procfile; then
             services=$(foreman check | awk -F[\(\)] '{print $2}' | sed 's/,//g')
             for s in ${services[@]}
@@ -1907,6 +1952,7 @@ __services(){
       shift
       local site_services=()
       local params=("$@")
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       site_services=$(cat tmp/devtools/${SITE}.procfile | grep -v '##' | sed 's/:.*/ /g' | tr -d "\n" | tr '\n' ' ' | sed 's/#//g')
       for p in ${params[@]}
       do
@@ -1923,6 +1969,7 @@ __services(){
       shift
       local site_services=()
       local params=("$@")
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       site_services=$(foreman check -f tmp/devtools/${SITE}.procfile | awk -F[\(\)] '{print $2}' | sed 's/,//g' | sed 's/#//g')
       for p in ${params[@]}
       do
@@ -1984,6 +2031,7 @@ __services(){
       local services_not_running
       local site_services
       local sites_disabled
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       if ! test -f tmp/devtools/${SITE}.procfile; then
         cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
         cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
@@ -3314,6 +3362,7 @@ site(){
     *)
       __docker
       __update_db_stats_site
+      ! test -d tmp/devtools && mkdir -p tmp/devtools
       
       site.status
       flags.status
