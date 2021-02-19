@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.06
-export OBRAS_UTILS_VERSION_DATE=2021.01.16
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'tmp/devtools' no such file or directory and when a service is started alone." 
+export OBRAS_UTILS_VERSION=1.5.07
+export OBRAS_UTILS_VERSION_DATE=2021.02.19
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site' command without parameter after command 'obras'." 
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -91,7 +91,6 @@ alias dk='docker'
 alias dkc='docker container'
 alias dki='docker image'
 alias dkis='docker images'
-
 
 # functions
 __gitignore(){
@@ -3136,25 +3135,7 @@ site(){
       ;;
 
     $SITES_CASE)
-      export SITEPREV=$SITE
-      export SITE=$1
-      export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
-      export OBRAS_CURRENT=$OBRAS
-      cd "$OBRAS"
-      dbs.set $1
-      title $1
-      if [ "$SITE" != "$SITEPREV" ]; then
-        unset DB_TABLES_DEV
-        unset DB_RECORDS_DEV
-        unset DB_TABLES_TST
-        unset DB_RECORDS_TST
-      fi
-      unset DOCKER
-      unset COVERAGE
-      unset RUBYCRITIC
-      unset RUBOCOP
-      export HEADLESS=true
-      __update_db_stats_site
+      site.init $1 $SITE
       ;;
 
     $SITES_OLD_CASE)
@@ -3373,6 +3354,27 @@ site(){
   esac
   fi
 }
+site.init(){
+  export SITE=$1
+  export SITEPREV=$2
+  export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
+  export OBRAS_CURRENT=$OBRAS
+  cd "$OBRAS"
+  dbs.set $1
+  title $1
+  if [ "$SITE" != "$SITEPREV" ]; then
+    unset DB_TABLES_DEV
+    unset DB_RECORDS_DEV
+    unset DB_TABLES_TST
+    unset DB_RECORDS_TST
+  fi
+  unset DOCKER
+  unset COVERAGE
+  unset RUBYCRITIC
+  unset RUBOCOP
+  export HEADLESS=true
+  __update_db_stats_site
+}
 site.connect(){
   case $SITE in
     olimpia)
@@ -3413,3 +3415,5 @@ site.status(){
     ansi --red "test"
   fi
 }
+
+site.init demo

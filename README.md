@@ -126,7 +126,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.06
+Obras Utils 1.5.07
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -140,7 +140,7 @@ site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
 
 $ site db/dbs --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.06
+Obras Utils 1.5.07
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -149,7 +149,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.06
+Obras Utils 1.5.07
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
@@ -160,7 +160,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.06
+Obras Utils 1.5.07
 ::
 obras_utils[version/update/check]
 ```
@@ -169,6 +169,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.07** Correct `site` command without parameter after command `obras`.
 * **1.5.06** Correct `tmp/devtools` no such file or directory and when a service is started alone.
 * **1.5.05** Correct `__pid` function for Linux.
 * **1.5.04** Replace `lsof` by `netstat` in order to get the pid process. 
