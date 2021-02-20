@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.07
-export OBRAS_UTILS_VERSION_DATE=2021.02.19
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site' command without parameter after command 'obras'." 
+export OBRAS_UTILS_VERSION=1.5.08
+export OBRAS_UTILS_VERSION_DATE=2021.02.20
+export OBRAS_UTILS_UPDATE_MESSAGE="Option  'preptest' now valid for other sites than 'demo'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -2250,18 +2250,34 @@ db(){
       ;;
 
     preptest)
-      ansi --no-newline --green-intense "==> "; ansi --white-intense "This site $SITE will be prepared for test"
-      ansi ""
-      ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
-      site env development
-      db init
-      ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to test"
-      site env test
-      db init
-      ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
-      site env development
-      ;;
+      case $SITE in
+        demo)
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "This site $SITE will be prepared for test"
+          ansi ""
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
+          site env development
+          db init
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to test"
+          site env test
+          db init
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
+          site env development
+          ;;
 
+        *)
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "This site $SITE will be prepared for test"
+          ansi ""
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
+          site env development
+          db update
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to test"
+          site env test
+          db import
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Set env to development"
+          site env development
+          ;;
+      esac
+      ;;
 
     drop)
       case $# in
@@ -3355,11 +3371,11 @@ site(){
   fi
 }
 site.init(){
+  cd "$OBRAS"
   export SITE=$1
   export SITEPREV=$2
-  export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
   export OBRAS_CURRENT=$OBRAS
-  cd "$OBRAS"
+  export PORT=$(cat Procfile | grep -i $SITE | awk '{print $7}')
   dbs.set $1
   title $1
   if [ "$SITE" != "$SITEPREV" ]; then
