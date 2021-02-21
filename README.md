@@ -127,7 +127,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.09
+Obras Utils 1.5.10
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -141,7 +141,7 @@ site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
 
 $ site db/dbs --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.09
+Obras Utils 1.5.10
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -150,7 +150,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.09
+Obras Utils 1.5.10
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
@@ -161,7 +161,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.09
+Obras Utils 1.5.10
 ::
 obras_utils[version/update/check]
 ```
@@ -170,6 +170,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.10** Remove  `rvm use` in `site.init` command.
 * **1.5.09** Correct  `README.md` file.
 * **1.5.08** Option  `preptest` now valid for other sites than `demo`.
 * **1.5.07** Correct `site` command without parameter after command `obras`.
