@@ -66,6 +66,7 @@ $ ./install.sh obras
 
 **5.** If you have not specify yet the `gemset` in the `obras` directories do it:
 Obs: The underlying ruby has to be installed before, do `rvm list` in order to check. As nowadays the location are the same does just for one.
+Obs: This requires in Linux `rvm`, `redis-server`, `mysql-server` and `nodejs` installed.
 
 ```shell
 $ cd $OBRAS
@@ -75,7 +76,7 @@ $ rvm gemset list
 $ rvm use --ruby-version ruby-2.6.5@rails-6.0.2.1
 $ rvm current
 $ gem list
-$ rvm install rails -v '6.0.2.1'
+$ gem install rails -v '6.0.2.1'
 ```
 
 **6.** reload the shell in order to take effect.
@@ -126,7 +127,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.08
+Obras Utils 1.5.09
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -140,7 +141,7 @@ site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
 
 $ site db/dbs --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.08
+Obras Utils 1.5.09
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -149,7 +150,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.08
+Obras Utils 1.5.09
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
@@ -160,7 +161,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.08
+Obras Utils 1.5.09
 ::
 obras_utils[version/update/check]
 ```
@@ -169,6 +170,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.09** Correct  `README.md` file.
 * **1.5.08** Option  `preptest` now valid for other sites than `demo`.
 * **1.5.07** Correct `site` command without parameter after command `obras`.
 * **1.5.06** Correct `tmp/devtools` no such file or directory and when a service is started alone.

@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.08
-export OBRAS_UTILS_VERSION_DATE=2021.02.20
-export OBRAS_UTILS_UPDATE_MESSAGE="Option  'preptest' now valid for other sites than 'demo'."
+export OBRAS_UTILS_VERSION=1.5.09
+export OBRAS_UTILS_VERSION_DATE=2021.02.21
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct  'README.md' file."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -3372,6 +3372,7 @@ site(){
 }
 site.init(){
   cd "$OBRAS"
+  rvm use ruby-2.6.5@rails-6.0.2.1
   export SITE=$1
   export SITEPREV=$2
   export OBRAS_CURRENT=$OBRAS
