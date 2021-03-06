@@ -32,6 +32,26 @@ This in order to improve the Obras Development Process, developing utilities and
 * [4] [**Revolver**](https://github.com/molovo/revolver)
 * [5] [**Z shell**](http://zsh.sourceforge.net/)
 
+## Requirements
+
+In order to install `DevTools`, it is required that the following has been installed already:
+
+* [Mysql](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install)
+* [Redis](https://redis.io/topics/quickstart)
+* [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+* [RVM](https://rvm.io/rvm/install)
+* [Docker](https://docs.docker.com/get-docker/)
+
+It is required that it is generated a new RSA key with the more secure encryption format with
+the following command:
+
+```shell
+$ ssh-keygen -o -t rsa -b 4096 -C "email@example.com"
+```
+
+Also the `SSH` keys has to be setup in [Github](https://github.com/settings/keys), [Gitlab](https://gitlab.tecnogroup.com.br/profile/keys) and [Engine Yard](https://cloud.engineyard.com/keypairs).
+
+
 ## Installation
 
 **1.** Clone the `DevTools` repository
