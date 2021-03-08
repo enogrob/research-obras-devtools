@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.10
-export OBRAS_UTILS_VERSION_DATE=2021.02.21
-export OBRAS_UTILS_UPDATE_MESSAGE="Remove 'rvm use' in 'site.init' command."
+export OBRAS_UTILS_VERSION=1.5.11
+export OBRAS_UTILS_VERSION_DATE=2021.03.08
+export OBRAS_UTILS_UPDATE_MESSAGE="General improvements."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -3371,6 +3371,7 @@ site(){
   fi
 }
 site.init(){
+  pushd .
   cd "$OBRAS"
   export SITE=$1
   export SITEPREV=$2
@@ -3390,6 +3391,8 @@ site.init(){
   unset RUBOCOP
   export HEADLESS=true
   __update_db_stats_site
+  popd
+  title
 }
 site.connect(){
   case $SITE in
