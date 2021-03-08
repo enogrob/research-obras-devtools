@@ -3371,7 +3371,6 @@ site(){
   fi
 }
 site.init(){
-  pushd .
   cd "$OBRAS"
   export SITE=$1
   export SITEPREV=$2
@@ -3391,8 +3390,6 @@ site.init(){
   unset RUBOCOP
   export HEADLESS=true
   __update_db_stats_site
-  popd
-  title
 }
 site.connect(){
   case $SITE in
