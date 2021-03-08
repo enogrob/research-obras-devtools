@@ -3432,4 +3432,7 @@ site.status(){
   fi
 }
 
+pushd .
 site.init demo
+popd
+title
