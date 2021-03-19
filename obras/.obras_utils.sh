@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.11
-export OBRAS_UTILS_VERSION_DATE=2021.03.08
-export OBRAS_UTILS_UPDATE_MESSAGE="General improvements."
+export OBRAS_UTILS_VERSION=1.5.12
+export OBRAS_UTILS_VERSION_DATE=2021.03.19
+export OBRAS_UTILS_UPDATE_MESSAGE="Add command 'site trello conn' to access CLI trello."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -2085,7 +2085,7 @@ db(){
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       __pr info "db " "[set dbname || init || preptest || drop [all] || create || migrate migrate:status || seed]"
-      __pr info "db " "[databases || tables || socket || connect]"
+      __pr info "db " "[databases || tables || socket || conn/connect]"
       __pr info "db " "[api [dump/export || import]]"
       __pr info "db " "[backups || download [backupfile] || update [all]]"
       __pr info "db " "[dumps/ls || import [dumpfile] || update [all]]"
@@ -3136,7 +3136,7 @@ site(){
       __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
       __pr info "site " "[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]"
       __pr info "site " "[dumps [activate dumpfile]]"
-      __pr info "site " "[db/mysql/redis conn/connect]"
+      __pr info "site " "[db/mysql/redis/trello conn/connect]"
       __pr info "site " "[conn/connect]"
       __pr info "site " "[stats]"
       __pr info "site " "[rubycritic/rubocop [files]]"
@@ -3232,7 +3232,7 @@ site(){
     conn|connect)
       site.connect
       ;;
-    ngrok|mysql|redis|sidekiq|mailcatcher)
+    ngrok|mysql|redis|sidekiq|mailcatcher|trello)
       case $2 in
         start)
           __$1 start
@@ -3273,6 +3273,9 @@ site(){
                 ansi ""
               fi
               ;;
+            trello)
+              3llo;
+              ;;  
           esac 
           ;;      
 
