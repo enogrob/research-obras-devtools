@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.12
-export OBRAS_UTILS_VERSION_DATE=2021.03.19
-export OBRAS_UTILS_UPDATE_MESSAGE="Add command 'site trello conn' to access CLI trello."
+export OBRAS_UTILS_VERSION=1.5.13
+export OBRAS_UTILS_VERSION_DATE=2021.03.21
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'mailcatcher' and 'sidekiq' support."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -58,7 +58,7 @@ export SITES_OLD_CASE="+($(echo $SITES_OLD | sed 's/ /|/g'))"
 
 export RAILS_ENV=development
 export RUBYOPT=-W0
-export MAILCATCHER_ENV=LOCALHOST
+unset MAILCATCHER_ENV
 unset MYSQL_DATABASE_DEV
 unset MYSQL_DATABASE_TST
 unset DB_TABLES_DEV
@@ -1166,6 +1166,9 @@ __mailcatcher(){
         service_name=$(printf "%-${major}s" "mailcatcher")
         ansi --no-newline "  ${service_name} ";
         ansi --no-newline --underline  --green "http://localhost:$port";ansi " $pid"
+        if [ -z "$MAILCATCHER_ENV" ]; then
+          export MAILCATCHER_ENV=LOCALHOST
+        fi
       fi  
       ;;
 
@@ -1179,14 +1182,26 @@ __mailcatcher(){
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
             ansi --strike --red "$service";
+            if [[ ! -z "${MAILCATCHER_ENV}" ]]; then
+              unset MAILCATCHER_ENV
+            fi
           else  
             ansi --red "$service";
+            if [[ -z "${MAILCATCHER_ENV}" ]]; then
+              export MAILCATCHER_ENV=LOCALHOST
+            fi
           fi
         else  
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
             ansi --no-newline --strike --red "$service";
+            if [[ ! -z "${MAILCATCHER_ENV}" ]]; then
+              unset MAILCATCHER_ENV
+            fi
           else  
             ansi --no-newline --red "$service";
+            if [[ -z "${MAILCATCHER_ENV}" ]]; then
+              export MAILCATCHER_ENV=LOCALHOST
+            fi
           fi 
         fi  
       fi
@@ -1319,7 +1334,7 @@ __mysql(){
 __sidekiq(){
   local pid=""
   local port=""
-  test -f "tmp/pids/sidekiq.pid" && pid=$(cat tmp/pids/sidekiq.pid)
+  pid=$(pgrep sidekiq)
   case $1 in
     pid)
       echo $pid
@@ -1352,7 +1367,7 @@ __sidekiq(){
     stop)  
       if [ ! -z $pid ]; then
         sidekiqctl stop "tmp/pids/sidekiq.pid" > /dev/null 2>&1
-        if [ $? -eq 1 ];then
+        if [ -z $(pgrep sidekiq) ];then
           test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
         fi
       else  
@@ -1957,6 +1972,9 @@ __services(){
       do
         if [ $(__contains "$site_services" "$p") == "y" ]; then
           sed -e "/#$p/ s/^#$p*/$p/" tmp/devtools/${SITE}.procfile > temp && rm -f "tmp/devtools/${SITE}.procfile" && mv temp "tmp/devtools/${SITE}.procfile"
+          if [ "$p" == "mailcatcher" ]; then
+            export MAILCATCHER_ENV=LOCALHOST
+          fi
         else 
           ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${p}' service"
           ansi ""
@@ -1974,6 +1992,9 @@ __services(){
       do
         if [ $(__contains "$site_services" "$p") == "y" ]; then
           sed -e "/$p/ s/^#*/#/" tmp/devtools/${SITE}.procfile > temp && rm -f "tmp/devtools/${SITE}.procfile" && mv temp "tmp/devtools/${SITE}.procfile"
+          if [ "$p" == "mailcatcher" ]; then
+            unset MAILCATCHER_ENV
+          fi
         else 
           ansi --no-newline --green-intense "==> "; ansi --red "Procfile.${SITE} does not contain this '${p}' service"
           ansi ""
