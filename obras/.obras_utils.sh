@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.13
-export OBRAS_UTILS_VERSION_DATE=2021.03.21
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'mailcatcher' and 'sidekiq' support."
+export OBRAS_UTILS_VERSION=1.5.14
+export OBRAS_UTILS_VERSION_DATE=2021.03.22
+export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'bundler-audit' and 'breakman' support."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -638,7 +638,47 @@ __docker(){
   fi  
 }
 
+audit.run(){
+  if [ "$(flags.is_set audit)" == "y" ]; then 
+    if [ $# -eq 0 ]; then
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running Audit "
+      revolver --style 'simpleDotsScrolling' start
+      bundle install > /dev/null 2>&1
+      bundle-audit check --update
+      revolver stop
+    else
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running Audit "
+      revolver --style 'simpleDotsScrolling' start
+      bundle install > /dev/null 2>&1
+      bundle-audit $*
+      revolver stop
+    fi
+  else  
+    ansi --no-newline --green-intense "==> "; ansi --red "audit shall be set"
+    ansi ""
+  fi
 
+}
+brakeman.run(){
+  if [ "$(flags.is_set brakeman)" == "y" ]; then 
+    if [ $# -eq 0 ]; then
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running Brakeman "
+      revolver --style 'simpleDotsScrolling' start
+      bundle install > /dev/null 2>&1
+      bundle exec brakeman --ensure-latest --format html --output tmp/brakeman.html
+      revolver stop
+    else
+      ansi --no-newline --green-intense "==> "; ansi --white-intense "Running Brakeman "
+      revolver --style 'simpleDotsScrolling' start
+      bundle install > /dev/null 2>&1
+      bundle exec brakeman $*
+      revolver stop
+    fi
+  else  
+    ansi --no-newline --green-intense "==> "; ansi --red "brakeman shall be set"
+    ansi ""
+  fi
+}
 rubocop.run(){
   local params=$(git diff --name-only --diff-filter AMT | grep -i 'rb' | tr '\n' ' ')
   if [ "$(flags.is_set rubocop)" == "y" ]; then 
@@ -710,6 +750,12 @@ flags.any_set(){
 flags.get(){
   local flag=$1
   case $flag in
+    audit)
+      echo $AUDIT
+      ;;
+    brakeman)
+      echo $BRAKEMAN
+      ;;
     coverage)
       echo $COVERAGE
       ;;
@@ -760,6 +806,46 @@ flags.print(){
           ansi --red "coverage";
         else
           ansi --no-newline --red "coverage";
+        fi
+      fi
+      ;;
+
+    audit)
+      if [ "$(flags.is_set audit)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --green "audit"
+        else
+          ansi --no-newline --green "audit"
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "audit";
+        else
+          ansi --no-newline --red "audit";
+        fi
+      fi
+      ;;
+
+    brakeman)
+      if [ "$(flags.is_set brakeman)" == "y" ]; then
+        if [ "$last" == "true" ]; then
+          if test -f tmp/brakeman.html; then
+            ansi --underline --green "tmp/brakeman.html"
+          else
+            ansi --green "brakeman"
+          fi
+        else
+          if test -f tmp/brakeman.html; then
+            ansi --no-newline --underline --green "tmp/brakeman.html"
+          else
+            ansi --no-newline --green "brakeman"
+          fi
+        fi
+      else
+        if [ "$last" == "true" ]; then
+          ansi --red "brakeman";
+        else
+          ansi --no-newline --red "brakeman";
         fi
       fi
       ;;
@@ -847,15 +933,21 @@ flags.print(){
   esac
 }
 flags.print_all(){
-  local flags=(docker headless)
+  local flags=(audit docker headless)
+  if [ "$(flags.is_set brakeman)" == "n" ]; then
+    flags+=(brakeman)
+  fi
   if [ "$(flags.is_set coverage)" == "n" ]; then
     flags+=(coverage)
   fi
-  if [ "$(flags.is_set rubycritic)" == "n" ]; then
-    flags+=(rubycritic)
+  if [ "$(flags.is_set docker)" == "n" ]; then
+    flags+=(docker)
   fi
   if [ "$(flags.is_set rubocop)" == "n" ]; then
     flags+=(rubocop)
+  fi
+  if [ "$(flags.is_set rubycritic)" == "n" ]; then
+    flags+=(rubycritic)
   fi
   local flags_set
   ansi --no-newline "  "
@@ -873,6 +965,26 @@ flags.print_down(){
   local flag=$1
   local last=$2
   case $flag in
+    audit)
+      if [ "$(flags.is_set audit)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "audit";
+        else
+          ansi --no-newline --red "audit";
+        fi
+      fi
+      ;;
+  
+    brakeman)
+      if [ "$(flags.is_set brakeman)" == "n" ]; then
+        if [ "$last" == "true" ]; then
+          ansi --red "brakeman";
+        else
+          ansi --no-newline --red "brakeman";
+        fi
+      fi
+      ;;
+
     coverage)
       if [ "$(flags.is_set coverage)" == "n" ]; then
         if [ "$last" == "true" ]; then
@@ -925,7 +1037,7 @@ flags.print_down(){
   esac
 }
 flags.print_downs(){
-  local flags=(coverage rubycritic rubocop docker headless)
+  local flags=(audit brakeman coverage docker headless rubocop rubycritic)
   local flags_not_set
   for f in ${flags[@]}
   do
@@ -951,6 +1063,19 @@ flags.print_up(){
   local major=$2
   local flag_name
   case $flag in
+    brakeman)
+      if [ "$(flags.is_set brakeman)" == "y" ]; then
+        if test -f tmp/brakeman.html; then
+          flag_name=$(printf "%-${major}s" "brakeman")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --underline --green "tmp/brakeman.html"
+        else
+          flag_name=$(printf "%-${major}s" "brakeman")
+          ansi --no-newline "  ${flag_name} ";
+          ansi --green "brakeman"
+        fi
+      fi
+      ;;
     coverage)
       if [ "$(flags.is_set coverage)" == "y" ]; then
         if test -f coverage/index.html; then
@@ -996,7 +1121,7 @@ flags.print_up(){
 flags.print_ups(){
   local flag_name_lens=()
   local major
-  local flags=(rubycritic rubocop coverage)
+  local flags=(brakeman coverage rubocop rubycritic)
   local flags_set
   for f in ${flags[@]}
   do
@@ -1017,6 +1142,16 @@ flags.print_ups(){
 flags.set(){
   local flag=$1
   case $flag in
+    audit)
+      unset AUDIT
+      export AUDIT=true
+      ;;
+
+    brakeman)
+      unset BRAKEMAN
+      export BRAKEMAN=true
+      ;;
+
     coverage)
       unset COVERAGE
       export COVERAGE=true
@@ -1065,6 +1200,14 @@ flags.status(){
 flags.unset(){
   local flag=$1
   case $flag in
+    audit)
+      unset AUDIT
+      ;;
+
+    brakeman)
+      unset BRAKEMAN
+      ;;
+
     coverage)
       unset COVERAGE
       ;;
@@ -3160,7 +3303,7 @@ site(){
       __pr info "site " "[db/mysql/redis/trello conn/connect]"
       __pr info "site " "[conn/connect]"
       __pr info "site " "[stats]"
-      __pr info "site " "[rubycritic/rubocop [files]]"
+      __pr info "site " "[audit/brakeman/rubycritic/rubocop [files]]"
       __pr info "site " "[db:drop || db:create || db:migrate db:migrate:status || db:seed]"
       __pr 
       ;;
@@ -3309,6 +3452,16 @@ site(){
     flags) 
       flags.status
       ;;
+
+    audit)
+      shift 
+      audit.run $*
+      ;;
+
+    brakeman)
+      shift 
+      brakeman.run $*
+      ;;  
 
     rubycritic)
       shift 
