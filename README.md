@@ -20,7 +20,7 @@ This in order to improve the Obras Development Process, developing utilities and
 * Live **db, servers, testing** information
 * **Progress bars** and **spinners** for long tasks duration
 * Supports for OSX and Linux
-* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman), [**mycli**](https://github.com/dbcli/mycli) and [**iredis**](https://iredis.io/)
+* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman), [**mycli**](https://github.com/dbcli/mycli), [**iredis**](https://iredis.io/), [**trello**](https://github.com/qcam/3llo) and [**lazygit**](https://github.com/jesseduffield/lazygit).
 * Extends use of [**chromeapps-for-eicon**](https://github.com/enogrob/chromeapps-eicon)
 * Configurations support for [**Rubymine**](https://www.jetbrains.com/ruby/) and [**Vscode**](https://code.visualstudio.com/)
 
@@ -146,22 +146,22 @@ $ fobras_utils update
 ```shell
 $ site --help
 
-Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.14
+Crafted (c) 2018~2020 by InMov - Intelligence in Movement
+Obras Utils 1.5.15
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
 site[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]
 site[dumps [activate dumpfile]]
-site[db/mysql/redis/trello conn/connect]
+site[db/mysql/redis/trello/git conn/connect]
 site[conn/connect]
 site[stats]
 site[audit/brakeman/rubycritic/rubocop [files]]
 site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
 
 $ site db/dbs --help
-Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.14
+Crafted (c) 2018~2020 by InMov - Intelligence in Movement
+Obras Utils 1.5.15
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -169,8 +169,8 @@ db[tables || databases || socket || conn/connect]
 db[api [dump/export || import]]
 
 $ site services --help
-Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.14
+Crafted (c) 2018~2020 by InMov - Intelligence in Movement
+Obras Utils 1.5.15
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
@@ -180,8 +180,8 @@ services[conn/connect mysql/db/redis]
 obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
-Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.14
+Crafted (c) 2018~2020 by InMov - Intelligence in Movement
+Obras Utils 1.5.15
 ::
 obras_utils[version/update/check]
 ```
@@ -190,6 +190,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.15** Integrate `git` with `lazygit` support.
 * **1.5.14** Integrate `bundler-audit` and `breakman` support.
 * **1.5.13** Improve `mailcatcher` and `sidekiq` support.
 * **1.5.12** Add command `site trello conn/connect` to access Trello CLI.

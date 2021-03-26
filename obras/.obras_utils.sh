@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.14
-export OBRAS_UTILS_VERSION_DATE=2021.03.22
-export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'bundler-audit' and 'breakman' support."
+export OBRAS_UTILS_VERSION=1.5.15
+export OBRAS_UTILS_VERSION_DATE=2021.03.25
+export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'git' with 'lazygit' support."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -110,7 +110,7 @@ obras_utils() {
 
   case $1 in
     --version|-v|v|version)
-      ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
+      ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       ;;
@@ -210,6 +210,18 @@ obras_utils() {
           echo ""
           sudo apt-get install net-tools
         fi 
+      fi
+
+      if ! test -f /usr/local/bin/lazygit && ! test -f /usr/bin/lazygit; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"Lazygit\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew cask install lazygit
+        else  
+          sudo add-apt-repository ppa:lazygit-team/release
+          sudo apt-get update
+          sudo apt-get install lazygit
+        fi
       fi
 
       source $HOME/.bashrc
@@ -1982,7 +1994,7 @@ __services(){
   local services=(mysql redis mailcatcher sidekiq ngrok rails)
   case $action in
     help|h|--help|-h)
-      ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
+      ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       __pr info "services " "[ls/check]"
@@ -2245,7 +2257,7 @@ db(){
   if [ $? -eq 0 ]; then
   case $1 in
     help|h|--help|-h)
-      ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
+      ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       __pr info "db " "[set dbname || init || preptest || drop [all] || create || migrate migrate:status || seed]"
@@ -3293,7 +3305,7 @@ site(){
   if [ $? -eq 0 ]; then
   case $1 in
     help|h|--help|-h)
-      ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
+      ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       __pr info "site " "[sitename || flags || set/unset flag|| env development/test]"
@@ -3396,7 +3408,7 @@ site(){
     conn|connect)
       site.connect
       ;;
-    ngrok|mysql|redis|sidekiq|mailcatcher|trello)
+    ngrok|mysql|redis|sidekiq|mailcatcher|trello|git)
       case $2 in
         start)
           __$1 start
@@ -3439,6 +3451,9 @@ site(){
               ;;
             trello)
               3llo;
+              ;;  
+            git)
+              lazygit;
               ;;  
           esac 
           ;;      

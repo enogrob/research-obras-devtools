@@ -124,6 +124,26 @@ fobras_utils() {
         fi
       fi
       
+      if [ "$OS" != 'Darwin' ]; then
+        if ! test -f /bin/netstat; then
+          echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"net-tools\" \033[0m"
+          echo ""
+          sudo apt-get install net-tools
+        fi 
+      fi
+
+      if ! test -f /usr/local/bin/lazygit && ! test -f /usr/bin/lazygit; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"Lazygit\" \033[0m"
+        echo ""
+        if [ "$OS" == 'Darwin' ]; then
+          brew cask install lazygit
+        else  
+          sudo add-apt-repository ppa:lazygit-team/release
+          sudo apt-get update
+          sudo apt-get install lazygit
+        fi
+      fi
+      
       source ~/.bashrc
       site $SITE
       ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
