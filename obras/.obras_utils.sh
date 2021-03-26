@@ -3312,7 +3312,7 @@ site(){
       __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
       __pr info "site " "[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]"
       __pr info "site " "[dumps [activate dumpfile]]"
-      __pr info "site " "[db/mysql/redis/trello conn/connect]"
+      __pr info "site " "[db/mysql/redis/trello/git conn/connect]"
       __pr info "site " "[conn/connect]"
       __pr info "site " "[stats]"
       __pr info "site " "[audit/brakeman/rubycritic/rubocop [files]]"
