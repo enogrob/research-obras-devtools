@@ -42,11 +42,30 @@ In order to install `DevTools`, it is required that the following has been insta
 * [RVM](https://rvm.io/rvm/install)
 * [Docker](https://docs.docker.com/get-docker/)
 
-It is required that it is generated a new RSA key with the more secure encryption format with
+If you already have an RSA SSH key pair to use with GitLab, consider upgrading it
+to use the more secure password encryption format. You can do so with the following command:
+
+```shell
+$ ssh-keygen -o -f ~/.ssh/id_rsa
+```
+
+Alternatively, you can generate a new RSA key with the more secure encryption format with
 the following command:
 
 ```shell
 $ ssh-keygen -o -t rsa -b 4096 -C "email@example.com"
+```
+
+And ALL `sudo` commands shall be executed without password:
+
+```shell
+$ echo $USER
+$ sudo visudo
+```
+Append the following entry to run ALL command without a password for a user named by the result of the command `echo $USER`, save and exit afterwards:
+
+```shell
+<user> ALL=(ALL) NOPASSWD:ALL
 ```
 
 Also the `SSH` keys has to be setup in [Github](https://github.com/settings/keys), [Gitlab](https://gitlab.tecnogroup.com.br/profile/keys) and [Engine Yard](https://cloud.engineyard.com/keypairs).
