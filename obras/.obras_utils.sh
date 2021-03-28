@@ -1752,7 +1752,7 @@ __redis(){
        if [ $OS == 'Darwin' ]; then
          brew services 
        else
-         service redis status
+         service redis-server status
        fi
       else  
         docker-compose ps redis
