@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.15
-export OBRAS_UTILS_VERSION_DATE=2021.03.25
-export OBRAS_UTILS_UPDATE_MESSAGE="Integrate 'git' with 'lazygit' support."
+export OBRAS_UTILS_VERSION=1.5.16
+export OBRAS_UTILS_VERSION_DATE=2021.03.29
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site services' support."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -205,7 +205,7 @@ obras_utils() {
       fi
 
       if [ "$OS" != 'Darwin' ]; then
-        if ! test -f /bin/netstat; then
+        if ! test -f /bin/netstat && ! test -f /usr/bin/netstat; then
           echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"net-tools\" \033[0m"
           echo ""
           sudo apt-get install net-tools
@@ -1714,7 +1714,7 @@ __redis(){
           if [ $OS == 'Darwin' ]; then
             brew services start redis
           else
-            sudo service start redis
+            sudo service redis-server start
           fi
         else
           ansi --no-newline --green-intense "==> "; ansi --red "Redis is started already"
@@ -1731,7 +1731,7 @@ __redis(){
           if [ $OS == 'Darwin' ]; then
             brew services stop redis
           else
-            sudo service stop redis
+            sudo service redis-server stop
           fi
         else
           ansi --no-newline --green-intense "==> "; ansi --red "Redis is stopped already"

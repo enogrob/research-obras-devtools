@@ -125,7 +125,7 @@ fobras_utils() {
       fi
       
       if [ "$OS" != 'Darwin' ]; then
-        if ! test -f /bin/netstat; then
+        if ! test -f /bin/netstat && ! test -f /usr/bin/netstat; then
           echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"net-tools\" \033[0m"
           echo ""
           sudo apt-get install net-tools

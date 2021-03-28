@@ -147,7 +147,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.15
+Obras Utils 1.5.16
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -161,7 +161,7 @@ site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
 
 $ site db/dbs --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.15
+Obras Utils 1.5.16
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -170,7 +170,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.15
+Obras Utils 1.5.16
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
@@ -181,7 +181,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.15
+Obras Utils 1.5.16
 ::
 obras_utils[version/update/check]
 ```
@@ -190,6 +190,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.16** Improve `site services` support.
 * **1.5.15** Integrate `git` with `lazygit` support.
 * **1.5.14** Integrate `bundler-audit` and `breakman` support.
 * **1.5.13** Improve `mailcatcher` and `sidekiq` support.
