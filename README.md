@@ -270,5 +270,6 @@ Changes log
 
 Changes Required
 
+* **1.5.17** Review `install.sh` script for a new installation, change ansi color for disable, update README.md for git, mysql.
 * **1.6.00** Review `Docker` for the latest changes.
 
