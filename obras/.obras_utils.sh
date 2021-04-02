@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.16
-export OBRAS_UTILS_VERSION_DATE=2021.03.29
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site services' support."
+export OBRAS_UTILS_VERSION=1.5.17
+export OBRAS_UTILS_VERSION_DATE=2021.04.02
+export OBRAS_UTILS_UPDATE_MESSAGE="Review 'install.sh' script for a new installation, improve 'sidekiq' and services management, update README.md for git, mysql."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -189,7 +189,7 @@ obras_utils() {
         if [ "$OS" == 'Darwin' ]; then
           brew install iredis
         else 
-          apt-get install python3-venv
+          sudo apt-get install python3-venv
           pipx install iredis
         fi
       fi
@@ -200,7 +200,11 @@ obras_utils() {
         if [ "$OS" == 'Darwin' ]; then
           brew cask install ngrok
         else  
-          sudo snap install ngrok
+          test -f ./ngrok-stable-linux-amd64.zip && rm -f ngrok-stable-linux-amd64.zip
+          test -f ./ngrok && rm -f ngrok
+          wget "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip" && test -f ./ngrok-stable-linux-amd64.zip && unzip ngrok-stable-linux-amd64.zip && sudo mv ./ngrok /usr/local/bin
+          test -f ./ngrok-stable-linux-amd64.zip && rm -f ngrok-stable-linux-amd64.zip
+          test -f ./ngrok && rm -f ngrok
         fi
       fi
 
@@ -1336,7 +1340,7 @@ __mailcatcher(){
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --strike --red "$service";
+            ansi --black-intense "$service";
             if [[ ! -z "${MAILCATCHER_ENV}" ]]; then
               unset MAILCATCHER_ENV
             fi
@@ -1348,7 +1352,7 @@ __mailcatcher(){
           fi
         else  
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --no-newline --strike --red "$service";
+            ansi --no-newline --black-intense "$service";
             if [[ ! -z "${MAILCATCHER_ENV}" ]]; then
               unset MAILCATCHER_ENV
             fi
@@ -1445,7 +1449,7 @@ __mysql(){
        if [ $OS == 'Darwin' ]; then
          brew services 
        else
-         service mysql status
+         sudo service mysql status
        fi
       else  
         docker-compose ps db
@@ -1471,13 +1475,13 @@ __mysql(){
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --strike --red "$service";
+            ansi --black-intense "$service";
           else  
             ansi --red "$service";
           fi
         else  
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --no-newline --strike --red "$service";
+            ansi --no-newline --black-intense "$service";
           else  
             ansi --no-newline --red "$service";
           fi 
@@ -1489,9 +1493,10 @@ __mysql(){
 __sidekiq(){
   local pid=""
   local port=""
-  pid=$(pgrep sidekiq)
+  pid=$(test -f tmp/pids/sidekiq.pid && cat "tmp/pids/sidekiq.pid")
   case $1 in
     pid)
+      pid=$(test -f tmp/pids/sidekiq.pid && cat "tmp/pids/sidekiq.pid")
       echo $pid
       ;;
 
@@ -1522,9 +1527,6 @@ __sidekiq(){
     stop)  
       if [ ! -z $pid ]; then
         sidekiqctl stop "tmp/pids/sidekiq.pid" > /dev/null 2>&1
-        if [ -z $(pgrep sidekiq) ];then
-          test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
-        fi
       else  
         test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
         ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is stopped already"
@@ -1567,13 +1569,13 @@ __sidekiq(){
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --strike --red "$service";
+            ansi --black-intense "$service";
           else  
             ansi --red "$service";
           fi
         else  
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --no-newline --strike --red "$service";
+            ansi --no-newline --black-intense "$service";
           else  
             ansi --no-newline --red "$service";
           fi 
@@ -1671,13 +1673,13 @@ __ngrok(){
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --strike --red "$service";
+            ansi --black-intense "$service";
           else  
             ansi --red "$service";
           fi
         else  
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --no-newline --strike --red "$service";
+            ansi --no-newline --black-intense "$service";
           else  
             ansi --no-newline --red "$service";
           fi 
@@ -1752,7 +1754,7 @@ __redis(){
        if [ $OS == 'Darwin' ]; then
          brew services 
        else
-         service redis-server status
+         sudo service redis-server status
        fi
       else  
         docker-compose ps redis
@@ -1778,13 +1780,13 @@ __redis(){
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --strike --red "$service";
+            ansi --black-intense "$service";
           else  
             ansi --red "$service";
           fi
         else  
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --no-newline --strike --red "$service";
+            ansi --no-newline --black-intense "$service";
           else  
             ansi --no-newline --red "$service";
           fi 
@@ -1974,13 +1976,13 @@ __rails(){
       if [ -z $pid ]; then
         if [ "$last" == "true" ]; then
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --strike --red "$service";
+            ansi --black-intense "$service";
           else  
             ansi --red "$service";
           fi
         else  
           if [ $(__contains "$services_disabled" "$service") == "y" ]; then
-            ansi --no-newline --strike --red "$service";
+            ansi --no-newline --black-intense "$service";
           else  
             ansi --no-newline --red "$service";
           fi 

@@ -42,6 +42,12 @@ In order to install `DevTools`, it is required that the following has been insta
 * [RVM](https://rvm.io/rvm/install)
 * [Docker](https://docs.docker.com/get-docker/)
 
+If do not have an RSA SSH key pair generate one:
+
+```
+$ ssh-keygen
+```
+
 If you already have an RSA SSH key pair to use with GitLab, consider upgrading it
 to use the more secure password encryption format. You can do so with the following command:
 
@@ -49,12 +55,14 @@ to use the more secure password encryption format. You can do so with the follow
 $ ssh-keygen -o -f ~/.ssh/id_rsa
 ```
 
-Alternatively, you can generate a new RSA key with the more secure encryption format with
-the following command:
+Then copy to the clipboard in order to setup later on sites just below. Install `xclip` if required:
 
 ```shell
-$ ssh-keygen -o -t rsa -b 4096 -C "email@example.com"
+$ sudo apt-get install xclip
+$ xclip -selection clipboard < ~/.ssh/id_rsa.pub
 ```
+
+Now the `SSH` keys has to be setup in [Github](https://github.com/settings/keys), [Gitlab](https://gitlab.tecnogroup.com.br/profile/keys) and [Engine Yard](https://cloud.engineyard.com/keypairs).
 
 And ALL `sudo` commands shall be executed without password:
 
@@ -68,8 +76,14 @@ Append the following entry to run ALL command without a password for a user name
 <user> ALL=(ALL) NOPASSWD:ALL
 ```
 
-Also the `SSH` keys has to be setup in [Github](https://github.com/settings/keys), [Gitlab](https://gitlab.tecnogroup.com.br/profile/keys) and [Engine Yard](https://cloud.engineyard.com/keypairs).
+If you have the problem with `mysql` server `Access denied for user root@localhost`, it is needed to:
 
+```
+sudo mysql -u root
+use mysql;
+mysql> update user set plugin='mysql_native_password' where User='root';
+mysql> flush privileges;
+```
 
 ## Installation
 
@@ -166,7 +180,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.16
+Obras Utils 1.5.17
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -180,7 +194,7 @@ site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
 
 $ site db/dbs --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.16
+Obras Utils 1.5.17
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -189,7 +203,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.16
+Obras Utils 1.5.17
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
@@ -200,7 +214,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.16
+Obras Utils 1.5.17
 ::
 obras_utils[version/update/check]
 ```
@@ -209,6 +223,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.17** Review `install.sh` script for a new installation, improve `sidekiq` and services management, update README.md for git, mysql.
 * **1.5.16** Improve `site services` support.
 * **1.5.15** Integrate `git` with `lazygit` support.
 * **1.5.14** Integrate `bundler-audit` and `breakman` support.
@@ -270,6 +285,5 @@ Changes log
 
 Changes Required
 
-* **1.5.17** Review `install.sh` script for a new installation, change ansi color for disable, update README.md for git, mysql.
 * **1.6.00** Review `Docker` for the latest changes.
 

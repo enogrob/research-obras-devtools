@@ -239,7 +239,7 @@ case $1 in
       if [ "$OS" == 'Darwin' ]; then
         brew install iredis
       else 
-        apt-get install python3-venv
+        sudo apt-get install python3-venv
         pipx install iredis
       fi
     fi
@@ -251,6 +251,26 @@ case $1 in
         brew cask install ngrok
       else  
         sudo snap install ngrok
+      fi
+    fi
+
+    if [ "$OS" != 'Darwin' ]; then
+      if ! test -f /bin/netstat && ! test -f /usr/bin/netstat; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"net-tools\" \033[0m"
+        echo ""
+        sudo apt-get install net-tools
+      fi 
+    fi
+
+    if ! test -f /usr/local/bin/lazygit && ! test -f /usr/bin/lazygit; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"Lazygit\" \033[0m"
+      echo ""
+      if [ "$OS" == 'Darwin' ]; then
+        brew cask install lazygit
+      else  
+        sudo add-apt-repository ppa:lazygit-team/release
+        sudo apt-get update
+        sudo apt-get install lazygit
       fi
     fi
     ;;
