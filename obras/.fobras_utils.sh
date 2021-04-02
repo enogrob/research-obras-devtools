@@ -120,7 +120,11 @@ fobras_utils() {
         if [ "$OS" == 'Darwin' ]; then
           brew cask install ngrok
         else  
-          sudo snap install ngrok
+          test -f ./ngrok-stable-linux-amd64.zip && rm -f ngrok-stable-linux-amd64.zip
+          test -f ./ngrok && rm -f ngrok
+          wget "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip" && test -f ./ngrok-stable-linux-amd64.zip && unzip ngrok-stable-linux-amd64.zip && sudo mv ./ngrok /usr/local/bin
+          test -f ./ngrok-stable-linux-amd64.zip && rm -f ngrok-stable-linux-amd64.zip
+          test -f ./ngrok && rm -f ngrok
         fi
       fi
       
