@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.18
+export OBRAS_UTILS_VERSION=1.5.19
 export OBRAS_UTILS_VERSION_DATE=2021.04.03
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'spring' warning when sourcing '.bashrc'."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'obras_utils' initialization."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -31,7 +31,6 @@ export OBRAS=$OBRASTMP
 export OBRAS_OLD=$OBRASOLDTMP
 export RAILS_VERSION=$RAILSVERSIONTMP
 
-pushd . > /dev/null 2>&1
 cd $OBRAS
 
 ! test -d tmp/devtools && mkdir -p tmp/devtools
@@ -51,7 +50,6 @@ if [ "$OBRAS" != "$OBRAS_OLD" ]; then
 else  
   export SITES_OLD="none"
 fi  
-popd > /dev/null 2>&1
 
 export SITES_CASE="+($(echo $SITES | sed 's/ /|/g'))"
 export SITES_OLD_CASE="+($(echo $SITES_OLD | sed 's/ /|/g'))"
@@ -83,6 +81,8 @@ alias downloads='cd $HOME/Downloads;title downloads'
 alias default='cd $OBRAS;site default'
 alias rc='rvm current'
 alias window='tput cols;tput lines'
+alias init_bash='source $HOME/.bashrc'
+alias init_obras='source $HOME/.obras_utils.sh'
 
 
 # aliases docker
@@ -3628,7 +3628,4 @@ site.status(){
   fi
 }
 
-pushd .
 site.init demo
-popd
-title

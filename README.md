@@ -143,6 +143,8 @@ $ source ~/.bashrc
 obs: Remember to register the `ssh` keys in **Engine Yard** in order to be able to download the dumps automatically.
 
 ```shell
+$ init_obras
+
 $ santoandre
 $ site db update
 :
@@ -180,7 +182,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.18
+Obras Utils 1.5.19
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -194,7 +196,7 @@ site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
 
 $ site db/dbs --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.18
+Obras Utils 1.5.19
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -203,7 +205,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.18
+Obras Utils 1.5.19
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
@@ -214,7 +216,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.18
+Obras Utils 1.5.19
 ::
 obras_utils[version/update/check]
 ```
@@ -223,6 +225,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.19** Improve `obras_utils` initialization.
 * **1.5.18** Correct `spring` warning when sourcing `.bashrc`.
 * **1.5.17** Review `install.sh` script for a new installation, improve `sidekiq` and services management, update README.md for git, mysql.
 * **1.5.16** Improve `site services` support.
