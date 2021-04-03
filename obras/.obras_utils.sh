@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.17
-export OBRAS_UTILS_VERSION_DATE=2021.04.02
-export OBRAS_UTILS_UPDATE_MESSAGE="Review 'install.sh' script for a new installation, improve 'sidekiq' and services management, update README.md for git, mysql."
+export OBRAS_UTILS_VERSION=1.5.18
+export OBRAS_UTILS_VERSION_DATE=2021.04.03
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'spring' warning when sourcing '.bashrc'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -3194,7 +3194,9 @@ dbs.set(){
   local site=$1
   case $1 in
     olimpia|rioclaro|suzano|santoandre|demo)
-      spring stop
+      if hash spring 2>/dev/null; then
+        spring stop
+      fi
       set -o allexport
       . ./.env/development/$1
       set +o allexport
