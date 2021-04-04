@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.19
-export OBRAS_UTILS_VERSION_DATE=2021.04.03
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'obras_utils' initialization."
+export OBRAS_UTILS_VERSION=1.5.20
+export OBRAS_UTILS_VERSION_DATE=2021.04.04
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site mysql start' command."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1395,7 +1395,7 @@ __mysql(){
           if [ $OS == 'Darwin' ]; then
             brew services start mysql@5.7
           else
-            sudo service start mysql
+            sudo service mysql start
           fi
         else
           ansi --no-newline --green-intense "==> "; ansi --red "Mysql is started already"
