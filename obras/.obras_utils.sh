@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.21
+export OBRAS_UTILS_VERSION=1.5.22
 export OBRAS_UTILS_VERSION_DATE=2021.04.04
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site mysql stop' command."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site services stop' in respect with 'sidekiq'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1527,6 +1527,21 @@ __sidekiq(){
     stop)  
       if [ ! -z $pid ]; then
         sidekiqctl stop "tmp/pids/sidekiq.pid" > /dev/null 2>&1
+        if [ $OS == 'Darwin' ]; then
+          if test -f tmp/pids/sidekiq.pid && pgrep -F tmp/pids/sidekiq.pid > /dev/null;then
+            kill -9 $pid
+            test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
+          else
+            rm -rf tmp/pids/sidekiq.pid
+          fi
+        else
+          if test -f tmp/pids/sidekiq.pid && pgrep --pidfile tmp/pids/sidekiq.pid > /dev/null;then
+            kill -9 $pid
+            test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
+          else
+            rm -rf tmp/pids/sidekiq.pid
+          fi
+        fi
       else  
         test -f tmp/pids/sidekiq.pid && rm -rf tmp/pids/sidekiq.pid
         ansi --no-newline --green-intense "==> "; ansi --red "Sidekiq is stopped already"
