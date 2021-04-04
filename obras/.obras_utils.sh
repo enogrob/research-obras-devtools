@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.20
+export OBRAS_UTILS_VERSION=1.5.21
 export OBRAS_UTILS_VERSION_DATE=2021.04.04
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site mysql start' command."
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site mysql stop' command."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1412,7 +1412,7 @@ __mysql(){
           if [ $OS == 'Darwin' ]; then
             brew services stop mysql@5.7
           else
-            sudo service stop db
+            sudo service mysql stop 
           fi
         else
           ansi --no-newline --green-intense "==> "; ansi --red "Mysql is stopped already"
