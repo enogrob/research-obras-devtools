@@ -237,11 +237,11 @@ case $1 in
       if [ "$OS" == 'Darwin' ]; then
         brew install iredis
       else 
-        test -f /tmp/iredis.tar.gz && rm -f /tmp/iredis.tar.gz
+        test -f ./iredis.tar.gz && rm -f ./iredis.tar.gz
         test -f /tmp/iredis && rm -f /tmp/iredis
         test -d /tmp/lib && rm -rf /tmp/lib
         wget "https://github.com/laixintao/iredis/releases/latest/download/iredis.tar.gz" && test -f ./iredis.tar.gz && tar -xzf ./iredis.tar.gz -C /tmp && sudo mv /tmp/iredis /usr/local/bin && sudo mv /tmp/lib /usr/local/bin
-        test -f /tmp/iredis.tar.gz && rm -f /tmp/iredis.tar.gz
+        test -f .iredis.tar.gz && rm -f ./iredis.tar.gz
         test -f /tmp/iredis && rm -f /tmp/iredis
         test -d /tmp/lib && rm -rf /tmp/lib
       fi

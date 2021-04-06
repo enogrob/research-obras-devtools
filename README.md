@@ -123,10 +123,10 @@ Obs: This requires in Linux `rvm`, `redis-server`, `mysql-server` and `nodejs` i
 
 ```shell
 $ cd $OBRAS
-$ rvm use ruby-2.6.5
+$ rvm use ruby-2.6.6
 $ rvm gemset create rails-6.0.2.1
 $ rvm gemset list
-$ rvm use --ruby-version ruby-2.6.5@rails-6.0.2.1
+$ rvm use --ruby-version ruby-2.6.6@rails-6.0.2.1
 $ rvm current
 $ gem list
 $ gem install rails -v '6.0.2.1'
