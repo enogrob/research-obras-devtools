@@ -292,5 +292,6 @@ Changes log
 
 Changes Required
 
+* **1.5.23** Include site `corderopolis` and improve initializations.
 * **1.6.00** Review `Docker` for the latest changes.
 
