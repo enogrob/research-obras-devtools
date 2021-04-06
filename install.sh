@@ -220,27 +220,30 @@ case $1 in
       fi
     fi
 
-    if ! test -f /usr/local/bin/pipx && ! test -f $HOME/.local/bin/pipx ; then
+    if ! test -f /usr/local/bin/pipx && ! test -f /usr/bin/pip3; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"pip\" \033[0m"
       echo ""
       if [ "$OS" == 'Darwin' ]; then
         brew install pipx
         pipx ensurepath
       else 
-        python3 -m pip install --user pipx
-        python3 -m pipx ensurepath 
-        source $HOME/.bashrc
+        sudo apt-get install python3-pip
       fi
     fi
 
-    if ! test -f $HOME/.local/bin/iredis; then
+    if ! test -f $HOME/.local/bin/iredis && ! test -f /usr/local/bin/iredis; then
       echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"iredis\" \033[0m"
       echo ""
       if [ "$OS" == 'Darwin' ]; then
         brew install iredis
       else 
-        sudo apt-get install python3-venv
-        pipx install iredis
+        test -f ./iredis.tar.gz && rm -f ./iredis.tar.gz
+        test -f ./iredis && rm -f ./iredis
+        test -d lib && rm -rf lib
+        wget "https://github.com/laixintao/iredis/releases/latest/download/iredis.tar.gz" && test -f ./iredis.tar.gz && tar -xzf ./iredis.tar.gz && sudo mv ./iredis /usr/local/bin && sudo mv lib /usr/local/bin
+        test -f ./iredis.tar.gz && rm -f ./iredis.tar.gz
+        test -f ./iredis && rm -f ./iredis
+        test -d lib && rm -rf lib
       fi
     fi
 
