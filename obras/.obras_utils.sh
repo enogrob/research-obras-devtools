@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.22
-export OBRAS_UTILS_VERSION_DATE=2021.04.04
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site services stop' in respect with 'sidekiq'."
+export OBRAS_UTILS_VERSION=1.5.23
+export OBRAS_UTILS_VERSION_DATE=2021.04.06
+export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'site services start' when there is no tmp."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -1282,8 +1282,8 @@ __mailcatcher(){
         test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
         ! test -d tmp/devtools && mkdir -p tmp/devtools
         if ! test -f tmp/devtools/${SITE}.procfile; then
-          cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
-          cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+          cat Procfile | grep $SITE | sed "s/$SITE/rails/" > tmp/devtools/${SITE}.procfile.temp
+          cat Procfile.services | tail -3 >> tmp/devtools/${SITE}.procfile.temp 
           sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
           rm -rf tmp/devtools/${SITE}.procfile.temp
         fi  
@@ -1512,8 +1512,8 @@ __sidekiq(){
       if [ -z $pid ]; then
         ! test -d tmp/devtools && mkdir -p tmp/devtools
         if ! test -f tmp/devtools/${SITE}.procfile; then
-          cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
-          cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+          cat Procfile | grep $SITE | sed "s/$SITE/rails/" > tmp/devtools/${SITE}.procfile.temp
+          cat Procfile.services | tail -3 >> tmp/devtools/${SITE}.procfile.temp 
           sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
           rm -rf tmp/devtools/${SITE}.procfile.temp
         fi  
@@ -1628,8 +1628,8 @@ __ngrok(){
             test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
             ! test -d tmp/devtools && mkdir -p tmp/devtools
             if ! test -f tmp/devtools/${SITE}.procfile; then
-              cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
-              cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+              cat Procfile | grep $SITE | sed "s/$SITE/rails/" > tmp/devtools/${SITE}.procfile.temp
+              cat Procfile.services | tail -3 >> tmp/devtools/${SITE}.procfile.temp 
               sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
               rm -rf tmp/devtools/${SITE}.procfile.temp
             fi  
@@ -1839,8 +1839,8 @@ __rails(){
             test -f tmp/pids/server.pid && rm -f tmp/pids/server.pid
             ! test -d tmp/devtools && mkdir -p tmp/devtools
             if ! test -f tmp/devtools/${SITE}.procfile; then
-              cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
-              cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+              cat Procfile | grep $SITE | sed "s/$SITE/rails/" > tmp/devtools/${SITE}.procfile.temp
+              cat Procfile.services | tail -3 >> tmp/devtools/${SITE}.procfile.temp 
               sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
               rm -rf tmp/devtools/${SITE}.procfile.temp
             fi  
@@ -2027,8 +2027,8 @@ __services(){
       if test -f tmp/devtools/${SITE}.procfile; then
         foreman check -f tmp/devtools/${SITE}.procfile
       else
-        cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
-        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+        cat Procfile | grep $SITE | sed "s/$SITE/rails/" > tmp/devtools/${SITE}.procfile.temp
+        cat Procfile.services | tail -3 >> tmp/devtools/${SITE}.procfile.temp
         sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
         rm -rf tmp/devtools/${SITE}.procfile.temp
         foreman check -f tmp/devtools/${SITE}.procfile
@@ -2042,8 +2042,8 @@ __services(){
         all)
           ! test -d tmp/devtools && mkdir -p tmp/devtools
           if ! test -f tmp/devtools/${SITE}.procfile; then
-            cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
-            cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+            cat Procfile | grep $SITE | sed "s/$SITE/rails/" > tmp/devtools/${SITE}.procfile.temp
+            cat Procfile.services | tail -3 >> tmp/devtools/${SITE}.procfile.temp
             sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
             rm -rf tmp/devtools/${SITE}.procfile.temp
           fi  
@@ -2054,12 +2054,13 @@ __services(){
       if [ -z "$2" ]; then
         ! test -d tmp/devtools && mkdir -p tmp/devtools
         if ! test -f tmp/devtools/${SITE}.procfile; then
-          cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
-          cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+          cat Procfile | grep $SITE | sed "s/$SITE/rails/" > tmp/devtools/${SITE}.procfile.temp
+          cat Procfile.services | tail -3 >> tmp/devtools/${SITE}.procfile.temp
           sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
           rm -rf tmp/devtools/${SITE}.procfile.temp
         fi  
         db migrate:status
+        (! test -d tmp/pids) && mkdir -p tmp/pids
         foreman start all -f tmp/devtools/${SITE}.procfile
       fi 
       ;;   
@@ -2119,6 +2120,7 @@ __services(){
                 __$s stop
               fi
             done
+            (! test -d tmp/pids) && mkdir -p tmp/pids
             foreman start all -f tmp/devtools/${SITE}.procfile
           else  
             ansi --no-newline --green-intense "==> "; ansi --red "Procfile.{$SITE} does not exist"
@@ -2225,8 +2227,8 @@ __services(){
       local sites_disabled
       ! test -d tmp/devtools && mkdir -p tmp/devtools
       if ! test -f tmp/devtools/${SITE}.procfile; then
-        cat Procfile.services > tmp/devtools/${SITE}.procfile.temp
-        cat Procfile | grep $SITE | sed "s/$SITE/rails/" >> tmp/devtools/${SITE}.procfile.temp
+        cat Procfile | grep $SITE | sed "s/$SITE/rails/" > tmp/devtools/${SITE}.procfile.temp
+        cat Procfile.services | tail -3 >> tmp/devtools/${SITE}.procfile.temp
         sed 's@\$PORT@'"$PORT"'@' tmp/devtools/${SITE}.procfile.temp > tmp/devtools/${SITE}.procfile
         rm -rf tmp/devtools/${SITE}.procfile.temp
       fi  
