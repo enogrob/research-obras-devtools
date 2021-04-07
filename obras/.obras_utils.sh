@@ -3715,10 +3715,8 @@ if [ -z $ABOUT ]; then
   ansi --white "::"
   ansi --white "Obras Utils is loaded, type 'init_obras' just once to start the session and then the site name."
   ansi --white ""
-  pushd . > /dev/null
   ansi --white --underline "Available sites:"
   ansi --white " default, olimpia, rioclaro, suzano, santoandre, cordeiropolis, demo"
   ansi --white ""
-  popd > /dev/null
   export ABOUT=true
 fi 
