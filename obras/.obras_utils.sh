@@ -3720,6 +3720,6 @@ if [ -z $ABOUT ]; then
   ansi --white --underline "Available sites:"
   ansi --white " default, olimpia, rioclaro, suzano, santoandre, cordeiropolis, demo"
   ansi --white ""
-  site.init default
   export ABOUT=true
 fi 
+site.init default
