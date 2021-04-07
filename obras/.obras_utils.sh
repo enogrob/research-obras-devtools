@@ -3716,9 +3716,8 @@ if [ -z $ABOUT ]; then
   ansi --white "Obras Utils is loaded, type 'init_obras' just once to start the session and then the site name."
   ansi --white ""
   pushd . > /dev/null
-  cd $OBRAS
   ansi --white --underline "Available sites:"
-  ansi --white " "$(foreman check | sed 's/.*(\(.*\))/\1/')
+  ansi --white " "$(cd $OBRAS;foreman check | sed 's/.*(\(.*\))/\1/')
   ansi --white ""
   popd > /dev/null
   export ABOUT=true
