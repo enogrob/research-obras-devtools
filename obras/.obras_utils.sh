@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.25
+export OBRAS_UTILS_VERSION=1.5.26
 export OBRAS_UTILS_VERSION_DATE=2021.04.07
-export OBRAS_UTILS_UPDATE_MESSAGE="Include site 'cordeiropolis' and improve initializations."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve about message."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -31,7 +31,7 @@ export OBRAS=$OBRASTMP
 export OBRAS_OLD=$OBRASOLDTMP
 export RAILS_VERSION=$RAILSVERSIONTMP
 
-pushd . 2>/dev/null
+pushd . > /dev/null
 cd $OBRAS
 
 ! test -d tmp/devtools && mkdir -p tmp/devtools
@@ -94,7 +94,7 @@ alias dkc='docker container'
 alias dki='docker image'
 alias dkis='docker images'
 
-popd 2>/dev/null
+popd > /dev/null
 
 # functions
 __gitignore(){
@@ -3709,15 +3709,17 @@ site.status(){
     ansi --red "test"
   fi
 }
-
-ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
-ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
-ansi --white "::"
-ansi --white "Obras Utils is loaded, initialize just once with the commands below:"
-ansi --white "$ init_obras"
-ansi --white "$ sitename"
-ansi --white "::"
-pushd . 2>/dev/null
-cd $OBRAS
-ansi --white-intense $(foreman check)
-popd 2>/dev/null
+if [ -z $ABOUT ]; then
+  ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
+  ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+  ansi --white "::"
+  ansi --white "Obras Utils is loaded, type 'init_obras' just once to start the session and then the site name."
+  ansi --white ""
+  pushd . > /dev/null
+  cd $OBRAS
+  ansi --white --underline "Available sites:"
+  ansi --white " "$(foreman check | sed 's/.*(\(.*\))/\1/')
+  ansi --white ""
+  popd > /dev/null
+  export ABOUT=true
+fi 
