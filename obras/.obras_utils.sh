@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.24
-export OBRAS_UTILS_VERSION_DATE=2021.04.06
-export OBRAS_UTILS_UPDATE_MESSAGE="Correct 'redis' and 'pip3' installations."
+export OBRAS_UTILS_VERSION=1.5.25
+export OBRAS_UTILS_VERSION_DATE=2021.04.07
+export OBRAS_UTILS_UPDATE_MESSAGE="Include site 'cordeiropolis' and improve initializations."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -31,6 +31,7 @@ export OBRAS=$OBRASTMP
 export OBRAS_OLD=$OBRASOLDTMP
 export RAILS_VERSION=$RAILSVERSIONTMP
 
+pushd . 2>/dev/null
 cd $OBRAS
 
 ! test -d tmp/devtools && mkdir -p tmp/devtools
@@ -76,13 +77,14 @@ alias olimpia='cd $OBRAS;site olimpia'
 alias rioclaro='cd $OBRAS;site rioclaro'
 alias suzano='cd $OBRAS;site suzano'
 alias santoandre='cd $OBRAS;site santoandre'
+alias cordeiropolis='cd $OBRAS;site cordeiropolis'
 alias demo='cd $OBRAS;site demo'
 alias downloads='cd $HOME/Downloads;title downloads'
 alias default='cd $OBRAS;site default'
 alias rc='rvm current'
 alias window='tput cols;tput lines'
 alias init_bash='source $HOME/.bashrc'
-alias init_obras='source $HOME/.obras_utils.sh'
+alias init_obras='cd $OBRAS;source $HOME/.obras_utils.sh'
 
 
 # aliases docker
@@ -91,6 +93,8 @@ alias dk='docker'
 alias dkc='docker container'
 alias dki='docker image'
 alias dkis='docker images'
+
+popd 2>/dev/null
 
 # functions
 __gitignore(){
@@ -604,6 +608,9 @@ __port(){
       ;;  
     santoandre)
       port=3005
+      ;;  
+    cordeiropolis)
+      port=3006
       ;;  
     demo)
       port=3013
@@ -1878,7 +1885,7 @@ __rails(){
             docker-compose up -d db redis $SITE
           else   
             case $2 in
-              olimpia|rioclaro|suzano|santoandre|demo)
+              olimpia|rioclaro|suzano|santoandre|cordeiropolis|demo)
                 docker-compose up -d $2
                 ;;
 
@@ -1907,12 +1914,12 @@ __rails(){
             kill -9 $(__pid $(__port $SITE))
           else   
             case $2 in
-              olimpia|rioclaro|suzano|santoandre|default)
+              olimpia|rioclaro|suzano|santoandre|cordeiropolis|default)
                 kill -9 $(__pid $(__port $2))
                 ;;
 
               all)
-              sites=(olimpia rioclaro suzano santoandre default)
+              sites=(olimpia rioclaro suzano santoandre cordeiropolis default)
               for site in "${sites[@]}"
               do
                 pid=$(__pid $(__port $site))
@@ -1934,7 +1941,7 @@ __rails(){
             docker-compose rm -f -s -v $SITE
           else   
             case $2 in
-              olimpia|rioclaro|suzano|santoandre|demo)
+              olimpia|rioclaro|suzano|santoandre|cordeiropolis|demo)
                 docker-compose stop $2
                 ;;
 
@@ -2752,6 +2759,11 @@ db(){
                   __import $(basename $file)
                   __update_db_stats
                 fi
+                if [ $(__contains "$file" "cordeiropolis") == "y" ]; then
+                  site set cordeiropolis
+                  __import $(basename $file)
+                  __update_db_stats
+                fi
                 if [ $(__contains "$file" "demo") == "y" ]; then
                   site set demo
                   __import $(basename $file)
@@ -2788,6 +2800,11 @@ db(){
                 fi
                 if [ $(__contains "$file" "santoandre") == "y" ]; then
                   site set santoandre
+                  __import_docker $(basename $file)
+                  __update_db_stats
+                fi
+                if [ $(__contains "$file" "cordeiropolis") == "y" ]; then
+                  site set cordeiropolis
                   __import_docker $(basename $file)
                   __update_db_stats
                 fi
@@ -2996,6 +3013,44 @@ db(){
           unset IFS
           ;;
 
+        cordeiropolis)  
+          filename_orig="${file[1]}"
+          if [ -z "$2" ]; then
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-90-58.sa-east-1.compute.amazonaws.com | tail -2 | grep gz)
+          else  
+            files=$(echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-90-58.sa-east-1.compute.amazonaws.com | grep gz | grep "$2:obras")
+          fi
+          IFS=' '
+          read -ra file <<< "$files"
+          filenumber=${file[0]}
+          filename_orig="${file[1]}"
+
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Listing ";ansi --white-intense "$filenumber"
+          echo "sudo -i eybackup -e mysql -d $filenumber" | ssh -t deploy@ec2-54-232-90-58.sa-east-1.compute.amazonaws.com 
+          ansi --no-newline --green-intense "==> "; ansi --white-intense "Downloading "$filename_orig
+          scp deploy@ec2-54-232-90-58.sa-east-1.compute.amazonaws.com:/mnt/tmp/$filename_orig .
+          IFS='T'
+          read -ra file1 <<< "${file[1]}"
+
+          prefix="${file1[0]}"
+          IFS='.'
+          read -ra file2 <<< "${file1[1]}"
+          filename=$prefix'_'${file2[0]}'_'$SITE
+
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Renaming to ";ansi --white-intense "$filename.sql.gz"
+          mv "$filename_orig" "$filename.sql.gz"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Ungzipping ";ansi --white-intense "$filename.sql.gz"
+          pv "$filename.sql.gz" | gunzip > "$filename.sql"
+          rm -rf "$filename.sql~"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Cleaning ";ansi --white-intense "$filename.sql"
+          pv "$filename.sql" | sed '/^\/\*\!50112/d' > temp && rm -f "$filename.sql" && mv temp "$filename.sql"
+          ansi --no-newline --green-intense "==> "; ansi --no-newline --white-intense "Removing ";ansi --white-intense "$filename.sql.gz"
+          rm -f "$filename.sql.gz"
+          unset IFS
+          ;;
+
+
         demo)
           filename_orig="${file[1]}"
           if [ -z "$2" ]; then
@@ -3060,6 +3115,10 @@ db(){
     
         santoandre)  
           echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
+          ;;
+
+        cordeiropolis)  
+          echo 'sudo -i eybackup -e mysql -l obras' | ssh -t deploy@ec2-54-232-90-58.sa-east-1.compute.amazonaws.com | grep -e 'Listing database backups for obras' -e 'backup(s) found' -e 'gz'
           ;;
     
         demo)
@@ -3213,7 +3272,7 @@ dbs.print_db(){
 dbs.set(){
   local site=$1
   case $1 in
-    olimpia|rioclaro|suzano|santoandre|demo)
+    olimpia|rioclaro|suzano|santoandre|cordeiropolis|demo)
       if hash spring 2>/dev/null; then
         spring stop
       fi
@@ -3621,6 +3680,9 @@ site.connect(){
     santoandre)
       ssh -t deploy@ec2-52-67-134-57.sa-east-1.compute.amazonaws.com "cd /data/obras/current/ey_bundler_binstubs; exec \$SHELL -l"
       ;;
+    cordeiropolis)
+      ssh -t deploy@ec2-54-232-90-58.sa-east-1.compute.amazonaws.com "cd /data/obras/current/ey_bundler_binstubs; exec \$SHELL -l"
+      ;;
     demo)
       ssh -t deploy@ec2-54-232-113-149.sa-east-1.compute.amazonaws.com "cd /data/obras/current/ey_bundler_binstubs; exec \$SHELL -l"
       ;;
@@ -3648,4 +3710,14 @@ site.status(){
   fi
 }
 
-site.init demo
+ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
+ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
+ansi --white "::"
+ansi --white "Obras Utils is loaded, initialize just once with the commands below:"
+ansi --white "$ init_obras"
+ansi --white "$ sitename"
+ansi --white "::"
+pushd . 2>/dev/null
+cd $OBRAS
+ansi --white-intense $(foreman check)
+popd 2>/dev/null
