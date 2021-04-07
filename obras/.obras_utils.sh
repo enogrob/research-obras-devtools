@@ -3717,7 +3717,7 @@ if [ -z $ABOUT ]; then
   ansi --white ""
   pushd . > /dev/null
   ansi --white --underline "Available sites:"
-  ansi --white " "$(cd $OBRAS;foreman check | sed 's/.*(\(.*\))/\1/')
+  ansi --white " default, olimpia, rioclaro, suzano, santoandre, cordeiropolis, demo"
   ansi --white ""
   popd > /dev/null
   export ABOUT=true
