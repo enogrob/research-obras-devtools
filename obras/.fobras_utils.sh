@@ -29,6 +29,9 @@ fobras_utils() {
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
+      ansi --no-newline --white "homepage " 
+      ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
+      ansi --white ""
       ;;
 
     check|-c)

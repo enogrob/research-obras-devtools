@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.26
-export OBRAS_UTILS_VERSION_DATE=2021.04.07
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve about message."
+export OBRAS_UTILS_VERSION=1.5.27
+export OBRAS_UTILS_VERSION_DATE=2021.04.17
+export OBRAS_UTILS_UPDATE_MESSAGE="Include 'Obras DevTools' homepage"
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -117,6 +117,9 @@ obras_utils() {
       ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
+      ansi --no-newline --white "homepage "
+      ansi --green --underline "https://github.com/enogrob/research-obras-devtools"
+      ansi --white ""
       ;;
 
     check|-c)
@@ -247,6 +250,9 @@ obras_utils() {
       ansi --white "::"
       __pr info "obras_utils " "[version/update/check]"
       __pr
+      ansi --no-newline --white "homepage "
+      ansi --green --underline "https://github.com/enogrob/research-obras-devtools"
+      ansi --white ""
       ;;  
     esac  
 }
@@ -2031,6 +2037,9 @@ __services(){
       __pr 
       __pr info "obs: " "redis and mysql are not involved when all is specified"
       __pr 
+      ansi --no-newline --white "homepage " 
+      ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
+      ansi --white ""
       ;;
     ls|check)
       ! test -d tmp/devtools && mkdir -p tmp/devtools
@@ -2295,12 +2304,18 @@ db(){
       __pr info "db " "[backups || download [backupfile] || update [all]]"
       __pr info "db " "[dumps/ls || import [dumpfile] || update [all]]"
       __pr 
+      ansi --no-newline --white "homepage " 
+      ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
+      ansi --white ""
       ;; 
 
     --version|-v|v)  
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
+      ansi --no-newline --white "homepage " 
+      ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
+      ansi --white ""
       ;;
 
     api)
@@ -3401,12 +3416,18 @@ site(){
       __pr info "site " "[audit/brakeman/rubycritic/rubocop [files]]"
       __pr info "site " "[db:drop || db:create || db:migrate db:migrate:status || db:seed]"
       __pr 
+      ansi --no-newline --white "homepage " 
+      ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
+      ansi --white ""
       ;;
 
     --version|-v|v)  
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
+      ansi --no-newline --white "homepage " 
+      ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
+      ansi --white ""
       ;;
 
     $SITES_CASE)
@@ -3717,8 +3738,11 @@ if [ -z $ABOUT ]; then
   ansi --white "::"
   ansi --white "Obras Utils is loaded, type 'init_obras' just once to start the session and then the site name."
   ansi --white ""
-  ansi --white --underline "Available sites:"
+  ansi --white "Available sites:"
   ansi --white " default, olimpia, rioclaro, suzano, santoandre, cordeiropolis, demo"
+  ansi --white ""
+  ansi --no-newline --white "Homepage: " 
+  ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
   ansi --white ""
   export ABOUT=true
 fi 
