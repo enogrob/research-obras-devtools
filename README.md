@@ -32,7 +32,7 @@ This in order to improve the Obras Development Process, developing utilities and
 * [4] [**Revolver**](https://github.com/molovo/revolver)
 * [5] [**Z shell**](http://zsh.sourceforge.net/)
 
-## Requirements
+## Requirements and Tips
 
 In order to install `DevTools`, it is required that the following has been installed already:
 
@@ -78,11 +78,41 @@ Append the following entry to run ALL command without a password for a user name
 
 If you have the problem with `mysql` server `Access denied for user root@localhost`, it is needed to:
 
-```
-sudo mysql -u root
-use mysql;
+```shell
+$ sudo mysql -u root
+$ use mysql;
 mysql> update user set plugin='mysql_native_password' where User='root';
 mysql> flush privileges;
+```
+
+If you want to install `mysql 5.7` in **Kali-Linux** or in **Ubuntu 20.04**:
+
+```
+$ sudo apt-get remove --purge mysql-server mysql-client mysql-common -y
+$ sudo rm -rf /etc/mysql
+$ sudo apt-get update --fix-missing
+$ cd ~/Downloads
+$ sudo apt list | grep mysql-server
+$ wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-server_5.7.28-1ubuntu19.04_amd64.deb-bundle.tar
+$ tar -xvf mysql-server_5.7.28-1ubuntu19.04_amd64.deb-bundle.tar
+$ sudo apt-get install libaio1
+$ sudo dpkg-preconfigure mysql-community-server_*.deb
+$ sudo dpkg -i mysql-{common,community-client,client,community-server,server}_*.deb
+$ sudo apt-get update --fix-missing
+$ sudo apt-get -f install
+$ sudo service mysql status
+$ sudo service mysql start
+```
+
+In order to work properly the most recent `mailcatcher` gem version shall be installed.
+
+```
+$ gem list mailcatcher
+$ gem uninstall mailcatcher --executables
+$ gem install mailcatcher --no-document
+$ gem list mailcatcher
+$ gem cleanup
+$ bundle
 ```
 
 ## Installation
@@ -182,7 +212,7 @@ $ fobras_utils update
 $ site --help
 
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.27
+Obras Utils 1.5.28
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -196,7 +226,7 @@ site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
 
 $ site db/dbs --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.27
+Obras Utils 1.5.28
 ::
 db[set sitename || ls || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[backups || download [filenumber] || import [backupfile] || update [all]]
@@ -205,7 +235,7 @@ db[api [dump/export || import]]
 
 $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.27
+Obras Utils 1.5.28
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || [all]]
@@ -216,7 +246,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.27
+Obras Utils 1.5.28
 ::
 obras_utils[version/update/check]
 ```
@@ -225,6 +255,7 @@ obras_utils[version/update/check]
 
 Changes log
 
+* **1.5.28** Improve `README.md`.
 * **1.5.27** Include `Obras DevTools` homepage.
 * **1.5.26** Improve the about message.
 * **1.5.25** Include site `cordeiropolis` and improve initializations.
