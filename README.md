@@ -213,15 +213,16 @@ $ site --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
 Obras Utils 1.5.29
 ::
-site[sitename || flags [refs] || set/unset flag|| env development/test]
+site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
 site[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]
 site[dumps [activate dumpfile]]
 site[db/mysql/redis/trello/git conn/connect]
 site[conn/connect]
-site[stats] || [refs]
+site[stats] 
 site[audit/brakeman/rubycritic/rubocop [files]]
 site[db:drop || db:create || db:migrate db:migrate:status || db:seed]
+site[refs [flags/services/homologs/backups || obrasutils [tools/ssh]]
 
 
 $ site db/dbs --help
@@ -239,7 +240,7 @@ $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
 Obras Utils 1.5.29
 ::
-services[ls/check] || [refs]
+services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
 services[enable/disable ngrok/sidekiq/mailcatcher]
 services[conn/connect mysql/db/redis]

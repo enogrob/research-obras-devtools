@@ -246,27 +246,8 @@ obras_utils() {
       ;;
 
     refs)
-      case $2 in
-        tools)
-          ansi --white "tools:"
-          ansi --no-newline "  foreman     ";ansi --underline --green "https://github.com/ddollar/foreman" 
-          ansi --no-newline "  iredis      ";ansi --underline --green "https://iredis.io" 
-          ansi --no-newline "  lazygit     ";ansi --underline --green "https://github.com/jesseduffield/lazygit" 
-          ansi --no-newline "  mycli       ";ansi --underline --green "https://github.com/dbcli/mycli" 
-          ansi --no-newline "  3llo        ";ansi --underline --green "https://github.com/qcam/3llo" 
-          ;;
-        ssh)
-          ansi --white "ssh:"
-          ansi --no-newline "  github      ";ansi --underline --green "https://github.com/settings/keys" 
-          ansi --no-newline "  gitlab      ";ansi --underline --green "https://gitlab.tecnogroup.com.br/profile/keys" 
-          ansi --no-newline "  engineyard  ";ansi --underline --green "https://cloud.engineyard.com/keypairs" 
-          ;; 
-        *)
-          obras_utils.refs
-          ;;   
-      esac
-      ;;  
-
+      obras_utils.refs $2
+      ;;
     *)
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
@@ -280,10 +261,28 @@ obras_utils() {
     esac  
 }
 obras_utils.refs(){  
-  ansi --white "obras utils:"
-  ansi --no-newline "  homepage    ";ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
-  ansi --no-newline "  chrome-apps ";ansi --underline --green "https://github.com/enogrob/chromeapps-eicon" 
-  ansi --no-newline "  obras       ";ansi --underline --green "https://gitlab.tecnogroup.com.br" 
+  case $1 in
+     tools)
+       ansi --white "tools:"
+       ansi --no-newline "  foreman     ";ansi --underline --green "https://github.com/ddollar/foreman" 
+       ansi --no-newline "  iredis      ";ansi --underline --green "https://iredis.io" 
+       ansi --no-newline "  lazygit     ";ansi --underline --green "https://github.com/jesseduffield/lazygit" 
+       ansi --no-newline "  mycli       ";ansi --underline --green "https://github.com/dbcli/mycli" 
+       ansi --no-newline "  3llo        ";ansi --underline --green "https://github.com/qcam/3llo" 
+       ;;
+     ssh)
+       ansi --white "ssh:"
+       ansi --no-newline "  github      ";ansi --underline --green "https://github.com/settings/keys" 
+       ansi --no-newline "  gitlab      ";ansi --underline --green "https://gitlab.tecnogroup.com.br/profile/keys" 
+       ansi --no-newline "  engineyard  ";ansi --underline --green "https://cloud.engineyard.com/keypairs" 
+       ;; 
+     *)
+       ansi --white "obras utils:"
+       ansi --no-newline "  homepage    ";ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
+       ansi --no-newline "  chrome-apps ";ansi --underline --green "https://github.com/enogrob/chromeapps-eicon" 
+       ansi --no-newline "  obras       ";ansi --underline --green "https://gitlab.tecnogroup.com.br" 
+       ;;   
+   esac
 }
 __sites(){
   case $# in
@@ -2067,7 +2066,7 @@ __services(){
       ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "services " "[ls/check] || [refs]"
+      __pr info "services " "[ls/check]"
       __pr info "services " "[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]"
       __pr info "services " "[enable/disable ngrok/sidekiq/mailcatcher]"
       __pr info "services " "[conn/connect mysql/db/redis]"
@@ -2078,9 +2077,6 @@ __services(){
       ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
       ansi --white ""
       ;;
-    refs)
-      services.refs
-      ;;  
     ls|check)
       ! test -d tmp/devtools && mkdir -p tmp/devtools
       if test -f tmp/devtools/${SITE}.procfile; then
@@ -3455,15 +3451,16 @@ site(){
       ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "site " "[sitename || flags [refs] || set/unset flag|| env development/test]"
+      __pr info "site " "[sitename || flags || set/unset flag|| env development/test]"
       __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
       __pr info "site " "[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]"
       __pr info "site " "[dumps [activate dumpfile]]"
       __pr info "site " "[db/mysql/redis/trello/git conn/connect]"
       __pr info "site " "[conn/connect]"
-      __pr info "site " "[stats] || [refs]"
+      __pr info "site " "[stats]"
       __pr info "site " "[audit/brakeman/rubycritic/rubocop [files]]"
       __pr info "site " "[db:drop || db:create || db:migrate db:migrate:status || db:seed]"
+      __pr info "site " "[refs [flags/services/homologs/backups || obrasutils [tools/ssh]]"
       __pr 
       ansi --no-newline --white "homepage " 
       ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
@@ -3622,14 +3619,7 @@ site(){
       ;;
 
     flags) 
-      case $2 in
-        refs)
-          flags.refs
-          ;;
-        *)  
-          flags.status
-          ;;
-      esac    
+      flags.status
       ;;
 
     audit)
@@ -3713,7 +3703,8 @@ site(){
       site.status
       ;;  
     refs)
-      site.refs
+      shift
+      site.refs $*
       ;;  
     *)
       __docker
@@ -3794,47 +3785,66 @@ site.connect(){
      ;;          
   esac 
 }
-site.refs(){  
-  ansi --white "obras devtools:" 
-  ansi --no-newline "  homepage ";ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
-  case $SITE in
-    demo)
-      ansi --white "demo:"
-      ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
-      ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/110323/backups" 
-      ansi --no-newline "  homolog  ";ansi --underline --green "https://demo.inmov.net.br" 
+site.refs(){ 
+  case $1 in 
+    obrasutils)
+      obras_utils.refs $2
       ;;
-    cordeiropolis)  
-      ansi --white "cordeiropolis:"
-      ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
-      ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/114763/backups" 
-      ansi --no-newline "  homolog  ";ansi --underline --green "https://homologcordeiropolis.inmov.net.br" 
+    flags)
+      flags.refs
       ;;
-    olimpia)  
-      ansi --white "olimpia:"
-      ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
-      ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112642/backups" 
-      ansi --no-newline "  homolog  ";ansi --underline --green "https://homologolimpia.inmov.net.br" 
+    services)
+      services.refs
+      ;; 
+    backups)
+      site.backups.refs
       ;;
-    rioclaro)  
-      ansi --white "rioclaro:"
-      ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
-      ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112643/backups" 
-      ansi --no-newline "  homolog  ";ansi --underline --green "https://homologrioclaro.inmov.net.br" 
+    homologs)
+      site.homologs.refs
+      ;;     
+    *)
+      ansi --white "obras-devtools:" 
+      ansi --no-newline "  homepage ";ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
+      case $SITE in
+        demo)
+          ansi --white "demo:"
+          ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
+          ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/110323/backups" 
+          ansi --no-newline "  homolog  ";ansi --underline --green "https://demo.inmov.net.br" 
+          ;;
+        cordeiropolis)  
+          ansi --white "cordeiropolis:"
+          ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
+          ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/114763/backups" 
+          ansi --no-newline "  homolog  ";ansi --underline --green "https://homologcordeiropolis.inmov.net.br" 
+          ;;
+        olimpia)  
+          ansi --white "olimpia:"
+          ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
+          ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112642/backups" 
+          ansi --no-newline "  homolog  ";ansi --underline --green "https://homologolimpia.inmov.net.br" 
+          ;;
+        rioclaro)  
+          ansi --white "rioclaro:"
+          ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
+          ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112643/backups" 
+          ansi --no-newline "  homolog  ";ansi --underline --green "https://homologrioclaro.inmov.net.br" 
+          ;;
+        santoandre)  
+          ansi --white "santoandre:"
+          ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
+          ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112641/backups" 
+          ansi --no-newline "  homolog  ";ansi --underline --green "https://homologsantoandre.inmov.net.br" 
+          ;;
+        suzano)  
+          ansi --white "suzano:"
+          ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
+          ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112644/backups" 
+          ansi --no-newline "  homolog  ";ansi --underline --green "https://homologsuzano.inmov.net.br" 
+          ;;
+      esac
       ;;
-    santoandre)  
-      ansi --white "santoandre:"
-      ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
-      ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112641/backups" 
-      ansi --no-newline "  homolog  ";ansi --underline --green "https://homologsantoandre.inmov.net.br" 
-      ;;
-    suzano)  
-      ansi --white "suzano:"
-      ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
-      ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112644/backups" 
-      ansi --no-newline "  homolog  ";ansi --underline --green "https://homologsuzano.inmov.net.br" 
-      ;;
-  esac
+  esac  
 }
 site.homologs.refs(){  
   ansi --white "deploys:"
