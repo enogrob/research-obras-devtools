@@ -277,7 +277,7 @@ obras_utils.refs(){
        ansi --no-newline "  engineyard  ";ansi --underline --green "https://cloud.engineyard.com/keypairs" 
        ;; 
      *)
-       ansi --white "obras utils:"
+       ansi --white "obras-utils:"
        ansi --no-newline "  homepage    ";ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
        ansi --no-newline "  chrome-apps ";ansi --underline --green "https://github.com/enogrob/chromeapps-eicon" 
        ansi --no-newline "  obras       ";ansi --underline --green "https://gitlab.tecnogroup.com.br" 
@@ -3467,10 +3467,6 @@ site(){
       ansi --white ""
       ;;
 
-    ref)
-      site.ref
-      ;;  
-
     --version|-v|v)  
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
@@ -3808,36 +3804,42 @@ site.refs(){
       case $SITE in
         demo)
           ansi --white "demo:"
+          ansi --no-newline "  review   ";ansi --underline --green "https://gitlab.tecnogroup.com.br/inmov/obras" 
           ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
           ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/110323/backups" 
           ansi --no-newline "  homolog  ";ansi --underline --green "https://demo.inmov.net.br" 
           ;;
         cordeiropolis)  
           ansi --white "cordeiropolis:"
+          ansi --no-newline "  review   ";ansi --underline --green "https://gitlab.tecnogroup.com.br/inmov/obras" 
           ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
           ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/114763/backups" 
           ansi --no-newline "  homolog  ";ansi --underline --green "https://homologcordeiropolis.inmov.net.br" 
           ;;
         olimpia)  
           ansi --white "olimpia:"
+          ansi --no-newline "  review   ";ansi --underline --green "https://gitlab.tecnogroup.com.br/inmov/obras" 
           ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
           ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112642/backups" 
           ansi --no-newline "  homolog  ";ansi --underline --green "https://homologolimpia.inmov.net.br" 
           ;;
         rioclaro)  
           ansi --white "rioclaro:"
+          ansi --no-newline "  review   ";ansi --underline --green "https://gitlab.tecnogroup.com.br/inmov/obras" 
           ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
           ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112643/backups" 
           ansi --no-newline "  homolog  ";ansi --underline --green "https://homologrioclaro.inmov.net.br" 
           ;;
         santoandre)  
           ansi --white "santoandre:"
+          ansi --no-newline "  review   ";ansi --underline --green "https://gitlab.tecnogroup.com.br/inmov/obras" 
           ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
           ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112641/backups" 
           ansi --no-newline "  homolog  ";ansi --underline --green "https://homologsantoandre.inmov.net.br" 
           ;;
         suzano)  
           ansi --white "suzano:"
+          ansi --no-newline "  review   ";ansi --underline --green "https://gitlab.tecnogroup.com.br/inmov/obras" 
           ansi --no-newline "  deploy   ";ansi --underline --green "https://cloud.engineyard.com/accounts/11492/apps" 
           ansi --no-newline "  backups  ";ansi --underline --green "https://cloud.engineyard.com/app_deployments/112644/backups" 
           ansi --no-newline "  homolog  ";ansi --underline --green "https://homologsuzano.inmov.net.br" 
