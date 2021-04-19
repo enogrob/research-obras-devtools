@@ -36,35 +36,42 @@ This in order to improve the Obras Development Process, developing utilities and
 
 In order to install `DevTools`, it is required that the following has been installed already:
 
+* [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+* [Netstat](https://www.configserverfirewall.com/ubuntu-linux/ubuntu-netstat/)
+* [Rvm](https://rvm.io/rvm/install)
+* [Mailcatcher](https://github.com/sj26/mailcatcher)
 * [Mysql](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install)
 * [Redis](https://redis.io/topics/quickstart)
-* [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-* [RVM](https://rvm.io/rvm/install)
 * [Docker](https://docs.docker.com/get-docker/)
 
-If do not have an RSA SSH key pair generate one:
+### Git: Installing and configuring 
 
-```
-$ ssh-keygen
-```
-
-If you already have an RSA SSH key pair to use with GitLab, consider upgrading it
-to use the more secure password encryption format. You can do so with the following command:
+Install `git`, `git_completion` and `git_prompt`
 
 ```shell
+$ sudo apt-get install git-core bash-completion
+$ git config --global user.email <email>
+$ git config --global user.name <name>
+$ git --version
+$ git config --list
+```
+
+Generate RSA SSH key pair generate one:
+
+```shell
+$ ssh-keygen
 $ ssh-keygen -o -f ~/.ssh/id_rsa
 ```
 
-Then copy to the clipboard in order to setup later on sites just below. Install `xclip` if required:
+Now install `xclip` in order to copy and paste it in the `SSH` setups in [Github](https://github.com/settings/keys), [Gitlab](https://gitlab.tecnogroup.com.br/profile/keys) and [Engine Yard](https://cloud.engineyard.com/keypairs).
 
 ```shell
 $ sudo apt-get install xclip
 $ xclip -selection clipboard < ~/.ssh/id_rsa.pub
 ```
+### Netstat: Installing and configuring 
 
-Now the `SSH` keys has to be setup in [Github](https://github.com/settings/keys), [Gitlab](https://gitlab.tecnogroup.com.br/profile/keys) and [Engine Yard](https://cloud.engineyard.com/keypairs).
-
-And ALL `sudo` commands shall be executed without password:
+And ALL `sudo` commands shall be executed without password which is required by `netstat` command:
 
 ```shell
 $ echo $USER
@@ -76,18 +83,45 @@ Append the following entry to run ALL command without a password for a user name
 <user> ALL=(ALL) NOPASSWD:ALL
 ```
 
-If you have the problem with `mysql` server `Access denied for user root@localhost`, it is needed to:
+### Rvm: Installing and configuring 
+
+In order to install `Rvm` follow the command sequence below, remember afterwards to configure the terminal as `bash --login`. 
 
 ```shell
-$ sudo mysql -u root
-$ use mysql;
-mysql> update user set plugin='mysql_native_password' where User='root';
-mysql> flush privileges;
+$ sudo install gnup2
+$ curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+$ curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
+$ \curl -sSL https://get.rvm.io | bash -s stable
+$ source ~/.rvm/scripts/rvm
+$ which rvm
+```
+
+### Mailcatcher: Installing and configuring 
+
+In order `Obras DevTools` works properly the most recent `mailcatcher` gem version shall be installed. Do that after `bundle install` while in `Obras`.
+
+```shell
+$ gem list mailcatcher
+$ gem uninstall mailcatcher --executables
+$ gem install mailcatcher --no-document
+$ gem list mailcatcher
+$ gem cleanup
+$ bundle
+```
+
+### Mysql: Installing and configuring 
+
+If you want to install `mysql 5.7` in **Ubuntu 18.04**:
+
+```shell
+$ sudo apt-get install mysql-server mysql-client libmysqlclient-dev
+$ sudo service mysql start
+$ sudo service mysql status
 ```
 
 If you want to install `mysql 5.7` in **Kali-Linux** or in **Ubuntu 20.04**:
 
-```
+```shell
 $ sudo apt-get remove --purge mysql-server mysql-client mysql-common -y
 $ sudo rm -rf /etc/mysql
 $ sudo apt-get update --fix-missing
@@ -100,19 +134,59 @@ $ sudo dpkg-preconfigure mysql-community-server_*.deb
 $ sudo dpkg -i mysql-{common,community-client,client,community-server,server}_*.deb
 $ sudo apt-get update --fix-missing
 $ sudo apt-get -f install
-$ sudo service mysql status
 $ sudo service mysql start
+$ sudo service mysql status
 ```
 
-In order to work properly the most recent `mailcatcher` gem version shall be installed.
+If you have the problem with `mysql` server `Access denied for user root@localhost`, it is needed to:
 
+```shell
+$ sudo mysql -u root
+$ use mysql;
+mysql> update user set plugin='mysql_native_password' where User='root';
+mysql> flush privileges;
 ```
-$ gem list mailcatcher
-$ gem uninstall mailcatcher --executables
-$ gem install mailcatcher --no-document
-$ gem list mailcatcher
-$ gem cleanup
-$ bundle
+
+### Redis: Installing and configuring 
+
+```shell
+$ sudo apt-get install redis-server
+$ sudo service redis-server start
+$ sudo service redis-server status
+```
+
+### Docker: Installing and configuring 
+
+To install `Docker` run the following commands:
+
+```shell
+$ sudo apt-get update
+$ sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+$ sudo apt-key fingerprint 0EBFCD88
+$ sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+$ sudo apt-get update
+$ sudo apt-get install docker-ce
+# sudo groupadd docker
+$ sudo usermod -aG docker $USER
+$ sudo shutdown -h now
+# sudo chmod 666 /var/run/docker.sock
+$ docker info
+```
+
+To install `Docker Compose`, run the following commands:
+
+```shell
+$ sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+$ sudo chmod +x /usr/local/bin/docker-compose
+$ docker-compose version
 ```
 
 ## Installation
@@ -211,7 +285,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.29
+Obras Utils 1.5.30
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -227,7 +301,7 @@ site[refs [flags/services/homologs/backups || obrasutils [tools/ssh]]
 
 $ site db/dbs --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.29
+Obras Utils 1.5.30
 ::
 db[set dbname || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[databases || tables || socket || conn/connect]
@@ -238,7 +312,7 @@ db[dumps/ls || import [dumpfile] || update [all]]
 
 $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.29
+Obras Utils 1.5.30
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -250,7 +324,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.29
+Obras Utils 1.5.30
 ::
 obras_utils[version/update/check] || refs [tools/ssh]
 ```
@@ -259,6 +333,7 @@ obras_utils[version/update/check] || refs [tools/ssh]
 
 Changes log
 
+* **1.5.30** Improve `README.md`.
 * **1.5.29** New parameter for commands `site flags/services [refs]` and `obras_utils refs [tools/ssh]`.
 * **1.5.28** Improve `README.md`.
 * **1.5.27** Include `Obras DevTools` homepage.

@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.29
+export OBRAS_UTILS_VERSION=1.5.30
 export OBRAS_UTILS_VERSION_DATE=2021.04.18
-export OBRAS_UTILS_UPDATE_MESSAGE="New parameter for commands 'site flags/services [refs]' and 'obras_utils refs [tools/ssh]'."
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve README.md."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
