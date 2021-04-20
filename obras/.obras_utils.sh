@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.30
-export OBRAS_UTILS_VERSION_DATE=2021.04.18
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'README.md'."
+export OBRAS_UTILS_VERSION=1.5.31
+export OBRAS_UTILS_VERSION_DATE=2021.04.20
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site.about'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -3718,17 +3718,17 @@ site(){
 }
 site.about(){
   if [ -z $ABOUT ]; then
-    ansi --white-intense "Crafted (c) 2018~2020 by InMov - Intelligence in Movement"
-    ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
-    ansi --white "::"
-    ansi --white "Obras Utils is loaded, type 'init_obras' just once to start the session and then the site name."
-    ansi --white ""
-    ansi --white "Available sites:"
-    ansi --white " default, olimpia, rioclaro, suzano, santoandre, cordeiropolis, demo"
-    ansi --white ""
-    ansi --no-newline --white "Homepage: " 
-    ansi --underline --green "https://github.com/enogrob/research-obras-devtools" 
-    ansi --white ""
+    echo -e "\033[1;39mCrafted (c) 2018~2020 by InMov - Intelligence in Movement \033[0m"
+    echo -n "Obras Utils ";echo -e "\033[1;39m${OBRAS_UTILS_VERSION}\033[0m"
+    echo "::"
+    echo  "Obras Utils is loaded, type 'init_obras' just once to start the session and then the site name."
+    echo ""
+    echo "Available sites:"
+    echo " default, olimpia, rioclaro, suzano, santoandre, cordeiropolis, demo"
+    echo ""
+    echo -n  "Homepage: " 
+    echo -e  "\033[0;32m\033[4mhttps://github.com/enogrob/research-obras-devtools\033[0m\033[0m" 
+    echo ""
     export ABOUT=true
   fi
 }

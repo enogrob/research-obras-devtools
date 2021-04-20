@@ -285,7 +285,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.30
+Obras Utils 1.5.31
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -301,7 +301,7 @@ site[refs [flags/services/homologs/backups || obrasutils [tools/ssh]]
 
 $ site db/dbs --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.30
+Obras Utils 1.5.31
 ::
 db[set dbname || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[databases || tables || socket || conn/connect]
@@ -312,7 +312,7 @@ db[dumps/ls || import [dumpfile] || update [all]]
 
 $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.30
+Obras Utils 1.5.31
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -324,7 +324,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.30
+Obras Utils 1.5.31
 ::
 obras_utils[version/update/check] || refs [tools/ssh]
 ```
@@ -333,6 +333,7 @@ obras_utils[version/update/check] || refs [tools/ssh]
 
 Changes log
 
+* **1.5.31** Improve `site.about`.
 * **1.5.30** Improve `README.md`.
 * **1.5.29** New parameter for commands `site flags/services [refs]` and `obras_utils refs [tools/ssh]`.
 * **1.5.28** Improve `README.md`.
