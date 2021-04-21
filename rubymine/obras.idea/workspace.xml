@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a8b4dd5-4197-4d06-b791-48e1f1bec52d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/models/user.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/user.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/sisobras/work_registry_systems.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/sisobras/work_registry_systems.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/sisobras/work_registry_systems/generate_file_work_registry.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/sisobras/work_registry_systems/generate_file_work_registry.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/database.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/schema.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.rb" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.bundle/" />
     <ignored path="$PROJECT_DIR$/components/" />
@@ -20,17 +23,17 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/obras@santoandre_foreman.rcov" NAME="santoandre-foreman Coverage Results" MODIFIED="1617193497499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
+    <SUITE FILE_PATH="coverage/obras@santoandre_foreman.rcov" NAME="santoandre-foreman Coverage Results" MODIFIED="1618590791384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
     <SUITE FILE_PATH="coverage/obras@Rails_console__obras.rcov" NAME="santoandre-console Coverage Results" MODIFIED="1586555803290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
     <SUITE FILE_PATH="coverage/obras@suzano.rcov" NAME="suzano Coverage Results" MODIFIED="1611590106641" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
     <SUITE FILE_PATH="coverage/obras@default.rcov" NAME="default Coverage Results" MODIFIED="1598616725013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
     <SUITE FILE_PATH="coverage/obras@santoandre_console.rcov" NAME="santoandre-console Coverage Results" MODIFIED="1600433454018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
     <SUITE FILE_PATH="coverage/obras@All_tests_in_test__obras.rcov" NAME="All tests in test: obras Coverage Results" MODIFIED="1587293868811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
-    <SUITE FILE_PATH="coverage/obras@suzano_foreman.rcov" NAME="suzano-foreman Coverage Results" MODIFIED="1617219589352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
+    <SUITE FILE_PATH="coverage/obras@suzano_foreman.rcov" NAME="suzano-foreman Coverage Results" MODIFIED="1617643099127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
     <SUITE FILE_PATH="coverage/obras@olimpia.rcov" NAME="olimpia Coverage Results" MODIFIED="1611322406133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
     <SUITE FILE_PATH="coverage/obras@demo.rcov" NAME="demo Coverage Results" MODIFIED="1598616759445" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
     <SUITE FILE_PATH="coverage/obras@.rcov" NAME=" Coverage Results" MODIFIED="1600276962339" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" MODULE_NAME="obras" />
-    <SUITE FILE_PATH="coverage/obras@santoandre.rcov" NAME="santoandre Coverage Results" MODIFIED="1614313048762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
+    <SUITE FILE_PATH="coverage/obras@santoandre.rcov" NAME="santoandre Coverage Results" MODIFIED="1618856012948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="obras" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -80,15 +83,10 @@
     <favorites_list name="obras" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Tipo de Requerimento com Docu</find>
-      <find>remote: true</find>
-      <find>remove_project_upload</find>
-      <find>modalRemoveUpload</find>
-      <find>modal_project_update_project</find>
       <find>modal_reclassi</find>
       <find>modal_choose</find>
       <find>modal_recla</find>
@@ -114,6 +112,11 @@
       <find>ngrok</find>
       <find>`gem</find>
       <find>def name_cpf_crc_with_label</find>
+      <find>confirmation_instructions</find>
+      <find>config.action_mailer.default_url_options</find>
+      <find>@message</find>
+      <find>set_content</find>
+      <find>get-data-sisobras-databases</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -129,26 +132,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/models/project.rb" />
-        <option value="$PROJECT_DIR$/test/system/tickets_test.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/admin/tickets_controller.rb" />
-        <option value="$PROJECT_DIR$/app/jobs/background_erro_kind_job.rb" />
-        <option value="$PROJECT_DIR$/app/jobs/background_activity_log_job.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/admin/admin.js" />
-        <option value="$PROJECT_DIR$/app/views/registrations/show.html.erb" />
-        <option value="$PROJECT_DIR$/config/initializers/redis.rb" />
-        <option value="$PROJECT_DIR$/config/initializers/sidekiq.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/admin/users_controller.rb" />
-        <option value="$PROJECT_DIR$/db/seeds.rb" />
-        <option value="$PROJECT_DIR$/app/models/project_field.rb" />
-        <option value="$PROJECT_DIR$/db/seeds.production.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/admin/document_services_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/admin/document_services/_search.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/application/modal/_modal_remove_project_upload_2.html.erb" />
         <option value="$PROJECT_DIR$/app/views/application/modal/_modal_remove_project_upload.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/projects_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/application/_attached_files.html.erb" />
         <option value="$PROJECT_DIR$/app/views/uploads/delete.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/uploads_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/concerns/project_concern.rb" />
@@ -167,19 +152,37 @@
         <option value="$PROJECT_DIR$/app/models/api_lote_fiscal_attributes_aliases.rb" />
         <option value="$PROJECT_DIR$/app/views/select_tasks/consult_lote_fiscal_data.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/select_tasks_controller.rb" />
-        <option value="$PROJECT_DIR$/db/seeds.development.rb" />
         <option value="$PROJECT_DIR$/app/models/api_lote_fiscal.rb" />
-        <option value="$PROJECT_DIR$/config/environments/development.rb" />
         <option value="$PROJECT_DIR$/lib/tasks/update_mailcatcher.rake" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/app/views/reports/_show_project_report_sector_historic_timeline.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/reports_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/project_report_sector.rb" />
-        <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
-        <option value="$PROJECT_DIR$/db/migrate/20210326141710_add_confirmable_to_devise.rb" />
         <option value="$PROJECT_DIR$/config/database.yml" />
         <option value="$PROJECT_DIR$/app/views/navigation_items/_configuration_ocupation.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/application/_attached_files.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/city_hall.rb" />
+        <option value="$PROJECT_DIR$/.env/development/cordeiropolis" />
+        <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/docker-compose.yaml" />
+        <option value="$PROJECT_DIR$/config/initializers/devise.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20210326141710_add_confirmable_to_devise.rb" />
+        <option value="$PROJECT_DIR$/config/environments/development.rb" />
+        <option value="$PROJECT_DIR$/Gemfile" />
+        <option value="$PROJECT_DIR$/app/views/users/mailer/confirmation_instructions.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/registrations_controller.rb" />
+        <option value="$PROJECT_DIR$/app/mailers/application_mailer.rb" />
+        <option value="$PROJECT_DIR$/app/mailers/user_mailer.rb" />
+        <option value="$PROJECT_DIR$/db/seeds.development.rb" />
+        <option value="$PROJECT_DIR$/app/views/admin/user_authorizes/model.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/admin/service_inhabit_projects_controller.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/sisobras/work_registry_systems.js" />
+        <option value="$PROJECT_DIR$/app/views/sisobras/work_registry_systems/generate_file_work_registry.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/sisobras/work_registry_systems/generate_file_data.html.erb" />
+        <option value="$PROJECT_DIR$/config/environments/demo.rb" />
+        <option value="$PROJECT_DIR$/config/initializers/lograge.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
       </list>
     </option>
   </component>
@@ -191,7 +194,7 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="58" />
+    <option name="x" value="59" />
     <option name="y" value="23" />
     <option name="width" value="1371" />
     <option name="height" value="570" />
@@ -209,12 +212,34 @@
               <item name="obras" type="b2602c69:ProjectViewProjectNode" />
               <item name="obras" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="obras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="obras" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="obras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="obras" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="obras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="obras" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="obras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="obras" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="initializers" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="RailsProjectView" />
       <pane id="Scope" />
+      <pane id="RailsProjectView" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -227,7 +252,6 @@
     <property name="Ruby.ViewRefParam.DefaultExtension" value="html.erb" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="ToolWindowDebug.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/db" />
@@ -235,11 +259,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.env/development" />
       <recent name="$PROJECT_DIR$/lib/tasks" />
       <recent name="$PROJECT_DIR$/app/views/select_tasks" />
       <recent name="$PROJECT_DIR$/app/models" />
       <recent name="$PROJECT_DIR$/app/views/users/shared" />
-      <recent name="$PROJECT_DIR$/app/views/uploads" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -254,7 +278,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gem Command.suzano-foreman">
+  <component name="RunManager" selected="Rails.santoandre">
     <configuration name="default-foreman" type="CommandRunConfigurationType" factoryName="Gem Command">
       <module name="obras" />
       <COMMAND_RUN_CONFIGURATION NAME="RUBY_ARGS" VALUE="" />
@@ -1084,6 +1108,27 @@
       <workItem from="1617192177922" duration="2278000" />
       <workItem from="1617219444417" duration="2851000" />
       <workItem from="1617304619094" duration="86000" />
+      <workItem from="1617642684019" duration="4413000" />
+      <workItem from="1617794090263" duration="1394000" />
+      <workItem from="1617863049036" duration="1793000" />
+      <workItem from="1617895334913" duration="10005000" />
+      <workItem from="1617967245406" duration="630000" />
+      <workItem from="1617973199556" duration="3904000" />
+      <workItem from="1617985468310" duration="3350000" />
+      <workItem from="1618058108672" duration="1104000" />
+      <workItem from="1618065663276" duration="28000" />
+      <workItem from="1618138732956" duration="4927000" />
+      <workItem from="1618309444984" duration="7094000" />
+      <workItem from="1618340830029" duration="838000" />
+      <workItem from="1618370447611" duration="380000" />
+      <workItem from="1618395116384" duration="3281000" />
+      <workItem from="1618491231039" duration="5087000" />
+      <workItem from="1618587772076" duration="9241000" />
+      <workItem from="1618821067425" duration="22000" />
+      <workItem from="1618840354609" duration="2073000" />
+      <workItem from="1618927618759" duration="3098000" />
+      <workItem from="1618964384166" duration="13000" />
+      <workItem from="1618964433927" duration="810000" />
     </task>
     <task id="LOCAL-00001" summary="Revert &quot;Revert &quot;Merge branch 'melhoria@266-colocar-o-texto-do-modal-como-dinâmico' into 'master'&quot;&quot;&#10;&#10;This reverts commit 7ea00100">
       <created>1587986429464</created>
@@ -1101,7 +1146,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1175978000" />
+    <option name="totallyTimeSpent" value="1239463000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1113,15 +1158,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="58" y="23" width="1371" height="570" extended-state="0" />
+    <frame x="59" y="23" width="1371" height="570" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.35613683" visible="true" weight="0.26937547" />
-      <window_info id="Structure" order="1" sideWeight="0.6438632" side_tool="true" weight="0.39954853" />
-      <window_info id="Favorites" order="2" sideWeight="0.59356135" side_tool="true" weight="0.36343116" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.35099337" visible="true" weight="0.23777276" />
+      <window_info id="Structure" order="1" sideWeight="0.64736843" side_tool="true" weight="0.22272386" />
+      <window_info id="Favorites" order="2" sideWeight="0.6490066" side_tool="true" weight="0.22272386" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.9337748" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.43046358" />
-      <window_info anchor="bottom" auto_hide="true" x="131" y="597" width="1170" height="303" id="Debug" order="3" type="FLOATING" weight="0.5187638" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.93289477" />
+      <window_info anchor="bottom" auto_hide="true" x="131" y="597" width="1170" height="303" id="Debug" order="3" weight="0.40263158" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.5584989" />
@@ -1131,7 +1176,7 @@
       <window_info anchor="bottom" x="218" y="640" width="1034" height="259" id="Terminal" order="10" weight="0.4878587" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.3289183" />
       <window_info anchor="bottom" id="Database Console" order="12" weight="0.60764587" />
-      <window_info anchor="bottom" id="Version Control" order="13" weight="0.49006623" />
+      <window_info anchor="bottom" id="Version Control" order="13" weight="0.6578366" />
       <window_info anchor="bottom" id="Messages" order="14" weight="0.3289183" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1347,12 +1392,12 @@
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
-          <line>1063</line>
+          <line>1066</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
-          <line>1050</line>
+          <line>1053</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
@@ -1362,12 +1407,12 @@
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
-          <line>840</line>
+          <line>843</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
-          <line>1163</line>
+          <line>1166</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
@@ -1427,7 +1472,7 @@
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
-          <line>1741</line>
+          <line>1769</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
@@ -1472,12 +1517,12 @@
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
-          <line>304</line>
+          <line>303</line>
           <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/concerns/project_concern.rb</url>
-          <line>243</line>
+          <line>291</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
@@ -1487,7 +1532,7 @@
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/projects_controller.rb</url>
-          <line>326</line>
+          <line>325</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
@@ -1502,27 +1547,27 @@
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/reports_controller.rb</url>
-          <line>591</line>
+          <line>592</line>
           <option name="timeStamp" value="89" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/application_controller.rb</url>
-          <line>945</line>
+          <line>963</line>
           <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/application_controller.rb</url>
-          <line>1135</line>
+          <line>1153</line>
           <option name="timeStamp" value="96" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/reports_controller.rb</url>
-          <line>1469</line>
+          <line>1526</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/admin/users_controller.rb</url>
-          <line>178</line>
+          <line>184</line>
           <option name="timeStamp" value="106" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
@@ -1532,7 +1577,7 @@
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/controllers/application_controller.rb</url>
-          <line>882</line>
+          <line>900</line>
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
@@ -1562,7 +1607,7 @@
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/views/shared/_main_projects_table.html.erb</url>
-          <line>37</line>
+          <line>42</line>
           <option name="timeStamp" value="121" />
         </line-breakpoint>
         <line-breakpoint type="ruby-line">
@@ -1589,10 +1634,20 @@
           <line>57</line>
           <option name="timeStamp" value="137" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
+        <line-breakpoint type="ruby-line">
           <url>file://$PROJECT_DIR$/app/views/reports/_show_project_report_sector_historic_timeline.html.erb</url>
           <line>18</line>
           <option name="timeStamp" value="138" />
+        </line-breakpoint>
+        <line-breakpoint type="ruby-line">
+          <url>file://$PROJECT_DIR$/app/views/reports/_show_report_additional_body.html.erb</url>
+          <line>52</line>
+          <option name="timeStamp" value="144" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="ruby-line">
+          <url>file://$PROJECT_DIR$/app/views/reports/_show_report_additional_body.html.erb</url>
+          <line>11</line>
+          <option name="timeStamp" value="145" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/app/assets/javascripts/reports.js</url>
@@ -1655,6 +1710,11 @@
     </expressions>
     <expressions id="breakpointCondition">
       <expression>
+        <expression-string>data.id == 19142</expression-string>
+        <language-id>RHTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>project_task.id == 57</expression-string>
         <language-id>RHTML</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -1672,493 +1732,972 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>sector.user.id</expression-string>
+        <expression-string>data.id</expression-string>
         <language-id>RHTML</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>sector.user_id</expression-string>
+        <expression-string>content.inspect</expression-string>
+        <language-id>ruby</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>data.class</expression-string>
         <language-id>RHTML</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>sector.class</expression-string>
+        <expression-string>@timeline_report_news.count</expression-string>
         <language-id>RHTML</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>sector.removed?</expression-string>
+        <expression-string>confirmation_url(@resource, confirmation_token: @token)</expression-string>
         <language-id>RHTML</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>current_user.present?</expression-string>
-        <language-id>RHTML</language-id>
+        <expression-string>record.email</expression-string>
+        <language-id>ruby</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>current_user.full_name</expression-string>
-        <language-id>RHTML</language-id>
+        <expression-string>record.class.email</expression-string>
+        <language-id>ruby</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>@project.user.id</expression-string>
-        <language-id>RHTML</language-id>
+        <expression-string>record.class</expression-string>
+        <language-id>ruby</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>@project.user</expression-string>
-        <language-id>RHTML</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>sector.user.full_name</expression-string>
-        <language-id>RHTML</language-id>
+        <expression-string>record</expression-string>
+        <language-id>ruby</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/api_property_icad_attributes_aliases.rb">
+    <entry file="file://$PROJECT_DIR$/app/models/city_hall.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        <state relative-caret-position="-27">
+          <caret line="41" column="95" selection-start-line="41" selection-start-column="95" selection-end-line="41" selection-end-column="95" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/api_property_city_hall_attributes_aliases.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/api_business_registration_temporary_attributes_aliases.rb">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/api_company_code_attributes_aliases.rb">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../project-inmov-obras/activities/2108-inserção-de-novos-campos-api/api_lote_fiscal.csv" />
-    <entry file="file://$PROJECT_DIR$/api_lote_fiscals.csv" />
-    <entry file="file://$PROJECT_DIR$/lib/tasks/export_from_database_to_seeds.rake">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/tasks/api_lote_fiscal_import_csv_to_database.rake">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/tasks/api_lote_fiscal_export_database_as_seeds.rake" />
-    <entry file="file://$PROJECT_DIR$/db/seeds.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nokogiri_test.rb" />
-    <entry file="file://$PROJECT_DIR$/app/controllers/initial_pages_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="765" column="34" selection-start-line="765" selection-start-column="34" selection-end-line="765" selection-end-column="34" />
-          <folding>
-            <element signature="e#171#1789#0" />
-            <element signature="e#354#1773#0" />
-            <element signature="e#423#1380#1" />
-            <element signature="e#1793#2002#0" />
-            <element signature="e#2006#14600#0" />
-            <element signature="e#2618#2700#0" />
-            <element signature="e#2749#2816#0" />
-            <element signature="e#2847#14335#0" />
-            <element signature="e#3095#3878#0" />
-            <element signature="e#3175#3866#0" />
-            <element signature="e#3554#3567#0" />
-            <element signature="e#3718#3852#0" />
-            <element signature="e#4144#4361#0" />
-            <element signature="e#2873#11673#0" />
-            <element signature="e#5168#5389#0" />
-            <element signature="e#6377#7569#1" />
-            <element signature="e#7822#8041#0" />
-            <element signature="e#8658#8882#1" />
-            <element signature="e#9072#9895#0" />
-            <element signature="e#10001#10218#0" />
-            <element signature="e#10397#10622#0" />
-            <element signature="e#10796#11009#0" />
-            <element signature="e#11178#11393#0" />
-            <element signature="e#11681#14327#0" />
-            <element signature="e#11762#14229#1" />
-            <element signature="e#11811#12894#1" />
-            <element signature="e#12318#12722#0" />
-            <element signature="e#12952#14128#1" />
-            <element signature="e#14460#14531#0" />
-            <element signature="e#14537#14594#0" />
-            <element signature="e#14604#14629#0" />
-            <element signature="e#14633#14821#0" />
-            <element signature="e#14825#15086#0" />
-            <element signature="e#14914#14938#0" />
-            <element signature="e#14941#14959#0" />
-            <element signature="e#15009#15080#0" />
-            <element signature="e#15090#15284#0" />
-            <element signature="e#15207#15278#0" />
-            <element signature="e#15288#15468#0" />
-            <element signature="e#15402#15462#0" />
-            <element signature="e#15432#15454#0" />
-            <element signature="e#15472#16423#0" />
-            <element signature="e#15770#15868#0" />
-            <element signature="e#15873#16082#0" />
-            <element signature="e#16088#16178#0" />
-            <element signature="e#16240#16330#0" />
-            <element signature="e#16346#16417#0" />
-            <element signature="e#16427#16800#0" />
-            <element signature="e#16444#16508#0" />
-            <element signature="e#16633#16747#0" />
-            <element signature="e#16804#16823#0" />
-            <element signature="e#16827#39285#0" />
-            <element signature="e#16839#17261#0" />
-            <element signature="e#21231#21611#0" />
-            <element signature="e#33380#33565#0" />
-            <element signature="e#33837#34296#0" />
-            <element signature="e#33908#34288#0" />
-            <element signature="e#33924#34278#2" />
-            <element signature="e#35630#35879#0" />
-            <element signature="e#36462#37108#0" />
-            <element signature="e#36515#37100#1" />
-            <element signature="e#37113#37710#0" />
-            <element signature="e#37162#37702#1" />
-            <element signature="e#37715#38515#0" />
-            <element signature="e#37788#38507#1" />
-            <element signature="e#38520#39279#0" />
-            <element signature="e#38590#39271#1" />
-            <element signature="e#39288#40993#0" />
-            <element signature="e#41267#65344#0" />
-            <element signature="e#45325#45705#0" />
-            <element signature="e#57835#58032#0" />
-            <element signature="e#58328#58835#0" />
-            <element signature="e#58405#58821#0" />
-            <element signature="e#58427#58805#2" />
-            <element signature="e#41283#65210#0" />
-            <element signature="e#60326#60599#0" />
-            <element signature="e#61242#61942#0" />
-            <element signature="e#61301#61928#1" />
-            <element signature="e#61953#62604#0" />
-            <element signature="e#62008#62590#1" />
-            <element signature="e#62615#63469#0" />
-            <element signature="e#62694#63455#1" />
-            <element signature="e#63480#64293#0" />
-            <element signature="e#63556#64279#1" />
-            <element signature="e#65363#65639#0" />
-            <element signature="e#40996#65741#0" />
-            <element signature="e#65745#66595#0" />
-            <element signature="e#66599#66817#0" />
-            <element signature="e#66620#66684#0" />
-            <element signature="e#69028#69584#0" />
-            <element signature="e#69060#69124#0" />
-            <element signature="e#69129#69578#0" />
-            <element signature="e#69175#69570#1" />
-            <element signature="e#69631#69986#0" />
-            <element signature="e#69673#69737#0" />
-            <element signature="e#69742#69980#0" />
-            <element signature="e#70020#70368#0" />
-            <element signature="e#70048#70112#0" />
-            <element signature="e#70117#70320#0" />
-            <element signature="e#70372#70656#0" />
-            <element signature="e#70395#70459#0" />
-            <element signature="e#70465#70650#0" />
-            <element signature="e#70660#77814#0" />
-            <element signature="e#70720#70841#0" />
-            <element signature="e#71092#71218#0" />
-            <element signature="e#71362#74128#0" />
-            <element signature="e#72046#72352#0" />
-            <element signature="e#72393#72625#0" />
-            <element signature="e#73432#73673#0" />
-            <element signature="e#73711#73998#0" />
-            <element signature="e#75207#75447#0" />
-            <element signature="e#75493#75858#0" />
-            <element signature="e#70686#77808#1" />
-            <element signature="e#77008#77228#0" />
-            <element signature="e#77276#77591#0" />
-            <element signature="e#77818#81662#0" />
-            <element signature="e#79125#81408#0" />
-            <element signature="e#79176#81400#0" />
-            <element signature="e#81666#81758#0" />
-            <element signature="e#81762#81816#0" />
-            <element signature="e#81820#82099#0" />
-            <element signature="e#81984#82093#0" />
-            <element signature="e#82238#83204#0" />
-            <element signature="e#82266#83198#2" />
-            <element signature="e#82472#82623#0" />
-            <element signature="e#82630#82763#0" />
-            <element signature="e#82770#82894#0" />
-            <element signature="e#82902#83190#0" />
-            <element signature="e#83241#83665#0" />
-            <element signature="e#83670#88376#0" />
-            <element signature="e#83710#84063#1" />
-            <element signature="e#84083#84450#1" />
-            <element signature="e#84470#84821#1" />
-            <element signature="e#84841#85210#1" />
-            <element signature="e#85230#85583#1" />
-            <element signature="e#85603#85956#1" />
-            <element signature="e#85976#86325#1" />
-            <element signature="e#86346#86716#1" />
-            <element signature="e#86737#87091#1" />
-            <element signature="e#87112#87466#1" />
-            <element signature="e#87487#87841#1" />
-            <element signature="e#87862#88214#1" />
-            <element signature="e#83208#88677#0" />
-            <element signature="e#88681#88985#0" />
-            <element signature="e#88705#88979#2" />
-            <element signature="e#88989#89083#0" />
-            <element signature="e#89087#90359#0" />
-            <element signature="e#89114#90353#2" />
-            <element signature="e#89152#90345#1" />
-            <element signature="e#90363#91701#0" />
-            <element signature="e#90394#91695#2" />
-            <element signature="e#90437#91687#1" />
-            <element signature="e#91705#93135#0" />
-            <element signature="e#91743#93129#2" />
-            <element signature="e#91793#93121#1" />
-            <element signature="e#93139#93977#0" />
-            <element signature="e#93190#93971#2" />
-            <element signature="e#93981#94779#0" />
-            <element signature="e#94026#94773#2" />
-            <element signature="e#94783#95555#0" />
-            <element signature="e#94806#95549#2" />
-            <element signature="e#94841#95273#0" />
-            <element signature="e#95559#95721#0" />
-            <element signature="e#95586#95715#2" />
-            <element signature="e#95725#96017#0" />
-            <element signature="e#95765#96011#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/concerns/project_concern.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1616" selection-start-line="1616" selection-end-line="1616" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/seeds.project_tasks.rb" />
-    <entry file="file://$PROJECT_DIR$/app/views/select_tasks/consult_property_data.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="27" column="68" selection-start-line="27" selection-start-column="68" selection-end-line="27" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="316" column="45" lean-forward="true" selection-start-line="316" selection-start-column="45" selection-end-line="316" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/concerns/test.rb" />
-    <entry file="file://$PROJECT_DIR$/db/migrate/20210305125746_create_api_lote_fiscals.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="28" column="38" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/seeds.api_lote_fiscals.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-573" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/api_lote_fiscal_attributes_aliases.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="49">
-          <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/select_tasks/consult_lote_fiscal_data.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/melhoria@2108-inserção-de-novos-campos-api/consult_property_data.html.erb" />
-    <entry file="file://$PROJECT_DIR$/melhoria@2108-inserção-de-novos-campos-api/Gemfile" />
-    <entry file="file://$PROJECT_DIR$/melhoria@2108-inserção-de-novos-campos-api/routes.rb" />
-    <entry file="file://$PROJECT_DIR$/melhoria@2108-inserção-de-novos-campos-api/seeds.development.rb" />
-    <entry file="file://$PROJECT_DIR$/melhoria@2108-inserção-de-novos-campos-api/select_tasks_controller.rb" />
-    <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.6.5@rails-6.0.2.1/gems/actionpack-6.0.2.1/lib/action_controller/metal/rescue.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/api_lote_fiscal.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-77">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/seeds.development.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/select_tasks_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="526" selection-start-line="526" selection-end-line="527" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.pryrc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" selection-start-line="37" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/tasks/update_mailcatcher.rake" />
-    <entry file="file://$PROJECT_DIR$/lib/tasks/import_from_csv_to_database.rake">
+    <entry file="file://$PROJECT_DIR$/docker-compose.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="21" column="56" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cookbook/cookbooks/ruby/recipes/rubygems.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <caret line="21" column="21" lean-forward="true" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="6780">
-            <caret line="488" column="48" selection-start-line="488" selection-start-column="48" selection-end-line="488" selection-end-column="48" />
+          <first_editor relative-caret-position="7620">
+            <caret line="498" column="19" selection-start-line="498" selection-start-column="19" selection-end-line="498" selection-end-column="19" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/environments/development.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20210326141710_add_confirmable_to_devise.rb" />
+    <entry file="file://$PROJECT_DIR$/config/initializers/devise.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="149" column="56" selection-start-line="149" selection-start-column="36" selection-end-line="149" selection-end-column="57" />
+        <state relative-caret-position="215">
+          <caret line="138" column="30" selection-start-line="138" selection-start-column="30" selection-end-line="138" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Gemfile.lock">
+    <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.6.6@rails-6.0.2.1/gems/actionmailer-6.0.2.1/lib/action_mailer/base.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="793" column="2" selection-start-line="793" selection-start-column="2" selection-end-line="793" selection-end-column="2" />
+        <state relative-caret-position="1391">
+          <caret line="427" column="2" selection-start-line="427" selection-start-column="2" selection-end-line="427" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/reports/_show_report_timeline.html.erb">
+    <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.6.6@rails-6.0.2.1/gems/devise-4.7.1/app/controllers/devise_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-797" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/project_report_sector.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+        <state relative-caret-position="134">
+          <caret line="58" column="6" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/reports/_show_project_report_sector_historic_timeline.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/users/confirmations/new.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.6.6@rails-6.0.2.1/gems/devise-4.7.1/lib/devise/mailers/helpers.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-          <folding>
-            <element signature="e#1359#1365#0#HTML" expanded="true" />
-            <element signature="e#1714#1720#0#HTML" expanded="true" />
-          </folding>
+        <state relative-caret-position="390">
+          <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/reports_controller.rb">
+    <entry file="file://$PROJECT_DIR$/db/seeds.email_contents.rb" />
+    <entry file="file://$PROJECT_DIR$/../../Today/seeds.development.rb" />
+    <entry file="file://$PROJECT_DIR$/app/controllers/registrations_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5013">
-          <caret line="353" column="66" selection-start-line="353" selection-start-column="66" selection-end-line="353" selection-end-column="66" />
+        <state relative-caret-position="3615">
+          <caret line="241" selection-start-line="241" selection-end-line="241" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Gemfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="197" column="16" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="16" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/welcome_email.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers/images_helper.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20210326141710_add_confirmable_to_devise.rb">
+    <entry file="file://$PROJECT_DIR$/app/mailers/application_mailer.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/initializers/devise.rb">
+    <entry file="file://$PROJECT_DIR$/.env/development/demo">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/development.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1860">
-          <caret line="124" column="31" selection-start-line="124" selection-start-column="31" selection-end-line="124" selection-end-column="31" />
+        <state relative-caret-position="2355">
+          <caret line="157" selection-start-line="157" selection-end-line="157" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/navigation_items/_configuration_ocupation.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/controllers/admin/user_authorizes_controller.rb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/user_authorizes/model.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="297" selection-start-line="297" selection-end-line="297" />
+        <state relative-caret-position="750">
+          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/navigation_items/configuration.html.erb">
+    <entry file="file://$PROJECT_DIR$/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="31" column="33" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
+        <state relative-caret-position="2955">
+          <caret line="197" selection-start-line="197" selection-end-line="197" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/navigation_items_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/welcome_message.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/mailers/user_mailer.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="352">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/database.yml">
+    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/reset_password_instructions.html.erb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/users/mailer/confirmation_instructions.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+    <entry file="file://$PROJECT_DIR$/db/seeds.development.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/admin/base_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/admin/service_inhabit_projects_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="63" selection-start-column="63" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/select_tasks_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="376">
-          <caret line="35" column="90" selection-start-line="35" selection-start-column="90" selection-end-line="35" selection-end-column="90" />
+          <caret line="343" selection-start-line="343" selection-end-line="343" />
+          <folding>
+            <element signature="e#114#1101#0" />
+            <element signature="e#1146#1975#0" />
+            <element signature="e#1979#8570#0" />
+            <element signature="e#2413#2630#0" />
+            <element signature="e#2636#4571#0" />
+            <element signature="e#2664#2797#0" />
+            <element signature="e#2981#3203#0" />
+            <element signature="e#3094#3193#0" />
+            <element signature="e#3300#3705#0" />
+            <element signature="e#3837#4563#0" />
+            <element signature="e#4279#4487#0" />
+            <element signature="e#4310#4475#2" />
+            <element signature="e#4540#4553#0" />
+            <element signature="e#5046#6401#0" />
+            <element signature="e#5516#5750#0" />
+            <element signature="e#5668#5740#0" />
+            <element signature="e#5852#6393#0" />
+            <element signature="e#6020#6156#0" />
+            <element signature="e#6038#6144#2" />
+            <element signature="e#6165#6348#0" />
+            <element signature="e#6431#8564#0" />
+            <element signature="e#6455#6476#0" />
+            <element signature="e#6962#8556#0" />
+            <element signature="e#7032#8546#1" />
+            <element signature="e#7127#7550#0" />
+            <element signature="e#7415#7536#0" />
+            <element signature="e#7735#7873#0" />
+            <element signature="e#7798#7859#0" />
+            <element signature="e#7950#8210#0" />
+            <element signature="e#8112#8196#0" />
+            <element signature="e#8396#8534#0" />
+            <element signature="e#8459#8520#0" />
+            <element signature="e#8574#8947#0" />
+            <element signature="e#8691#8941#0" />
+            <element signature="e#8951#9248#0" />
+            <element signature="e#9085#9242#0" />
+            <element signature="e#9252#13012#0" />
+            <element signature="e#9475#9796#0" />
+            <element signature="e#9601#9788#0" />
+            <element signature="e#9802#10426#0" />
+            <element signature="e#9901#10418#0" />
+            <element signature="e#10094#10408#0" />
+            <element signature="e#10201#10396#0" />
+            <element signature="e#11031#13006#0" />
+            <element signature="e#11123#12998#1" />
+            <element signature="e#11372#12820#0" />
+            <element signature="e#11470#12808#0" />
+            <element signature="e#11780#12794#0" />
+            <element signature="e#12292#12778#0" />
+            <element signature="e#12542#12608#0" />
+            <element signature="e#13016#13327#0" />
+            <element signature="e#13129#13321#0" />
+            <element signature="e#13331#13403#0" />
+            <element signature="e#13407#13485#0" />
+            <element signature="e#13489#13581#0" />
+            <element signature="e#13585#13669#0" />
+            <element signature="e#13673#13756#0" />
+            <element signature="e#13760#13861#0" />
+            <element signature="e#13865#13942#0" />
+            <element signature="e#13946#14312#0" />
+            <element signature="e#14316#14568#0" />
+            <element signature="e#14572#14590#0" />
+            <element signature="e#14594#14710#0" />
+            <element signature="e#14714#14821#0" />
+            <element signature="e#14825#14920#0" />
+            <element signature="e#14924#15054#0" />
+            <element signature="e#15058#15157#0" />
+            <element signature="e#15161#15263#0" />
+            <element signature="e#15266#15389#0" />
+            <element signature="e#15393#15565#0" />
+            <element signature="e#15569#15697#0" />
+            <element signature="e#15701#15827#0" />
+            <element signature="e#15831#16027#0" />
+            <element signature="e#16031#16313#0" />
+            <element signature="e#16058#16307#2" />
+            <element signature="e#16317#16700#0" />
+            <element signature="e#16704#16817#0" />
+            <element signature="e#16948#17080#0" />
+            <element signature="e#16977#17074#2" />
+            <element signature="e#17084#17385#0" />
+            <element signature="e#17119#17379#2" />
+            <element signature="e#17389#17806#0" />
+            <element signature="e#17423#17800#2" />
+            <element signature="e#17574#17733#0" />
+            <element signature="e#17810#17873#0" />
+            <element signature="e#17877#18000#0" />
+            <element signature="e#17897#17994#2" />
+            <element signature="e#18004#18354#0" />
+            <element signature="e#18358#18983#0" />
+            <element signature="e#18429#18934#0" />
+            <element signature="e#18702#18926#0" />
+            <element signature="e#18987#20308#0" />
+            <element signature="e#19121#20302#0" />
+            <element signature="e#19271#19408#0" />
+            <element signature="e#19415#20251#0" />
+            <element signature="e#19466#19958#0" />
+            <element signature="e#20209#20225#0" />
+            <element signature="e#20312#22189#0" />
+            <element signature="e#21465#21656#0" />
+            <element signature="e#21906#22018#0" />
+            <element signature="e#22193#22301#0" />
+            <element signature="e#22305#22755#0" />
+            <element signature="e#22759#25008#0" />
+            <element signature="e#23056#24002#0" />
+            <element signature="e#23382#23994#0" />
+            <element signature="e#24022#25002#0" />
+            <element signature="e#24041#24994#2" />
+            <element signature="e#24345#24965#0" />
+            <element signature="e#25012#26475#0" />
+            <element signature="e#25141#25778#0" />
+            <element signature="e#25364#25745#0" />
+            <element signature="e#25610#25735#0" />
+            <element signature="e#25799#26469#0" />
+            <element signature="e#25818#26461#2" />
+            <element signature="e#26016#26404#0" />
+            <element signature="e#26259#26392#0" />
+            <element signature="e#26479#26819#0" />
+            <element signature="e#26504#26813#2" />
+            <element signature="e#26656#26805#1" />
+            <element signature="e#26823#29784#0" />
+            <element signature="e#27125#28408#0" />
+            <element signature="e#27452#28400#0" />
+            <element signature="e#27940#28390#0" />
+            <element signature="e#28184#28238#0" />
+            <element signature="e#28429#29759#0" />
+            <element signature="e#28448#29751#2" />
+            <element signature="e#28752#29722#0" />
+            <element signature="e#29248#29710#0" />
+            <element signature="e#29494#29552#0" />
+            <element signature="e#29788#30738#0" />
+            <element signature="e#29884#30671#0" />
+            <element signature="e#30226#30663#0" />
+            <element signature="e#30742#39210#0" />
+            <element signature="e#30775#39156#0" />
+            <element signature="e#30802#39148#1" />
+            <element signature="e#31298#31542#0" />
+            <element signature="e#31454#31530#0" />
+            <element signature="e#31648#32792#0" />
+            <element signature="e#31822#31968#0" />
+            <element signature="e#31842#31954#2" />
+            <element signature="e#31979#32780#0" />
+            <element signature="e#33115#39139#0" />
+            <element signature="e#33183#39129#1" />
+            <element signature="e#33310#33578#0" />
+            <element signature="e#33474#33562#0" />
+            <element signature="e#33703#35614#0" />
+            <element signature="e#33884#34050#0" />
+            <element signature="e#33908#34032#2" />
+            <element signature="e#34065#34260#0" />
+            <element signature="e#34276#35598#0" />
+            <element signature="e#35642#36927#0" />
+            <element signature="e#35745#36188#0" />
+            <element signature="e#36041#36170#0" />
+            <element signature="e#36456#36732#0" />
+            <element signature="e#36622#36714#0" />
+            <element signature="e#36940#39117#0" />
+            <element signature="e#37038#37099#0" />
+            <element signature="e#37115#39103#0" />
+            <element signature="e#37212#37500#0" />
+            <element signature="e#37384#37480#0" />
+            <element signature="e#37667#38018#0" />
+            <element signature="e#37824#38000#0" />
+            <element signature="e#37850#37980#2" />
+            <element signature="e#38034#39087#0" />
+            <element signature="e#39214#40230#0" />
+            <element signature="e#39503#40224#0" />
+            <element signature="e#39541#39668#0" />
+            <element signature="e#39676#40157#0" />
+            <element signature="e#39992#40147#1" />
+            <element signature="e#40234#40507#0" />
+            <element signature="e#40347#40501#0" />
+            <element signature="e#40511#40795#0" />
+            <element signature="e#40635#40789#0" />
+            <element signature="e#40799#40907#0" />
+            <element signature="e#40911#41027#0" />
+            <element signature="e#41031#45099#0" />
+            <element signature="e#41092#45061#0" />
+            <element signature="e#41124#45053#1" />
+            <element signature="e#41607#44610#0" />
+            <element signature="e#42114#44595#1" />
+            <element signature="e#43826#43924#0" />
+            <element signature="e#44704#45043#0" />
+            <element signature="e#45103#45400#0" />
+            <element signature="e#45200#45394#0" />
+            <element signature="e#45403#46273#0" />
+            <element signature="e#45439#45590#0" />
+            <element signature="e#45596#45844#0" />
+            <element signature="e#46276#46660#0" />
+            <element signature="e#46663#46777#0" />
+            <element signature="e#46780#46866#0" />
+            <element signature="e#46870#47041#0" />
+            <element signature="e#47045#48549#0" />
+            <element signature="e#47495#48389#0" />
+            <element signature="e#47945#48317#0" />
+            <element signature="e#48562#48632#0" />
+            <element signature="e#48636#48697#0" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/os_parrot.sh">
+    <entry file="file://$PROJECT_DIR$/app/helpers/timeline_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-841" />
+        <state relative-caret-position="352">
+          <caret line="410" column="49" selection-start-line="410" selection-start-column="49" selection-end-line="410" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/_show_report_additional_body.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="50" column="46" selection-start-line="50" selection-start-column="46" selection-end-line="50" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/project.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="580" column="12" selection-start-line="580" selection-start-column="12" selection-end-line="580" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/report_additional.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/reports/_show_report_timeline.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="62" column="55" selection-start-line="62" selection-start-column="55" selection-end-line="62" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/reports_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" column="50" selection-start-line="18" selection-start-column="50" selection-end-line="18" selection-end-column="50" />
+          <folding>
+            <element signature="e#84#142#0" />
+            <element signature="e#746#783#0" />
+            <element signature="e#787#2338#0" />
+            <element signature="e#840#1023#0" />
+            <element signature="e#1243#2246#0" />
+            <element signature="e#1486#1889#0" />
+            <element signature="e#1561#1724#1" />
+            <element signature="e#1744#1879#1" />
+            <element signature="e#2252#2332#0" />
+            <element signature="e#2342#3467#0" />
+            <element signature="e#2365#3369#0" />
+            <element signature="e#2558#3240#0" />
+            <element signature="e#2681#2752#0" />
+            <element signature="e#2762#3035#0" />
+            <element signature="e#2849#2971#0" />
+            <element signature="e#3471#3814#0" />
+            <element signature="e#3591#3743#0" />
+            <element signature="e#3818#34110#0" />
+            <element signature="e#3850#4241#0" />
+            <element signature="e#5045#5323#0" />
+            <element signature="e#5393#9549#0" />
+            <element signature="e#5749#7208#0" />
+            <element signature="e#6239#6493#0" />
+            <element signature="e#6399#6479#0" />
+            <element signature="e#6603#7196#0" />
+            <element signature="e#6783#6939#0" />
+            <element signature="e#6805#6923#2" />
+            <element signature="e#6952#7143#0" />
+            <element signature="e#7244#9539#0" />
+            <element signature="e#7268#7289#0" />
+            <element signature="e#7791#9527#0" />
+            <element signature="e#7899#9513#1" />
+            <element signature="e#8002#8449#0" />
+            <element signature="e#8302#8431#0" />
+            <element signature="e#8642#8788#0" />
+            <element signature="e#8709#8770#0" />
+            <element signature="e#8877#9157#0" />
+            <element signature="e#9047#9139#0" />
+            <element signature="e#9351#9497#0" />
+            <element signature="e#9418#9479#0" />
+            <element signature="e#9558#9787#0" />
+            <element signature="e#9836#10535#0" />
+            <element signature="e#9914#10477#1" />
+            <element signature="e#10670#10805#0" />
+            <element signature="e#10813#10946#0" />
+            <element signature="e#10541#11077#0" />
+            <element signature="e#11503#11787#0" />
+            <element signature="e#11662#11779#0" />
+            <element signature="e#11750#11769#0" />
+            <element signature="e#11793#12541#0" />
+            <element signature="e#12020#12175#0" />
+            <element signature="e#12203#12252#0" />
+            <element signature="e#12398#12533#0" />
+            <element signature="e#12547#13446#0" />
+            <element signature="e#12924#13339#0" />
+            <element signature="e#12961#13329#2" />
+            <element signature="e#13347#13438#0" />
+            <element signature="e#14614#14758#0" />
+            <element signature="e#14866#14898#0" />
+            <element signature="e#14962#14995#0" />
+            <element signature="e#15082#15115#0" />
+            <element signature="e#15165#17144#0" />
+            <element signature="e#15326#17136#0" />
+            <element signature="e#15342#17126#2" />
+            <element signature="e#16505#16804#0" />
+            <element signature="e#16815#17114#0" />
+            <element signature="e#17188#17335#0" />
+            <element signature="e#17386#17421#0" />
+            <element signature="e#17584#17619#0" />
+            <element signature="e#17696#17731#0" />
+            <element signature="e#17844#18062#0" />
+            <element signature="e#17991#18054#0" />
+            <element signature="e#18096#18130#0" />
+            <element signature="e#18234#18536#0" />
+            <element signature="e#18312#18528#0" />
+            <element signature="e#18416#18518#0" />
+            <element signature="e#18542#18683#0" />
+            <element signature="e#18641#18675#0" />
+            <element signature="e#18689#19309#0" />
+            <element signature="e#19361#19397#0" />
+            <element signature="e#19458#19678#0" />
+            <element signature="e#19864#20076#0" />
+            <element signature="e#19973#20068#0" />
+            <element signature="e#20243#20343#0" />
+            <element signature="e#20374#21245#0" />
+            <element signature="e#20448#21087#0" />
+            <element signature="e#20574#20848#1" />
+            <element signature="e#20777#20836#0" />
+            <element signature="e#20868#21077#1" />
+            <element signature="e#20998#21057#0" />
+            <element signature="e#21958#22521#0" />
+            <element signature="e#21984#22513#2" />
+            <element signature="e#22728#23967#0" />
+            <element signature="e#23431#23766#0" />
+            <element signature="e#23531#23756#0" />
+            <element signature="e#23568#23744#2" />
+            <element signature="e#23973#24591#0" />
+            <element signature="e#24597#29358#0" />
+            <element signature="e#24921#25323#0" />
+            <element signature="e#25200#25313#0" />
+            <element signature="e#25366#26169#0" />
+            <element signature="e#25386#26159#2" />
+            <element signature="e#25445#26147#0" />
+            <element signature="e#25469#26133#2" />
+            <element signature="e#25988#26117#0" />
+            <element signature="e#27305#27705#0" />
+            <element signature="e#27582#27695#0" />
+            <element signature="e#27836#28723#0" />
+            <element signature="e#27881#28713#0" />
+            <element signature="e#27903#28701#2" />
+            <element signature="e#27964#28687#0" />
+            <element signature="e#27990#28671#2" />
+            <element signature="e#28520#28653#0" />
+            <element signature="e#30223#30350#0" />
+            <element signature="e#30423#30574#0" />
+            <element signature="e#30460#30566#1" />
+            <element signature="e#30762#30858#0" />
+            <element signature="e#3830#34104#1" />
+            <element signature="e#33214#33725#0" />
+            <element signature="e#33510#33717#0" />
+            <element signature="e#33910#34104#0" />
+            <element signature="e#33968#34096#0" />
+            <element signature="e#34114#43621#0" />
+            <element signature="e#34659#35987#0" />
+            <element signature="e#34686#35979#2" />
+            <element signature="e#34999#35202#0" />
+            <element signature="e#35222#35969#1" />
+            <element signature="e#35299#35957#0" />
+            <element signature="e#35323#35943#2" />
+            <element signature="e#35715#35927#0" />
+            <element signature="e#36363#36650#0" />
+            <element signature="e#36482#36642#0" />
+            <element signature="e#38011#39418#0" />
+            <element signature="e#38195#38370#0" />
+            <element signature="e#38255#38360#0" />
+            <element signature="e#38722#39325#0" />
+            <element signature="e#39138#39315#0" />
+            <element signature="e#39203#39303#0" />
+            <element signature="e#39438#40546#0" />
+            <element signature="e#39671#39913#0" />
+            <element signature="e#39920#40538#0" />
+            <element signature="e#40098#40183#0" />
+            <element signature="e#40296#40528#0" />
+            <element signature="e#40427#40516#0" />
+            <element signature="e#40551#41210#0" />
+            <element signature="e#40920#41202#0" />
+            <element signature="e#40968#41192#1" />
+            <element signature="e#41241#41983#0" />
+            <element signature="e#41398#41689#0" />
+            <element signature="e#41414#41679#2" />
+            <element signature="e#41570#41667#0" />
+            <element signature="e#41988#42088#0" />
+            <element signature="e#42095#42493#0" />
+            <element signature="e#42150#42199#0" />
+            <element signature="e#42207#42363#0" />
+            <element signature="e#42379#42485#1" />
+            <element signature="e#43094#43303#0" />
+            <element signature="e#43625#46260#0" />
+            <element signature="e#43669#45314#0" />
+            <element signature="e#43863#45306#0" />
+            <element signature="e#43943#45296#0" />
+            <element signature="e#44773#45284#0" />
+            <element signature="e#45319#46199#0" />
+            <element signature="e#45428#46191#0" />
+            <element signature="e#45571#46181#0" />
+            <element signature="e#45598#46169#1" />
+            <element signature="e#46264#48747#0" />
+            <element signature="e#46489#46652#0" />
+            <element signature="e#46881#47092#0" />
+            <element signature="e#46899#47084#2" />
+            <element signature="e#47099#48682#0" />
+            <element signature="e#47232#47949#0" />
+            <element signature="e#47593#47805#0" />
+            <element signature="e#47730#47793#0" />
+            <element signature="e#47832#47939#0" />
+            <element signature="e#48011#48674#0" />
+            <element signature="e#48318#48530#0" />
+            <element signature="e#48455#48518#0" />
+            <element signature="e#48557#48664#0" />
+            <element signature="e#48751#56058#0" />
+            <element signature="e#48848#50068#0" />
+            <element signature="e#49019#50060#1" />
+            <element signature="e#49213#50050#0" />
+            <element signature="e#49318#49739#0" />
+            <element signature="e#49604#49725#0" />
+            <element signature="e#50126#55806#0" />
+            <element signature="e#50180#54779#0" />
+            <element signature="e#50374#54768#0" />
+            <element signature="e#50479#50598#0" />
+            <element signature="e#50875#51865#0" />
+            <element signature="e#51008#51851#0" />
+            <element signature="e#51077#51835#0" />
+            <element signature="e#51112#51625#0" />
+            <element signature="e#52006#54756#0" />
+            <element signature="e#52195#52316#0" />
+            <element signature="e#52248#52300#0" />
+            <element signature="e#52329#53360#0" />
+            <element signature="e#52465#53344#0" />
+            <element signature="e#52539#53326#0" />
+            <element signature="e#52576#53121#0" />
+            <element signature="e#53560#53681#0" />
+            <element signature="e#53613#53665#0" />
+            <element signature="e#53695#54741#0" />
+            <element signature="e#53831#54725#0" />
+            <element signature="e#53904#54707#0" />
+            <element signature="e#53941#54488#0" />
+            <element signature="e#54786#55798#0" />
+            <element signature="e#55176#55788#0" />
+            <element signature="e#55812#55950#0" />
+            <element signature="e#56062#88880#0" />
+            <element signature="e#56249#56374#0" />
+            <element signature="e#56678#88874#0" />
+            <element signature="e#56785#56932#0" />
+            <element signature="e#56995#57080#0" />
+            <element signature="e#57088#64992#0" />
+            <element signature="e#57125#60190#0" />
+            <element signature="e#57586#57844#0" />
+            <element signature="e#57746#57830#0" />
+            <element signature="e#58031#60178#0" />
+            <element signature="e#58125#58186#0" />
+            <element signature="e#58200#60164#0" />
+            <element signature="e#58293#58571#0" />
+            <element signature="e#58461#58553#0" />
+            <element signature="e#58732#59079#0" />
+            <element signature="e#58885#59061#0" />
+            <element signature="e#58911#59041#2" />
+            <element signature="e#59095#60148#0" />
+            <element signature="e#60261#61594#0" />
+            <element signature="e#60459#61324#0" />
+            <element signature="e#60568#61001#0" />
+            <element signature="e#60860#60985#0" />
+            <element signature="e#61605#64982#0" />
+            <element signature="e#61664#64970#0" />
+            <element signature="e#61914#62420#0" />
+            <element signature="e#61959#62341#1" />
+            <element signature="e#62052#62323#0" />
+            <element signature="e#62089#62303#2" />
+            <element signature="e#62434#64956#0" />
+            <element signature="e#62689#63114#0" />
+            <element signature="e#62827#63096#0" />
+            <element signature="e#62866#63076#2" />
+            <element signature="e#63267#64940#0" />
+            <element signature="e#63464#63601#0" />
+            <element signature="e#63521#63581#0" />
+            <element signature="e#63618#64046#0" />
+            <element signature="e#63758#64026#0" />
+            <element signature="e#63799#64004#2" />
+            <element signature="e#64292#64429#0" />
+            <element signature="e#64349#64409#0" />
+            <element signature="e#64447#64922#0" />
+            <element signature="e#64587#64902#0" />
+            <element signature="e#64628#64880#2" />
+            <element signature="e#65000#65192#0" />
+            <element signature="e#65200#67598#0" />
+            <element signature="e#65398#65562#0" />
+            <element signature="e#65665#66445#0" />
+            <element signature="e#66455#66732#0" />
+            <element signature="e#66742#66882#0" />
+            <element signature="e#66892#67050#0" />
+            <element signature="e#67060#67319#0" />
+            <element signature="e#67130#67307#0" />
+            <element signature="e#67329#67588#0" />
+            <element signature="e#67399#67576#0" />
+            <element signature="e#67938#68465#0" />
+            <element signature="e#68015#68455#0" />
+            <element signature="e#68473#71403#0" />
+            <element signature="e#68798#71393#0" />
+            <element signature="e#68854#69270#0" />
+            <element signature="e#69627#69824#0" />
+            <element signature="e#69863#70806#0" />
+            <element signature="e#70049#70315#0" />
+            <element signature="e#70211#70299#0" />
+            <element signature="e#70441#70792#0" />
+            <element signature="e#70610#70776#0" />
+            <element signature="e#70634#70758#2" />
+            <element signature="e#70901#71381#0" />
+            <element signature="e#70955#71299#1" />
+            <element signature="e#71411#81510#0" />
+            <element signature="e#71592#81500#1" />
+            <element signature="e#71764#72003#0" />
+            <element signature="e#71838#71987#0" />
+            <element signature="e#71948#71969#0" />
+            <element signature="e#72017#77652#0" />
+            <element signature="e#72077#77636#0" />
+            <element signature="e#72142#77618#0" />
+            <element signature="e#72259#72444#0" />
+            <element signature="e#72612#72821#0" />
+            <element signature="e#73046#74619#0" />
+            <element signature="e#73131#74597#1" />
+            <element signature="e#73194#74135#1" />
+            <element signature="e#73512#74109#1" />
+            <element signature="e#74281#74573#0" />
+            <element signature="e#74913#77597#0" />
+            <element signature="e#74998#77456#1" />
+            <element signature="e#75721#77432#1" />
+            <element signature="e#75879#76450#0" />
+            <element signature="e#75993#76418#0" />
+            <element signature="e#76064#76284#1" />
+            <element signature="e#76736#76896#0" />
+            <element signature="e#77665#78326#0" />
+            <element signature="e#77725#78310#0" />
+            <element signature="e#77787#78292#0" />
+            <element signature="e#77827#78272#1" />
+            <element signature="e#77884#78250#1" />
+            <element signature="e#78339#80137#0" />
+            <element signature="e#78399#80121#0" />
+            <element signature="e#78423#80103#2" />
+            <element signature="e#78532#79312#0" />
+            <element signature="e#78560#78773#0" />
+            <element signature="e#78875#79290#0" />
+            <element signature="e#79076#79266#0" />
+            <element signature="e#79449#80083#0" />
+            <element signature="e#79477#79690#0" />
+            <element signature="e#79792#80061#0" />
+            <element signature="e#80401#80738#0" />
+            <element signature="e#80771#81310#0" />
+            <element signature="e#80858#81294#0" />
+            <element signature="e#80998#81235#0" />
+            <element signature="e#81518#87449#0" />
+            <element signature="e#81620#87439#1" />
+            <element signature="e#81661#81772#0" />
+            <element signature="e#81784#82361#0" />
+            <element signature="e#81970#82347#0" />
+            <element signature="e#82373#83041#0" />
+            <element signature="e#82632#83027#0" />
+            <element signature="e#83053#83135#0" />
+            <element signature="e#83232#83343#0" />
+            <element signature="e#83439#83561#0" />
+            <element signature="e#83573#83677#0" />
+            <element signature="e#83689#84689#0" />
+            <element signature="e#84063#84331#0" />
+            <element signature="e#84554#84675#0" />
+            <element signature="e#84904#87427#0" />
+            <element signature="e#84953#85068#0" />
+            <element signature="e#85082#85675#0" />
+            <element signature="e#85272#85659#0" />
+            <element signature="e#85689#86375#0" />
+            <element signature="e#85954#86359#0" />
+            <element signature="e#86459#86576#0" />
+            <element signature="e#86678#86793#0" />
+            <element signature="e#86893#87019#0" />
+            <element signature="e#87033#87141#0" />
+            <element signature="e#87155#87413#0" />
+            <element signature="e#87546#88418#0" />
+            <element signature="e#88145#88408#0" />
+            <element signature="e#88451#88813#0" />
+            <element signature="e#88884#89416#0" />
+            <element signature="e#88923#89410#2" />
+            <element signature="e#89067#89402#0" />
+            <element signature="e#89420#91201#0" />
+            <element signature="e#89460#91143#0" />
+            <element signature="e#89520#90920#0" />
+            <element signature="e#89579#90045#1" />
+            <element signature="e#90065#90910#1" />
+            <element signature="e#90170#90809#1" />
+            <element signature="e#91205#91769#0" />
+            <element signature="e#91238#91763#2" />
+            <element signature="e#91742#91754#0" />
+            <element signature="e#91773#92238#0" />
+            <element signature="e#92242#92543#0" />
+            <element signature="e#92286#92459#0" />
+            <element signature="e#92476#92536#0" />
+            <element signature="e#92506#92528#0" />
+            <element signature="e#92547#94494#0" />
+            <element signature="e#92649#94396#0" />
+            <element signature="e#92661#94243#1" />
+            <element signature="e#92805#94233#0" />
+            <element signature="e#92928#93256#0" />
+            <element signature="e#94498#94999#0" />
+            <element signature="e#94543#94922#0" />
+            <element signature="e#94719#94782#0" />
+            <element signature="e#95003#97822#0" />
+            <element signature="e#95256#97804#0" />
+            <element signature="e#95439#97769#0" />
+            <element signature="e#97837#98289#0" />
+            <element signature="e#97883#98110#0" />
+            <element signature="e#98115#98283#0" />
+            <element signature="e#98293#99171#0" />
+            <element signature="e#98783#98848#0" />
+            <element signature="e#98899#99165#0" />
+            <element signature="e#99175#102486#0" />
+            <element signature="e#99207#102480#2" />
+            <element signature="e#99271#102472#1" />
+            <element signature="e#99659#99883#0" />
+            <element signature="e#99892#100294#0" />
+            <element signature="e#100690#102462#1" />
+            <element signature="e#100944#101080#0" />
+            <element signature="e#101091#102450#0" />
+            <element signature="e#101378#101618#0" />
+            <element signature="e#101631#102048#0" />
+            <element signature="e#102490#102539#0" />
+            <element signature="e#102543#102593#0" />
+            <element signature="e#102597#102637#0" />
+            <element signature="e#102641#104605#0" />
+            <element signature="e#102664#104599#2" />
+            <element signature="e#102834#102946#0" />
+            <element signature="e#102953#104591#0" />
+            <element signature="e#103042#104119#1" />
+            <element signature="e#104139#104581#1" />
+            <element signature="e#104609#105407#0" />
+            <element signature="e#104632#105401#2" />
+            <element signature="e#104804#104916#0" />
+            <element signature="e#104923#105393#0" />
+            <element signature="e#105013#105383#1" />
+            <element signature="e#105411#105828#0" />
+            <element signature="e#105454#105822#2" />
+            <element signature="e#105832#105902#0" />
+            <element signature="e#105906#105967#0" />
+            <element signature="e#105971#106084#0" />
+            <element signature="e#106088#109159#0" />
+            <element signature="e#106464#106717#0" />
+            <element signature="e#106635#106709#0" />
+            <element signature="e#106757#107105#0" />
+            <element signature="e#107006#107097#0" />
+            <element signature="e#107156#107232#0" />
+            <element signature="e#107277#107582#0" />
+            <element signature="e#107628#107730#0" />
+            <element signature="e#107769#108032#0" />
+            <element signature="e#107932#108024#0" />
+            <element signature="e#108073#108186#0" />
+            <element signature="e#108235#108415#0" />
+            <element signature="e#108463#108617#0" />
+            <element signature="e#108671#109147#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/report_additionals_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/sisobras/work_registry_systems_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/sisobras/work_registry_systems.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/sisobras/work_registry_systems/generate_file_data.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="51" selection-start-column="51" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/sisobras/work_registry_systems/generate_file_work_registry.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="56" column="59" selection-start-line="56" selection-start-column="59" selection-end-line="56" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/demo.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="86" column="74" selection-start-line="86" selection-start-column="74" selection-end-line="86" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/homolog_santoandre.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1040" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/homolog_suzano.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1003" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/production_santoandre.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-999" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/production_suzano.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-981" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/production_cordeiropolis.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-918" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/production.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-917" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/olimpia.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-722" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/homolog_rioclaro.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-952" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/homolog_olimpia.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1001" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/homolog_cordeiropolis.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1013" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="1174" column="5" selection-start-line="1174" selection-start-column="5" selection-end-line="1174" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/initializers/lograge.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="2" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
+        </state>
       </provider>
     </entry>
   </component>
