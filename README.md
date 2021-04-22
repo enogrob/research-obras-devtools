@@ -20,7 +20,7 @@ This in order to improve the Obras Development Process, developing utilities and
 * Live **db, servers, testing** information
 * **Progress bars** and **spinners** for long tasks duration
 * Supports for OSX and Linux
-* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman), [**mycli**](https://github.com/dbcli/mycli), [**iredis**](https://iredis.io/), [**trello**](https://github.com/qcam/3llo) and [**lazygit**](https://github.com/jesseduffield/lazygit).
+* Supports [**NGrok**](https://ngrok.com/), [**Foreman**](https://github.com/ddollar/foreman), [**mycli**](https://github.com/dbcli/mycli), [**iredis**](https://iredis.io/), [**trello**](https://github.com/qcam/3llo) and [**tig**](https://github.com/jonas/tig).
 * Extends use of [**chromeapps-for-eicon**](https://github.com/enogrob/chromeapps-eicon)
 * Configurations support for [**Rubymine**](https://www.jetbrains.com/ruby/) and [**Vscode**](https://code.visualstudio.com/)
 
@@ -63,7 +63,7 @@ $ ssh-keygen
 $ ssh-keygen -o -f ~/.ssh/id_rsa
 ```
 
-Now install `xclip` in order to copy and paste it in the `SSH` setups in [Github](https://github.com/settings/keys), [Gitlab](https://gitlab.tecnogroup.com.br/profile/keys) and [Engine Yard](https://cloud.engineyard.com/keypairs).
+Now install `xclip` in order to copy and paste it in the `SSH` setups in [Github](https://github.com/settings/keys), [Gitlab](https://gitlab.tecnogroup.com.br/profile/keys) and [Engine Yard](https://cloud.engineyard.com/keypairs). In Engine Yard remember to apply in all [obras sites](https://cloud.engineyard.com/accounts/11492/apps) in order that the ssh keys taken effect.
 
 ```shell
 $ sudo apt-get install xclip
@@ -88,9 +88,9 @@ Append the following entry to run ALL command without a password for a user name
 In order to install `Rvm` follow the command sequence below, remember afterwards to configure the terminal as `bash --login`. 
 
 ```shell
-$ sudo install gnup2
-$ curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-$ curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
+$ sudo apt-get install gnup curl
+$ curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+$ curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 $ \curl -sSL https://get.rvm.io | bash -s stable
 $ source ~/.rvm/scripts/rvm
 $ which rvm
@@ -285,13 +285,13 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.31
+Obras Utils 1.5.32
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
 site[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]
 site[dumps [activate dumpfile]]
-site[db/mysql/redis/trello/git conn/connect]
+site[db/mysql/redis/trello/git c/conn/connect]
 site[conn/connect]
 site[stats] 
 site[audit/brakeman/rubycritic/rubocop [files]]
@@ -301,10 +301,10 @@ site[refs [flags/services/homologs/backups || obrasutils [tools/ssh]]
 
 $ site db/dbs --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.31
+Obras Utils 1.5.32
 ::
 db[set dbname || init || preptest || drop [all] || create || migrate migrate:status || seed]
-db[databases || tables || socket || conn/connect]
+db[databases || tables || socket || c/conn/connect]
 db[api [dump/export || import]]
 db[backups || download [backupfile] || update [all]]
 db[dumps/ls || import [dumpfile] || update [all]]
@@ -312,7 +312,7 @@ db[dumps/ls || import [dumpfile] || update [all]]
 
 $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.31
+Obras Utils 1.5.32
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -324,7 +324,7 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.31
+Obras Utils 1.5.32
 ::
 obras_utils[version/update/check] || refs [tools/ssh]
 ```
@@ -333,6 +333,7 @@ obras_utils[version/update/check] || refs [tools/ssh]
 
 Changes log
 
+* **1.5.32** Improve `README.md` and replace `lazygit` by `tig`.
 * **1.5.31** Improve `site.about`.
 * **1.5.30** Improve `README.md`.
 * **1.5.29** New parameter for commands `site flags/services [refs]` and `obras_utils refs [tools/ssh]`.
