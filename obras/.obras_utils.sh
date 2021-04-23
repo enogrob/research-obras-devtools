@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.32
-export OBRAS_UTILS_VERSION_DATE=2021.04.22
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'README.md' and replace 'lazygit' by 'tig'."
+export OBRAS_UTILS_VERSION=1.5.33
+export OBRAS_UTILS_VERSION_DATE=2021.04.23
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'obras_utils', new option 'update_deps'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -148,6 +148,13 @@ obras_utils() {
       cp obras_temp1 $HOME/.obras_utils.sh 
       test -f obras_temp && rm -rf obras_temp*
       test -f .obras_utils.sh && rm -rf .obras_utils.sh
+      source $HOME/.obras_utils.sh
+      site $SITE
+      ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
+      cowsay $OBRAS_UTILS_UPDATE_MESSAGE
+      ;;
+
+    update_deps)  
       if ! test -f /usr/local/bin/mycli && ! test -f /usr/bin/mycli; then
         echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"mycli\" \033[0m"
         echo ""
@@ -241,11 +248,6 @@ obras_utils() {
           rm -rf tig
         fi
       fi
-
-      source $HOME/.bashrc
-      site $SITE
-      ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
-      cowsay $OBRAS_UTILS_UPDATE_MESSAGE
       ;;
 
     refs)
@@ -255,7 +257,7 @@ obras_utils() {
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "obras_utils " "[version/update/check] || refs [tools/ssh]"
+      __pr info "obras_utils " "[version/update/update_deps/check] || refs [tools/ssh]"
       __pr
       ansi --no-newline --white "homepage "
       ansi --green --underline "https://github.com/enogrob/research-obras-devtools"

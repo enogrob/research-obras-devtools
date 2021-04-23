@@ -285,7 +285,7 @@ $ fobras_utils update
 ```shell
 $ site --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.32
+Obras Utils 1.5.33
 ::
 site[sitename || flags || set/unset flag|| env development/test]
 site[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]
@@ -301,7 +301,7 @@ site[refs [flags/services/homologs/backups || obrasutils [tools/ssh]]
 
 $ site db/dbs --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.32
+Obras Utils 1.5.33
 ::
 db[set dbname || init || preptest || drop [all] || create || migrate migrate:status || seed]
 db[databases || tables || socket || c/conn/connect]
@@ -312,7 +312,7 @@ db[dumps/ls || import [dumpfile] || update [all]]
 
 $ site services --help
 Crafted (c) 2018~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.32
+Obras Utils 1.5.33
 ::
 services[ls/check]
 services[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]
@@ -324,15 +324,16 @@ obs:redis and mysql are not involved when all is specified
 
 $ obras_utils --help
 Crafted (c) 2013~2020 by InMov - Intelligence in Movement
-Obras Utils 1.5.32
+Obras Utils 1.5.33
 ::
-obras_utils[version/update/check] || refs [tools/ssh]
+obras_utils[version/update/update_deps/check] || refs [tools/ssh]
 ```
 
 ## Obras Utils
 
 Changes log
 
+* **1.5.33** Improve  `obras_utils`, new option `update_deps`.
 * **1.5.32** Improve `README.md` and replace `lazygit` by `tig`.
 * **1.5.31** Improve `site.about`.
 * **1.5.30** Improve `README.md`.
