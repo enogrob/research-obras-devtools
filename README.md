@@ -138,6 +138,20 @@ $ sudo service mysql start
 $ sudo service mysql status
 ```
 
+or in **Debian** see[How to Install MySQL on Debian 10 Linux](https://linuxize.com/post/how-to-install-mysql-on-debian-10), choose MySQL 5.7 in `MySQL Server & Cluster`:
+
+```shell
+$ wget http://repo.mysql.com/mysql-apt-config_0.8.17-1_all.deb
+$ sudo apt install ./mysql-apt-config_0.8.17-1_all.deb
+```
+
+```shell
+$ sudo apt update
+$ sudo apt install mysql-server libmysqlclient-dev
+$ sudo service mysql start
+$ sudo service mysql status
+```
+
 If you have the problem with `mysql` server `Access denied for user root@localhost`, it is needed to:
 
 ```shell
