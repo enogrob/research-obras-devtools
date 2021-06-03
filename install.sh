@@ -269,15 +269,18 @@ case $1 in
       fi 
     fi
 
-    if ! test -f /usr/local/bin/lazygit && ! test -f /usr/bin/lazygit; then
-      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"Lazygit\" \033[0m"
+    if ! test -f /usr/local/bin/tig; then
+      echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"tig\" \033[0m"
       echo ""
       if [ "$OS" == 'Darwin' ]; then
-        brew cask install lazygit
+        brew install tig
       else  
-        sudo add-apt-repository ppa:lazygit-team/release
-        sudo apt-get update
-        sudo apt-get install lazygit
+        git clone git@github.com:jonas/tig.git
+        cd tig
+        make prefix=/usr/local
+        sudo make install prefix=/usr/local
+        cd ..
+        rm -rf tig
       fi
     fi
     ;;

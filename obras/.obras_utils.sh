@@ -10,9 +10,9 @@
 
 
 # variables
-export OBRAS_UTILS_VERSION=1.5.31
-export OBRAS_UTILS_VERSION_DATE=2021.04.20
-export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'site.about'."
+export OBRAS_UTILS_VERSION=1.5.33
+export OBRAS_UTILS_VERSION_DATE=2021.04.23
+export OBRAS_UTILS_UPDATE_MESSAGE="Improve 'obras_utils', new option 'update_deps'."
 
 export OS=`uname`
 if [ $OS == 'Darwin' ]; then
@@ -148,6 +148,13 @@ obras_utils() {
       cp obras_temp1 $HOME/.obras_utils.sh 
       test -f obras_temp && rm -rf obras_temp*
       test -f .obras_utils.sh && rm -rf .obras_utils.sh
+      source $HOME/.obras_utils.sh
+      site $SITE
+      ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
+      cowsay $OBRAS_UTILS_UPDATE_MESSAGE
+      ;;
+
+    update_deps)  
       if ! test -f /usr/local/bin/mycli && ! test -f /usr/bin/mycli; then
         echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"mycli\" \033[0m"
         echo ""
@@ -227,22 +234,20 @@ obras_utils() {
         fi 
       fi
 
-      if ! test -f /usr/local/bin/lazygit && ! test -f /usr/bin/lazygit; then
-        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"Lazygit\" \033[0m"
+      if ! test -f /usr/local/bin/tig; then
+        echo -e "\033[1;92m==> \033[0m\033[1;39mInstalling \"tig\" \033[0m"
         echo ""
         if [ "$OS" == 'Darwin' ]; then
-          brew cask install lazygit
+          brew install tig
         else  
-          sudo add-apt-repository ppa:lazygit-team/release
-          sudo apt-get update
-          sudo apt-get install lazygit
+          git clone git@github.com:jonas/tig.git
+          cd tig
+          make prefix=/usr/local
+          sudo make install prefix=/usr/local
+          cd ..
+          rm -rf tig
         fi
       fi
-
-      source $HOME/.bashrc
-      site $SITE
-      ansi --white --no-newline "Obras Utils is now updated to ";ansi --white-intense $OBRAS_UTILS_VERSION
-      cowsay $OBRAS_UTILS_UPDATE_MESSAGE
       ;;
 
     refs)
@@ -252,7 +257,7 @@ obras_utils() {
       ansi --white-intense "Crafted (c) 2013~2020 by InMov - Intelligence in Movement"
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
-      __pr info "obras_utils " "[version/update/check] || refs [tools/ssh]"
+      __pr info "obras_utils " "[version/update/update_deps/check] || refs [tools/ssh]"
       __pr
       ansi --no-newline --white "homepage "
       ansi --green --underline "https://github.com/enogrob/research-obras-devtools"
@@ -266,7 +271,7 @@ obras_utils.refs(){
        ansi --white "tools:"
        ansi --no-newline "  foreman     ";ansi --underline --green "https://github.com/ddollar/foreman" 
        ansi --no-newline "  iredis      ";ansi --underline --green "https://iredis.io" 
-       ansi --no-newline "  lazygit     ";ansi --underline --green "https://github.com/jesseduffield/lazygit" 
+       ansi --no-newline "  tig         ";ansi --underline --green "https://github.com/jonas/tig" 
        ansi --no-newline "  mycli       ";ansi --underline --green "https://github.com/dbcli/mycli" 
        ansi --no-newline "  3llo        ";ansi --underline --green "https://github.com/qcam/3llo" 
        ;;
@@ -2069,7 +2074,7 @@ __services(){
       __pr info "services " "[ls/check]"
       __pr info "services " "[start/stop/restart/status mysql/ngrok/redis/sidekiq/mailcatcher || all]"
       __pr info "services " "[enable/disable ngrok/sidekiq/mailcatcher]"
-      __pr info "services " "[conn/connect mysql/db/redis]"
+      __pr info "services " "[c/conn/connect mysql/db/redis]"
       __pr 
       __pr info "obs: " "redis and mysql are not involved when all is specified"
       __pr 
@@ -2344,7 +2349,7 @@ db(){
       ansi --white --no-newline "Obras Utils ";ansi --white-intense $OBRAS_UTILS_VERSION
       ansi --white "::"
       __pr info "db " "[set dbname || init || preptest || drop [all] || create || migrate migrate:status || seed]"
-      __pr info "db " "[databases || tables || socket || conn/connect]"
+      __pr info "db " "[databases || tables || socket || c/conn/connect]"
       __pr info "db " "[api [dump/export || import]]"
       __pr info "db " "[backups || download [backupfile] || update [all]]"
       __pr info "db " "[dumps/ls || import [dumpfile] || update [all]]"
@@ -3240,7 +3245,7 @@ db(){
       fi
       ;; 
 
-    connect|conn)
+    c|connect|conn)
       db=$(dbs.current)
       if [ "$(__has_database $db)" == 'yes' ]; then
         if [ -z "$DOCKER" ]; then
@@ -3455,8 +3460,8 @@ site(){
       __pr info "site " "[check/ls || start/stop [sitename/all] || console || test/test:system || rspec]"
       __pr info "site " "[mysql/ngrok/redis/mailcatcher/sidekiq start/stop/restart/status]"
       __pr info "site " "[dumps [activate dumpfile]]"
-      __pr info "site " "[db/mysql/redis/trello/git conn/connect]"
-      __pr info "site " "[conn/connect]"
+      __pr info "site " "[db/mysql/redis/trello/git c/conn/connect]"
+      __pr info "site " "[c/conn/connect]"
       __pr info "site " "[stats]"
       __pr info "site " "[audit/brakeman/rubycritic/rubocop [files]]"
       __pr info "site " "[db:drop || db:create || db:migrate db:migrate:status || db:seed]"
@@ -3555,7 +3560,7 @@ site(){
       rails stats
       revolver stop
       ;;  
-    conn|connect)
+    c|conn|connect)
       site.connect
       ;;
     ngrok|mysql|redis|sidekiq|mailcatcher|trello|git)
@@ -3572,7 +3577,7 @@ site(){
           __$1 status
           ;; 
 
-        connect|conn)
+        c|connect|conn)
           case $1 in
             mysql)
               db=$(dbs.current)
@@ -3603,7 +3608,7 @@ site(){
               3llo;
               ;;  
             git)
-              lazygit;
+              tig;
               ;;  
           esac 
           ;;      
