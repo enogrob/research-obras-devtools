@@ -84,7 +84,7 @@ alias default='cd $OBRAS;site default'
 alias rc='rvm current'
 alias window='tput cols;tput lines'
 alias init_bash='source $HOME/.bashrc'
-alias init_obras='cd $OBRAS;source $HOME/.obras_utils.sh'
+alias init_obras='cd $OBRAS;source $HOME/Projects/research-obras-devtools/obras/.obras_utils.sh'
 
 
 # aliases docker
